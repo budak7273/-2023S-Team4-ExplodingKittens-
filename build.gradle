@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id "eclipse"
     id "com.github.spotbugs" version "5.0.6"
+    id 'checkstyle'
 }
 
 group 'org.rosehulman.csse376.team3'
