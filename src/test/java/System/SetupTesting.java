@@ -23,4 +23,15 @@ public class SetupTesting {
         Executable executable = () -> setup.createUsers(null);
         Assertions.assertThrows(NullPointerException.class, executable);
     }
+
+    @Test
+    public void testCreateUsers_fromListOfSize2() {
+        Setup setup = new Setup();
+        List<String> names = new ArrayList<>();
+        for (int i = 1; i <= 2; i++) {
+            names.add("name" + i);
+        }
+        Queue<User> queue = setup.createUsers(names);
+        Assertions.assertTrue(queue.size() == 2);
+    }
 }

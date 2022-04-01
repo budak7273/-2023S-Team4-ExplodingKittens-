@@ -9,7 +9,12 @@ public class Setup {
         if (names == null) {
             throw new NullPointerException();
         }
+
         Queue<User> queue = new LinkedList<User>();
+        for (String name : names) {
+            User user = new User();
+            queue.add(user);
+        }
         return queue;
     }
 }
