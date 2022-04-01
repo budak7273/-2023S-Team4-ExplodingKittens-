@@ -10,6 +10,10 @@ public class Setup {
             throw new NullPointerException();
         }
 
+        if (names.size() > 10) {
+            throw new IllegalArgumentException();
+        }
+
         Queue<User> queue = new LinkedList<User>();
         for (String name : names) {
             User user = new User();

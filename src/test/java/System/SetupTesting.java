@@ -45,4 +45,15 @@ public class SetupTesting {
         Queue<User> queue = setup.createUsers(names);
         Assertions.assertTrue(queue.size() == 10);
     }
+
+    @Test
+    public void testCreateUsers_fromListOfSize11() {
+        Setup setup = new Setup();
+        List<String> names = new ArrayList<>();
+        for (int i = 1; i <= 11; i++) {
+            names.add("name" + i);
+        }
+        Executable executable = () -> setup.createUsers(names);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 }
