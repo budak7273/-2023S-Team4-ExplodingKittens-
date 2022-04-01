@@ -26,9 +26,15 @@ public class Setup {
         return queue;
     }
 
-    public void createDrawDeck(List<String> cardNames) {
+    public DrawDeck createDrawDeck(List<String> cardNames) {
         if (cardNames.size() < 53) {
             throw new IllegalArgumentException();
         }
+        DrawDeck drawDeck = new DrawDeck();
+        for (String name : cardNames) {
+            Card card = new Card();
+            drawDeck.addCard(card);
+        }
+        return drawDeck;
     }
 }

@@ -103,4 +103,15 @@ public class SetupTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void testCreateDeck_fromListOfSize53() {
+        Setup setup = new Setup();
+        List<String> cardNames = new ArrayList<>();
+        for (int i = 0; i < 53; i++) {
+            cardNames.add("card");
+        }
+        DrawDeck drawDeck = setup.createDrawDeck(cardNames);
+        Assertions.assertTrue(drawDeck.getDeckSize() == 53);
+    }
+
 }
