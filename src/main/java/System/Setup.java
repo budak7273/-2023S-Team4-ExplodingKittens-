@@ -1,8 +1,6 @@
 package System;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Setup {
     public Queue<User> createUsers(List<String> names) {
@@ -13,6 +11,12 @@ public class Setup {
         if (names.size() > 10) {
             throw new IllegalArgumentException();
         }
+
+        Set<String> checkDuplicateSet = new HashSet<String>(names);
+        if (checkDuplicateSet.size() != names.size()) {
+            throw new IllegalArgumentException();
+        }
+
 
         Queue<User> queue = new LinkedList<User>();
         for (String name : names) {

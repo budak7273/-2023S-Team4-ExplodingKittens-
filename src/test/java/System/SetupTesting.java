@@ -56,4 +56,15 @@ public class SetupTesting {
         Executable executable = () -> setup.createUsers(names);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testCreateUsers_fromListWithDuplicates() {
+        Setup setup = new Setup();
+        List<String> names = new ArrayList<>();
+        for (int i = 1; i <= 2; i++) {
+            names.add("sameName");
+        }
+        Executable executable = () -> setup.createUsers(names);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 }
