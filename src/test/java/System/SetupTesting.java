@@ -115,14 +115,25 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDeck_fromListOfSize112() {
+    public void testCreateDeck_fromListOfSize122() {
         Setup setup = new Setup();
         List<String> cardNames = new ArrayList<>();
-        for (int i = 0; i < 112; i++) {
+        for (int i = 0; i < 122; i++) {
             cardNames.add("card");
         }
         DrawDeck drawDeck = setup.createDrawDeck(cardNames);
-        Assertions.assertTrue(drawDeck.getDeckSize() == 112);
+        Assertions.assertTrue(drawDeck.getDeckSize() == 122);
+    }
+
+    @Test
+    public void testCreateDeck_fromListOfSize123() {
+        Setup setup = new Setup();
+        List<String> cardNames = new ArrayList<>();
+        for (int i = 0; i < 123; i++) {
+            cardNames.add("card");
+        }
+        Executable executable = () -> setup.createDrawDeck(cardNames);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
 }
