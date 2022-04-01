@@ -25,4 +25,10 @@ public class Setup {
         }
         return queue;
     }
+
+    public void createDrawDeck(List<String> cardNames) {
+        if (cardNames.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+    }
 }
