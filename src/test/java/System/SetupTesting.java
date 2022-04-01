@@ -34,4 +34,15 @@ public class SetupTesting {
         Queue<User> queue = setup.createUsers(names);
         Assertions.assertTrue(queue.size() == 2);
     }
+
+    @Test
+    public void testCreateUsers_fromListOfSize10() {
+        Setup setup = new Setup();
+        List<String> names = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            names.add("name" + i);
+        }
+        Queue<User> queue = setup.createUsers(names);
+        Assertions.assertTrue(queue.size() == 10);
+    }
 }
