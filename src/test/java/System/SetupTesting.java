@@ -84,4 +84,12 @@ public class SetupTesting {
         Executable executable = () -> setup.createDrawDeck(cardNames);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testCreateDeck_fromNullList() {
+        Setup setup = new Setup();
+        Executable executable = () -> setup.createDrawDeck(null);
+        Assertions.assertThrows(NullPointerException.class, executable);
+    }
+
 }
