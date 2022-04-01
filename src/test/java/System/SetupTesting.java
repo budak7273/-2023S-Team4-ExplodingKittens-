@@ -13,8 +13,8 @@ public class SetupTesting {
     public void testCreateUsers_fromEmptyList() {
         Setup setup = new Setup();
         List<String> names = new ArrayList<>();
-        Queue<User> queue = setup.createUsers(names);
-        Assertions.assertTrue(queue.isEmpty());
+        Executable executable = () -> setup.createUsers(names);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
@@ -22,6 +22,15 @@ public class SetupTesting {
         Setup setup = new Setup();
         Executable executable = () -> setup.createUsers(null);
         Assertions.assertThrows(NullPointerException.class, executable);
+    }
+
+    @Test
+    public void testCreateUsers_fromListOfSize1() {
+        Setup setup = new Setup();
+        List<String> names = new ArrayList<>();
+        names.add("name");
+        Executable executable = () -> setup.createUsers(names);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test

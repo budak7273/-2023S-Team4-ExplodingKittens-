@@ -8,7 +8,7 @@ public class Setup {
             throw new NullPointerException();
         }
 
-        if (names.size() > 10) {
+        if (names.size() < 2 || names.size() > 10) {
             throw new IllegalArgumentException();
         }
 
