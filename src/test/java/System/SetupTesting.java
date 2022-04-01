@@ -114,4 +114,15 @@ public class SetupTesting {
         Assertions.assertTrue(drawDeck.getDeckSize() == 53);
     }
 
+    @Test
+    public void testCreateDeck_fromListOfSize112() {
+        Setup setup = new Setup();
+        List<String> cardNames = new ArrayList<>();
+        for (int i = 0; i < 112; i++) {
+            cardNames.add("card");
+        }
+        DrawDeck drawDeck = setup.createDrawDeck(cardNames);
+        Assertions.assertTrue(drawDeck.getDeckSize() == 112);
+    }
+
 }
