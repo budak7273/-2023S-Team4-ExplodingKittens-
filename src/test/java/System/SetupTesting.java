@@ -92,4 +92,15 @@ public class SetupTesting {
         Assertions.assertThrows(NullPointerException.class, executable);
     }
 
+    @Test
+    public void testCreateDeck_fromListOfSize52() {
+        Setup setup = new Setup();
+        List<String> cardNames = new ArrayList<>();
+        for (int i = 0; i < 52; i++) {
+            cardNames.add("card");
+        }
+        Executable executable = () -> setup.createDrawDeck(cardNames);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
 }

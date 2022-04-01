@@ -27,7 +27,7 @@ public class Setup {
     }
 
     public void createDrawDeck(List<String> cardNames) {
-        if (cardNames.isEmpty()) {
+        if (cardNames.size() < 53) {
             throw new IllegalArgumentException();
         }
     }
