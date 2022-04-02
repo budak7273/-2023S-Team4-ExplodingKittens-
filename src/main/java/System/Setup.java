@@ -38,24 +38,30 @@ public class Setup {
         DrawDeck drawDeck = new DrawDeck();
         try {
             Scanner cardInfoScanner = new Scanner(cardInfoFile);
-            int numOfCardsUntilRequiredCountIsReached = 113;
-            while (cardInfoScanner.hasNext()) {
-                String cardInfo = cardInfoScanner.next();
-                String[] cardProperties = cardInfo.split(",");
-                String cardName = cardProperties[0];
-                if (numOfPlayers >= 2 && numOfPlayers <= 3) {
-                    if (cardProperties.length != 1) {
-                       Card card = new Card();
-                       drawDeck.addCard(card);
-                    }
-                }
-                numOfCardsUntilRequiredCountIsReached--;
-            }
-            if (numOfCardsUntilRequiredCountIsReached != 0) {
-                throw new IllegalArgumentException("File does not match size of Party Pack deck");
-            }
+            drawDeck = createDrawDeckUsingScanner(cardInfoScanner);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+        return drawDeck;
+    }
+
+    private DrawDeck createDrawDeckUsingScanner(Scanner cardInfoScanner) {
+        DrawDeck drawDeck = new DrawDeck();
+        int numOfCardsUntilRequiredCountIsReached = 113;
+        while (cardInfoScanner.hasNext()) {
+            String cardInfo = cardInfoScanner.next();
+            String[] cardProperties = cardInfo.split(",");
+            String cardName = cardProperties[0];
+            if (numOfPlayers >= 2 && numOfPlayers <= 3) {
+                if (cardProperties.length != 1) {
+                    Card card = new Card();
+                    drawDeck.addCard(card);
+                }
+            }
+            numOfCardsUntilRequiredCountIsReached--;
+        }
+        if (numOfCardsUntilRequiredCountIsReached != 0) {
+            throw new IllegalArgumentException("File does not match size of Party Pack deck");
         }
         return drawDeck;
     }
