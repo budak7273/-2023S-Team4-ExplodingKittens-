@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -77,6 +78,14 @@ public class SetupTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void testCreateDrawDeck_fromEmptyFile() {
+        Setup setup = new Setup();
+        String path = "src/test/resources/empty.csv";
+        File cardInfoFile = new File(path);
+        Executable executable = () -> setup.createDrawDeck(cardInfoFile);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 //    @Test
 //    public void testCreateDrawDeck_fromEmptyList() {
 //        Setup setup = new Setup();

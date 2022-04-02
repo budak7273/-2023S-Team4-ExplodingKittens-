@@ -1,5 +1,10 @@
 package System;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.nio.Buffer;
 import java.util.*;
 
 public class Setup {
@@ -26,15 +31,15 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(List<String> cardNames) {
-        if (cardNames.size() < 53 || cardNames.size() > 122) {
-            throw new IllegalArgumentException();
+    public DrawDeck createDrawDeck(File cardInfoFile) {
+        try {
+            Scanner cardInfoScanner = new Scanner(cardInfoFile);
+            if (!cardInfoScanner.hasNext()) {
+                throw new IllegalArgumentException();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        DrawDeck drawDeck = new DrawDeck();
-        for (String name : cardNames) {
-            Card card = new Card();
-            drawDeck.addCard(card);
-        }
-        return drawDeck;
+        return null;
     }
 }
