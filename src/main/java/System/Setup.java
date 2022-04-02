@@ -5,6 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Setup {
+    int numOfPlayers;
+
+    public Setup(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
+
     public Queue<User> createUsers(List<String> names) {
         if (names == null) {
             throw new NullPointerException();
@@ -29,11 +35,20 @@ public class Setup {
     }
 
     public DrawDeck createDrawDeck(File cardInfoFile) {
+        DrawDeck drawDeck = new DrawDeck();
         try {
             Scanner cardInfoScanner = new Scanner(cardInfoFile);
             int numOfCardsUntilRequiredCountIsReached = 113;
             while (cardInfoScanner.hasNext()) {
-                cardInfoScanner.next();
+                String cardInfo = cardInfoScanner.next();
+                String[] cardProperties = cardInfo.split(",");
+                String cardName = cardProperties[0];
+                if (numOfPlayers >= 2 && numOfPlayers <= 3) {
+                    if (cardProperties.length != 1) {
+                       Card card = new Card();
+                       drawDeck.addCard(card);
+                    }
+                }
                 numOfCardsUntilRequiredCountIsReached--;
             }
             if (numOfCardsUntilRequiredCountIsReached != 0) {
@@ -42,6 +57,6 @@ public class Setup {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return drawDeck;
     }
 }
