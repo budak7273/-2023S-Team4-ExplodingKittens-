@@ -86,6 +86,16 @@ public class SetupTesting {
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testCreateDrawDeck_fromFileWithOneLine() {
+        Setup setup = new Setup();
+        String path = "src/test/resources/oneline.csv";
+        File cardInfoFile = new File(path);
+        Executable executable = () -> setup.createDrawDeck(cardInfoFile);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
 //    @Test
 //    public void testCreateDrawDeck_fromEmptyList() {
 //        Setup setup = new Setup();

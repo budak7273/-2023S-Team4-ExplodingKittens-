@@ -1,10 +1,7 @@
 package System;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.nio.Buffer;
 import java.util.*;
 
 public class Setup {
@@ -17,13 +14,13 @@ public class Setup {
             throw new IllegalArgumentException();
         }
 
-        Set<String> checkDuplicateSet = new HashSet<String>(names);
+        Set<String> checkDuplicateSet = new HashSet<>(names);
         if (checkDuplicateSet.size() != names.size()) {
             throw new IllegalArgumentException();
         }
 
 
-        Queue<User> queue = new LinkedList<User>();
+        Queue<User> queue = new LinkedList<>();
         for (String name : names) {
             User user = new User();
             queue.add(user);
@@ -34,8 +31,13 @@ public class Setup {
     public DrawDeck createDrawDeck(File cardInfoFile) {
         try {
             Scanner cardInfoScanner = new Scanner(cardInfoFile);
-            if (!cardInfoScanner.hasNext()) {
-                throw new IllegalArgumentException();
+            int numOfCardsUntilRequiredCountIsReached = 113;
+            while (cardInfoScanner.hasNext()) {
+                cardInfoScanner.next();
+                numOfCardsUntilRequiredCountIsReached--;
+            }
+            if (numOfCardsUntilRequiredCountIsReached != 0) {
+                throw new IllegalArgumentException("File does not match size of Party Pack deck");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
