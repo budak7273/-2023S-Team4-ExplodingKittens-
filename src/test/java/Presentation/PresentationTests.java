@@ -11,6 +11,10 @@ public class PresentationTests {
         Throwable exception = assertThrows(InvalidPlayerCountException.class,  () -> gameboard.createGame(onePlayer));
         assertEquals("ERROR: Must have at least 2 players!", exception.getMessage());
     }
+    @Test
+    public void createGame2PlayerTest(){
+
+    }
 
 
 }
