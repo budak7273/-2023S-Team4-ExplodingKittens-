@@ -60,6 +60,11 @@ public class Setup {
                     Card card = new Card();
                     drawDeck.addCard(card);
                 }
+            } else if (numOfPlayers >= 4 && numOfPlayers <= 7) {
+                if (!cardHasPawPrint) {
+                    Card card = new Card();
+                    drawDeck.addCard(card);
+                }
             }
 
             numOfCardsUntilRequiredCountIsReached--;
