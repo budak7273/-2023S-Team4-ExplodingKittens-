@@ -47,22 +47,28 @@ public class Setup {
 
     private DrawDeck createDrawDeckUsingScanner(Scanner cardInfoScanner) {
         DrawDeck drawDeck = new DrawDeck();
+        String header = cardInfoScanner.next();
         int numOfCardsUntilRequiredCountIsReached = 113;
+
         while (cardInfoScanner.hasNext()) {
             String cardInfo = cardInfoScanner.next();
             String[] cardProperties = cardInfo.split(",");
-            String cardName = cardProperties[0];
+            boolean cardHasPawPrint = Boolean.parseBoolean(cardProperties[1]);
+
             if (numOfPlayers >= 2 && numOfPlayers <= 3) {
-                if (cardProperties.length != 1) {
+                if (cardHasPawPrint) {
                     Card card = new Card();
                     drawDeck.addCard(card);
                 }
             }
+
             numOfCardsUntilRequiredCountIsReached--;
         }
+
         if (numOfCardsUntilRequiredCountIsReached != 0) {
             throw new IllegalArgumentException("File does not match size of Party Pack deck");
         }
+
         return drawDeck;
     }
 }
