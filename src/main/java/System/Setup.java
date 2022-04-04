@@ -53,7 +53,14 @@ public class Setup {
         while (cardInfoScanner.hasNext()) {
             String cardInfo = cardInfoScanner.next();
             String[] cardProperties = cardInfo.split(",");
+            String cardType = cardProperties[0];
             boolean cardHasPawPrint = Boolean.parseBoolean(cardProperties[1]);
+
+            // TODO: move this logic to an enum class
+            String[] validTypes = new String[] {"Attack"};
+            if (!Arrays.stream(validTypes).anyMatch(cardType::equals)) {
+                throw new IllegalArgumentException("Invalid card type found in file");
+            }
 
             if (numOfPlayers >= 2 && numOfPlayers <= 3) {
                 if (cardHasPawPrint) {

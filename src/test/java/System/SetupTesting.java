@@ -150,6 +150,15 @@ public class SetupTesting {
         Assertions.assertTrue(drawDeck.getDeckSize() == 113);
     }
 
+    @Test
+    public void testCreateDrawDeck_fromOneLineOfInvalidData() {
+        Setup setup = new Setup(2);
+        String path = "src/test/resources/oneline_invalid.csv";
+        File cardInfoFile = new File(path);
+        Executable executable = () -> setup.createDrawDeck(cardInfoFile);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
 //    @Test
 //    public void testCreateDrawDeck_fromEmptyList() {
 //        Setup setup = new Setup(2);
