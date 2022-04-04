@@ -65,6 +65,9 @@ public class Setup {
                     Card card = new Card();
                     drawDeck.addCard(card);
                 }
+            } else if (numOfPlayers >= 7 && numOfPlayers <= 10) {
+                Card card = new Card();
+                drawDeck.addCard(card);
             }
 
             numOfCardsUntilRequiredCountIsReached--;
