@@ -141,6 +141,15 @@ public class SetupTesting {
         Assertions.assertTrue(drawDeck.getDeckSize() == 113);
     }
 
+    @Test
+    public void testCreateDrawDeck_fromFullFileAnd10Players() {
+        Setup setup = new Setup(10);
+        String path = "src/test/resources/fullfile.csv";
+        File cardInfoFile = new File(path);
+        DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
+        Assertions.assertTrue(drawDeck.getDeckSize() == 113);
+    }
+
 //    @Test
 //    public void testCreateDrawDeck_fromEmptyList() {
 //        Setup setup = new Setup(2);
