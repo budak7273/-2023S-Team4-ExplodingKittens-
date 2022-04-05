@@ -8,6 +8,13 @@ import java.util.List;
 
 public class UserTesting {
     @Test
+    public void testUserConstructor_Default(){
+        User user = new User();
+        Assertions.assertEquals("", user.name);
+        Assertions.assertTrue(user.alive);
+    }
+
+    @Test
     public void testUserConstructor_Name(){
         User user = new User("test1", false, new ArrayList<Card>());
         Assertions.assertEquals("test1", user.name);
