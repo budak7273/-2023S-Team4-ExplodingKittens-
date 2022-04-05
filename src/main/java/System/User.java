@@ -2,6 +2,8 @@ package System;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class User {
     String name;
@@ -18,5 +20,9 @@ public class User {
         this.name = name;
         this.alive = alive;
         this.hand = hand;
+    }
+
+    public List<Card> checkForPairs() {
+        return new ArrayList<>();
     }
 }

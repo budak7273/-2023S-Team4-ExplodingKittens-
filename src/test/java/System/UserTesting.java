@@ -63,8 +63,10 @@ public class UserTesting {
 
     @Test
     public void testCheckForPairs_EmptyHand() {
-        User user = new User();
-        List<String> names = new ArrayList<>();
+        ArrayList<Card> list = new ArrayList<>();
+        User user = new User("test1", true, list);
+
+        Assertions.assertEquals(0, user.checkForPairs().size());
 //        Executable executable = () -> setup.createUsers(names);
 //        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
