@@ -1,8 +1,15 @@
 package Presentation;
 
+import System.*;
 import org.easymock.EasyMock;
+import org.easymock.IMockBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.*;
+
+import static org.easymock.EasyMock.createMock;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PresentationTests {
@@ -14,32 +21,44 @@ public class PresentationTests {
         assertEquals("ERROR: Must have at least 2 players!", exception.getMessage());
     }
     @Test
-    public void createGame2PlayerTest(){
-//        Gameboard gameboard = new Gameboard();
-//        Integer twoPlayers = 2;
-//        EasyMock mockedDrawDeck = EasyMock.createMock(DrawDeck.class);
-//        EasyMock mockedDiscardDeck = EasyMock.createMock(DiscardDeck.class);
-//        EasyMock mockedUser = EasyMock.createMock(User.class);
-//
-//        EasyMock.expect(mockedDrawDeckdrawDeck.size());
-//        EasyMock.expect(mockedDiscardDeckdiscardDeck.size());
-//
-//
-//        assertEquals(0, gameboard.playerQueue.size());
-//        assertEquals(0, gameboard.drawDeck.size());
-//
-//        EasyMock.expect(mockedUser.getHandSize());
-//
-//        assertEquals(0, gameboard.discardDeck.size());
-//        try {
-//            gameboard.createGame(twoPlayers);
-//        } catch (InvalidPlayerCountException e) {
-//            Assertions.fail();
-//        }
-//        assertEquals(0, gameboard.playerQueue.size());
-//        assertEquals(0, gameboard.drawDeck.size());
-//        assertEquals(0, gameboard.discardDeck.size());
-            fail("Not yet implemented");
+    public void createGame2PlayerTest() throws InvalidPlayerCountException {
+        Gameboard gameboard = new Gameboard();
+        Integer twoPlayers = 2;
+        List<String> userNameList = new ArrayList<>();
+        Queue<User> playerQueue = new ArrayDeque<>();
+        userNameList.add("player1");
+        userNameList.add("player2");
+        Gameboard mockedGameboard = EasyMock.createMockBuilder(Gameboard.class).
+                addMockedMethod("readUserInfo").createMock();
+
+        EasyMock.expect(mockedGameboard.readUserInfo()).andReturn(userNameList);
+        Setup mockedSetup = EasyMock.createMock(Setup.class);
+        User mockedUser1 = EasyMock.createMock(User.class);
+        User mockedUser2 = EasyMock.createMock(User.class);
+        playerQueue.add(mockedUser1);
+        playerQueue.add(mockedUser2);
+        EasyMock.expect(mockedSetup.createUsers(userNameList)).andReturn(playerQueue);
+
+        DrawDeck mockedDrawDeck = EasyMock.createMock(DrawDeck.class);
+        DiscardDeck mockedDiscardDeck = EasyMock.createMock(DiscardDeck.class);
+        File mockedFile = EasyMock.createMock(File.class);
+        EasyMock.expect(mockedSetup.createDrawDeck(mockedFile)).andReturn(mockedDrawDeck);
+        EasyMock.expect(mockedSetup.createDiscardDeck()).andReturn(mockedDiscardDeck);
+
+        EasyMock.replay(mockedGameboard);
+        EasyMock.replay((mockedFile));
+        EasyMock.replay(mockedUser1);
+        EasyMock.replay(mockedUser2);
+        EasyMock.replay(mockedDrawDeck);
+        EasyMock.replay(mockedDiscardDeck);
+        EasyMock.replay(mockedSetup);
+
+        gameboard.createGame(twoPlayers);
+        assertEquals(playerQueue, gameboard.getUsers());
+        assertEquals(mockedDrawDeck, gameboard.getDrawDeck());
+        assertEquals(mockedDiscardDeck, gameboard.getDiscardDeck());
+        EasyMock.verify();
+
     }
 
 
