@@ -15,11 +15,18 @@ public class UserTesting {
     }
 
     @Test
-    public void testUserConstructor_Alive(){
+    public void testUserConstructor_AliveOrDead(){
         User user = new User("test1", true, new ArrayList<Card>());
         User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertTrue(user.alive);
         Assertions.assertFalse(user2.alive);
+    }
+
+    @Test
+    public void testUserConstructor_EmptyHand(){
+        ArrayList<Card> list = new ArrayList<Card>();
+        User user = new User("test1", false, list);
+        Assertions.assertEquals(list, user.hand);
     }
 
     @Test
