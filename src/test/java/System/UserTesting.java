@@ -41,7 +41,7 @@ public class UserTesting {
     @Test
     public void testUserConstructor_HandWithOneCard(){
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card();
+        Card card = new AttackCard();
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertEquals(list, user.hand);
@@ -52,8 +52,8 @@ public class UserTesting {
     @Test
     public void testUserConstructor_HandWithMultipleCard(){
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card();
-        Card card2 = new Card();
+        Card card = new AttackCard();
+        Card card2 = new AttackCard();
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -91,6 +91,19 @@ public class UserTesting {
         Assertions.assertEquals(0, user.checkForPairs().size());
 
         EasyMock.verify(card);
+    }
+
+    @Test
+    public void testCheckForPairs_HandWithTwoDifferentCard() {
+        ArrayList<Card> list = new ArrayList<>();
+        User user = new User("test1", true, list);
+        Card card1 = new AttackCard();
+        Card card2 = new CatCard();
+        list.add(card1);
+        list.add(card2);
+
+        Assertions.assertEquals(0, user.checkForPairs().size());
+
     }
 
 
