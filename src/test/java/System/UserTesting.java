@@ -48,6 +48,20 @@ public class UserTesting {
     }
 
     @Test
+    public void testUserConstructor_HandWithMultipleCard(){
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new Card();
+        Card card2 = new Card();
+        list.add(card);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertEquals(list, user.hand);
+        Assertions.assertEquals(2, user.hand.size());
+        Assertions.assertNotEquals(card2, user.hand.get(0));
+        Assertions.assertEquals(card2, user.hand.get(1));
+    }
+
+    @Test
     public void testCheckForPairs_EmptyHand() {
         User user = new User();
         List<String> names = new ArrayList<>();
