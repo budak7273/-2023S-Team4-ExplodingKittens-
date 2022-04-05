@@ -37,6 +37,17 @@ public class UserTesting {
     }
 
     @Test
+    public void testUserConstructor_HandWithOneCard(){
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new Card();
+        list.add(card);
+        User user = new User("test1", false, list);
+        Assertions.assertEquals(list, user.hand);
+        Assertions.assertEquals(1, user.hand.size());
+        Assertions.assertEquals(card, user.hand.get(0));
+    }
+
+    @Test
     public void testCheckForPairs_EmptyHand() {
         User user = new User();
         List<String> names = new ArrayList<>();
