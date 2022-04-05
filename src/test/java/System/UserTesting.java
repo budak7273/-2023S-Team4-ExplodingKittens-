@@ -1,5 +1,6 @@
 package System;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -77,6 +78,21 @@ public class UserTesting {
         Executable executable = () -> user.checkForPairs();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testCheckForPairs_HandWithOneCard() {
+        ArrayList<Card> list = new ArrayList<>();
+        User user = new User("test1", true, list);
+        Card card = EasyMock.createMock(Card.class);
+
+
+        EasyMock.replay(card);
+        list.add(card);
+        Assertions.assertEquals(0, user.checkForPairs().size());
+
+        EasyMock.verify(card);
+    }
+
 
 
 }
