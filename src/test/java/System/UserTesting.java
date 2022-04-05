@@ -2,6 +2,7 @@ package System;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,15 @@ public class UserTesting {
         User user = new User("test1", true, list);
 
         Assertions.assertEquals(0, user.checkForPairs().size());
-//        Executable executable = () -> setup.createUsers(names);
-//        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testCheckForPairs_NullHand() {
+        User user = new User("test1", true, null);
+
+        Executable executable = () -> user.checkForPairs();
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+
 }

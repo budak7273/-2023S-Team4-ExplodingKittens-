@@ -23,6 +23,9 @@ public class User {
     }
 
     public List<Card> checkForPairs() {
+        if (this.hand == null) {
+            throw new IllegalArgumentException();
+        }
         return new ArrayList<>();
     }
 }
