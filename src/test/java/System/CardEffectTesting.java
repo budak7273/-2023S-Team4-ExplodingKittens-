@@ -11,4 +11,11 @@ public class CardEffectTesting {
         Executable executable = bombEffectPattern::useEffect;
         Assertions.assertDoesNotThrow(executable);
     }
+
+    @Test
+    public void testAttackEffectUse() {
+        EffectPattern bombEffectPattern = new AttackEffect();
+        Executable executable = bombEffectPattern::useEffect;
+        Assertions.assertDoesNotThrow(executable);
+    }
 }
