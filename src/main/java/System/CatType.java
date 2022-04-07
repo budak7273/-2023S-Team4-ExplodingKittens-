@@ -1,5 +1,0 @@
-package System;
-
-public enum CatType {
-    FERAL,BEARDED,CATERMELON,HAIRY_POTATO,RAINBOW_RALPHING,TACOCAT;
-}
