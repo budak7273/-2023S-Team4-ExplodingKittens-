@@ -94,15 +94,32 @@ public class UserTesting {
     }
 
     @Test
-    public void testCheckForPairs_HandWithTwoDifferentCard() {
+    public void testCheckForPairs_HandWithTwoDifferentCards() {
         ArrayList<Card> list = new ArrayList<>();
         User user = new User("test1", true, list);
         Card card1 = new AttackCard();
-        Card card2 = new CatCard();
+        Card card2 = new CatCard(CatType.BEARDED);
         list.add(card1);
         list.add(card2);
 
         Assertions.assertEquals(0, user.checkForPairs().size());
+
+    }
+
+    @Test
+    public void testCheckForPairs_HandWithTwoMatchingCard() {
+        ArrayList<Card> list = new ArrayList<>();
+        User user = new User("test1", true, list);
+        Card card1 = new CatCard(CatType.CATERMELON);
+        Card card2 = new CatCard(CatType.CATERMELON);
+        list.add(card1);
+        list.add(card2);
+
+        Assertions.assertEquals(1, user.checkForPairs().size());
+//        card1.getClass()
+
+        Card result = user.checkForPairs().get(0);
+        Assertions.assertEquals(CatCard.class, result.getClass());
 
     }
 
