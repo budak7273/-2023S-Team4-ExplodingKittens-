@@ -62,18 +62,19 @@ public class Setup {
                 throw new IllegalArgumentException("Invalid card type found in file");
             }
 
+            // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
             if (numOfPlayers >= 2 && numOfPlayers <= 3) {
                 if (cardHasPawPrint) {
-                    Card card = new Card();
+                    Card card = new AttackCard();
                     drawDeck.addCard(card);
                 }
             } else if (numOfPlayers >= 4 && numOfPlayers <= 7) {
                 if (!cardHasPawPrint) {
-                    Card card = new Card();
+                    Card card = new AttackCard();
                     drawDeck.addCard(card);
                 }
             } else if (numOfPlayers >= 7 && numOfPlayers <= 10) {
-                Card card = new Card();
+                Card card = new AttackCard();
                 drawDeck.addCard(card);
             }
 
