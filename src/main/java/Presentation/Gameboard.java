@@ -1,9 +1,14 @@
 package Presentation;
 
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 import System.*;
+
+import javax.swing.*;
+
 public class Gameboard {
     private Queue<User> users = new ArrayDeque<>();
     private DrawDeck drawDeck = new DrawDeck();
@@ -23,7 +28,40 @@ public class Gameboard {
         this.drawDeck = s.createDrawDeck(new File(path));
         this.discardDeck = s.createDiscardDeck();
 
+        initializeGameView();
     }
+
+    private void initializeGameView() {
+        JFrame gameFrame = new JFrame();
+        JPanel userDisplayPanel = generateUserDisplayPanel();
+        JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
+        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
+
+        gameFrame.setLayout(new BorderLayout());
+        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
+        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+        gameFrame.setVisible(true);
+    }
+
+    private JPanel generateUserDisplayPanel() {
+        JPanel userDisplayPanel = new JPanel();
+        userDisplayPanel.add(new JLabel("userdisplay"));
+        return userDisplayPanel;
+    }
+
+    private JPanel generateTableAreaDisplayPanel() {
+        JPanel tableAreaDisplayPanel = new JPanel();
+        tableAreaDisplayPanel.add(new JLabel("tablearea"));
+        return tableAreaDisplayPanel;
+    }
+
+    private JPanel generatePlayerDeckDisplayPanel() {
+        JPanel playerDeckDisplayPanel = new JPanel();
+        playerDeckDisplayPanel.add(new JLabel("playerdeck"));
+        return playerDeckDisplayPanel;
+    }
+
     public List<String> readUserInfo(){
         List<String> userNameList = new ArrayList<>();
         System.out.println("Please enter player 1's username!");
