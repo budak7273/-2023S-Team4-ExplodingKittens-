@@ -67,6 +67,11 @@ public class Gameboard {
         JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
+        for (Card card : gameState.getDeckForCurrentTurn()) {
+            JLabel cardNameLabel = new JLabel(card.getName());
+            playerDeckDisplayPanel.add(cardNameLabel, BorderLayout.CENTER);
+        }
+
         return playerDeckDisplayPanel;
     }
 

@@ -29,4 +29,8 @@ public class User {
     public String getName() {
         return this.name;
     }
+
+    public List<Card> getHand() {
+        return this.hand;
+    }
 }
