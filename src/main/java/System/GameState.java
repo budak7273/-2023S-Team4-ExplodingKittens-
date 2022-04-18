@@ -13,5 +13,11 @@ public class GameState {
         if (playerQueue.size() < 2 || playerQueue.size() > 10) {
             throw new IllegalArgumentException("Illegal number of players in queue");
         }
+        User userForCurrentTurn = playerQueue.poll();
+        playerQueue.add(userForCurrentTurn);
+    }
+
+    public User getUserForCurrentTurn() {
+        return playerQueue.peek();
     }
 }

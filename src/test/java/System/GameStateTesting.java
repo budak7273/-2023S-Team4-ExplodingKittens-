@@ -18,6 +18,19 @@ public class GameStateTesting {
     }
 
     @Test
+    public void testTransitionToNextTurn_withQueueOf2Users() {
+        Queue<User> playerQueue = new LinkedList<User>();
+        User userStartingAtTopOfQueue = new User();
+        User userStartingAtBottomOfQueue = new User();
+        playerQueue.add(userStartingAtTopOfQueue);
+        playerQueue.add(userStartingAtBottomOfQueue);
+
+        GameState gameState = new GameState(playerQueue);
+        gameState.transitionToNextTurn();
+        Assertions.assertEquals(userStartingAtBottomOfQueue, gameState.getUserForCurrentTurn());
+    }
+
+    @Test
     public void testTransitionToNextTurn_withQueueOf11Users() {
         Queue<User> playerQueue = new LinkedList<User>();
         for (int i = 0; i < 11; i++) {
