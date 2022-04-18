@@ -13,6 +13,7 @@ public class Gameboard {
     private Queue<User> users = new ArrayDeque<>();
     private DrawDeck drawDeck = new DrawDeck();
     private DiscardDeck discardDeck = new DiscardDeck();
+    private GameState gameState;
     Scanner scanner = new Scanner(System.in);
 
     public void createGame() throws InvalidPlayerCountException {
@@ -27,6 +28,8 @@ public class Gameboard {
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users);
 
         initializeGameView();
     }
@@ -60,7 +63,10 @@ public class Gameboard {
 
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
-        playerDeckDisplayPanel.add(new JLabel("Placeholder for player deck display."));
+
+        JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
+        playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
+
         return playerDeckDisplayPanel;
     }
 

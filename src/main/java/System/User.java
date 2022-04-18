@@ -21,4 +21,8 @@ public class User {
         this.alive = alive;
         this.hand = hand;
     }
+
+    public String getName() {
+        return this.name;
+    }
 }

@@ -20,4 +20,8 @@ public class GameState {
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
+
+    public String getUsernameForCurrentTurn() {
+        return getUserForCurrentTurn().getName();
+    }
 }
