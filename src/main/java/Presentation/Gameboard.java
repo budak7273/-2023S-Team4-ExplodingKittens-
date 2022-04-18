@@ -13,6 +13,7 @@ public class Gameboard {
     private Queue<User> users = new ArrayDeque<>();
     private DrawDeck drawDeck = new DrawDeck();
     private DiscardDeck discardDeck = new DiscardDeck();
+    private GameState gameState;
     Scanner scanner = new Scanner(System.in);
 
     public void createGame() throws InvalidPlayerCountException {
@@ -27,6 +28,8 @@ public class Gameboard {
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users);
 
         initializeGameView();
     }
@@ -60,38 +63,49 @@ public class Gameboard {
 
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
-        playerDeckDisplayPanel.add(new JLabel("Placeholder for player deck display."));
+        playerDeckDisplayPanel.setLayout(new BorderLayout());
+
+        JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
+        playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
+
+        for (Card card : gameState.getDeckForCurrentTurn()) {
+            JLabel cardNameLabel = new JLabel(card.getName());
+            playerDeckDisplayPanel.add(cardNameLabel, BorderLayout.CENTER);
+        }
+
         return playerDeckDisplayPanel;
     }
 
     public List<String> readUserInfo(){
         List<String> userNameList = new ArrayList<>();
-        System.out.println("Please enter player 1's username!");
         int nextPlayerCount = 2;
 
-            while(scanner.hasNext()){
-                String username = scanner.next();
-                userNameList.add(username);
-                System.out.println(username + " has been added to the game!");
-                if( nextPlayerCount < 11) {
-                    System.out.println("Would you like to add another player? (y/n)");
-                } else{
-                    break;
-                }
-                String response = scanner.next();
-                boolean addAnotherPlayer = (response.equals("Y") || response.equals("y"));
-                if(!addAnotherPlayer){
-                    break;
+        System.out.println("Please enter player 1's username!");
+        while (scanner.hasNext()) {
+            String username = scanner.next();
+            userNameList.add(username);
+            System.out.println(username + " has been added to the game!");
 
-                }else{
-                    System.out.println("Enter player " + nextPlayerCount + "'s username!");
-                    nextPlayerCount++;
-                }
+            if (nextPlayerCount < 11) {
+                System.out.println("Would you like to add another player? (y/n)");
+            } else {
+                break;
             }
+
+            String response = scanner.next().toLowerCase();
+            boolean addAnotherPlayer = (response.equals("y"));
+            if (addAnotherPlayer) {
+                System.out.println("Enter player " + nextPlayerCount + "'s username!");
+                nextPlayerCount++;
+            } else {
+                break;
+            }
+        }
+
         System.out.println("Starting Exploding Kittens game for players: ");
-            for(String userName: userNameList){
-                System.out.println(userName);
-            }
+        for (String userName: userNameList) {
+            System.out.println(userName);
+        }
         scanner.close();
         return userNameList;
     }

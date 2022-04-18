@@ -1,5 +1,6 @@
 package System;
 
+import java.util.List;
 import java.util.Queue;
 
 public class GameState {
@@ -19,5 +20,13 @@ public class GameState {
 
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
+    }
+
+    public String getUsernameForCurrentTurn() {
+        return getUserForCurrentTurn().getName();
+    }
+
+    public List<Card> getDeckForCurrentTurn() {
+        return getUserForCurrentTurn().getHand();
     }
 }
