@@ -7,13 +7,17 @@ import java.util.List;
 
 public class User {
     String name;
-    Boolean alive;
-    ArrayList<Card> hand;
+    Boolean alive = true;
+    ArrayList<Card> hand = new ArrayList<>();
 
     public User(){
         this.name = "";
         this.alive = true;
         this.hand = new ArrayList<>();
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 
     public User(String name, boolean alive, ArrayList<Card> hand) {
