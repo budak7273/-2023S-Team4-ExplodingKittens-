@@ -63,6 +63,7 @@ public class Gameboard {
 
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
+        playerDeckDisplayPanel.setLayout(new BorderLayout());
 
         JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
