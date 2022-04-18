@@ -16,17 +16,17 @@ public class Gameboard {
     Scanner scanner = new Scanner(System.in);
 
     public void createGame() throws InvalidPlayerCountException {
-
         List<String> usernames = readUserInfo();
         int playerCount = usernames.size();
-        if(playerCount == 1){
+        if (playerCount == 1) {
             throw new InvalidPlayerCountException("ERROR: Must have at least 2 players!");
         }
-        Setup s = new Setup(playerCount);
-        this.users = s.createUsers(usernames);
+
+        Setup setup = new Setup(playerCount);
+        this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
-        this.drawDeck = s.createDrawDeck(new File(path));
-        this.discardDeck = s.createDiscardDeck();
+        this.drawDeck = setup.createDrawDeck(new File(path));
+        this.discardDeck = setup.createDiscardDeck();
 
         initializeGameView();
     }
