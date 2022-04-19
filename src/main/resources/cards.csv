@@ -1,4 +1,4 @@
-type,has_true
+type,has_paw
 Exploding Kitten,false
 Exploding Kitten,false
 Exploding Kitten,false
@@ -119,7 +119,3 @@ See The Future,true
 See The Future,false
 See The Future,false
 See The Future,false
-
-
-
-

@@ -25,10 +25,9 @@ public class Setup {
             throw new IllegalArgumentException();
         }
 
-
         Queue<User> queue = new LinkedList<>();
         for (String name : names) {
-            User user = new User();
+            User user = new User(name);
             queue.add(user);
         }
         return queue;
