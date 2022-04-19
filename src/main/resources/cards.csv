@@ -1,114 +1,121 @@
 type,has_paw
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Exploding Kitten,false
+Defuse,true
+Defuse,true
+Defuse,true
+Defuse,false
+Defuse,false
+Defuse,false
+Defuse,false
+Defuse,false
+Defuse,false
+Defuse,false
+Skip,true
+Skip,true
+Skip,true
+Skip,true
+Skip,false
+Skip,false
+Skip,false
+Skip,false
+Skip,false
+Skip,false
+Favor,false
+Favor,true
+Favor,false
+Favor,false
+Favor,false
+Favor,true
+Shuffle,true
+Shuffle,true
+Shuffle,false
+Shuffle,false
+Shuffle,false
+Shuffle,False
+Beard Cat,true
+Beard Cat,true
+Beard Cat,true
+Beard Cat,false
+Beard Cat,false
+Beard Cat,false
+Beard Cat,false
+Tacocat,true
+Tacocat,true
+Tacocat,true
+Tacocat,false
+Tacocat,false
+Tacocat,false
+Tacocat,false
+Hairy Potato Cat,true
+Hairy Potato Cat,true
+Hairy Potato Cat,true
+Hairy Potato Cat,false
+Hairy Potato Cat,false
+Hairy Potato Cat,false
+Hairy Potato Cat,false
+Rainbow-Ralphing Cat,true
+Rainbow-Ralphing Cat,true
+Rainbow-Ralphing Cat,true
+Rainbow-Ralphing Cat,false
+Rainbow-Ralphing Cat,false
+Rainbow-Raplhing Cat,false
+Rainbow-Ralphing Cat,false
+Cattermelon,false
+Cattermelon,false
+Cattermelon,false
+Cattermelon,false
+Cattermelon,true
+Cattermelon,true
+Cattermelon,true
+Feral Cat,true
+Feral Cat,true
+Feral Cat,false
+Feral Cat,false
+Feral Cat,false
+Feral Cat,false
+Draw From The Bottom,true
+Draw From The Bottom,true
+Draw From The Bottom,true
+Draw From The Bottom,false
+Draw From The Bottom,false
+Draw From The Bottom,false
+Draw From The Bottom,false
+Nope,true
+Nope,true
+Nope,true
+Nope,true
+Nope,false
+Nope,false
+Nope,false
+Nope,false
+Nope,false
 Attack,true
 Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
-Attack,true
 Attack,false
 Attack,false
 Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
-Attack,false
+Alter The Future,true
+Alter The Future,true
+Alter The Future,false
+Alter The Future,false
+Alter The Future,false
+Alter The Future,false
+Targeted Attack,true
+Targeted Attack,true
+Targeted Attack,false
+Targeted Attack,false
+Targeted Attack,false
+See The Future,true
+See The Future,true
+See The Future,true
+See The Future,false
+See The Future,false
+See The Future,false
