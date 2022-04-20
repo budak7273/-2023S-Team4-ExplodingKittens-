@@ -34,6 +34,40 @@ public class Gameboard {
         initializeGameView();
     }
 
+    public List<String> readUserInfo(){
+        List<String> userNameList = new ArrayList<>();
+        int nextPlayerCount = 2;
+
+        System.out.println("Please enter player 1's username!");
+        while (scanner.hasNext()) {
+            String username = scanner.next();
+            userNameList.add(username);
+            System.out.println(username + " has been added to the game!");
+
+            if (nextPlayerCount < 11) {
+                System.out.println("Would you like to add another player? (y/n)");
+            } else {
+                break;
+            }
+
+            String response = scanner.next().toLowerCase();
+            boolean addAnotherPlayer = (response.equals("y"));
+            if (addAnotherPlayer) {
+                System.out.println("Enter player " + nextPlayerCount + "'s username!");
+                nextPlayerCount++;
+            } else {
+                break;
+            }
+        }
+
+        System.out.println("Starting Exploding Kittens game for players: ");
+        for (String userName: userNameList) {
+            System.out.println(userName);
+        }
+        scanner.close();
+        return userNameList;
+    }
+
     private void initializeGameView() {
         JFrame gameFrame = new JFrame();
         JPanel userDisplayPanel = generateUserDisplayPanel();
@@ -74,40 +108,6 @@ public class Gameboard {
         }
 
         return playerDeckDisplayPanel;
-    }
-
-    public List<String> readUserInfo(){
-        List<String> userNameList = new ArrayList<>();
-        int nextPlayerCount = 2;
-
-        System.out.println("Please enter player 1's username!");
-        while (scanner.hasNext()) {
-            String username = scanner.next();
-            userNameList.add(username);
-            System.out.println(username + " has been added to the game!");
-
-            if (nextPlayerCount < 11) {
-                System.out.println("Would you like to add another player? (y/n)");
-            } else {
-                break;
-            }
-
-            String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y"));
-            if (addAnotherPlayer) {
-                System.out.println("Enter player " + nextPlayerCount + "'s username!");
-                nextPlayerCount++;
-            } else {
-                break;
-            }
-        }
-
-        System.out.println("Starting Exploding Kittens game for players: ");
-        for (String userName: userNameList) {
-            System.out.println(userName);
-        }
-        scanner.close();
-        return userNameList;
     }
 
     public Queue<User> getUsers() {
