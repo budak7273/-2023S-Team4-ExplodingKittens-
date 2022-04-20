@@ -1,6 +1,8 @@
 package Presentation;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -32,48 +34,6 @@ public class Gameboard {
         this.gameState = new GameState(this.users);
 
         initializeGameView();
-    }
-
-    private void initializeGameView() {
-        JFrame gameFrame = new JFrame();
-        JPanel userDisplayPanel = generateUserDisplayPanel();
-        JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
-        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
-
-        gameFrame.setLayout(new BorderLayout());
-        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
-        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
-        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
-        gameFrame.pack();
-        gameFrame.setVisible(true);
-    }
-
-    private JPanel generateUserDisplayPanel() {
-        JPanel userDisplayPanel = new JPanel();
-        userDisplayPanel.add(new JLabel("Placeholder for user display."));
-        return userDisplayPanel;
-    }
-
-    private JPanel generateTableAreaDisplayPanel() {
-        JPanel tableAreaDisplayPanel = new JPanel();
-        tableAreaDisplayPanel.add(new JLabel(
-                "Placeholder for displaying the table area. (Depicting the draw deck, discard deck, etc.)"));
-        return tableAreaDisplayPanel;
-    }
-
-    private JPanel generatePlayerDeckDisplayPanel() {
-        JPanel playerDeckDisplayPanel = new JPanel();
-        playerDeckDisplayPanel.setLayout(new BorderLayout());
-
-        JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
-        playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
-
-        for (Card card : gameState.getDeckForCurrentTurn()) {
-            JLabel cardNameLabel = new JLabel(card.getName());
-            playerDeckDisplayPanel.add(cardNameLabel, BorderLayout.CENTER);
-        }
-
-        return playerDeckDisplayPanel;
     }
 
     public List<String> readUserInfo(){
@@ -108,6 +68,55 @@ public class Gameboard {
         }
         scanner.close();
         return userNameList;
+    }
+
+    private void initializeGameView() {
+        JFrame gameFrame = new JFrame();
+        JPanel userDisplayPanel = generateUserDisplayPanel();
+        JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
+        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
+
+        gameFrame.setLayout(new BorderLayout());
+        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
+        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+        gameFrame.pack();
+        gameFrame.setVisible(true);
+    }
+
+    private JPanel generateUserDisplayPanel() {
+        JPanel userDisplayPanel = new JPanel();
+        userDisplayPanel.add(new JLabel("Placeholder for user display."));
+        return userDisplayPanel;
+    }
+
+    private JPanel generateTableAreaDisplayPanel() {
+        JPanel tableAreaDisplayPanel = new JPanel();
+        JButton drawCardButton = new JButton("Draw Card");
+        drawCardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                drawDeck.drawCard();
+            }
+        });
+
+        tableAreaDisplayPanel.add(drawCardButton);
+        return tableAreaDisplayPanel;
+    }
+
+    private JPanel generatePlayerDeckDisplayPanel() {
+        JPanel playerDeckDisplayPanel = new JPanel();
+        playerDeckDisplayPanel.setLayout(new BorderLayout());
+
+        JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
+        playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
+
+        for (Card card : gameState.getDeckForCurrentTurn()) {
+            JLabel cardNameLabel = new JLabel(card.getName());
+            playerDeckDisplayPanel.add(cardNameLabel, BorderLayout.CENTER);
+        }
+
+        return playerDeckDisplayPanel;
     }
 
     public Queue<User> getUsers() {
