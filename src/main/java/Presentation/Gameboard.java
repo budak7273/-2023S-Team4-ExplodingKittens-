@@ -20,6 +20,7 @@ public class Gameboard {
 
     public void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
+
         int playerCount = usernames.size();
         if (playerCount == 1) {
             throw new InvalidPlayerCountException("ERROR: Must have at least 2 players!");
@@ -96,7 +97,8 @@ public class Gameboard {
         drawCardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                drawDeck.drawCard();
+                drawDeck.drawCard(gameState.getUserForCurrentTurn());
+                gameState.transitionToNextTurn();
             }
         });
 
