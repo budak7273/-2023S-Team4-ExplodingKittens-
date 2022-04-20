@@ -33,4 +33,8 @@ public class User {
     public List<Card> getHand() {
         return this.hand;
     }
+
+    public void addCard(Card drawnCard) {
+        this.hand.add(drawnCard);
+    }
 }

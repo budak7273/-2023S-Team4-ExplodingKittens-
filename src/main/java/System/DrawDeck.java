@@ -22,5 +22,7 @@ public class DrawDeck {
         if (cards.isEmpty()) {
             throw new RuntimeException("Draw deck is empty, the game was set up improperly.");
         }
+        Card drawnCard = cards.remove(0);
+        drawingUser.addCard(drawnCard);
     }
 }

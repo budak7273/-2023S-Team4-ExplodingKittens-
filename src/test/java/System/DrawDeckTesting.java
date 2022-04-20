@@ -9,10 +9,20 @@ public class DrawDeckTesting {
 
     @Test
     public void testDrawCard_fromEmptyDrawDeck() {
-        User userMock = EasyMock.createMock(User.class);
+        DrawDeck deck = new DrawDeck();
+        Executable executable = () -> deck.drawCard(new User());
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
+    public void testDrawCard_fromNonEmptyDrawDeck() {
+        User user = new User();
 
         DrawDeck deck = new DrawDeck();
-        Executable executable = () -> deck.drawCard(userMock);
-        Assertions.assertThrows(RuntimeException.class, executable);
+        deck.addCard(new AttackCard());
+        deck.drawCard(user);
+
+        Assertions.assertTrue(deck.cards.isEmpty());
+        Assertions.assertTrue(!user.hand.isEmpty());
     }
 }
