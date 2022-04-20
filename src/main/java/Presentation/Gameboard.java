@@ -20,20 +20,11 @@ public class Gameboard {
 
     public void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
-
-        int playerCount = usernames.size();
-        if (playerCount == 1) {
+        if (usernames.size() == 1) {
             throw new InvalidPlayerCountException("ERROR: Must have at least 2 players!");
         }
 
-        Setup setup = new Setup(playerCount);
-        this.users = setup.createUsers(usernames);
-        String path = "src/main/resources/cards.csv";
-        this.drawDeck = setup.createDrawDeck(new File(path));
-        this.discardDeck = setup.createDiscardDeck();
-
-        this.gameState = new GameState(this.users, this);
-
+        initializeGameState(usernames);
         initializeGameView();
     }
 
@@ -70,6 +61,16 @@ public class Gameboard {
         }
         scanner.close();
         return userNameList;
+    }
+
+    private void initializeGameState(List<String> usernames) {
+        Setup setup = new Setup(usernames.size());
+        this.users = setup.createUsers(usernames);
+        String path = "src/main/resources/cards.csv";
+        this.drawDeck = setup.createDrawDeck(new File(path));
+        this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users, this);
     }
 
     private void initializeGameView() {
