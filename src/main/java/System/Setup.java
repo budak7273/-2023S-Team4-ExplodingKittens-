@@ -49,19 +49,22 @@ public class Setup {
 
     private DrawDeck createDrawDeckUsingScanner(Scanner cardInfoScanner) {
         DrawDeck drawDeck = new DrawDeck();
-        String header = cardInfoScanner.next();
-        int numOfCardsUntilRequiredCountIsReached = 113;
+        String header = cardInfoScanner.nextLine();
+        int numOfCardsUntilRequiredCountIsReached = 120;
 
-        while (cardInfoScanner.hasNext()) {
-            String cardInfo = cardInfoScanner.next();
+        int line = 0;
+        while (cardInfoScanner.hasNextLine()) {
+            String cardInfo = cardInfoScanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
             String cardType = cardProperties[0];
             boolean cardHasPawPrint = Boolean.parseBoolean(cardProperties[1]);
 
             // TODO: move this logic to an enum class
-            String[] validTypes = new String[] {"Attack"};
+            String[] validTypes = new String[] {"Attack", "Exploding Kitten", "Defuse", "Skip", "Favor", "Shuffle",
+            "Beard Cat", "Tacocat", "Hairy Potato Cat", "Rainbow-Ralphing Cat", "Cattermelon", "Feral Cat",
+            "Draw From The Bottom", "Nope", "Alter The Future", "Targeted Attack", "See The Future"};
             if (!Arrays.stream(validTypes).anyMatch(cardType::equals)) {
-                throw new IllegalArgumentException("Invalid card type found in file");
+                throw new IllegalArgumentException("Invalid card type " + cardType + " found in file");
             }
 
             // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.

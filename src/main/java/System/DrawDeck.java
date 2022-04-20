@@ -17,4 +17,8 @@ public class DrawDeck {
     public void addCard(Card card) {
         cards.add(card);
     }
+
+    public void drawCard() {
+        System.out.println("TODO: Draw card");
+    }
 }

@@ -1,6 +1,8 @@
 package Presentation;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -90,8 +92,15 @@ public class Gameboard {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-        tableAreaDisplayPanel.add(new JLabel(
-                "Placeholder for displaying the table area. (Depicting the draw deck, discard deck, etc.)"));
+        JButton drawCardButton = new JButton("Draw Card");
+        drawCardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                drawDeck.drawCard();
+            }
+        });
+
+        tableAreaDisplayPanel.add(drawCardButton);
         return tableAreaDisplayPanel;
     }
 
