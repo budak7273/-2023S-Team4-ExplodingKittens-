@@ -32,7 +32,7 @@ public class Gameboard {
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
 
-        this.gameState = new GameState(this.users);
+        this.gameState = new GameState(this.users, this);
 
         initializeGameView();
     }
@@ -133,5 +133,7 @@ public class Gameboard {
         return this.discardDeck;
     }
 
-
+    public void updateUI() {
+        // TODO: implement
+    }
 }
