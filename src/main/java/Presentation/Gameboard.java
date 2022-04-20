@@ -103,6 +103,7 @@ public class Gameboard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 drawDeck.drawCard(gameState.getUserForCurrentTurn());
+                gameState.transitionToNextTurn();
             }
         });
 
