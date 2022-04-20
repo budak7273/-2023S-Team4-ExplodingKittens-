@@ -17,7 +17,6 @@ public class Gameboard {
     private DiscardDeck discardDeck = new DiscardDeck();
     private GameState gameState;
     private JFrame gameFrame;
-    Scanner scanner = new Scanner(System.in);
 
     public void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
@@ -43,6 +42,7 @@ public class Gameboard {
         int nextPlayerCount = 2;
 
         System.out.println("Please enter player 1's username!");
+        Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
