@@ -19,7 +19,13 @@ public class Gameboard {
     Scanner scanner = new Scanner(System.in);
 
     public void createGame() throws InvalidPlayerCountException {
-        List<String> usernames = readUserInfo();
+        // TODO: When you're ready to submit PR, add this back in!
+//        List<String> usernames = readUserInfo();
+        // TODO: Remove "instant start up" code here
+        List<String> usernames = new ArrayList<String>();
+        usernames.add("Player1");
+        usernames.add("Player2");
+
         int playerCount = usernames.size();
         if (playerCount == 1) {
             throw new InvalidPlayerCountException("ERROR: Must have at least 2 players!");
