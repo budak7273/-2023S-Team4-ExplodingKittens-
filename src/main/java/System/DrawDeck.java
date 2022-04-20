@@ -18,7 +18,9 @@ public class DrawDeck {
         cards.add(card);
     }
 
-    public void drawCard() {
-        System.out.println("TODO: Draw card");
+    public void drawCard(User drawingUser) {
+        if (cards.isEmpty()) {
+            throw new RuntimeException("Draw deck is empty, the game was set up improperly.");
+        }
     }
 }

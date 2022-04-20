@@ -102,7 +102,7 @@ public class Gameboard {
         drawCardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                drawDeck.drawCard();
+                drawDeck.drawCard(gameState.getUserForCurrentTurn());
             }
         });
 
