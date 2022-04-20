@@ -16,6 +16,7 @@ public class Gameboard {
     private DrawDeck drawDeck = new DrawDeck();
     private DiscardDeck discardDeck = new DiscardDeck();
     private GameState gameState;
+    private JFrame gameFrame;
     Scanner scanner = new Scanner(System.in);
 
     public void createGame() throws InvalidPlayerCountException {
@@ -72,7 +73,12 @@ public class Gameboard {
     }
 
     private void initializeGameView() {
-        JFrame gameFrame = new JFrame();
+        this.gameFrame = new JFrame();
+        buildGameView();
+    }
+
+    private void buildGameView() {
+        gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
@@ -113,11 +119,14 @@ public class Gameboard {
         JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
+        JPanel handDisplayPanel = new JPanel();
+        handDisplayPanel.setLayout(new BoxLayout(handDisplayPanel, BoxLayout.Y_AXIS));
         for (Card card : gameState.getDeckForCurrentTurn()) {
             JLabel cardNameLabel = new JLabel(card.getName());
-            playerDeckDisplayPanel.add(cardNameLabel, BorderLayout.CENTER);
+            handDisplayPanel.add(cardNameLabel);
         }
 
+        playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
 
@@ -134,6 +143,6 @@ public class Gameboard {
     }
 
     public void updateUI() {
-        // TODO: implement
+        buildGameView();
     }
 }
