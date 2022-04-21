@@ -72,4 +72,14 @@ public class GameStateTesting {
         Executable executable = () -> gameState.transitionToNextTurn();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testDistributeCards1User() {
+        Queue<User> users = new LinkedList<User>();
+        users.add(new User());
+
+        GameState gameState = new GameState(users, new Gameboard());
+        Executable executable = gameState::dealHands;
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 }

@@ -23,6 +23,10 @@ public class GameState {
         gameboard.updateUI();
     }
 
+    public void dealHands() {
+        throw new IllegalArgumentException("Illegal number of players in queue");
+    }
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
