@@ -16,24 +16,15 @@ public class Gameboard {
     private DrawDeck drawDeck = new DrawDeck();
     private DiscardDeck discardDeck = new DiscardDeck();
     private GameState gameState;
-    Scanner scanner = new Scanner(System.in);
+    private JFrame gameFrame;
 
     public void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
-
-        int playerCount = usernames.size();
-        if (playerCount == 1) {
+        if (usernames.size() == 1) {
             throw new InvalidPlayerCountException("ERROR: Must have at least 2 players!");
         }
 
-        Setup setup = new Setup(playerCount);
-        this.users = setup.createUsers(usernames);
-        String path = "src/main/resources/cards.csv";
-        this.drawDeck = setup.createDrawDeck(new File(path));
-        this.discardDeck = setup.createDiscardDeck();
-
-        this.gameState = new GameState(this.users);
-
+        initializeGameState(usernames);
         initializeGameView();
     }
 
@@ -42,6 +33,7 @@ public class Gameboard {
         int nextPlayerCount = 2;
 
         System.out.println("Please enter player 1's username!");
+        Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
@@ -71,8 +63,23 @@ public class Gameboard {
         return userNameList;
     }
 
+    private void initializeGameState(List<String> usernames) {
+        Setup setup = new Setup(usernames.size());
+        this.users = setup.createUsers(usernames);
+        String path = "src/main/resources/cards.csv";
+        this.drawDeck = setup.createDrawDeck(new File(path));
+        this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users, this);
+    }
+
     private void initializeGameView() {
-        JFrame gameFrame = new JFrame();
+        this.gameFrame = new JFrame();
+        buildGameView();
+    }
+
+    private void buildGameView() {
+        gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
@@ -113,11 +120,14 @@ public class Gameboard {
         JLabel playerNameLabel = new JLabel("It is your turn, " + gameState.getUsernameForCurrentTurn());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
+        JPanel handDisplayPanel = new JPanel();
+        handDisplayPanel.setLayout(new BoxLayout(handDisplayPanel, BoxLayout.Y_AXIS));
         for (Card card : gameState.getDeckForCurrentTurn()) {
             JLabel cardNameLabel = new JLabel(card.getName());
-            playerDeckDisplayPanel.add(cardNameLabel, BorderLayout.CENTER);
+            handDisplayPanel.add(cardNameLabel);
         }
 
+        playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
 
@@ -133,5 +143,7 @@ public class Gameboard {
         return this.discardDeck;
     }
 
-
+    public void updateUI() {
+        buildGameView();
+    }
 }
