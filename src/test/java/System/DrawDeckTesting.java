@@ -28,8 +28,27 @@ public class DrawDeckTesting {
 
     @Test
     public void testDrawInitialCard_fromEmptyDrawDeck() {
+        User player = EasyMock.createMock(User.class);
+        EasyMock.replay(player);
+
         DrawDeck deck = new DrawDeck();
-        Executable executable = deck::drawInitialCard;
+        Executable executable = () -> deck.drawInitialCard(player);
+
         Assertions.assertThrows(RuntimeException.class, executable);
+        EasyMock.verify(player);
+    }
+
+    @Test
+    public void testDrawInitialCard_fromNonEmptyDrawDeck_removedFromDeck() {
+        User player = EasyMock.createMock(User.class);
+        Card drawnCard = EasyMock.createMock(AttackCard.class);
+        player.addCard(drawnCard);
+        EasyMock.replay(player, drawnCard);
+
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(drawnCard);
+
+        deck.drawInitialCard(player);
+        Assertions.assertEquals(0, deck.getDeckSize());
     }
 }
