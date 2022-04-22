@@ -25,4 +25,11 @@ public class DrawDeckTesting {
         Assertions.assertTrue(deck.cards.isEmpty());
         Assertions.assertTrue(!user.hand.isEmpty());
     }
+
+    @Test
+    public void testDrawInitialCard_fromEmptyDrawDeck() {
+        DrawDeck deck = new DrawDeck();
+        Executable executable = deck::drawInitialCard;
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
 }
