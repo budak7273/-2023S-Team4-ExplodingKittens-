@@ -21,12 +21,7 @@ public class CardCSVParser {
         verifyCSVFormat();
 
         List<Card> cardList = new ArrayList<Card>();
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(csvFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Scanner scanner = generateScanner();
         String header = scanner.nextLine();
         while (scanner.hasNextLine()) {
             String cardInfo = scanner.nextLine();
@@ -39,16 +34,12 @@ public class CardCSVParser {
                 cardList.add(new AttackCard());
             }
         }
+
         return cardList;
     }
 
     private void verifyCSVFormat() {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(csvFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Scanner scanner = generateScanner();
         String header = scanner.nextLine();
         int cardCount = 0;
         while (scanner.hasNextLine()) {
@@ -59,9 +50,16 @@ public class CardCSVParser {
             }
             cardCount++;
         }
-        System.out.println(cardCount);
         if (cardCount != 120) {
             throw new IllegalArgumentException("Bad number of cards in .csv file.");
+        }
+    }
+
+    private Scanner generateScanner() {
+        try {
+            return new Scanner(csvFile);
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Could not generate scanner from file.");
         }
     }
 }
