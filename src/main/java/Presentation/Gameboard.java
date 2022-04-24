@@ -14,7 +14,7 @@ import javax.swing.*;
 public class Gameboard {
     private Queue<User> users = new ArrayDeque<>();
     private DrawDeck drawDeck = new DrawDeck();
-    private DiscardDeck discardDeck = new DiscardDeck();
+//    private DiscardDeck discardDeck;
     private GameState gameState;
     private JFrame gameFrame;
 
@@ -68,7 +68,7 @@ public class Gameboard {
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
-        this.discardDeck = setup.createDiscardDeck();
+//        this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this);
     }
@@ -137,10 +137,6 @@ public class Gameboard {
 
     public DrawDeck getDrawDeck() {
         return this.drawDeck;
-    }
-
-    public DiscardDeck getDiscardDeck() {
-        return this.discardDeck;
     }
 
     public void updateUI() {
