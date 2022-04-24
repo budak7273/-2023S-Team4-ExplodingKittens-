@@ -22,8 +22,8 @@ public class CardCSVParserTesting {
     }
 
     @Test
-    public void testGenerateListOfCards_withTooManyCards() {
-        String path = "src/test/resources/fullfile_plusone.csv";
+    public void testGenerateListOfCards_withDataMissing() {
+        String path = "src/test/resources/fullfile_datamissing.csv";
         CardCSVParser parser = new CardCSVParser(path);
         Executable executable = () -> parser.generateListOfCards(true, true);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
