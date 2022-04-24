@@ -51,8 +51,7 @@ public class Setup {
         }
         return drawDeck;
     }
-    public DiscardDeck createDiscardDeck(){
-        return null;
-    }
+
+    public DiscardDeck createDiscardDeck(){ return new DiscardDeck();   }
 
 }
