@@ -43,9 +43,6 @@ public class Setup {
         }
         return drawDeck;
     }
-    public DiscardDeck createDiscardDeck(){
-        return null;
-    }
 
     private DrawDeck createDrawDeckUsingScanner(Scanner cardInfoScanner) {
         DrawDeck drawDeck = new DrawDeck();
