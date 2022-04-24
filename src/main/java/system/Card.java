@@ -1,4 +1,4 @@
-package System;
+package system;
 
 public abstract class Card {
     private final String name;

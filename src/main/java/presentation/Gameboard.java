@@ -1,4 +1,4 @@
-package Presentation;
+package presentation;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 
-import System.*;
+import system.*;
 
 import javax.swing.*;
 
