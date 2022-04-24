@@ -12,4 +12,12 @@ public class CardCSVParserTesting {
         Executable executable = () -> parser.generateListOfCards(true, true);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testGenerateListOfCards_withTooFewCards() {
+        String path = "src/test/resources/fullfile_minusone.csv";
+        CardCSVParser parser = new CardCSVParser(path);
+        Executable executable = () -> parser.generateListOfCards(true, true);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 }
