@@ -41,6 +41,15 @@ public class CardCSVParserTesting {
     }
 
     @Test
+    public void testGenerateListOfCards_withDataInvalid() {
+        String path = "src/test/resources/fullfile_invalid.csv";
+        File csvFile = new File(path);
+        CardCSVParser parser = new CardCSVParser(csvFile);
+        Executable executable = () -> parser.generateListOfCards(true, true);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
     public void testGenerateListOfCards_None() {
         String path = "src/test/resources/fullfile.csv";
         File csvFile = new File(path);
@@ -75,4 +84,6 @@ public class CardCSVParserTesting {
         List<Card> cardList = parser.generateListOfCards(true, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
     }
+
+
 }
