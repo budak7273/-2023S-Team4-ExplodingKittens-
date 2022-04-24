@@ -6,6 +6,7 @@ import System.AttackCard;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -48,6 +49,16 @@ public class CardCSVParser {
             if (cardProperties.length != 2) {
                 throw new IllegalArgumentException("Missing data in .csv file.");
             }
+
+            // TODO: move this logic to an enum class
+            String cardType = cardProperties[0];
+            String[] validTypes = new String[] {"Attack", "Exploding Kitten", "Defuse", "Skip", "Favor", "Shuffle",
+            "Beard Cat", "Tacocat", "Hairy Potato Cat", "Rainbow-Ralphing Cat", "Cattermelon", "Feral Cat",
+            "Draw From The Bottom", "Nope", "Alter The Future", "Targeted Attack", "See The Future"};
+            if (!Arrays.stream(validTypes).anyMatch(cardType::equals)) {
+                throw new IllegalArgumentException("Invalid card type " + cardType + " found in file");
+            }
+
             cardCount++;
         }
         if (cardCount != 120) {
