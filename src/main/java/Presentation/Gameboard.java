@@ -13,8 +13,8 @@ import javax.swing.*;
 
 public class Gameboard {
     private Queue<User> users = new ArrayDeque<>();
-    private DrawDeck drawDeck = new DrawDeck();
-    private DiscardDeck discardDeck = new DiscardDeck();
+    private DrawDeck drawDeck;
+    private DiscardDeck discardDeck;
     private GameState gameState;
     private JFrame gameFrame;
 
@@ -137,10 +137,6 @@ public class Gameboard {
 
     public DrawDeck getDrawDeck() {
         return this.drawDeck;
-    }
-
-    public DiscardDeck getDiscardDeck() {
-        return this.discardDeck;
     }
 
     public void updateUI() {

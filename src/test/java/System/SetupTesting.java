@@ -170,4 +170,11 @@ public class SetupTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void testCreateDiscardDeck(){
+        Setup setup = new Setup(2);
+        DiscardDeck discDeck = setup.createDiscardDeck();
+        Assertions.assertTrue(discDeck.getDeckSize() == 0);
+    }
+
 }
