@@ -9,6 +9,9 @@ import java.io.File;
 import java.util.List;
 
 public class CardCSVParserTesting {
+
+    private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
+
     @Test
     public void testGenerateListOfCards_withEmptyInput() {
         String path = "src/test/resources/empty.csv";
@@ -43,5 +46,14 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(false, false);
         Assertions.assertTrue(cardList.isEmpty());
+    }
+
+    @Test
+    public void testGenerateListOfCards_withPawOnly() {
+        String path = "src/test/resources/fullfile.csv";
+        File csvFile = new File(path);
+        CardCSVParser parser = new CardCSVParser(csvFile);
+        List<Card> cardList = parser.generateListOfCards(true, false);
+        Assertions.assertTrue(cardList.size() == PARTY_PACK_PAW_ONLY_SIZE);
     }
 }
