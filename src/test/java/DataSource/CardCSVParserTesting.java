@@ -66,4 +66,13 @@ public class CardCSVParserTesting {
         List<Card> cardList = parser.generateListOfCards(false, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE);
     }
+
+    @Test
+    public void testGenerateListOfCards_All() {
+        String path = "src/test/resources/fullfile.csv";
+        File csvFile = new File(path);
+        CardCSVParser parser = new CardCSVParser(csvFile);
+        List<Card> cardList = parser.generateListOfCards(true, true);
+        Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
+    }
 }
