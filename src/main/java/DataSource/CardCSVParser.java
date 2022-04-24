@@ -31,8 +31,11 @@ public class CardCSVParser {
         while (scanner.hasNextLine()) {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
+            // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
             if (includePaw && Boolean.parseBoolean(cardProperties[1]) == true) {
-                // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
+                cardList.add(new AttackCard());
+            }
+            if (includeNoPaw && Boolean.parseBoolean(cardProperties[1]) == false) {
                 cardList.add(new AttackCard());
             }
         }
