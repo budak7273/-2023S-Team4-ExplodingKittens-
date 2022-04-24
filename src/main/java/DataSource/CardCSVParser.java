@@ -1,6 +1,7 @@
 package DataSource;
 
 import System.Card;
+import System.AttackCard;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +18,28 @@ public class CardCSVParser {
     }
 
     public List<Card> generateListOfCards(boolean includePaw, boolean includeNoPaw) {
+        verifyCSVFormat();
+
+        List<Card> cardList = new ArrayList<Card>();
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(csvFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String header = scanner.nextLine();
+        while (scanner.hasNextLine()) {
+            String cardInfo = scanner.nextLine();
+            String[] cardProperties = cardInfo.split(",");
+            if (includePaw && Boolean.parseBoolean(cardProperties[1]) == true) {
+                // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
+                cardList.add(new AttackCard());
+            }
+        }
+        return cardList;
+    }
+
+    private void verifyCSVFormat() {
         Scanner scanner = null;
         try {
             scanner = new Scanner(csvFile);
@@ -35,8 +58,7 @@ public class CardCSVParser {
         }
         System.out.println(cardCount);
         if (cardCount != 120) {
-           throw new IllegalArgumentException("Bad number of cards in .csv file.");
+            throw new IllegalArgumentException("Bad number of cards in .csv file.");
         }
-        return new ArrayList<Card>();
     }
 }
