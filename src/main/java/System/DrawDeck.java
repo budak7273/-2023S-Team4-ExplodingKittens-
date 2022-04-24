@@ -3,6 +3,7 @@ package System;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DrawDeck {
     List<Card> cards;
@@ -30,6 +31,12 @@ public class DrawDeck {
         if (cards.isEmpty()) {
             throw new RuntimeException("Draw deck is empty, the game was set up improperly.");
         }
-        drawCard(drawer);
+
+        Card drawnCard = cards.remove(0);
+        while (drawnCard.getName().equals("Exploding Kitten")) {
+            cards.add(cards.size(), drawnCard);
+            drawnCard = cards.remove(0);
+        }
+        drawer.addCard(drawnCard);
     }
 }

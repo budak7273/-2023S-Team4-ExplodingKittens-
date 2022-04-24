@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.util.EmptyStackException;
+
 public class DrawDeckTesting {
 
     @Test
@@ -39,16 +41,21 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawInitialCard_fromNonEmptyDrawDeck_removedFromDeck() {
+    public void testDrawInitialCard_fromNonEmptyDrawDeck() {
         User player = EasyMock.createMock(User.class);
         Card drawnCard = EasyMock.createMock(AttackCard.class);
+        Card explodeCard = EasyMock.createMock(ExplodingCard.class);
+        EasyMock.expect(explodeCard.getName()).andReturn("Exploding Kitten");
+        EasyMock.expect(drawnCard.getName()).andReturn("Attack");
         player.addCard(drawnCard);
-        EasyMock.replay(player, drawnCard);
+        EasyMock.replay(player, drawnCard, explodeCard);
 
         DrawDeck deck = new DrawDeck();
+        deck.addCard(explodeCard);
         deck.addCard(drawnCard);
 
         deck.drawInitialCard(player);
-        Assertions.assertEquals(0, deck.getDeckSize());
+        Assertions.assertEquals(1, deck.getDeckSize());
+        EasyMock.verify(player, drawnCard, explodeCard);
     }
 }
