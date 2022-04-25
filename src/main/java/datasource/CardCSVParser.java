@@ -55,18 +55,15 @@ public class CardCSVParser {
                 throw new IllegalArgumentException(
                         "Missing data in .csv file.");
             }
-
-            // TODO: move this logic to an enum class
             String cardType = cardProperties[0];
-            String[] validTypes = new String[] {"Attack",
-                    "Exploding Kitten", "Defuse", "Skip",
-                    "Favor", "Shuffle",
-            "Beard Cat", "Tacocat", "Hairy Potato Cat",
-                    "Rainbow-Ralphing Cat", "Cattermelon",
-                    "Feral Cat",
-            "Draw From The Bottom", "Nope", "Alter The Future",
-                    "Targeted Attack", "See The Future"};
-            if (!Arrays.stream(validTypes).anyMatch(cardType::equals)) {
+            final int typeCount = 17;
+            String[] types = new String[typeCount];
+            int i = 0;
+            for (Enum typeEnum : CardType.class.getEnumConstants()) {
+                types[i] = typeEnum.toString();
+                i++;
+            }
+            if (Arrays.stream(types).noneMatch(cardType::equals)) {
                 throw new IllegalArgumentException("Invalid card type "
                         + cardType + " found in file");
             }

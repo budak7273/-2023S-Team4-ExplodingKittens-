@@ -92,5 +92,7 @@ public enum CardType {
         public String toString() {
             return "See The Future";
         }
-    }
+    };
+
+
 }
