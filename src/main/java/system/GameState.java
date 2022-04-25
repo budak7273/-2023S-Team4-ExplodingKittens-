@@ -38,4 +38,10 @@ public class GameState {
     public List<Card> getDeckForCurrentTurn() {
         return getUserForCurrentTurn().getHand();
     }
+
+    public Queue<User> getPlayerQueue() {
+        return this.playerQueue;
+    }
+
+
 }
