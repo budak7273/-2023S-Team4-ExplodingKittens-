@@ -2,6 +2,7 @@ package system;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,17 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
+
+    }
+
+    @Test
+    public void testVerifySpecialEffectForCardsSelected_EmptyHandWithNonEmptyList(){
+        ArrayList<Card> list = new ArrayList<Card>();
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(3);
+        User user = new User("test1", false, list);
+        Executable executable = () -> user.verifySpecialEffectForCardsSelected(selected);
+        Assertions.assertThrows(IllegalArgumentException.class,executable);
 
     }
 

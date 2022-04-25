@@ -49,4 +49,13 @@ public class User {
     public boolean checkForSpecialEffectPotential() {
         return false;
     }
+
+    public boolean verifySpecialEffectForCardsSelected(ArrayList<Integer> selected) {
+        if(hand.size()==0&&selected.size()!=0){
+            throw new IllegalArgumentException(
+                    "You cannot select cards when your hand is empty");
+        }
+
+        return false;
+    }
 }
