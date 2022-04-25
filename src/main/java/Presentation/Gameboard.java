@@ -131,14 +131,6 @@ public class Gameboard {
         return playerDeckDisplayPanel;
     }
 
-    public Queue<User> getUsers() {
-        return this.users;
-    }
-
-    public DrawDeck getDrawDeck() {
-        return this.drawDeck;
-    }
-
     public void updateUI() {
         buildGameView();
     }

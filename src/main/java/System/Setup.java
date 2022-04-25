@@ -1,5 +1,7 @@
 package System;
 
+import DataSource.CardCSVParser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -35,61 +37,21 @@ public class Setup {
 
     public DrawDeck createDrawDeck(File cardInfoFile) {
         DrawDeck drawDeck = new DrawDeck();
-        try {
-            Scanner cardInfoScanner = new Scanner(cardInfoFile);
-            drawDeck = createDrawDeckUsingScanner(cardInfoScanner);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        CardCSVParser parser = new CardCSVParser(cardInfoFile);
+        List<Card> cardList;
+        if (numOfPlayers >= 2 && numOfPlayers <= 3) {
+            cardList = parser.generateListOfCards(true, false);
+        } else if (numOfPlayers >= 4 && numOfPlayers <= 7) {
+            cardList = parser.generateListOfCards(false, true);
+        } else {
+            cardList = parser.generateListOfCards(true, true);
+        }
+        for (Card card : cardList) {
+            drawDeck.addCard(card);
         }
         return drawDeck;
     }
 
     public DiscardDeck createDiscardDeck(){ return new DiscardDeck();   }
-
-    private DrawDeck createDrawDeckUsingScanner(Scanner cardInfoScanner) {
-        DrawDeck drawDeck = new DrawDeck();
-        String header = cardInfoScanner.nextLine();
-        int numOfCardsUntilRequiredCountIsReached = 120;
-
-        int line = 0;
-        while (cardInfoScanner.hasNextLine()) {
-            String cardInfo = cardInfoScanner.nextLine();
-            String[] cardProperties = cardInfo.split(",");
-            String cardType = cardProperties[0];
-            boolean cardHasPawPrint = Boolean.parseBoolean(cardProperties[1]);
-
-            // TODO: move this logic to an enum class
-            String[] validTypes = new String[] {"Attack", "Exploding Kitten", "Defuse", "Skip", "Favor", "Shuffle",
-            "Beard Cat", "Tacocat", "Hairy Potato Cat", "Rainbow-Ralphing Cat", "Cattermelon", "Feral Cat",
-            "Draw From The Bottom", "Nope", "Alter The Future", "Targeted Attack", "See The Future"};
-            if (!Arrays.stream(validTypes).anyMatch(cardType::equals)) {
-                throw new IllegalArgumentException("Invalid card type " + cardType + " found in file");
-            }
-
-            // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
-            if (numOfPlayers >= 2 && numOfPlayers <= 3) {
-                if (cardHasPawPrint) {
-                    Card card = new AttackCard();
-                    drawDeck.addCard(card);
-                }
-            } else if (numOfPlayers >= 4 && numOfPlayers <= 7) {
-                if (!cardHasPawPrint) {
-                    Card card = new AttackCard();
-                    drawDeck.addCard(card);
-                }
-            } else if (numOfPlayers >= 7 && numOfPlayers <= 10) {
-                Card card = new AttackCard();
-                drawDeck.addCard(card);
-            }
-
-            numOfCardsUntilRequiredCountIsReached--;
-        }
-
-        if (numOfCardsUntilRequiredCountIsReached != 0) {
-            throw new IllegalArgumentException("File does not match size of Party Pack deck");
-        }
-
-        return drawDeck;
-    }
 
 }
