@@ -1,7 +1,7 @@
 package DataSource;
 
-import System.Card;
-import System.AttackCard;
+import system.Card;
+import system.AttackCard;
 
 import java.io.File;
 import java.io.FileNotFoundException;

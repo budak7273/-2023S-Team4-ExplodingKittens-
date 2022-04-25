@@ -3,7 +3,7 @@ package DataSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import System.Card;
+import system.Card;
 
 import java.io.File;
 import java.util.List;
