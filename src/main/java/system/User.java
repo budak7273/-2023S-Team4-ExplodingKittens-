@@ -46,6 +46,10 @@ public class User {
         return this.alive;
     }
 
+    public void die(){
+        this.alive = false;
+    }
+
     public boolean checkForSpecialEffectPotential() {
         return false;
     }
