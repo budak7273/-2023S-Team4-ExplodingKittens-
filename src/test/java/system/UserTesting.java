@@ -60,4 +60,12 @@ public class UserTesting {
         Assertions.assertEquals(card2, user.getHand().get(1));
     }
 
+    @Test
+    public void testCheckForSpecialEffectPotential_EmptyHand(){
+        ArrayList<Card> list = new ArrayList<Card>();
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+
+    }
+
 }

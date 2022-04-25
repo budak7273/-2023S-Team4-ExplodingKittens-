@@ -45,4 +45,8 @@ public class User {
     public boolean isAlive() {
         return this.alive;
     }
+
+    public boolean checkForSpecialEffectPotential() {
+        return false;
+    }
 }
