@@ -126,6 +126,32 @@ public class GameStateTesting {
         Assertions.assertEquals(expected, gameState.getPlayerQueue());
 
         EasyMock.verify(boardMock);
+    }
 
+    @Test
+    public void testTransitionToNextAlive_withThreeUsersTwoDead() {
+        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
+
+        Queue<User> playerQueue = new LinkedList<User>();
+        User user1 = new User();
+        user1.die();
+        User user2 = new User();
+        user2.die();
+        User user3 = new User();
+        playerQueue.add(user1);
+        playerQueue.add(user2);
+        playerQueue.add(user3);
+
+        GameState gameState = new GameState(playerQueue, boardMock);
+        gameState.transitionToNextTurn();
+
+        Queue<User> expected = new LinkedList<User>();
+        expected.add(user3);
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+        EasyMock.verify(boardMock);
     }
 }
