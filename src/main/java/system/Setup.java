@@ -5,19 +5,20 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Setup {
-    int numOfPlayers;
+    private int numOfPlayers;
     private final int minPlayers = 2;
     private final int maxPlayersWithPawprint = 3;
     private final int minPlayersWithoutPawprint = 4;
     private final int maxPlayersWithoutPawprint = 7;
     private final int maxPlayers = 10;
+    private final int totalCardCount = 120;
 
 
-    public Setup(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
+    public Setup(final int playerCount) {
+        this.numOfPlayers = playerCount;
     }
 
-    public Queue<User> createUsers(List<String> names) {
+    public Queue<User> createUsers(final List<String> names) {
         if (names == null) {
             throw new NullPointerException();
         }
@@ -39,7 +40,7 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(File cardInfoFile) {
+    public DrawDeck createDrawDeck(final File cardInfoFile) {
         DrawDeck drawDeck = new DrawDeck();
         try {
             Scanner cardInfoScanner = new Scanner(cardInfoFile);
@@ -50,12 +51,14 @@ public class Setup {
         return drawDeck;
     }
 
-    public DiscardDeck createDiscardDeck(){ return new DiscardDeck();   }
+    public DiscardDeck createDiscardDeck() {
+        return new DiscardDeck();
+    }
 
-    private DrawDeck createDrawDeckUsingScanner(Scanner cardInfoScanner) {
+    private DrawDeck createDrawDeckUsingScanner(final Scanner cardInfoScanner) {
         DrawDeck drawDeck = new DrawDeck();
         String header = cardInfoScanner.nextLine();
-        int numOfCardsUntilRequiredCountIsReached = 120;
+        int numOfCardsUntilRequiredCountIsReached = totalCardCount;
 
         int line = 0;
         while (cardInfoScanner.hasNextLine()) {
@@ -65,26 +68,33 @@ public class Setup {
             boolean cardHasPawPrint = Boolean.parseBoolean(cardProperties[1]);
 
             // TODO: move this logic to an enum class
-            String[] validTypes = new String[] {"Attack", "Exploding Kitten", "Defuse", "Skip", "Favor", "Shuffle",
-            "Beard Cat", "Tacocat", "Hairy Potato Cat", "Rainbow-Ralphing Cat", "Cattermelon", "Feral Cat",
-            "Draw From The Bottom", "Nope", "Alter The Future", "Targeted Attack", "See The Future"};
+            String[] validTypes = new String[] {"Attack", "Exploding Kitten",
+                    "Defuse", "Skip", "Favor", "Shuffle",
+            "Beard Cat", "Tacocat", "Hairy Potato Cat", "Rainbow-Ralphing Cat",
+                    "Cattermelon", "Feral Cat",
+            "Draw From The Bottom", "Nope", "Alter The Future",
+                    "Targeted Attack", "See The Future"};
             if (!Arrays.stream(validTypes).anyMatch(cardType::equals)) {
-                throw new IllegalArgumentException("Invalid card type " + cardType + " found in file");
+                throw new IllegalArgumentException("Invalid card type "
+                        + cardType + " found in file");
             }
 
-            // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
-            if (numOfPlayers >= minPlayers && numOfPlayers <= maxPlayersWithPawprint) {
+            // TODO: it's using attackCard() as dummy here.
+            //  Fix it with necessary cards.
+            if (numOfPlayers >= minPlayers
+                    && numOfPlayers <= maxPlayersWithPawprint) {
                 if (cardHasPawPrint) {
                     Card card = new AttackCard();
                     drawDeck.addCard(card);
                 }
-            } else if (numOfPlayers >= minPlayersWithoutPawprint &&
-                    numOfPlayers <= maxPlayersWithoutPawprint) {
+            } else if (numOfPlayers >= minPlayersWithoutPawprint
+                    && numOfPlayers <= maxPlayersWithoutPawprint) {
                 if (!cardHasPawPrint) {
                     Card card = new AttackCard();
                     drawDeck.addCard(card);
                 }
-            } else if (numOfPlayers >= maxPlayersWithPawprint && numOfPlayers <= maxPlayersWithoutPawprint) {
+            } else if (numOfPlayers >= maxPlayersWithPawprint
+                    && numOfPlayers <= maxPlayers) {
                 Card card = new AttackCard();
                 drawDeck.addCard(card);
             }
@@ -99,5 +109,4 @@ public class Setup {
 
         return drawDeck;
     }
-
 }
