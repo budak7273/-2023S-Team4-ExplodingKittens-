@@ -6,6 +6,12 @@ import java.util.*;
 
 public class Setup {
     int numOfPlayers;
+    private final int minPlayers = 2;
+    private final int maxPlayersWithPawprint = 3;
+    private final int minPlayersWithoutPawprint = 4;
+    private final int maxPlayersWithoutPawprint = 7;
+    private final int maxPlayers = 10;
+
 
     public Setup(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
@@ -16,7 +22,7 @@ public class Setup {
             throw new NullPointerException();
         }
 
-        if (names.size() < 2 || names.size() > 10) {
+        if (names.size() < minPlayers || names.size() > maxPlayers) {
             throw new IllegalArgumentException();
         }
 
@@ -67,17 +73,18 @@ public class Setup {
             }
 
             // TODO: it's using attackCard() as dummy here. Fix it with necessary cards.
-            if (numOfPlayers >= 2 && numOfPlayers <= 3) {
+            if (numOfPlayers >= minPlayers && numOfPlayers <= maxPlayersWithPawprint) {
                 if (cardHasPawPrint) {
                     Card card = new AttackCard();
                     drawDeck.addCard(card);
                 }
-            } else if (numOfPlayers >= 4 && numOfPlayers <= 7) {
+            } else if (numOfPlayers >= minPlayersWithoutPawprint &&
+                    numOfPlayers <= maxPlayersWithoutPawprint) {
                 if (!cardHasPawPrint) {
                     Card card = new AttackCard();
                     drawDeck.addCard(card);
                 }
-            } else if (numOfPlayers >= 7 && numOfPlayers <= 10) {
+            } else if (numOfPlayers >= maxPlayersWithPawprint && numOfPlayers <= maxPlayersWithoutPawprint) {
                 Card card = new AttackCard();
                 drawDeck.addCard(card);
             }
@@ -86,7 +93,8 @@ public class Setup {
         }
 
         if (numOfCardsUntilRequiredCountIsReached != 0) {
-            throw new IllegalArgumentException("File does not match size of Party Pack deck");
+            throw new IllegalArgumentException("File "
+                    + "does not match size of Party Pack deck");
         }
 
         return drawDeck;
