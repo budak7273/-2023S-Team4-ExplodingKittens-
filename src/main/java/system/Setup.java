@@ -1,24 +1,29 @@
-package System;
+package system;
 
-import DataSource.CardCSVParser;
-
+import datasource.CardCSVParser;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Setup {
-    int numOfPlayers;
+    private int numOfPlayers;
+    private final int minPlayers = 2;
+    private final int maxPlayersWithPawprint = 3;
+    private final int minPlayersWithoutPawprint = 4;
+    private final int maxPlayersWithoutPawprint = 7;
+    private final int maxPlayers = 10;
+    private final int totalCardCount = 120;
 
-    public Setup(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
+    public Setup(final int playerCount) {
+        this.numOfPlayers = playerCount;
     }
 
-    public Queue<User> createUsers(List<String> names) {
+    public Queue<User> createUsers(final List<String> names) {
         if (names == null) {
             throw new NullPointerException();
         }
 
-        if (names.size() < 2 || names.size() > 10) {
+        if (names.size() < minPlayers
+                || names.size() > maxPlayers) {
             throw new IllegalArgumentException();
         }
 
@@ -35,13 +40,15 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(File cardInfoFile) {
+    public DrawDeck createDrawDeck(final File cardInfoFile) {
         DrawDeck drawDeck = new DrawDeck();
         CardCSVParser parser = new CardCSVParser(cardInfoFile);
         List<Card> cardList;
-        if (numOfPlayers >= 2 && numOfPlayers <= 3) {
+        if (numOfPlayers >= minPlayers
+                && numOfPlayers <= maxPlayersWithPawprint) {
             cardList = parser.generateListOfCards(true, false);
-        } else if (numOfPlayers >= 4 && numOfPlayers <= 7) {
+        } else if (numOfPlayers >= minPlayersWithoutPawprint
+                && numOfPlayers <= maxPlayersWithoutPawprint) {
             cardList = parser.generateListOfCards(false, true);
         } else {
             cardList = parser.generateListOfCards(true, true);
@@ -52,6 +59,8 @@ public class Setup {
         return drawDeck;
     }
 
-    public DiscardDeck createDiscardDeck(){ return new DiscardDeck();   }
+    public DiscardDeck createDiscardDeck() {
+        return new DiscardDeck();
+    }
 
 }
