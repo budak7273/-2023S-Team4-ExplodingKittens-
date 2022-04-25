@@ -1,13 +1,13 @@
-package system;
+package System;
 
 public abstract class Card {
-    private final String cardName;
+    private final String name;
 
-    public Card(final String name) {
-        this.cardName = name;
+    public Card(String name) {
+        this.name = name;
     }
 
     public String getName() {
-        return this.cardName;
+        return this.name;
     }
 }

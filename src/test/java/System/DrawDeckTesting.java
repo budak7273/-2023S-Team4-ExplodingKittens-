@@ -1,17 +1,12 @@
-package system;
+package System;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class DrawDeckTesting {
-    @Test
-    public void testGetCards(){
-        DrawDeck deck = new DrawDeck();
-        assertTrue(deck.getCards().isEmpty());
-    }
+
     @Test
     public void testDrawCard_fromEmptyDrawDeck() {
         DrawDeck deck = new DrawDeck();
@@ -27,8 +22,7 @@ public class DrawDeckTesting {
         deck.addCard(new AttackCard());
         deck.drawCard(user);
 
-        assertTrue(deck.getCards().isEmpty());
-        assertTrue(!user.getHand().isEmpty());
+        Assertions.assertTrue(deck.cards.isEmpty());
+        Assertions.assertTrue(!user.hand.isEmpty());
     }
-
 }

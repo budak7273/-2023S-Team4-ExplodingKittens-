@@ -1,32 +1,28 @@
-package system;
+package System;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DrawDeck {
-   private List<Card> cards;
+    List<Card> cards;
 
     public DrawDeck() {
-        cards = new ArrayList<>();
+        cards = new ArrayList<Card>();
     }
     public int getDeckSize() {
         return cards.size();
     }
 
-    public void addCard(final Card card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
 
-    public void drawCard(final User drawingUser) {
+    public void drawCard(User drawingUser) {
         if (cards.isEmpty()) {
-            throw new RuntimeException("Draw deck is empty, "
-                    + "the game was set up improperly.");
+            throw new RuntimeException("Draw deck is empty, the game was set up improperly.");
         }
         Card drawnCard = cards.remove(0);
         drawingUser.addCard(drawnCard);
-    }
-
-    public List<Card> getCards() {
-        return this.cards;
     }
 }

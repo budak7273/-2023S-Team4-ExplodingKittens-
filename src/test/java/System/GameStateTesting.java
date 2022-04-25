@@ -1,6 +1,6 @@
-package system;
+package System;
 
-import presentation.Gameboard;
+import Presentation.Gameboard;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
