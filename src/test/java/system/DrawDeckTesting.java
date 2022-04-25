@@ -28,7 +28,7 @@ public class DrawDeckTesting {
         deck.drawCard(user);
 
         assertTrue(deck.getCards().isEmpty());
-        assertTrue(!user.hand.isEmpty());
+        assertTrue(!user.getHand().isEmpty());
     }
 
 }
