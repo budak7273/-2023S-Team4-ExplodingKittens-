@@ -1,6 +1,6 @@
 package system;
 
-import DataSource.CardCSVParser;
+import dataSource.CardCSVParser;
 import java.io.File;
 import java.util.*;
 

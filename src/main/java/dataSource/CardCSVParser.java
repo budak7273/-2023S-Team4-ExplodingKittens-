@@ -1,4 +1,4 @@
-package DataSource;
+package dataSource;
 
 import system.Card;
 import system.AttackCard;
