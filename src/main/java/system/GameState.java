@@ -22,8 +22,17 @@ public class GameState {
             throw new IllegalArgumentException(
                     "Illegal number of players in queue");
         }
+
         User userForCurrentTurn = playerQueue.poll();
-        playerQueue.add(userForCurrentTurn);
+
+        if(userForCurrentTurn.isAlive()){
+            playerQueue.add(userForCurrentTurn);
+        }
+
+        while(!getUserForCurrentTurn().isAlive()){
+            playerQueue.poll();
+        }
+
         gameboard.updateUI();
     }
 
@@ -38,4 +47,10 @@ public class GameState {
     public List<Card> getDeckForCurrentTurn() {
         return getUserForCurrentTurn().getHand();
     }
+
+    public Queue<User> getPlayerQueue() {
+        return this.playerQueue;
+    }
+
+
 }
