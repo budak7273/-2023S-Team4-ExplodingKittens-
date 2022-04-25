@@ -78,16 +78,6 @@ public class UserTesting {
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
     }
 
-//    @Test
-//    public void testCheckForSpecialEffectPotential_TwoDifferentCard(){
-//        ArrayList<Card> list = new ArrayList<Card>();
-//        Card card = new AttackCard();
-//        list.add(card);
-//        Card card2 = new AttackCard();
-//        User user = new User("test1", false, list);
-//        Assertions.assertFalse(user.checkForSpecialEffectPotential());
-//    }
-
     @Test
     public void testVerifySpecialEffectForCardsSelected_EmptyHandWithNonEmptyList(){
         ArrayList<Card> list = new ArrayList<Card>();
