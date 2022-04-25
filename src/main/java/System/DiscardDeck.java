@@ -1,8 +1,8 @@
-package System;
+package system;
 
-public class DiscardDeck {
+public final class DiscardDeck {
 
-    public int getDeckSize(){
+    public int getDeckSize() {
         return 0;
     }
 }

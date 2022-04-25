@@ -1,7 +1,7 @@
-package Presentation;
+package presentation;
 
-public class InvalidPlayerCountException extends Exception{
-    public InvalidPlayerCountException(String s) {
+public class InvalidPlayerCountException extends Exception {
+    public InvalidPlayerCountException(final String s) {
     super(s);
     }
 }
