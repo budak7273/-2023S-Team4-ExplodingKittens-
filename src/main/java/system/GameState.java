@@ -22,18 +22,28 @@ public class GameState {
             throw new IllegalArgumentException(
                     "Illegal number of players in queue");
         }
-
         User userForCurrentTurn = playerQueue.poll();
-
-        if(userForCurrentTurn.isAlive()){
+        if(userForCurrentTurn.isAlive()) {
             playerQueue.add(userForCurrentTurn);
         }
-
-        while(!getUserForCurrentTurn().isAlive()){
+        while(!getUserForCurrentTurn().isAlive()) {
             playerQueue.poll();
         }
 
         gameboard.updateUI();
+    }
+
+    public void dealHands(DrawDeck deck) {
+        if (playerQueue.size() < 2 || playerQueue.size() > 10) {
+            throw new IllegalArgumentException("Illegal number of players in queue");
+        }
+
+        int cardsToDraw = 7;
+        for (int i=0; i<cardsToDraw; i++) {
+            for (User player: playerQueue) {
+                deck.drawInitialCard(player);
+            }
+        }
     }
 
     public User getUserForCurrentTurn() {
