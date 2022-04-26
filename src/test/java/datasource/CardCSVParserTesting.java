@@ -11,8 +11,8 @@ import java.util.List;
 
 public class CardCSVParserTesting {
 
-    private static final int PARTY_PACK_SIZE = 120;
-    private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
+    private static final int PARTY_PACK_SIZE = 101;
+    private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
 
     @Test
     public void testGenerateListOfCards_withEmptyInput() {

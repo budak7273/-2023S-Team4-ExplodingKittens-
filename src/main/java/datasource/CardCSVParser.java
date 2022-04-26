@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class CardCSVParser {
 
     private File csvFile;
-    private final int maxCardCount = 120;
+    private final int maxCardCount = 101;
 
     public CardCSVParser(final File csv) {
         this.csvFile = csv;
