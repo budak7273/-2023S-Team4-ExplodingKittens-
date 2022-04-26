@@ -76,6 +76,60 @@ public class GameStateTesting {
     }
 
     @Test
+    public void testTransitionToNextAlive_withThreeAliveUsers() {
+        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
+
+        Queue<User> playerQueue = new LinkedList<User>();
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
+        playerQueue.add(user1);
+        playerQueue.add(user2);
+        playerQueue.add(user3);
+
+        GameState gameState = new GameState(playerQueue, boardMock);
+        gameState.transitionToNextTurn();
+
+        Queue<User> expected = new LinkedList<User>();
+        expected.add(user2);
+        expected.add(user3);
+        expected.add(user1);
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+        EasyMock.verify(boardMock);
+    }
+
+    @Test
+    public void testTransitionToNextAlive_withThreeUsersFirstDead() {
+        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
+
+        Queue<User> playerQueue = new LinkedList<User>();
+        User user1 = new User();
+        user1.die();
+        User user2 = new User();
+        User user3 = new User();
+        playerQueue.add(user1);
+        playerQueue.add(user2);
+        playerQueue.add(user3);
+
+        GameState gameState = new GameState(playerQueue, boardMock);
+        gameState.transitionToNextTurn();
+
+        Queue<User> expected = new LinkedList<User>();
+        expected.add(user2);
+        expected.add(user3);
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+        EasyMock.verify(boardMock);
+    }
+
+    @Test
     public void testDistributeCards1User() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
@@ -83,6 +137,62 @@ public class GameStateTesting {
         GameState gameState = new GameState(users, new Gameboard());
         Executable executable = () -> gameState.dealHands(new DrawDeck());
         Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testTransitionToNextAlive_withThreeUsersTwoDead() {
+        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
+
+        Queue<User> playerQueue = new LinkedList<User>();
+        User user1 = new User();
+        user1.die();
+        User user2 = new User();
+        user2.die();
+        User user3 = new User();
+        playerQueue.add(user1);
+        playerQueue.add(user2);
+        playerQueue.add(user3);
+
+        GameState gameState = new GameState(playerQueue, boardMock);
+        gameState.transitionToNextTurn();
+
+        Queue<User> expected = new LinkedList<User>();
+        expected.add(user3);
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+        EasyMock.verify(boardMock);
+    }
+
+    @Test
+    public void testTransitionToNextAlive_withTenUsersAndU1U2U4Dead() {
+        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
+
+        Queue<User> playerQueue = new LinkedList<User>();
+        Queue<User> expected = new LinkedList<User>();
+
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            if (i == 0 || i == 1 || i == 3) {
+                user.die();
+            }
+            playerQueue.add(user);
+            if (i != 0 && i != 1) {
+                expected.add(user);
+            }
+        }
+
+        GameState gameState = new GameState(playerQueue, boardMock);
+        gameState.transitionToNextTurn();
+
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+        EasyMock.verify(boardMock);
     }
 
     @Test

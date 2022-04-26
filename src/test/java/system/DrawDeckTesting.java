@@ -5,9 +5,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.EmptyStackException;
 
 public class DrawDeckTesting {
+    @Test
+    public void testGetCards(){
+        DrawDeck deck = new DrawDeck();
+        assertTrue(deck.getCards().isEmpty());
+    }
 
     @Test
     public void testDrawCard_fromEmptyDrawDeck() {
@@ -24,8 +30,8 @@ public class DrawDeckTesting {
         deck.addCard(new AttackCard());
         deck.drawCard(user);
 
-        Assertions.assertTrue(deck.cards.isEmpty());
-        Assertions.assertTrue(!user.getHand().isEmpty());
+        assertTrue(deck.getCards().isEmpty());
+        assertTrue(!user.getHand().isEmpty());
     }
 
     @Test

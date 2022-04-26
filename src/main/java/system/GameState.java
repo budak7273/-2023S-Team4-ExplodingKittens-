@@ -8,18 +8,28 @@ import java.util.Queue;
 public class GameState {
     private final Queue<User> playerQueue;
     private final Gameboard gameboard;
+    private final int minPlayers = 2;
+    private final int maxPlayers = 10;
 
-    public GameState(Queue<User> playerQueue, Gameboard gameboard) {
-        this.playerQueue = playerQueue;
-        this.gameboard = gameboard;
+    public GameState(final Queue<User> pq, final Gameboard g) {
+        this.playerQueue = pq;
+        this.gameboard = g;
     }
 
     public void transitionToNextTurn() {
-        if (playerQueue.size() < 2 || playerQueue.size() > 10) {
-            throw new IllegalArgumentException("Illegal number of players in queue");
+        if (playerQueue.size() < minPlayers
+                || playerQueue.size() > maxPlayers) {
+            throw new IllegalArgumentException(
+                    "Illegal number of players in queue");
         }
         User userForCurrentTurn = playerQueue.poll();
-        playerQueue.add(userForCurrentTurn);
+        if(userForCurrentTurn.isAlive()) {
+            playerQueue.add(userForCurrentTurn);
+        }
+        while(!getUserForCurrentTurn().isAlive()) {
+            playerQueue.poll();
+        }
+
         gameboard.updateUI();
     }
 
@@ -47,4 +57,10 @@ public class GameState {
     public List<Card> getDeckForCurrentTurn() {
         return getUserForCurrentTurn().getHand();
     }
+
+    public Queue<User> getPlayerQueue() {
+        return this.playerQueue;
+    }
+
+
 }
