@@ -71,4 +71,15 @@ public class DrawDeckTesting {
         deck.shuffle();
         Assertions.assertEquals(0, deck.getDeckSize());
     }
+
+    @Test
+    public void testShuffle_onDeckOfOneCard() {
+        DrawDeck deck = new DrawDeck();
+        Card card = new AttackCard();
+        deck.addCard(card);
+        deck.shuffle();
+
+        Assertions.assertEquals(1, deck.getDeckSize());
+        Assertions.assertEquals(card, deck.getCards().get(0));
+    }
 }
