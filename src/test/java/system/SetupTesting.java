@@ -1,4 +1,4 @@
-package System;
+package system;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -168,6 +168,13 @@ public class SetupTesting {
         File cardInfoFile = new File(path);
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testCreateDiscardDeck(){
+        Setup setup = new Setup(2);
+        DiscardDeck discDeck = setup.createDiscardDeck();
+        Assertions.assertTrue(discDeck.getDeckSize() == 0);
     }
 
 }

@@ -1,4 +1,4 @@
-package System;
+package system;
 
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
@@ -25,7 +25,7 @@ public class DrawDeckTesting {
         deck.drawCard(user);
 
         Assertions.assertTrue(deck.cards.isEmpty());
-        Assertions.assertTrue(!user.hand.isEmpty());
+        Assertions.assertTrue(!user.getHand().isEmpty());
     }
 
     @Test

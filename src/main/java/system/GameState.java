@@ -1,6 +1,6 @@
-package System;
+package system;
 
-import Presentation.Gameboard;
+import presentation.Gameboard;
 
 import java.util.List;
 import java.util.Queue;
