@@ -69,10 +69,8 @@ public class CardCSVParserTesting {
 
         CardType[] cardTypes = CardType.class.getEnumConstants();
         for (CardType cardType : cardTypes) {
-            System.out.print(cardType);
+            if (cardType != CardType.DEFUSE && cardType != CardType.EXPLODING_KITTEN)
             Assertions.assertTrue(cardList.stream().anyMatch(card -> card.cardType.equals(cardType)));
-            System.out.print(" checked out");
-            System.out.println();
         }
     }
 
