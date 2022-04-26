@@ -24,6 +24,7 @@ public class Gameboard {
         }
 
         initializeGameState(usernames);
+        this.gameState.dealHands(this.drawDeck);
         initializeGameView();
     }
 
