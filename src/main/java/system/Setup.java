@@ -56,6 +56,7 @@ public class Setup {
         for (Card card : cardList) {
             drawDeck.addCard(card);
         }
+        drawDeck.shuffle();
         return drawDeck;
     }
 
