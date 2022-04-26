@@ -64,4 +64,11 @@ public class DrawDeckTesting {
         Assertions.assertEquals(1, deck.getDeckSize());
         EasyMock.verify(player, drawnCard, explodeCard);
     }
+
+    @Test
+    public void testShuffle_onEmptyDeck() {
+        DrawDeck deck = new DrawDeck();
+        deck.shuffle();
+        Assertions.assertEquals(0, deck.getDeckSize());
+    }
 }

@@ -41,4 +41,7 @@ public class DrawDeck {
         }
         drawer.addCard(drawnCard);
     }
+
+    public void shuffle() {
+    }
 }
