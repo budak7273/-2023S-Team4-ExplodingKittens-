@@ -1,7 +1,10 @@
-package system;
+package system.cards;
 
-public class ExplodingCard extends Card{
+import datasource.CardType;
+import system.Card;
+
+public class ExplodingCard extends Card {
     public ExplodingCard() {
-        super("Exploding Kitten");
+        super(CardType.EXPLODING_KITTEN);
     }
 }

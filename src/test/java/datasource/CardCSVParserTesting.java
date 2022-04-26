@@ -69,7 +69,10 @@ public class CardCSVParserTesting {
 
         CardType[] cardTypes = CardType.class.getEnumConstants();
         for (CardType cardType : cardTypes) {
-            Assertions.assertTrue(cardList.stream().anyMatch(card -> card.cardType == cardType));
+            System.out.print(cardType);
+            Assertions.assertTrue(cardList.stream().anyMatch(card -> card.cardType.equals(cardType)));
+            System.out.print(" checked out");
+            System.out.println();
         }
     }
 

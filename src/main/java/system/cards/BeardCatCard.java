@@ -3,8 +3,8 @@ package system.cards;
 import datasource.CardType;
 import system.Card;
 
-public class ExplodingCard extends Card {
-    public ExplodingCard() {
-        super(CardType.EXPLODING_KITTEN);
+public class BeardCatCard extends Card {
+    public BeardCatCard() {
+        super(CardType.BEARD_CAT);
     }
 }
