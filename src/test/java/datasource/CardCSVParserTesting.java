@@ -6,6 +6,7 @@ import org.junit.jupiter.api.function.Executable;
 import system.Card;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 public class CardCSVParserTesting {
@@ -65,6 +66,11 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(true, false);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_PAW_ONLY_SIZE);
+
+        CardType[] cardTypes = CardType.class.getEnumConstants();
+        for (CardType cardType : cardTypes) {
+            Assertions.assertTrue(cardList.stream().anyMatch(card -> card.cardType == cardType));
+        }
     }
 
     @Test
@@ -84,6 +90,5 @@ public class CardCSVParserTesting {
         List<Card> cardList = parser.generateListOfCards(true, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
     }
-
 
 }
