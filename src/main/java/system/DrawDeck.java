@@ -1,6 +1,7 @@
 package system;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DrawDeck {
@@ -43,5 +44,6 @@ public class DrawDeck {
     }
 
     public void shuffle() {
+        Collections.shuffle(this.cards);
     }
 }
