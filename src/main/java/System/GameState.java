@@ -24,7 +24,7 @@ public class GameState {
     }
 
     public void dealHands(DrawDeck deck) {
-        if (playerQueue.size() < 2) {
+        if (playerQueue.size() < 2 || playerQueue.size() > 10) {
             throw new IllegalArgumentException("Illegal number of players in queue");
         }
 

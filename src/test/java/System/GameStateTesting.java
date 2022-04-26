@@ -131,4 +131,16 @@ public class GameStateTesting {
                 players.get(6), players.get(7), players.get(8),
                 players.get(9), setDeck);
     }
+
+    @Test
+    public void testDistributeCards11Users() {
+        Queue<User> users = new LinkedList<>();
+        for (int i=0; i<11; i++) {
+            users.add(new User());
+        }
+
+        GameState gameState = new GameState(users, new Gameboard());
+        Executable executable = () -> gameState.dealHands(new DrawDeck());
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 }
