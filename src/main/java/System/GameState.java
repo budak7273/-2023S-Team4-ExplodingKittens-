@@ -23,8 +23,17 @@ public class GameState {
         gameboard.updateUI();
     }
 
-    public void dealHands() {
-        throw new IllegalArgumentException("Illegal number of players in queue");
+    public void dealHands(DrawDeck deck) {
+        if (playerQueue.size() < 2) {
+            throw new IllegalArgumentException("Illegal number of players in queue");
+        }
+
+        int cardsToDraw = 7;
+        for (int i=0; i<cardsToDraw; i++) {
+            for (User player: playerQueue) {
+                deck.drawInitialCard(player);
+            }
+        }
     }
 
     public User getUserForCurrentTurn() {

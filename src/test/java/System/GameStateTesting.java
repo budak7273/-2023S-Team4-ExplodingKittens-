@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameStateTesting {
@@ -75,11 +77,32 @@ public class GameStateTesting {
 
     @Test
     public void testDistributeCards1User() {
-        Queue<User> users = new LinkedList<User>();
+        Queue<User> users = new LinkedList<>();
         users.add(new User());
 
         GameState gameState = new GameState(users, new Gameboard());
-        Executable executable = gameState::dealHands;
+        Executable executable = () -> gameState.dealHands(new DrawDeck());
         Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testDistributeCards2Users() {
+        User player1 = EasyMock.createMock(User.class);
+        User player2 = EasyMock.createMock(User.class);
+        DrawDeck setDeck = EasyMock.createMock(DrawDeck.class);
+        for (int i=0; i<7; i++) {
+            setDeck.drawInitialCard(player1);
+            setDeck.drawInitialCard(player2);
+        }
+        EasyMock.replay(player1, player2, setDeck);
+
+        Queue<User> users = new LinkedList<>();
+        users.add(player1);
+        users.add(player2);
+
+        GameState gameState = new GameState(users, new Gameboard());
+        gameState.dealHands(setDeck);
+
+        EasyMock.verify(player1, player2, setDeck);
     }
 }
