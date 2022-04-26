@@ -59,6 +59,18 @@ public class CardCSVParserTesting {
         Assertions.assertTrue(cardList.isEmpty());
     }
 
+    private boolean cardListContainsAllTypesOfRegularCards(List<Card> cardList) {
+        CardType[] cardTypes = CardType.class.getEnumConstants();
+        for (CardType cardType : cardTypes) {
+            if (cardType != CardType.DEFUSE && cardType != CardType.EXPLODING_KITTEN) {
+                if (!cardList.stream().anyMatch(card -> card.cardType == cardType)) {
+                    return false;
+                };
+            }
+        }
+        return true;
+    }
+
     @Test
     public void testGenerateListOfCards_withPawOnly() {
         String path = "src/test/resources/fullfile.csv";
@@ -67,12 +79,9 @@ public class CardCSVParserTesting {
         List<Card> cardList = parser.generateListOfCards(true, false);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_PAW_ONLY_SIZE);
 
-        CardType[] cardTypes = CardType.class.getEnumConstants();
-        for (CardType cardType : cardTypes) {
-            if (cardType != CardType.DEFUSE && cardType != CardType.EXPLODING_KITTEN)
-            Assertions.assertTrue(cardList.stream().anyMatch(card -> card.cardType.equals(cardType)));
-        }
+        Assertions.assertTrue(cardListContainsAllTypesOfRegularCards(cardList));
     }
+
 
     @Test
     public void testGenerateListOfCards_withNoPawOnly() {
@@ -81,6 +90,8 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(false, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE);
+
+        Assertions.assertTrue(cardListContainsAllTypesOfRegularCards(cardList));
     }
 
     @Test
@@ -90,6 +101,8 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(true, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
+
+        Assertions.assertTrue(cardListContainsAllTypesOfRegularCards(cardList));
     }
 
 }
