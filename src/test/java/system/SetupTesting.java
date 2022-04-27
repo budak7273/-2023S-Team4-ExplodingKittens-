@@ -212,32 +212,32 @@ public class SetupTesting {
         EasyMock.verify(player1, player2, drawDeck);
     }
 
-//    @Test
-//    public void testDistributeCards10Users() {
-//        List<User> players = new ArrayList<User>();
-//        for (int i=0; i<10; i++) {
-//            players.add(EasyMock.createMock(User.class));
-//        }
-//        DrawDeck setDeck = EasyMock.createMock(DrawDeck.class);
-//        for (int i=0; i<7; i++) {
-//            players.forEach(setDeck::drawInitialCard);
-//        }
-//        EasyMock.replay(players.get(0), players.get(1), players.get(2),
-//                players.get(3), players.get(4), players.get(5),
-//                players.get(6), players.get(7), players.get(8),
-//                players.get(9), setDeck);
-//
-//        Queue<User> users = new LinkedList<>(players);
-//
-//        GameState gameState = new GameState(users, new Gameboard());
-//        gameState.dealHands(setDeck);
-//
-//        EasyMock.verify(players.get(0), players.get(1), players.get(2),
-//                players.get(3), players.get(4), players.get(5),
-//                players.get(6), players.get(7), players.get(8),
-//                players.get(9), setDeck);
-//    }
-//
+    @Test
+    public void testDistributeCards10Users() {
+        List<User> players = new ArrayList<User>();
+        for (int i=0; i<10; i++) {
+            players.add(EasyMock.createMock(User.class));
+        }
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+        for (int i=0; i<7; i++) {
+            players.forEach(drawDeck::drawInitialCard);
+        }
+        EasyMock.replay(players.get(0), players.get(1), players.get(2),
+                players.get(3), players.get(4), players.get(5),
+                players.get(6), players.get(7), players.get(8),
+                players.get(9), drawDeck);
+
+        Queue<User> users = new LinkedList<>(players);
+
+        Setup setup = new Setup(10);
+        setup.dealHands(users, drawDeck);
+
+        EasyMock.verify(players.get(0), players.get(1), players.get(2),
+                players.get(3), players.get(4), players.get(5),
+                players.get(6), players.get(7), players.get(8),
+                players.get(9), drawDeck);
+    }
+
 //    @Test
 //    public void testDistributeCards11Users() {
 //        Queue<User> users = new LinkedList<>();
