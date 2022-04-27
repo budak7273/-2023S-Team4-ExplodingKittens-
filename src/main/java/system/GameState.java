@@ -33,8 +33,6 @@ public class GameState {
         gameboard.updateUI();
     }
 
-
-
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
