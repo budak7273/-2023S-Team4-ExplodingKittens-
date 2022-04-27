@@ -191,27 +191,27 @@ public class SetupTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
-//    @Test
-//    public void testDistributeCards2Users() {
-//        User player1 = EasyMock.createMock(User.class);
-//        User player2 = EasyMock.createMock(User.class);
-//        DrawDeck setDeck = EasyMock.createMock(DrawDeck.class);
-//        for (int i=0; i<7; i++) {
-//            setDeck.drawInitialCard(player1);
-//            setDeck.drawInitialCard(player2);
-//        }
-//        EasyMock.replay(player1, player2, setDeck);
-//
-//        Queue<User> users = new LinkedList<>();
-//        users.add(player1);
-//        users.add(player2);
-//
-//        GameState gameState = new GameState(users, new Gameboard());
-//        gameState.dealHands(setDeck);
-//
-//        EasyMock.verify(player1, player2, setDeck);
-//    }
-//
+    @Test
+    public void testDistributeCards2Users() {
+        User player1 = EasyMock.createMock(User.class);
+        User player2 = EasyMock.createMock(User.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+        for (int i=0; i<7; i++) {
+            drawDeck.drawInitialCard(player1);
+            drawDeck.drawInitialCard(player2);
+        }
+        EasyMock.replay(player1, player2, drawDeck);
+
+        Queue<User> users = new LinkedList<>();
+        users.add(player1);
+        users.add(player2);
+
+        Setup setup = new Setup(2);
+        setup.dealHands(users, drawDeck);
+
+        EasyMock.verify(player1, player2, drawDeck);
+    }
+
 //    @Test
 //    public void testDistributeCards10Users() {
 //        List<User> players = new ArrayList<User>();
