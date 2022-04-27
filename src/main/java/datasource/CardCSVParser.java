@@ -1,7 +1,6 @@
 package datasource;
 
 import system.Card;
-import system.AttackCard;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,9 +12,9 @@ import java.util.Scanner;
 public class CardCSVParser {
 
     private File csvFile;
-    private final int maxCardCount = 120;
-    public CardCSVParser(final File csv) {
+    private final int maxCardCount = 101;
 
+    public CardCSVParser(final File csv) {
         this.csvFile = csv;
     }
 
@@ -29,15 +28,15 @@ public class CardCSVParser {
         while (scanner.hasNextLine()) {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
-            // TODO: it's using attackCard() as dummy here.
-            //  Fix it with necessary cards.
+            String cardTypeName = cardProperties[0];
+            Card card = CardFactory.createCardOfType(CardType.valueOf(cardTypeName));
             if (includePaw
                     && Boolean.parseBoolean(cardProperties[1])) {
-                cardList.add(new AttackCard());
+                cardList.add(card);
             }
             if (includeNoPaw
                     && !Boolean.parseBoolean(cardProperties[1])) {
-                cardList.add(new AttackCard());
+                cardList.add(card);
             }
         }
 
@@ -59,8 +58,8 @@ public class CardCSVParser {
             final int typeCount = 17;
             String[] types = new String[typeCount];
             int i = 0;
-            for (Enum typeEnum : CardType.class.getEnumConstants()) {
-                types[i] = typeEnum.toString();
+            for (CardType typeEnum : CardType.class.getEnumConstants()) {
+                types[i] = typeEnum.name();
                 i++;
             }
             if (Arrays.stream(types).noneMatch(cardType::equals)) {

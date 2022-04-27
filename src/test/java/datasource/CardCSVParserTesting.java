@@ -6,12 +6,13 @@ import org.junit.jupiter.api.function.Executable;
 import system.Card;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 public class CardCSVParserTesting {
 
-    private static final int PARTY_PACK_SIZE = 120;
-    private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
+    private static final int PARTY_PACK_SIZE = 101;
+    private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
 
     @Test
     public void testGenerateListOfCards_withEmptyInput() {
@@ -58,6 +59,18 @@ public class CardCSVParserTesting {
         Assertions.assertTrue(cardList.isEmpty());
     }
 
+    private boolean cardListContainsAllTypesOfRegularCards(List<Card> cardList) {
+        CardType[] cardTypes = CardType.class.getEnumConstants();
+        for (CardType cardType : cardTypes) {
+            if (cardType != CardType.DEFUSE && cardType != CardType.EXPLODING_KITTEN) {
+                if (!cardList.stream().anyMatch(card -> card.cardType == cardType)) {
+                    return false;
+                };
+            }
+        }
+        return true;
+    }
+
     @Test
     public void testGenerateListOfCards_withPawOnly() {
         String path = "src/test/resources/fullfile.csv";
@@ -65,7 +78,10 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(true, false);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_PAW_ONLY_SIZE);
+
+        Assertions.assertTrue(cardListContainsAllTypesOfRegularCards(cardList));
     }
+
 
     @Test
     public void testGenerateListOfCards_withNoPawOnly() {
@@ -74,6 +90,8 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(false, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE);
+
+        Assertions.assertTrue(cardListContainsAllTypesOfRegularCards(cardList));
     }
 
     @Test
@@ -83,7 +101,8 @@ public class CardCSVParserTesting {
         CardCSVParser parser = new CardCSVParser(csvFile);
         List<Card> cardList = parser.generateListOfCards(true, true);
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
-    }
 
+        Assertions.assertTrue(cardListContainsAllTypesOfRegularCards(cardList));
+    }
 
 }

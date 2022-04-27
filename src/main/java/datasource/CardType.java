@@ -1,98 +1,34 @@
 package datasource;
 
 public enum CardType {
-    ATTACK {
-        public String toString() {
-            return "Attack";
-        }
-    },
 
-    EXPLODING_KITTEN {
-        public String toString() {
-            return "Exploding Kitten";
-        }
-    },
-    DEFUSE {
-        public String toString() {
-            return "Defuse";
-        }
-    },
-    SKIP {
-        public String toString() {
-            return "Skip";
-        }
-    },
-    FAVOR {
-        public String toString() {
-            return "Favor";
-        }
-    },
-    SHUFFLE {
-        public String toString() {
-            return "Shuffle";
-        }
-    },
+    ATTACK("Attack"),
+    EXPLODING_KITTEN("Exploding Kitten"),
+    DEFUSE("Defuse"),
+    SKIP("Skip"),
+    FAVOR("Favor"),
+    SHUFFLE("Shuffle"),
+    BEARD_CAT("Beard Cat"),
+    TACO_CAT("Taco Cat"),
+    HAIRY_POTATO_CAT("Hairy Potato Cat"),
+    RAINBOW_RALPHING_CAT("Rainbow-Ralphing Cat"),
+    CATTERMELON("Cattermelon"),
+    FERAL_CAT("Feral Cat"),
+    DRAW_FROM_THE_BOTTOM("Draw From The Bottom"),
+    NOPE("Nope"),
+    ALTER_THE_FUTURE("Alter The Future"),
+    TARGETED_ATTACK("Targeted Attack"),
+    SEE_THE_FUTURE("See The Future");
 
-    BEARD_CAT {
-        public String toString() {
-            return "Beard Cat";
-        }
-    },
-    TACO_CAT {
-        public String toString() {
-            return "Tacocat";
-        }
-    },
+    private final String displayName;
 
-    HAIRY_POTATO_CAT {
-        public String toString() {
-            return "Hairy Potato Cat";
-        }
-    },
-    RAINBOW_RALPHING_CAT {
-        public String toString() {
-            return "Rainbow-Ralphing Cat";
-        }
-    },
+    CardType(String displayName) {
+        this.displayName = displayName;
+    }
 
-    CATTERMELON {
-        public String toString() {
-            return "Cattermelon";
-        }
-    },
-    FERAL_CAT {
-        public String toString() {
-            return "Feral Cat";
-        }
-    },
-
-    DRAW_FROM_THE_BOTTOM {
-        public String toString() {
-            return "Draw From The Bottom";
-        }
-    },
-    NOPE {
-        public String toString() {
-            return "Nope";
-        }
-    },
-
-    ALTER_THE_FUTURE {
-        public String toString() {
-            return "Alter The Future";
-        }
-    },
-    TARGETED_ATTACK {
-        public String toString() {
-            return "Targeted Attack";
-        }
-    },
-
-    SEE_THE_FUTURE {
-        public String toString() {
-            return "See The Future";
-        }
-    };
-
+    @Override
+    public String toString() {
+        return this.displayName;
+    }
 
 }

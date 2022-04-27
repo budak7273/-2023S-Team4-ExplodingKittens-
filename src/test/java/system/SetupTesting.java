@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Queue;
 
 public class SetupTesting {
-    private static final int PARTY_PACK_SIZE = 120;
-    private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
+    private static final int PARTY_PACK_SIZE = 101;
+    private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
     @Test
     public void testCreateUsers_fromEmptyList() {
         Setup setup = new Setup(2);
@@ -104,7 +104,7 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == 44);
+        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_PAW_ONLY_SIZE);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == 44);
+        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_PAW_ONLY_SIZE);
     }
 
     @Test

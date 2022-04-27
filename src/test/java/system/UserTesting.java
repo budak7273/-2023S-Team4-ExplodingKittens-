@@ -3,6 +3,7 @@ package system;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import system.cards.AttackCard;
 
 import java.util.ArrayList;
 

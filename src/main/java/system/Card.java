@@ -1,13 +1,15 @@
 package system;
 
-public abstract class Card {
-    private final String cardName;
+import datasource.CardType;
 
-    public Card(final String name) {
-        this.cardName = name;
+public abstract class Card {
+    public CardType cardType;
+
+    public Card(CardType cardType) {
+        this.cardType = cardType;
     }
 
     public String getName() {
-        return this.cardName;
+        return this.cardType.toString();
     }
 }
