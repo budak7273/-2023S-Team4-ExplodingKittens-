@@ -238,16 +238,17 @@ public class SetupTesting {
                 players.get(9), drawDeck);
     }
 
-//    @Test
-//    public void testDistributeCards11Users() {
-//        Queue<User> users = new LinkedList<>();
-//        for (int i=0; i<11; i++) {
-//            users.add(new User());
-//        }
-//
-//        GameState gameState = new GameState(users, new Gameboard());
-//        Executable executable = () -> gameState.dealHands(new DrawDeck());
-//        Assertions.assertThrows(IllegalArgumentException.class, executable);
-//    }
+    @Test
+    public void testDistributeCards11Users() {
+        Queue<User> users = new LinkedList<>();
+        for (int i=0; i<11; i++) {
+            users.add(new User());
+        }
+        DrawDeck drawDeck = new DrawDeck();
+
+        Setup setup = new Setup(11);
+        Executable executable = () -> setup.dealHands(users, drawDeck);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 
 }
