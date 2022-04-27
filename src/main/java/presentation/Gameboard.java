@@ -24,7 +24,6 @@ public class Gameboard {
         }
 
         initializeGameState(usernames);
-        this.gameState.dealHands(this.drawDeck);
         initializeGameView();
     }
 
@@ -68,9 +67,12 @@ public class Gameboard {
 
     private void initializeGameState(final List<String> usernames) {
         Setup setup = new Setup(usernames.size());
+
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
+        setup.dealHands(this.users, this.drawDeck);
+
         this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this);

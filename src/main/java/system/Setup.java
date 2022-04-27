@@ -60,6 +60,19 @@ public class Setup {
         return drawDeck;
     }
 
+    public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
+        if (playerQueue.size() < 2 || playerQueue.size() > 10) {
+            throw new IllegalArgumentException("Illegal number of players in queue");
+        }
+
+        int cardsToDraw = 7;
+        for (int i=0; i<cardsToDraw; i++) {
+            for (User player: playerQueue) {
+                deck.drawInitialCard(player);
+            }
+        }
+    }
+
     public DiscardDeck createDiscardDeck() {
         return new DiscardDeck();
     }
