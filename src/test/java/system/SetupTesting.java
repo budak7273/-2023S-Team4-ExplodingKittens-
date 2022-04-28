@@ -109,8 +109,12 @@ public class SetupTesting {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
+
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
+
+        int numberOfDefuseCardsToAdd = 1;
         Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_PAW_ONLY_SIZE);
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test

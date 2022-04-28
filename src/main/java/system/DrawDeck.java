@@ -1,5 +1,8 @@
 package system;
 
+import datasource.CardType;
+import system.cards.DefuseCard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,5 +50,15 @@ public class DrawDeck {
 
     public void shuffle() {
         Collections.shuffle(this.cards);
+    }
+
+    public int getDefuseCount() {
+        int defuseCount = 0;
+        for (Card card : cards) {
+            if (card.cardType == CardType.DEFUSE) {
+                defuseCount++;
+            }
+        }
+        return defuseCount;
     }
 }
