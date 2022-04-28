@@ -12,7 +12,7 @@ public enum Messages {
 
     public static String getMessage(Locale currentLocation, String key){
         ResourceBundle messages =
-                ResourceBundle.getBundle("src/main/resources/message", currentLocation);
+                ResourceBundle.getBundle("message", currentLocation);
         String value = messages.getString(key);
         return value;
     }
