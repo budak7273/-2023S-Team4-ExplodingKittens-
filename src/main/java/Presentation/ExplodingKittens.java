@@ -1,4 +1,4 @@
-package presentation;
+package Presentation;
 
 public class ExplodingKittens {
     public static void main(String[] args){
