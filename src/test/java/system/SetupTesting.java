@@ -219,28 +219,31 @@ public class SetupTesting {
 
     @Test
     public void testDistributeCards10Users() {
-        List<User> players = new ArrayList<User>();
+        Queue<User> users = new LinkedList<>();
         for (int i=0; i<10; i++) {
-            players.add(EasyMock.createMock(User.class));
+            users.add(EasyMock.createMock(User.class));
         }
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        for (int i=0; i<7; i++) {
-            players.forEach(drawDeck::drawInitialCard);
-        }
-        EasyMock.replay(players.get(0), players.get(1), players.get(2),
-                players.get(3), players.get(4), players.get(5),
-                players.get(6), players.get(7), players.get(8),
-                players.get(9), drawDeck);
 
-        Queue<User> users = new LinkedList<>(players);
+        for (User user : users) {
+            for (int i=0; i<7; i++) {
+                drawDeck.drawInitialCard(user);
+            }
+            user.addCard(isA(DefuseCard.class));
+        }
+
+        for (User user : users) {
+            EasyMock.replay(user);
+        }
+        EasyMock.replay(drawDeck);
 
         Setup setup = new Setup(10);
         setup.dealHands(users, drawDeck);
 
-        EasyMock.verify(players.get(0), players.get(1), players.get(2),
-                players.get(3), players.get(4), players.get(5),
-                players.get(6), players.get(7), players.get(8),
-                players.get(9), drawDeck);
+        for (User user : users) {
+            EasyMock.verify(user);
+        }
+        EasyMock.verify(drawDeck);
     }
 
     @Test
