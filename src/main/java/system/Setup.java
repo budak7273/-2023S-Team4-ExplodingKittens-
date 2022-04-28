@@ -43,22 +43,31 @@ public class Setup {
     }
 
     public DrawDeck createDrawDeck(final File cardInfoFile) {
-        DrawDeck drawDeck = new DrawDeck();
+        List<Card> cardList = generateCardList(cardInfoFile);
+        DrawDeck drawDeck = generateDrawDeck(cardList);
+        drawDeck.shuffle();
+        return drawDeck;
+    }
+
+    private List<Card> generateCardList(File cardInfoFile) {
+        boolean playerCountIsInPawOnlyBracket = numOfPlayers <= maxPlayersWithPawprint;
+        boolean playerCountIsInNoPawOnlyBracket = numOfPlayers >= minPlayersWithoutPawprint
+                && numOfPlayers <= maxPlayersWithoutPawprint;
+        boolean playerCountIsInAllCardBracket = !playerCountIsInPawOnlyBracket
+                && !playerCountIsInNoPawOnlyBracket;
+
+        boolean includePaw = playerCountIsInPawOnlyBracket || playerCountIsInAllCardBracket;
+        boolean includeNoPaw = playerCountIsInNoPawOnlyBracket || playerCountIsInAllCardBracket;
+
         CardCSVParser parser = new CardCSVParser(cardInfoFile);
-        List<Card> cardList;
-        if (numOfPlayers >= minPlayers
-                && numOfPlayers <= maxPlayersWithPawprint) {
-            cardList = parser.generateListOfCards(true, false);
-        } else if (numOfPlayers >= minPlayersWithoutPawprint
-                && numOfPlayers <= maxPlayersWithoutPawprint) {
-            cardList = parser.generateListOfCards(false, true);
-        } else {
-            cardList = parser.generateListOfCards(true, true);
-        }
+        return parser.generateListOfCards(includePaw, includeNoPaw);
+    }
+
+    private DrawDeck generateDrawDeck(List<Card> cardList) {
+        DrawDeck drawDeck = new DrawDeck();
         for (Card card : cardList) {
             drawDeck.addCard(card);
         }
-        drawDeck.shuffle();
         return drawDeck;
     }
 
