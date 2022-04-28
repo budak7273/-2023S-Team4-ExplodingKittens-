@@ -1,6 +1,8 @@
 package system;
 
 import datasource.CardCSVParser;
+import system.cards.DefuseCard;
+
 import java.io.File;
 import java.util.*;
 
@@ -65,11 +67,12 @@ public class Setup {
             throw new IllegalArgumentException("Illegal number of players in queue");
         }
 
-        int cardsToDraw = 7;
-        for (int i=0; i<cardsToDraw; i++) {
-            for (User player: playerQueue) {
-                deck.drawInitialCard(player);
+        for (User user : playerQueue) {
+            int cardsToDraw = 7;
+            for (int i = 0; i < cardsToDraw; i++) {
+                deck.drawInitialCard(user);
             }
+            user.addCard(new DefuseCard());
         }
     }
 
