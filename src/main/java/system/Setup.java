@@ -60,7 +60,21 @@ public class Setup {
         boolean includeNoPaw = playerCountIsInNoPawOnlyBracket || playerCountIsInAllCardBracket;
 
         CardCSVParser parser = new CardCSVParser(cardInfoFile);
-        return parser.generateListOfCards(includePaw, includeNoPaw);
+        List<Card> cardList = parser.generateListOfCards(includePaw, includeNoPaw);
+
+        int numOfDefuseCardsToAdd;
+        if (playerCountIsInPawOnlyBracket) {
+            numOfDefuseCardsToAdd = maxPlayersWithPawprint - numOfPlayers;
+        } else if (playerCountIsInNoPawOnlyBracket) {
+            numOfDefuseCardsToAdd = maxPlayersWithoutPawprint - numOfPlayers;
+        } else {
+            numOfDefuseCardsToAdd = maxPlayers - numOfPlayers;
+        }
+        for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
+            cardList.add(new DefuseCard());
+        }
+
+        return cardList;
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {

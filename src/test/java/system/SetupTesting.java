@@ -113,7 +113,8 @@ public class SetupTesting {
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numberOfDefuseCardsToAdd = 1;
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_PAW_ONLY_SIZE);
+        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+                drawDeck.getDeckSize());
         Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
