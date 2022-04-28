@@ -5,12 +5,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import presentation.Gameboard;
+import system.cards.DefuseCard;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import static org.easymock.EasyMock.isA;
 
 public class SetupTesting {
     private static final int PARTY_PACK_SIZE = 101;
@@ -106,8 +109,13 @@ public class SetupTesting {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
+
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_PAW_ONLY_SIZE);
+
+        int numberOfDefuseCardsToAdd = 1;
+        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+                drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test
@@ -116,7 +124,11 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_PAW_ONLY_SIZE);
+
+        int numberOfDefuseCardsToAdd = 0;
+        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+                drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test
@@ -125,7 +137,11 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE);
+
+        int numberOfDefuseCardsToAdd = 3;
+        int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
+        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test
@@ -134,7 +150,11 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE);
+
+        int numberOfDefuseCardsToAdd = 0;
+        int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
+        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test
@@ -143,7 +163,11 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_SIZE);
+
+        int numberOfDefuseCardsToAdd = 2;
+        int expectedDeckSize = PARTY_PACK_SIZE + numberOfDefuseCardsToAdd;
+        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test
@@ -152,7 +176,11 @@ public class SetupTesting {
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
-        Assertions.assertTrue(drawDeck.getDeckSize() == PARTY_PACK_SIZE);
+
+        int numberOfDefuseCardsToAdd = 0;
+        int expectedDeckSize = PARTY_PACK_SIZE + numberOfDefuseCardsToAdd;
+        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
     }
 
     @Test
@@ -200,6 +228,8 @@ public class SetupTesting {
             drawDeck.drawInitialCard(player1);
             drawDeck.drawInitialCard(player2);
         }
+        player1.addCard(isA(DefuseCard.class));
+        player2.addCard(isA(DefuseCard.class));
         EasyMock.replay(player1, player2, drawDeck);
 
         Queue<User> users = new LinkedList<>();
@@ -214,28 +244,31 @@ public class SetupTesting {
 
     @Test
     public void testDistributeCards10Users() {
-        List<User> players = new ArrayList<User>();
+        Queue<User> users = new LinkedList<>();
         for (int i=0; i<10; i++) {
-            players.add(EasyMock.createMock(User.class));
+            users.add(EasyMock.createMock(User.class));
         }
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        for (int i=0; i<7; i++) {
-            players.forEach(drawDeck::drawInitialCard);
-        }
-        EasyMock.replay(players.get(0), players.get(1), players.get(2),
-                players.get(3), players.get(4), players.get(5),
-                players.get(6), players.get(7), players.get(8),
-                players.get(9), drawDeck);
 
-        Queue<User> users = new LinkedList<>(players);
+        for (User user : users) {
+            for (int i=0; i<7; i++) {
+                drawDeck.drawInitialCard(user);
+            }
+            user.addCard(isA(DefuseCard.class));
+        }
+
+        for (User user : users) {
+            EasyMock.replay(user);
+        }
+        EasyMock.replay(drawDeck);
 
         Setup setup = new Setup(10);
         setup.dealHands(users, drawDeck);
 
-        EasyMock.verify(players.get(0), players.get(1), players.get(2),
-                players.get(3), players.get(4), players.get(5),
-                players.get(6), players.get(7), players.get(8),
-                players.get(9), drawDeck);
+        for (User user : users) {
+            EasyMock.verify(user);
+        }
+        EasyMock.verify(drawDeck);
     }
 
     @Test

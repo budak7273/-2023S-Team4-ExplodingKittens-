@@ -1,6 +1,8 @@
 package system;
 
 import datasource.CardCSVParser;
+import system.cards.DefuseCard;
+
 import java.io.File;
 import java.util.*;
 
@@ -41,22 +43,45 @@ public class Setup {
     }
 
     public DrawDeck createDrawDeck(final File cardInfoFile) {
-        DrawDeck drawDeck = new DrawDeck();
+        List<Card> cardList = generateCardList(cardInfoFile);
+        DrawDeck drawDeck = generateDrawDeck(cardList);
+        drawDeck.shuffle();
+        return drawDeck;
+    }
+
+    private List<Card> generateCardList(File cardInfoFile) {
+        boolean playerCountIsInPawOnlyBracket = numOfPlayers <= maxPlayersWithPawprint;
+        boolean playerCountIsInNoPawOnlyBracket = numOfPlayers >= minPlayersWithoutPawprint
+                && numOfPlayers <= maxPlayersWithoutPawprint;
+        boolean playerCountIsInAllCardBracket = !playerCountIsInPawOnlyBracket
+                && !playerCountIsInNoPawOnlyBracket;
+
+        boolean includePaw = playerCountIsInPawOnlyBracket || playerCountIsInAllCardBracket;
+        boolean includeNoPaw = playerCountIsInNoPawOnlyBracket || playerCountIsInAllCardBracket;
+
         CardCSVParser parser = new CardCSVParser(cardInfoFile);
-        List<Card> cardList;
-        if (numOfPlayers >= minPlayers
-                && numOfPlayers <= maxPlayersWithPawprint) {
-            cardList = parser.generateListOfCards(true, false);
-        } else if (numOfPlayers >= minPlayersWithoutPawprint
-                && numOfPlayers <= maxPlayersWithoutPawprint) {
-            cardList = parser.generateListOfCards(false, true);
+        List<Card> cardList = parser.generateListOfCards(includePaw, includeNoPaw);
+
+        int numOfDefuseCardsToAdd;
+        if (playerCountIsInPawOnlyBracket) {
+            numOfDefuseCardsToAdd = maxPlayersWithPawprint - numOfPlayers;
+        } else if (playerCountIsInNoPawOnlyBracket) {
+            numOfDefuseCardsToAdd = maxPlayersWithoutPawprint - numOfPlayers;
         } else {
-            cardList = parser.generateListOfCards(true, true);
+            numOfDefuseCardsToAdd = maxPlayers - numOfPlayers;
         }
+        for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
+            cardList.add(new DefuseCard());
+        }
+
+        return cardList;
+    }
+
+    private DrawDeck generateDrawDeck(List<Card> cardList) {
+        DrawDeck drawDeck = new DrawDeck();
         for (Card card : cardList) {
             drawDeck.addCard(card);
         }
-        drawDeck.shuffle();
         return drawDeck;
     }
 
@@ -65,11 +90,12 @@ public class Setup {
             throw new IllegalArgumentException("Illegal number of players in queue");
         }
 
-        int cardsToDraw = 7;
-        for (int i=0; i<cardsToDraw; i++) {
-            for (User player: playerQueue) {
-                deck.drawInitialCard(player);
+        for (User user : playerQueue) {
+            int cardsToDraw = 7;
+            for (int i = 0; i < cardsToDraw; i++) {
+                deck.drawInitialCard(user);
             }
+            user.addCard(new DefuseCard());
         }
     }
 
