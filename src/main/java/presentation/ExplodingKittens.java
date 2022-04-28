@@ -1,5 +1,9 @@
 package presentation;
 
+
+import java.util.Locale;
+import datasource.Messages;
+
 public final class ExplodingKittens {
     private ExplodingKittens() { }
     public static void main(final String[] args) {
@@ -7,8 +11,8 @@ public final class ExplodingKittens {
         try {
             g.createGame();
         } catch (InvalidPlayerCountException e) {
-            System.out.println("invalid player count, please try again."
-                    + " Must have 2-10 players. ");
+            String invalidPlayerMessage = Messages.getMessage(Locale.GERMAN, "invalidMessage");
+            System.out.println(invalidPlayerMessage);
         }
     }
 }
