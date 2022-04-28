@@ -5,12 +5,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import presentation.Gameboard;
+import system.cards.DefuseCard;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import static org.easymock.EasyMock.isA;
 
 public class SetupTesting {
     private static final int PARTY_PACK_SIZE = 101;
@@ -200,6 +203,8 @@ public class SetupTesting {
             drawDeck.drawInitialCard(player1);
             drawDeck.drawInitialCard(player2);
         }
+        player1.addCard(isA(DefuseCard.class));
+        player2.addCard(isA(DefuseCard.class));
         EasyMock.replay(player1, player2, drawDeck);
 
         Queue<User> users = new LinkedList<>();
