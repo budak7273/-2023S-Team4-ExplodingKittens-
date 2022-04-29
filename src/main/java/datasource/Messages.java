@@ -10,9 +10,9 @@ public enum Messages {
         }
     };
 
-    public static String getMessage(Locale currentLocation, String key){
+    public static String getMessage(final Locale curLoc, final String key) {
         ResourceBundle messages =
-                ResourceBundle.getBundle("message", currentLocation);
+                ResourceBundle.getBundle("message", curLoc);
         String value = messages.getString(key);
         return value;
     }
