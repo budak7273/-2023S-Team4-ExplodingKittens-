@@ -101,6 +101,7 @@ public class Gameboard {
         this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this);
+        setup.dealHands(this.users, this.drawDeck);
     }
 
     private void initializeGameView() {
@@ -196,22 +197,6 @@ public class Gameboard {
                 + name + "<br>" + desc + "</html>");
         cardImage.add(cardDetails);
         return cardImage;
-    }
-
-    /**
-     * getUsers is called to access the User's in the current game.
-     * @return Queue of Users
-     */
-    public final Queue<User> getUsers() {
-        return this.users;
-    }
-
-    /**
-     * getDrawDeck is called to access the DrawDeck of the current game.
-     * @return DrawDeck
-     */
-    public final DrawDeck getDrawDeck() {
-        return this.drawDeck;
     }
 
     /**
