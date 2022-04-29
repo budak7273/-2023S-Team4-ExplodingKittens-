@@ -24,7 +24,9 @@ public class User {
                 final ArrayList<Card> playerHand) {
         this.name = playerName;
         this.alive = activeStatus;
-        this.hand = playerHand;
+        ArrayList<Card> playerHandClone = new ArrayList<>();
+        playerHandClone.addAll(playerHand);
+        this.hand = playerHandClone;
     }
 
     public String getName() {
@@ -33,8 +35,9 @@ public class User {
     }
 
     public List<Card> getHand() {
-
-        return this.hand;
+        List<Card> toReturn = new ArrayList<>();
+        toReturn.addAll(this.hand);
+        return toReturn;
     }
 
     public void addCard(final Card drawnCard) {

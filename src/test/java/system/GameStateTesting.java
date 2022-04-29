@@ -27,7 +27,6 @@ public class GameStateTesting {
     public void testTransitionToNextTurnWithQueueOf2Users() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
-        EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
         Queue<User> playerQueue = new LinkedList<User>();
@@ -49,7 +48,6 @@ public class GameStateTesting {
     public void testTransitionToNextTurnWithQueueOf10Users() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
-        EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
         Queue<User> playerQueue = new LinkedList<User>();
@@ -84,7 +82,6 @@ public class GameStateTesting {
     public void testTransitionToNextAliveWithThreeAliveUsers() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
-        EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
         Queue<User> playerQueue = new LinkedList<User>();
@@ -111,7 +108,6 @@ public class GameStateTesting {
     public void testTransitionToNextAliveWithThreeUsersFirstDead() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
-        EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
         Queue<User> playerQueue = new LinkedList<User>();
@@ -138,7 +134,6 @@ public class GameStateTesting {
     public void testTransitionToNextAliveWithThreeUsersTwoDead() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
-        EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
         Queue<User> playerQueue = new LinkedList<User>();
@@ -165,7 +160,6 @@ public class GameStateTesting {
     public void testTransitionToNextAliveWithTenUsersAndU1U2U4Dead() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
-        EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
         Queue<User> playerQueue = new LinkedList<User>();

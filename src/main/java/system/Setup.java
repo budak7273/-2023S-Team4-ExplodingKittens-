@@ -9,14 +9,15 @@ import java.util.*;
 public class Setup {
     private int numOfPlayers;
 
-    private final int minPlayers = 2;
-    private final int maxPlayers = 10;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 10;
 
-    private final int maxCountWithPaw = 3;
-    private final int minCountWithoutPaw = 4;
-    private final int maxCountWithoutPaw = 7;
 
-    private final int initialHandSize = 7;
+    private static final int MAX_COUNT_WITH_PAW = 3;
+    private static final int MIN_COUNT_WITHOUT_PAW = 4;
+    private static final int MAX_COUNT_WITHOUT_PAW = 7;
+
+    private static final int INITIAL_HAND_SIZE = 7;
 
     public Setup(final int playerCount) {
         this.numOfPlayers = playerCount;
@@ -27,8 +28,8 @@ public class Setup {
             throw new NullPointerException();
         }
 
-        if (names.size() < minPlayers
-                || names.size() > maxPlayers) {
+        if (names.size() < MIN_PLAYERS
+                || names.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
 
@@ -53,9 +54,10 @@ public class Setup {
     }
 
     private List<Card> generateCardList(final File cardInfoFile) {
-        boolean countIsInPawOnlyBracket = numOfPlayers <= maxCountWithPaw;
-        boolean countIsInNoPawOnlyBracket = numOfPlayers >= minCountWithoutPaw
-                && numOfPlayers <= maxCountWithoutPaw;
+        boolean countIsInPawOnlyBracket = numOfPlayers <= MAX_COUNT_WITH_PAW;
+        boolean countIsInNoPawOnlyBracket =
+                numOfPlayers >= MIN_COUNT_WITHOUT_PAW
+                && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
         boolean countIsInAllBracket = !countIsInPawOnlyBracket
                 && !countIsInNoPawOnlyBracket;
 
@@ -67,11 +69,11 @@ public class Setup {
 
         int numOfDefuseCardsToAdd;
         if (countIsInPawOnlyBracket) {
-            numOfDefuseCardsToAdd = maxCountWithPaw - numOfPlayers;
+            numOfDefuseCardsToAdd = MAX_COUNT_WITH_PAW - numOfPlayers;
         } else if (countIsInNoPawOnlyBracket) {
-            numOfDefuseCardsToAdd = maxCountWithoutPaw - numOfPlayers;
+            numOfDefuseCardsToAdd = MAX_COUNT_WITHOUT_PAW - numOfPlayers;
         } else {
-            numOfDefuseCardsToAdd = maxPlayers - numOfPlayers;
+            numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
             cardList.add(new DefuseCard());
@@ -89,13 +91,13 @@ public class Setup {
     }
 
     public void dealHands(final Queue<User> playerQueue, final DrawDeck deck) {
-        if (playerQueue.size() < 2 || playerQueue.size() > maxPlayers) {
+        if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
             String msg = "Illegal number of players in queue.";
             throw new IllegalArgumentException(msg);
         }
 
         for (User user : playerQueue) {
-            for (int i = 0; i < initialHandSize; i++) {
+            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawInitialCard(user);
             }
             user.addCard(new DefuseCard());
