@@ -1,33 +1,62 @@
 package presentation;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.List;
-
-import system.*;
-
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+import system.User;
+import system.DrawDeck;
+import system.DiscardDeck;
+import system.GameState;
+import system.Setup;
+import system.Card;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class Gameboard {
+    /**This is the Queue of all Player's in the current game.*/
     private Queue<User> users = new ArrayDeque<>();
+    /**This is the drawDeck in the current game.*/
     private DrawDeck drawDeck;
+    /**This is the discardDeck in the current game.*/
     private DiscardDeck discardDeck;
+    /**This is the current game's gameState.*/
     private GameState gameState;
+    /**This is what we display the current game on.*/
     private JFrame gameFrame;
 
-    public void createGame() throws InvalidPlayerCountException {
+
+
+    /** createGame takes in no parameters.
+     *  Is tasked with initializing the current game.*/
+    public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
-            throw new InvalidPlayerCountException(
-                    "ERROR: Must have at least 2 players!");
+            throw new InvalidPlayerCountException("ERROR: "
+                    + "Must have at least 2 players!");
         }
 
         initializeGameState(usernames);
         initializeGameView();
     }
 
-    public List<String> readUserInfo() {
+    /**
+     * readUserInfo takes in no parameters.
+     *      Asks the User for their information.
+     * @return a list of Strings that represent the current User's name
+     */
+    public static List<String> readUserInfo() {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
@@ -36,12 +65,11 @@ public class Gameboard {
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
-            System.out.println(username
-                    + " has been added to the game!");
+            System.out.println(username + " has been added to the game!");
 
             if (nextPlayerCount < tooManyPlayers) {
-                System.out.println(
-                        "Would you like to add another player? (y/n)");
+                System.out.println("Would you like "
+                        + "to add another player? (y/n)");
             } else {
                 break;
             }
@@ -49,8 +77,8 @@ public class Gameboard {
             String response = scanner.next().toLowerCase();
             boolean addAnotherPlayer = (response.equals("y"));
             if (addAnotherPlayer) {
-                System.out.println(
-                        "Enter player " + nextPlayerCount + "'s username!");
+                System.out.println("Enter player "
+                        + nextPlayerCount + "'s username!");
                 nextPlayerCount++;
             } else {
                 break;
@@ -67,15 +95,13 @@ public class Gameboard {
 
     private void initializeGameState(final List<String> usernames) {
         Setup setup = new Setup(usernames.size());
-
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
-        setup.dealHands(this.users, this.drawDeck);
-
         this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this);
+        setup.dealHands(this.users, this.drawDeck);
     }
 
     private void initializeGameView() {
@@ -84,6 +110,8 @@ public class Gameboard {
     }
 
     private void buildGameView() {
+        final int frameWidth = 1000;
+        final int frameHeight = 500;
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
@@ -94,26 +122,38 @@ public class Gameboard {
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
         gameFrame.pack();
+        gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.setVisible(true);
     }
 
     private JPanel generateUserDisplayPanel() {
         JPanel userDisplayPanel = new JPanel();
-        userDisplayPanel.add(new JLabel(
-                "Placeholder for user display."));
+        for (User user: this.users) {
+            if (user != this.gameState.getUserForCurrentTurn()) {
+                JPanel otherPlayer =
+                        createCardImage(user.getName(),
+                                user.getHand().size() + "");
+                userDisplayPanel.add(otherPlayer);
+            }
+        }
         return userDisplayPanel;
     }
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-        JButton drawCardButton = new JButton(
-                "Draw Card");
-        drawCardButton.addActionListener(e -> {
-            drawDeck.drawCard(gameState.getUserForCurrentTurn());
-            gameState.transitionToNextTurn();
-        });
 
-        tableAreaDisplayPanel.add(drawCardButton);
+        JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
+        deckButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                drawDeck.drawCard(gameState.getUserForCurrentTurn());
+                gameState.transitionToNextTurn();
+            }
+        });
+        JPanel discardPile = createCardImage("Top Card",
+                this.discardDeck.getDeckSize() + "");
+        tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
+        tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
         return tableAreaDisplayPanel;
     }
 
@@ -121,23 +161,48 @@ public class Gameboard {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
 
-        JLabel playerNameLabel = new JLabel(
-                "It is your turn, " + gameState.getUsernameForCurrentTurn());
+        JLabel playerNameLabel =
+                new JLabel("It is your turn, "
+                        + gameState.getUsernameForCurrentTurn());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
-        handDisplayPanel.setLayout(
-                new BoxLayout(handDisplayPanel, BoxLayout.Y_AXIS));
+        handDisplayPanel
+                .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getDeckForCurrentTurn()) {
-            JLabel cardNameLabel = new JLabel(card.getName());
-            handDisplayPanel.add(cardNameLabel);
+            JPanel cardLayout = createCardImage(card.getName(), "");
+            handDisplayPanel.add(cardLayout);
         }
 
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
 
-    public void updateUI() {
+    private JButton createDeckImage(final String desc) {
+        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+                + desc + "</center></html>");
+        deckImage.setBackground(Color.GREEN);
+        return deckImage;
+    }
+
+    private JPanel createCardImage(final String name, final String desc) {
+        final int cardWidth = 55;
+        final int cardHeight = 80;
+        JPanel cardImage = new JPanel();
+        cardImage.setLayout(new GridLayout(0, 1));
+        cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
+        cardImage.setBackground(Color.magenta);
+        JLabel cardDetails = new JLabel();
+        cardDetails.setText("<html><overflow='hidden'>"
+                + name + "<br>" + desc + "</html>");
+        cardImage.add(cardDetails);
+        return cardImage;
+    }
+
+    /**
+     * updateUI changes the GUI of the current game when it is called.
+     */
+    public final void updateUI() {
         buildGameView();
     }
 }
