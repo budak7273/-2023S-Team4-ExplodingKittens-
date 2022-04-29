@@ -22,8 +22,8 @@ public enum CardType {
 
     private final String displayName;
 
-    CardType(String displayName) {
-        this.displayName = displayName;
+    CardType(final String displayNameStr) {
+        this.displayName = displayNameStr;
     }
 
     @Override
