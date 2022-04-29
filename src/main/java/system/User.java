@@ -46,7 +46,7 @@ public class User {
         return this.alive;
     }
 
-    public void die(){
+    public void die() {
         this.alive = false;
     }
 
@@ -54,8 +54,8 @@ public class User {
         return false;
     }
 
-    public boolean verifySpecialEffectForCardsSelected(ArrayList<Integer> selected) {
-        if(hand.size()==0&&selected.size()!=0){
+    public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
+        if (this.hand.isEmpty() && !selected.isEmpty()) {
             throw new IllegalArgumentException(
                     "You cannot select cards when your hand is empty");
         }

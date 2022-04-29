@@ -3,13 +3,17 @@ package system;
 import datasource.CardType;
 
 public abstract class Card {
-    public CardType cardType;
+    private CardType cardType;
 
-    public Card(CardType cardType) {
-        this.cardType = cardType;
+    public Card(final CardType type) {
+        this.cardType = type;
     }
 
     public String getName() {
         return this.cardType.toString();
+    }
+
+    public CardType getType() {
+        return this.cardType;
     }
 }

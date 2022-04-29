@@ -4,7 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import presentation.Gameboard;
 import system.cards.DefuseCard;
 
 import java.io.File;
@@ -16,10 +15,20 @@ import java.util.Queue;
 import static org.easymock.EasyMock.isA;
 
 public class SetupTesting {
-    private static final int PARTY_PACK_SIZE = 101;
-    private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
+    private static final int FULL_SIZE = 101;
+    private static final int PAW_ONLY_SIZE = 41;
+
+    private static final int MAX_PLAYER_COUNT = 10;
+
+    private static final int MAX_PAW_ONLY_COUNT = 3;
+    private static final int MIN_NO_PAW_ONLY_COUNT = 4;
+    private static final int MAX_NO_PAW_ONLY_COUNT = 7;
+    private static final int MIN_ALL_COUNT = 8;
+
+    private static final int INITIAL_HAND_SIZE = 7;
+
     @Test
-    public void testCreateUsers_fromEmptyList() {
+    public void testCreateUsersFromEmptyList() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         Executable executable = () -> setup.createUsers(names);
@@ -27,14 +36,14 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromNull() {
+    public void testCreateUsersFromNull() {
         Setup setup = new Setup(2);
         Executable executable = () -> setup.createUsers(null);
         Assertions.assertThrows(NullPointerException.class, executable);
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize1() {
+    public void testCreateUsersFromListOfSize1() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         names.add("name");
@@ -43,7 +52,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize2() {
+    public void testCreateUsersFromListOfSize2() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
@@ -54,21 +63,21 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize10() {
+    public void testCreateUsersFromListOfSize10() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= MAX_PLAYER_COUNT; i++) {
             names.add("name" + i);
         }
         Queue<User> queue = setup.createUsers(names);
-        Assertions.assertTrue(queue.size() == 10);
+        Assertions.assertTrue(queue.size() == MAX_PLAYER_COUNT);
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize11() {
+    public void testCreateUsersFromListOfSize11() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
-        for (int i = 1; i <= 11; i++) {
+        for (int i = 1; i <= MAX_PLAYER_COUNT + 1; i++) {
             names.add("name" + i);
         }
         Executable executable = () -> setup.createUsers(names);
@@ -76,7 +85,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListWithDuplicates() {
+    public void testCreateUsersFromListWithDuplicates() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
@@ -87,7 +96,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromEmptyFile() {
+    public void testCreateDrawDeckFromEmptyFile() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/empty.csv";
         File cardInfoFile = new File(path);
@@ -96,7 +105,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFileWithOneLine() {
+    public void testCreateDrawDeckFromFileWithOneLine() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/oneline.csv";
         File cardInfoFile = new File(path);
@@ -105,86 +114,86 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd2Players() {
+    public void testCreateDrawDeckFromFullFileAnd2Players() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
 
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 1;
-        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+        int numOfDefusesToAdd = 1;
+        Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
                 drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd3Players() {
-        Setup setup = new Setup(3);
+    public void testCreateDrawDeckFromFullFileAnd3Players() {
+        Setup setup = new Setup(MAX_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 0;
-        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+        int numOfDefusesToAdd = 0;
+        Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
                 drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd4Players() {
-        Setup setup = new Setup(4);
+    public void testCreateDrawDeckFromFullFileAnd4Players() {
+        Setup setup = new Setup(MIN_NO_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 3;
-        int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
-        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        int numOfDefusesToAdd = MAX_NO_PAW_ONLY_COUNT - MIN_NO_PAW_ONLY_COUNT;
+        int expectedSize = FULL_SIZE - PAW_ONLY_SIZE + numOfDefusesToAdd;
+        Assertions.assertEquals(expectedSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numOfDefusesToAdd);
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd7Players() {
-        Setup setup = new Setup(7);
+    public void testCreateDrawDeckFromFullFileAnd7Players() {
+        Setup setup = new Setup(MAX_NO_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 0;
-        int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
-        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        int numOfDefusesToAdd = 0;
+        int expectedSize = FULL_SIZE - PAW_ONLY_SIZE + numOfDefusesToAdd;
+        Assertions.assertEquals(expectedSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numOfDefusesToAdd);
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd8Players() {
-        Setup setup = new Setup(8);
+    public void testCreateDrawDeckFromFullFileAnd8Players() {
+        Setup setup = new Setup(MIN_ALL_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 2;
-        int expectedDeckSize = PARTY_PACK_SIZE + numberOfDefuseCardsToAdd;
+        int numOfDefusesToAdd = 2;
+        int expectedDeckSize = FULL_SIZE + numOfDefusesToAdd;
         Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd10Players() {
-        Setup setup = new Setup(10);
+    public void testCreateDrawDeckFromFullFileAnd10Players() {
+        Setup setup = new Setup(MAX_PLAYER_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 0;
-        int expectedDeckSize = PARTY_PACK_SIZE + numberOfDefuseCardsToAdd;
+        int numOfDefusesToAdd = 0;
+        int expectedDeckSize = FULL_SIZE + numOfDefusesToAdd;
         Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
-    public void testCreateDrawDeck_fromOneLineOfInvalidData() {
+    public void testCreateDrawDeckFromOneLineOfInvalidData() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/oneline_invalid.csv";
         File cardInfoFile = new File(path);
@@ -193,7 +202,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileWithOneLineOfInvalidData() {
+    public void testCreateDrawDeckFromFullFileWithOneLineOfInvalidData() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile_invalid.csv";
         File cardInfoFile = new File(path);
@@ -202,7 +211,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDiscardDeck(){
+    public void testCreateDiscardDeck() {
         Setup setup = new Setup(2);
         DiscardDeck discDeck = setup.createDiscardDeck();
         Assertions.assertTrue(discDeck.getDeckSize() == 0);
@@ -224,7 +233,7 @@ public class SetupTesting {
         User player1 = EasyMock.createMock(User.class);
         User player2 = EasyMock.createMock(User.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             drawDeck.drawInitialCard(player1);
             drawDeck.drawInitialCard(player2);
         }
@@ -245,13 +254,13 @@ public class SetupTesting {
     @Test
     public void testDistributeCards10Users() {
         Queue<User> users = new LinkedList<>();
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
             users.add(EasyMock.createMock(User.class));
         }
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
         for (User user : users) {
-            for (int i=0; i<7; i++) {
+            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 drawDeck.drawInitialCard(user);
             }
             user.addCard(isA(DefuseCard.class));
@@ -262,7 +271,7 @@ public class SetupTesting {
         }
         EasyMock.replay(drawDeck);
 
-        Setup setup = new Setup(10);
+        Setup setup = new Setup(MAX_PLAYER_COUNT);
         setup.dealHands(users, drawDeck);
 
         for (User user : users) {
@@ -274,12 +283,12 @@ public class SetupTesting {
     @Test
     public void testDistributeCards11Users() {
         Queue<User> users = new LinkedList<>();
-        for (int i=0; i<11; i++) {
+        for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
         DrawDeck drawDeck = new DrawDeck();
 
-        Setup setup = new Setup(11);
+        Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
