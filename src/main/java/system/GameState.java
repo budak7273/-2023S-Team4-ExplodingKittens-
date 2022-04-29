@@ -23,10 +23,10 @@ public class GameState {
                     "Illegal number of players in queue");
         }
         User userForCurrentTurn = playerQueue.poll();
-        if(userForCurrentTurn.isAlive()) {
+        if (userForCurrentTurn.isAlive()) {
             playerQueue.add(userForCurrentTurn);
         }
-        while(!getUserForCurrentTurn().isAlive()) {
+        while (!getUserForCurrentTurn().isAlive()) {
             playerQueue.poll();
         }
 
