@@ -18,6 +18,16 @@ import static org.easymock.EasyMock.isA;
 public class SetupTesting {
     private static final int PARTY_PACK_SIZE = 101;
     private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
+
+    private static final int MAX_PLAYER_COUNT = 10;
+
+    private static final int MAX_PAW_ONLY_COUNT = 3;
+    private static final int MIN_NO_PAW_ONLY_COUNT = 4;
+    private static final int MAX_NO_PAW_ONLY_COUNT = 7;
+    private static final int MIN_ALL_COUNT = 8;
+
+    private static final int INITIAL_HAND_SIZE = 7;
+
     @Test
     public void testCreateUsersFromEmptyList() {
         Setup setup = new Setup(2);
@@ -57,18 +67,18 @@ public class SetupTesting {
     public void testCreateUsersFromListOfSize10() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= MAX_PLAYER_COUNT; i++) {
             names.add("name" + i);
         }
         Queue<User> queue = setup.createUsers(names);
-        Assertions.assertTrue(queue.size() == 10);
+        Assertions.assertTrue(queue.size() == MAX_PLAYER_COUNT);
     }
 
     @Test
     public void testCreateUsersFromListOfSize11() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
-        for (int i = 1; i <= 11; i++) {
+        for (int i = 1; i <= MAX_PLAYER_COUNT + 1; i++) {
             names.add("name" + i);
         }
         Executable executable = () -> setup.createUsers(names);
@@ -120,7 +130,7 @@ public class SetupTesting {
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd3Players() {
-        Setup setup = new Setup(3);
+        Setup setup = new Setup(MAX_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
@@ -133,12 +143,12 @@ public class SetupTesting {
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd4Players() {
-        Setup setup = new Setup(4);
+        Setup setup = new Setup(MIN_NO_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 3;
+        int numberOfDefuseCardsToAdd = MAX_NO_PAW_ONLY_COUNT - MIN_NO_PAW_ONLY_COUNT;
         int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
         Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
         Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
@@ -146,7 +156,7 @@ public class SetupTesting {
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd7Players() {
-        Setup setup = new Setup(7);
+        Setup setup = new Setup(MAX_NO_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
@@ -159,7 +169,7 @@ public class SetupTesting {
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd8Players() {
-        Setup setup = new Setup(8);
+        Setup setup = new Setup(MIN_ALL_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
@@ -172,7 +182,7 @@ public class SetupTesting {
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd10Players() {
-        Setup setup = new Setup(10);
+        Setup setup = new Setup(MAX_PLAYER_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
@@ -224,7 +234,7 @@ public class SetupTesting {
         User player1 = EasyMock.createMock(User.class);
         User player2 = EasyMock.createMock(User.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             drawDeck.drawInitialCard(player1);
             drawDeck.drawInitialCard(player2);
         }
@@ -245,13 +255,13 @@ public class SetupTesting {
     @Test
     public void testDistributeCards10Users() {
         Queue<User> users = new LinkedList<>();
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
             users.add(EasyMock.createMock(User.class));
         }
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
         for (User user : users) {
-            for (int i=0; i<7; i++) {
+            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 drawDeck.drawInitialCard(user);
             }
             user.addCard(isA(DefuseCard.class));
@@ -262,7 +272,7 @@ public class SetupTesting {
         }
         EasyMock.replay(drawDeck);
 
-        Setup setup = new Setup(10);
+        Setup setup = new Setup(MAX_PLAYER_COUNT);
         setup.dealHands(users, drawDeck);
 
         for (User user : users) {
@@ -274,12 +284,12 @@ public class SetupTesting {
     @Test
     public void testDistributeCards11Users() {
         Queue<User> users = new LinkedList<>();
-        for (int i=0; i<11; i++) {
+        for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
         DrawDeck drawDeck = new DrawDeck();
 
-        Setup setup = new Setup(11);
+        Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
