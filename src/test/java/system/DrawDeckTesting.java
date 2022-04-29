@@ -11,20 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DrawDeckTesting {
     @Test
-    public void testGetCards(){
+    public void testGetCards() {
         DrawDeck deck = new DrawDeck();
         assertTrue(deck.getCards().isEmpty());
     }
 
     @Test
-    public void testDrawCard_fromEmptyDrawDeck() {
+    public void testDrawCardFromEmptyDrawDeck() {
         DrawDeck deck = new DrawDeck();
         Executable executable = () -> deck.drawCard(new User());
         Assertions.assertThrows(RuntimeException.class, executable);
     }
 
     @Test
-    public void testDrawCard_fromNonEmptyDrawDeck() {
+    public void testDrawCardFromNonEmptyDrawDeck() {
         User user = new User();
 
         DrawDeck deck = new DrawDeck();
@@ -36,7 +36,7 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawInitialCard_fromEmptyDrawDeck() {
+    public void testDrawInitialCardFromEmptyDrawDeck() {
         User player = EasyMock.createMock(User.class);
         EasyMock.replay(player);
 
@@ -48,7 +48,7 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawInitialCard_fromNonEmptyDrawDeck() {
+    public void testDrawInitialCardFromNonEmptyDrawDeck() {
         User player = EasyMock.createMock(User.class);
         Card drawnCard = EasyMock.createMock(AttackCard.class);
         Card explodeCard = EasyMock.createMock(ExplodingCard.class);
@@ -67,14 +67,14 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testShuffle_onEmptyDeck() {
+    public void testShuffleOnEmptyDeck() {
         DrawDeck deck = new DrawDeck();
         deck.shuffle();
         Assertions.assertEquals(0, deck.getDeckSize());
     }
 
     @Test
-    public void testShuffle_onDeckOfOneCard() {
+    public void testShuffleOnDeckOfOneCard() {
         DrawDeck deck = new DrawDeck();
         Card card = new AttackCard();
         deck.addCard(card);
@@ -85,7 +85,7 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testShuffle_onDeckOfMultipleCards() {
+    public void testShuffleOnDeckOfMultipleCards() {
         DrawDeck deck = new DrawDeck();
         Card card1 = new AttackCard();
         Card card2 = new AttackCard();
