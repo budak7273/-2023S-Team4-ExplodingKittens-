@@ -19,7 +19,7 @@ public class SetupTesting {
     private static final int PARTY_PACK_SIZE = 101;
     private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
     @Test
-    public void testCreateUsers_fromEmptyList() {
+    public void testCreateUsersFromEmptyList() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         Executable executable = () -> setup.createUsers(names);
@@ -27,14 +27,14 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromNull() {
+    public void testCreateUsersFromNull() {
         Setup setup = new Setup(2);
         Executable executable = () -> setup.createUsers(null);
         Assertions.assertThrows(NullPointerException.class, executable);
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize1() {
+    public void testCreateUsersFromListOfSize1() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         names.add("name");
@@ -43,7 +43,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize2() {
+    public void testCreateUsersFromListOfSize2() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
@@ -54,7 +54,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize10() {
+    public void testCreateUsersFromListOfSize10() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
@@ -65,7 +65,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListOfSize11() {
+    public void testCreateUsersFromListOfSize11() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 11; i++) {
@@ -76,7 +76,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsers_fromListWithDuplicates() {
+    public void testCreateUsersFromListWithDuplicates() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
@@ -87,7 +87,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromEmptyFile() {
+    public void testCreateDrawDeckFromEmptyFile() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/empty.csv";
         File cardInfoFile = new File(path);
@@ -96,7 +96,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFileWithOneLine() {
+    public void testCreateDrawDeckFromFileWithOneLine() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/oneline.csv";
         File cardInfoFile = new File(path);
@@ -105,7 +105,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd2Players() {
+    public void testCreateDrawDeckFromFullFileAnd2Players() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -119,7 +119,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd3Players() {
+    public void testCreateDrawDeckFromFullFileAnd3Players() {
         Setup setup = new Setup(3);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -132,7 +132,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd4Players() {
+    public void testCreateDrawDeckFromFullFileAnd4Players() {
         Setup setup = new Setup(4);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -145,7 +145,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd7Players() {
+    public void testCreateDrawDeckFromFullFileAnd7Players() {
         Setup setup = new Setup(7);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -158,7 +158,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd8Players() {
+    public void testCreateDrawDeckFromFullFileAnd8Players() {
         Setup setup = new Setup(8);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -171,7 +171,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileAnd10Players() {
+    public void testCreateDrawDeckFromFullFileAnd10Players() {
         Setup setup = new Setup(10);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -184,7 +184,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromOneLineOfInvalidData() {
+    public void testCreateDrawDeckFromOneLineOfInvalidData() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/oneline_invalid.csv";
         File cardInfoFile = new File(path);
@@ -193,7 +193,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeck_fromFullFileWithOneLineOfInvalidData() {
+    public void testCreateDrawDeckFromFullFileWithOneLineOfInvalidData() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile_invalid.csv";
         File cardInfoFile = new File(path);
