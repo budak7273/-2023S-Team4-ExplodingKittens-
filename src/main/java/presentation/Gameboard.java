@@ -83,30 +83,14 @@ public class Gameboard {
                 nextPlayerCount++;
             } else {
                 break;
-            }
-        }
-
-        System.out.println("Starting Exploding Kittens game for players: ");
-        for (String userName: userNameList) {
-            System.out.println(userName);
-        }
-        scanner.close();
-        return userNameList;
+			 return userNameList;
     }
 
     private void initializeGameState(final List<String> usernames) {
         Setup setup = new Setup(usernames.size());
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
-        this.drawDeck = setup.createDrawDeck(new File(path));
-        this.discardDeck = setup.createDiscardDeck();
-
-        this.gameState = new GameState(this.users, this);
-    }
-
-    private void initializeGameView() {
-        this.gameFrame = new JFrame();
-        buildGameView();
+	@@ -79,6 +110,8 @@ private void initializeGameView() {
     }
 
     private void buildGameView() {
@@ -115,11 +99,7 @@ public class Gameboard {
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
-        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
-
-        gameFrame.setLayout(new BorderLayout());
-        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
-        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+		gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
