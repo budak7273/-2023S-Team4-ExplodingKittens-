@@ -8,22 +8,24 @@ import system.cards.AttackCard;
 import java.util.ArrayList;
 
 public class UserTesting {
+
+    static final int ARBITRARY_COUNT_OF_SELECTED = 3;
     @Test
-    public void testUserConstructor_Default(){
+    public void testUserConstructorDefault() {
         User user = new User();
         Assertions.assertEquals("", user.getName());
         Assertions.assertTrue(user.isAlive());
     }
 
     @Test
-    public void testUserConstructor_Name(){
+    public void testUserConstructorName() {
         User user = new User("test1", false, new ArrayList<Card>());
         Assertions.assertEquals("test1", user.getName());
         Assertions.assertNotEquals("test0", user.getName());
     }
 
     @Test
-    public void testUserConstructor_AliveOrDead(){
+    public void testUserConstructorAliveOrDead() {
         User user = new User("test1", true, new ArrayList<Card>());
         User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertTrue(user.isAlive());
@@ -31,14 +33,14 @@ public class UserTesting {
     }
 
     @Test
-    public void testUserConstructor_EmptyHand(){
+    public void testUserConstructorEmptyHand() {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
         Assertions.assertEquals(list, user.getHand());
     }
 
     @Test
-    public void testUserConstructor_HandWithOneCard(){
+    public void testUserConstructorHandWithOneCard() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new AttackCard();
         list.add(card);
@@ -49,7 +51,7 @@ public class UserTesting {
     }
 
     @Test
-    public void testUserConstructor_HandWithMultipleCard(){
+    public void testUserConstructorHandWithMultipleCard() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new AttackCard();
         Card card2 = new AttackCard();
@@ -63,7 +65,7 @@ public class UserTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotential_EmptyHand(){
+    public void testCheckForSpecialEffectPotentialEmptyHand() {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
@@ -71,7 +73,7 @@ public class UserTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotential_OneCard(){
+    public void testCheckForSpecialEffectPotentialOneCard() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new AttackCard();
         list.add(card);
@@ -80,13 +82,14 @@ public class UserTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList(){
+    public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList() {
         ArrayList<Card> list = new ArrayList<Card>();
         ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(3);
+        selected.add(ARBITRARY_COUNT_OF_SELECTED);
         User user = new User("test1", false, list);
-        Executable executable = () -> user.verifyEffectForCardsSelected(selected);
-        Assertions.assertThrows(IllegalArgumentException.class,executable);
+        Executable executable =
+                () -> user.verifyEffectForCardsSelected(selected);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
 
     }
 
