@@ -11,7 +11,9 @@ public final class ExplodingKittens {
         try {
             g.createGame();
         } catch (InvalidPlayerCountException e) {
-            String invalidPlayerMessage = Messages.getMessage(Locale.GERMAN, "invalidMessage");
+            Locale loc = Locale.GERMAN;
+            String key = "invalidMessage";
+            String invalidPlayerMessage = Messages.getMessage(loc, key);
             System.out.println(invalidPlayerMessage);
         }
     }
