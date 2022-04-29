@@ -80,7 +80,7 @@ public class UserTesting {
     }
 
     @Test
-    public void testVerifySpecialEffectForCardsSelected_EmptyHandWithNonEmptyList(){
+    public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList(){
         ArrayList<Card> list = new ArrayList<Card>();
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(3);
