@@ -4,7 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import presentation.Gameboard;
 import system.cards.DefuseCard;
 
 import java.io.File;
@@ -16,8 +15,8 @@ import java.util.Queue;
 import static org.easymock.EasyMock.isA;
 
 public class SetupTesting {
-    private static final int PARTY_PACK_SIZE = 101;
-    private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
+    private static final int FULL_SIZE = 101;
+    private static final int PAW_ONLY_SIZE = 41;
 
     private static final int MAX_PLAYER_COUNT = 10;
 
@@ -122,10 +121,10 @@ public class SetupTesting {
 
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 1;
-        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+        int numOfDefusesToAdd = 1;
+        Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
                 drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
@@ -135,10 +134,10 @@ public class SetupTesting {
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 0;
-        Assertions.assertEquals(PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd,
+        int numOfDefusesToAdd = 0;
+        Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
                 drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
@@ -148,10 +147,10 @@ public class SetupTesting {
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = MAX_NO_PAW_ONLY_COUNT - MIN_NO_PAW_ONLY_COUNT;
-        int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
-        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        int numOfDefusesToAdd = MAX_NO_PAW_ONLY_COUNT - MIN_NO_PAW_ONLY_COUNT;
+        int expectedSize = FULL_SIZE - PAW_ONLY_SIZE + numOfDefusesToAdd;
+        Assertions.assertEquals(expectedSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numOfDefusesToAdd);
     }
 
     @Test
@@ -161,10 +160,10 @@ public class SetupTesting {
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 0;
-        int expectedDeckSize = PARTY_PACK_SIZE - PARTY_PACK_PAW_ONLY_SIZE + numberOfDefuseCardsToAdd;
-        Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        int numOfDefusesToAdd = 0;
+        int expectedSize = FULL_SIZE - PAW_ONLY_SIZE + numOfDefusesToAdd;
+        Assertions.assertEquals(expectedSize, drawDeck.getDeckSize());
+        Assertions.assertTrue(drawDeck.getDefuseCount() == numOfDefusesToAdd);
     }
 
     @Test
@@ -174,10 +173,10 @@ public class SetupTesting {
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 2;
-        int expectedDeckSize = PARTY_PACK_SIZE + numberOfDefuseCardsToAdd;
+        int numOfDefusesToAdd = 2;
+        int expectedDeckSize = FULL_SIZE + numOfDefusesToAdd;
         Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
@@ -187,10 +186,10 @@ public class SetupTesting {
         File cardInfoFile = new File(path);
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
-        int numberOfDefuseCardsToAdd = 0;
-        int expectedDeckSize = PARTY_PACK_SIZE + numberOfDefuseCardsToAdd;
+        int numOfDefusesToAdd = 0;
+        int expectedDeckSize = FULL_SIZE + numOfDefusesToAdd;
         Assertions.assertEquals(expectedDeckSize, drawDeck.getDeckSize());
-        Assertions.assertTrue(drawDeck.getDefuseCount() == numberOfDefuseCardsToAdd);
+        Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
@@ -212,7 +211,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDiscardDeck(){
+    public void testCreateDiscardDeck() {
         Setup setup = new Setup(2);
         DiscardDeck discDeck = setup.createDiscardDeck();
         Assertions.assertTrue(discDeck.getDeckSize() == 0);
