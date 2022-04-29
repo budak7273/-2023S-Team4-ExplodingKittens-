@@ -29,7 +29,10 @@ public class CardCSVParser {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
             String cardTypeName = cardProperties[0];
-            Card card = CardFactory.createCardOfType(CardType.valueOf(cardTypeName));
+
+            CardType cardType = CardType.valueOf(cardTypeName);
+            Card card = CardFactory.createCardOfType(cardType);
+
             if (includePaw
                     && Boolean.parseBoolean(cardProperties[1])) {
                 cardList.add(card);
