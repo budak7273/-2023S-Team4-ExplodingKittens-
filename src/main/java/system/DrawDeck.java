@@ -1,8 +1,6 @@
 package system;
 
 import datasource.CardType;
-import system.cards.DefuseCard;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +21,8 @@ public class DrawDeck {
 
     public void drawCard(final User drawingUser) {
         if (cards.isEmpty()) {
-            throw new RuntimeException("Draw deck is empty, the game was set up improperly.");
+            String msg = "Draw deck is empty, the game was set up improperly.";
+            throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(0);
         drawingUser.addCard(drawnCard);
@@ -33,13 +32,12 @@ public class DrawDeck {
         return this.cards;
     }
 
-    public void drawInitialCard(User drawer) {
+    public void drawInitialCard(final User drawer) {
         if (cards.isEmpty()) {
-            throw new RuntimeException("Draw deck is empty, the game was set up improperly.");
+            String msg = "Draw deck is empty, the game was set up improperly.";
+            throw new RuntimeException(msg);
         }
 
-        // TODO: REMOVE this code! Exploding Kitten cards are already removed from the deck
-        //  at the time hands are dealt (see https://www.explodingkittens.com/pages/rules-kittens-party)
         Card drawnCard = cards.remove(0);
         while (drawnCard.getName().equals("Exploding Kitten")) {
             cards.add(cards.size(), drawnCard);
