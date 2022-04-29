@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class GameStateTesting {
+
+    static final int MAX_USER_COUNT = 10;
+    static final int ARBITRARY_USER_ID_TO_KILL = 3;
+
     @Test
-    public void testTransitionToNextTurn_withQueueOf1User() {
+    public void testTransitionToNextTurnWithQueueOf1User() {
         Queue<User> playerQueue = new LinkedList<User>();
         playerQueue.add(new User());
         GameState gameState = new GameState(playerQueue, new Gameboard());
@@ -22,7 +24,7 @@ public class GameStateTesting {
     }
 
     @Test
-    public void testTransitionToNextTurn_withQueueOf2Users() {
+    public void testTransitionToNextTurnWithQueueOf2Users() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
         EasyMock.expectLastCall();
@@ -36,13 +38,15 @@ public class GameStateTesting {
 
         GameState gameState = new GameState(playerQueue, boardMock);
         gameState.transitionToNextTurn();
-        Assertions.assertEquals(userNextInQueue, gameState.getUserForCurrentTurn());
+
+        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
         EasyMock.verify(boardMock);
     }
 
     @Test
-    public void testTransitionToNextTurn_withQueueOf10Users() {
+    public void testTransitionToNextTurnWithQueueOf10Users() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
         EasyMock.expectLastCall();
@@ -53,21 +57,22 @@ public class GameStateTesting {
         User userNextInQueue = new User();
         playerQueue.add(userStartingAtTopOfQueue);
         playerQueue.add(userNextInQueue);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < MAX_USER_COUNT - 2; i++) {
             playerQueue.add(new User());
         }
 
         GameState gameState = new GameState(playerQueue, boardMock);
         gameState.transitionToNextTurn();
-        Assertions.assertEquals(userNextInQueue, gameState.getUserForCurrentTurn());
+        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
         EasyMock.verify(boardMock);
     }
 
     @Test
-    public void testTransitionToNextTurn_withQueueOf11Users() {
+    public void testTransitionToNextTurnWithQueueOf11Users() {
         Queue<User> playerQueue = new LinkedList<User>();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
             playerQueue.add(new User());
         }
         GameState gameState = new GameState(playerQueue, new Gameboard());
@@ -76,7 +81,7 @@ public class GameStateTesting {
     }
 
     @Test
-    public void testTransitionToNextAlive_withThreeAliveUsers() {
+    public void testTransitionToNextAliveWithThreeAliveUsers() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
         EasyMock.expectLastCall();
@@ -103,7 +108,7 @@ public class GameStateTesting {
     }
 
     @Test
-    public void testTransitionToNextAlive_withThreeUsersFirstDead() {
+    public void testTransitionToNextAliveWithThreeUsersFirstDead() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
         EasyMock.expectLastCall();
@@ -130,7 +135,7 @@ public class GameStateTesting {
     }
 
     @Test
-    public void testTransitionToNextAlive_withThreeUsersTwoDead() {
+    public void testTransitionToNextAliveWithThreeUsersTwoDead() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
         EasyMock.expectLastCall();
@@ -157,7 +162,7 @@ public class GameStateTesting {
     }
 
     @Test
-    public void testTransitionToNextAlive_withTenUsersAndU1U2U4Dead() {
+    public void testTransitionToNextAliveWithTenUsersAndU1U2U4Dead() {
         Gameboard boardMock = EasyMock.createMock(Gameboard.class);
         boardMock.updateUI();
         EasyMock.expectLastCall();
@@ -166,9 +171,9 @@ public class GameStateTesting {
         Queue<User> playerQueue = new LinkedList<User>();
         Queue<User> expected = new LinkedList<User>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < MAX_USER_COUNT; i++) {
             User user = new User();
-            if (i == 0 || i == 1 || i == 3) {
+            if (i == 0 || i == 1 || i == ARBITRARY_USER_ID_TO_KILL) {
                 user.die();
             }
             playerQueue.add(user);
