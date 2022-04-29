@@ -13,17 +13,16 @@ import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-import System.User;
-import System.DrawDeck;
-import System.DiscardDeck;
-import System.GameState;
-import System.Setup;
-import System.Card;
+import system.User;
+import system.DrawDeck;
+import system.DiscardDeck;
+import system.GameState;
+import system.Setup;
+import system.Card;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 public class Gameboard {
     /**This is the Queue of all Player's in the current game.*/
@@ -83,14 +82,30 @@ public class Gameboard {
                 nextPlayerCount++;
             } else {
                 break;
-			 return userNameList;
+            }
+        }
+
+        System.out.println("Starting Exploding Kittens game for players: ");
+        for (String userName: userNameList) {
+            System.out.println(userName);
+        }
+        scanner.close();
+        return userNameList;
     }
 
     private void initializeGameState(final List<String> usernames) {
         Setup setup = new Setup(usernames.size());
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
-	@@ -79,6 +110,8 @@ private void initializeGameView() {
+        this.drawDeck = setup.createDrawDeck(new File(path));
+        this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users, this);
+    }
+
+    private void initializeGameView() {
+        this.gameFrame = new JFrame();
+        buildGameView();
     }
 
     private void buildGameView() {
@@ -99,7 +114,11 @@ public class Gameboard {
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
-		gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
+
+        gameFrame.setLayout(new BorderLayout());
+        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
+        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
@@ -131,7 +150,7 @@ public class Gameboard {
             }
         });
         JPanel discardPile = createCardImage("Top Card",
-                                        this.discardDeck.getDeckSize() + "");
+                this.discardDeck.getDeckSize() + "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
         return tableAreaDisplayPanel;
@@ -150,7 +169,7 @@ public class Gameboard {
         handDisplayPanel
                 .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getDeckForCurrentTurn()) {
-            JPanel cardLayout = createCardImage(card.getName(), "Effect");
+            JPanel cardLayout = createCardImage(card.getName(), "");
             handDisplayPanel.add(cardLayout);
         }
 
@@ -160,20 +179,22 @@ public class Gameboard {
 
     private JButton createDeckImage(final String desc) {
         JButton deckImage = new JButton("<html><center>Draw Deck<br>"
-                                        + desc + "</center></html>");
+                + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         return deckImage;
     }
 
     private JPanel createCardImage(final String name, final String desc) {
         final int cardWidth = 55;
-        final int cardHeight = 30;
+        final int cardHeight = 80;
         JPanel cardImage = new JPanel();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.magenta);
-        cardImage.add(new JLabel(name), SwingConstants.CENTER);
-        cardImage.add(new JLabel(desc), SwingConstants.CENTER);
+        JLabel cardDetails = new JLabel();
+        cardDetails.setText("<html><overflow='hidden'>"
+                + name + "<br>" + desc + "</html>");
+        cardImage.add(cardDetails);
         return cardImage;
     }
 
