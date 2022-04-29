@@ -85,7 +85,7 @@ public class UserTesting {
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(3);
         User user = new User("test1", false, list);
-        Executable executable = () -> user.verifySpecialEffectForCardsSelected(selected);
+        Executable executable = () -> user.verifyEffectForCardsSelected(selected);
         Assertions.assertThrows(IllegalArgumentException.class,executable);
 
     }
