@@ -55,7 +55,7 @@ public class DrawDeck {
     public int getDefuseCount() {
         int defuseCount = 0;
         for (Card card : cards) {
-            if (card.cardType == CardType.DEFUSE) {
+            if (card.getType() == CardType.DEFUSE) {
                 defuseCount++;
             }
         }
