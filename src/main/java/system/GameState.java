@@ -8,12 +8,14 @@ import java.util.Queue;
 public class GameState {
     private final Queue<User> playerQueue;
     private final Gameboard gameboard;
+    private final DrawDeck drawDeck;
     private final int minPlayers = 2;
     private final int maxPlayers = 10;
 
-    public GameState(final Queue<User> pq, final Gameboard g) {
+    public GameState(final Queue<User> pq, final Gameboard g, final DrawDeck deck) {
         this.playerQueue = pq;
         this.gameboard = g;
+        this.drawDeck = deck;
     }
 
     public void transitionToNextTurn() {
@@ -49,5 +51,10 @@ public class GameState {
         return this.playerQueue;
     }
 
+    public void drawFromBottom() {
+        User currentUser = getUserForCurrentTurn();
+        drawDeck.drawFromBottomForUser(currentUser);
+        transitionToNextTurn();
+    }
 
 }

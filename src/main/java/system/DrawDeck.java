@@ -59,4 +59,13 @@ public class DrawDeck {
         }
         return defuseCount;
     }
+
+    public void drawFromBottomForUser(User currentUser) {
+        if (cards.isEmpty()) {
+            String msg = "Draw deck is empty, the game was set up improperly.";
+            throw new RuntimeException(msg);
+        }
+        Card drawnCard = cards.remove(cards.size() - 1);
+        currentUser.addCard(drawnCard);
+    }
 }

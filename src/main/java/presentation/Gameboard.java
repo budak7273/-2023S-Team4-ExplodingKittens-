@@ -36,8 +36,6 @@ public class Gameboard {
     /**This is what we display the current game on.*/
     private JFrame gameFrame;
 
-
-
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
     public final void createGame() throws InvalidPlayerCountException {
@@ -100,11 +98,11 @@ public class Gameboard {
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
 
-        this.gameState = new GameState(this.users, this);
+        this.gameState = new GameState(this.users, this, this.drawDeck);
         setup.dealHands(this.users, this.drawDeck);
     }
 
-    private void initializeGameView() {
+    public void initializeGameView() {
         this.gameFrame = new JFrame();
         buildGameView();
     }

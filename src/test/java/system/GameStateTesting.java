@@ -18,7 +18,7 @@ public class GameStateTesting {
     public void testTransitionToNextTurnWithQueueOf1User() {
         Queue<User> playerQueue = new LinkedList<User>();
         playerQueue.add(new User());
-        GameState gameState = new GameState(playerQueue, new Gameboard());
+        GameState gameState = new GameState(playerQueue, new Gameboard(), new DrawDeck());
         Executable executable = () -> gameState.transitionToNextTurn();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -36,7 +36,7 @@ public class GameStateTesting {
         playerQueue.add(userStartingAtTopOfQueue);
         playerQueue.add(userNextInQueue);
 
-        GameState gameState = new GameState(playerQueue, boardMock);
+        GameState gameState = new GameState(playerQueue, boardMock, new DrawDeck());
         gameState.transitionToNextTurn();
 
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
@@ -61,7 +61,7 @@ public class GameStateTesting {
             playerQueue.add(new User());
         }
 
-        GameState gameState = new GameState(playerQueue, boardMock);
+        GameState gameState = new GameState(playerQueue, boardMock, new DrawDeck());
         gameState.transitionToNextTurn();
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
@@ -75,7 +75,7 @@ public class GameStateTesting {
         for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
             playerQueue.add(new User());
         }
-        GameState gameState = new GameState(playerQueue, new Gameboard());
+        GameState gameState = new GameState(playerQueue, new Gameboard(), new DrawDeck());
         Executable executable = () -> gameState.transitionToNextTurn();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -95,7 +95,7 @@ public class GameStateTesting {
         playerQueue.add(user2);
         playerQueue.add(user3);
 
-        GameState gameState = new GameState(playerQueue, boardMock);
+        GameState gameState = new GameState(playerQueue, boardMock, new DrawDeck());
         gameState.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -123,7 +123,7 @@ public class GameStateTesting {
         playerQueue.add(user2);
         playerQueue.add(user3);
 
-        GameState gameState = new GameState(playerQueue, boardMock);
+        GameState gameState = new GameState(playerQueue, boardMock, new DrawDeck());
         gameState.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -151,7 +151,7 @@ public class GameStateTesting {
         playerQueue.add(user2);
         playerQueue.add(user3);
 
-        GameState gameState = new GameState(playerQueue, boardMock);
+        GameState gameState = new GameState(playerQueue, boardMock, new DrawDeck());
         gameState.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -182,7 +182,7 @@ public class GameStateTesting {
             }
         }
 
-        GameState gameState = new GameState(playerQueue, boardMock);
+        GameState gameState = new GameState(playerQueue, boardMock, new DrawDeck());
         gameState.transitionToNextTurn();
 
         Assertions.assertEquals(expected, gameState.getPlayerQueue());

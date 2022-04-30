@@ -31,14 +31,15 @@ public class CardEffectTesting {
     }
 
     @Test
-    public void testDrawFromBottomWithEmptyDeck() {
+    public void testDrawFromBottom() {
         EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.drawFromBottom();
+        EasyMock.expectLastCall();
         EasyMock.replay(gameState);
 
-        Executable executable = () -> drawFromBottomEffect.useEffect(gameState);
+        drawFromBottomEffect.useEffect(gameState);
 
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
         EasyMock.verify(gameState);
     }
 
