@@ -45,7 +45,7 @@ final class CardFactory {
             case SEE_THE_FUTURE:
                 return new SeeTheFutureCard();
             default:
-                throw new IllegalArgumentException("Could not create card.");
+                throw new IllegalArgumentException(Messages.getMessage("CouldNotCreateCardMessage"));
         }
     }
 }
