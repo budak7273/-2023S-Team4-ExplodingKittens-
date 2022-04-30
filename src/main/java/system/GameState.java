@@ -35,6 +35,12 @@ public class GameState {
         gameboard.updateUI();
     }
 
+    public void drawFromBottom() {
+        User currentUser = getUserForCurrentTurn();
+        drawDeck.drawFromBottomForUser(currentUser);
+        transitionToNextTurn();
+    }
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
@@ -49,12 +55,6 @@ public class GameState {
 
     public Queue<User> getPlayerQueue() {
         return this.playerQueue;
-    }
-
-    public void drawFromBottom() {
-        User currentUser = getUserForCurrentTurn();
-        drawDeck.drawFromBottomForUser(currentUser);
-        transitionToNextTurn();
     }
 
 }

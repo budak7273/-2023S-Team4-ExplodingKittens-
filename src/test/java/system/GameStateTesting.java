@@ -190,4 +190,27 @@ public class GameStateTesting {
         EasyMock.verify(boardMock);
     }
 
+    @Test
+    public void testDrawFromBottom() {
+        Queue<User> userQueue = new LinkedList<>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        drawDeck.drawFromBottomForUser(currentUser);
+        EasyMock.expectLastCall();
+        gameboard.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.drawFromBottom();
+
+        EasyMock.verify();
+    }
+
 }

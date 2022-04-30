@@ -36,6 +36,10 @@ public class Gameboard {
     /**This is what we display the current game on.*/
     private JFrame gameFrame;
 
+    public Gameboard() {
+        this.gameFrame = new JFrame();
+    }
+
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
     public final void createGame() throws InvalidPlayerCountException {
@@ -108,6 +112,10 @@ public class Gameboard {
     }
 
     private void buildGameView() {
+        if (gameFrame == null) {
+            return;
+        }
+
         final int frameWidth = 1000;
         final int frameHeight = 500;
         gameFrame.getContentPane().removeAll();
