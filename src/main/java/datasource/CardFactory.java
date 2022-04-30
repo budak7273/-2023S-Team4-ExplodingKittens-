@@ -46,7 +46,7 @@ final class CardFactory {
                 return new SeeTheFutureCard();
             default:
                 throw new IllegalArgumentException(Messages
-                        .getMessage("CouldNotCreateCardMessage"));
+                        .getMessage(Messages.COULD_NOT_CREATE));
         }
     }
 }
