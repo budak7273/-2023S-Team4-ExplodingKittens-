@@ -10,6 +10,8 @@ public enum Messages {
         }
     };
 
+
+
     static Locale currentLocation = Locale.GERMAN;
     public static String getMessage(final String key) {
 

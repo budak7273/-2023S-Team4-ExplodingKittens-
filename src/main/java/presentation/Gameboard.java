@@ -75,7 +75,7 @@ public class Gameboard {
             }
 
             String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y"));
+            boolean addAnotherPlayer = (response.equals("y") || response.equals("j"));
             if (addAnotherPlayer) {
                 System.out.println(Messages.getMessage("EnterPlayerMessage")
                         + nextPlayerCount + Messages.getMessage("PlayerUsernameMessage"));
