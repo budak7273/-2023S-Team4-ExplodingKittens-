@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
+import system.cards.DefuseCard;
 import system.cards.ExplodingCard;
 
 import java.util.ArrayList;
@@ -101,4 +102,14 @@ public class UserTesting {
         Assertions.assertFalse(user.isAlive());
     }
 
+    @Test
+    public void testPlayerDiesWithDefuse(){
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new DefuseCard());
+
+        User user = new User("test", false, hand);
+        user.die();
+        Assertions.assertTrue(user.isAlive());
+        Assertions.assertTrue(hand.isEmpty());
+    }
 }

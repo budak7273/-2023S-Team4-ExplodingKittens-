@@ -49,6 +49,16 @@ public class User {
 
     public void die() {
         this.alive = false;
+        int i;
+        for (i=0; i<hand.size(); i++) {
+            if (hand.get(i).getType() == CardType.DEFUSE) {
+                this.alive = true;
+                break;
+            }
+        }
+        if (this.alive) {
+            hand.remove(i);
+        }
     }
 
     public boolean checkForSpecialEffectPotential() {
