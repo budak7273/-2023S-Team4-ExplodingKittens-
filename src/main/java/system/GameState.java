@@ -21,7 +21,7 @@ public class GameState {
         if (playerQueue.size() < minPlayers
                 || playerQueue.size() > maxPlayers) {
             throw new IllegalArgumentException(
-                    Messages.getMessage("IllegalPlayersMessage"));
+                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
         }
         User userForCurrentTurn = playerQueue.poll();
         if (userForCurrentTurn.isAlive()) {
