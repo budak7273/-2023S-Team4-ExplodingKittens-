@@ -19,7 +19,8 @@ public enum Messages {
     COULD_NOT_GENERATE("CouldNotGenerateMessage"),
     COULD_NOT_CREATE("CouldNotCreateMessage"),
     ILLEGAL_PLAYERS("IllegalPlayersMessage"),
-    EMPTY_DRAW_DECK("EmptyDrawDeckMessage");
+    EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
+    EMPTY_HAND("EmptyHandMessage");
 
     private static Locale currentLocation = Locale.GERMAN;
     private final String displayName;
