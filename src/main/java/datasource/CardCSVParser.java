@@ -55,7 +55,7 @@ public class CardCSVParser {
             String[] cardProperties = cardInfo.split(",");
             if (cardProperties.length != 2) {
                 throw new IllegalArgumentException(
-                        Messages.getMessage("MissingDataMessage"));
+                        Messages.getMessage(Messages.MISSING_DATA));
             }
             String cardType = cardProperties[0];
             final int typeCount = 17;
@@ -67,15 +67,15 @@ public class CardCSVParser {
             }
             if (Arrays.stream(types).noneMatch(cardType::equals)) {
                 throw new IllegalArgumentException(Messages
-                        .getMessage("InvalidCardTypeMessage") + cardType
-                        + Messages.getMessage("FoundInFileMessage"));
+                        .getMessage(Messages.INVALID_CARD_TYPE) + cardType
+                        + Messages.getMessage(Messages.FOUND_IN_FILE));
             }
 
             cardCount++;
         }
         if (cardCount != maxCardCount) {
             throw new IllegalArgumentException(Messages
-                    .getMessage("BadNumberOfCardsMessage"));
+                    .getMessage(Messages.BAD_NUMBER_OF_CARDS));
         }
     }
 
@@ -84,7 +84,7 @@ public class CardCSVParser {
             return new Scanner(csvFile);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(
-                    Messages.getMessage("CouldNotGenerateMessage"));
+                    Messages.getMessage(Messages.COULD_NOT_GENERATE));
         }
     }
 }

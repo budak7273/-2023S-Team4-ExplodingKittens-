@@ -4,16 +4,40 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public enum Messages {
-    INVALID_MESSAGE {
-        public String toString() {
-            return "invalidMessage";
-        }
-    };
-
-
+    NOT_ENOUGH_PLAYERS("NotEnoughPlayersMessage"),
+    ENTER_PLAYER_1_NAME("EnterPlayer1NameMessage"),
+    PLAYER_ADDED_TO_GAME("PlayerAddedToGameMessage"),
+    ADD_ANOTHER_PLAYER("AddAnotherPlayerMessage"),
+    ENTER_PLAYER("EnterPlayerMessage"),
+    PLAYER_USERNAME("PlayerUsernameMessage"),
+    START_GAME("StartGameMessage"),
+    YOUR_TURN("StartGameMessage"),
+    MISSING_DATA("MissingDataMessage"),
+    INVALID_CARD_TYPE("InvalidCardTypeMessage"),
+    FOUND_IN_FILE("FoundInFileMessage"),
+    BAD_NUMBER_OF_CARDS("BadNumberOfCardsMessage"),
+    COULD_NOT_GENERATE("CouldNotGenerateMessage"),
+    COULD_NOT_CREATE("CouldNotCreateMessage"),
+    ILLEGAL_PLAYERS("IllegalPlayersMessage"),
+    EMPTY_DRAW_DECK("EmptyDrawDeckMessage");
 
     private static Locale currentLocation = Locale.GERMAN;
-    public static String getMessage(final String key) {
+    private final String displayName;
+
+    Messages(final String displayNameStr) {
+        this.displayName = displayNameStr;
+    }
+
+    public static String getMessage(Messages message) {
+        return getMessageFromString(message.toString());
+    }
+
+    @Override
+    public String toString() {
+        return this.displayName;
+    }
+
+    private static String getMessageFromString(final String key) {
 
         ResourceBundle messages =
                 ResourceBundle.getBundle("message", currentLocation);
