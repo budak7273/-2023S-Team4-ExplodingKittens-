@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import datasource.Messages;
 import system.User;
 import system.DrawDeck;
 import system.DiscardDeck;
@@ -43,8 +45,7 @@ public class Gameboard {
     public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
-            throw new InvalidPlayerCountException("ERROR: "
-                    + "Must have at least 2 players!");
+            throw new InvalidPlayerCountException("NotEnoughPlayersMessage");
         }
 
         initializeGameState(usernames);
@@ -60,16 +61,15 @@ public class Gameboard {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
-        System.out.println("Please enter player 1's username!");
+        System.out.println(Messages.getMessage("EnterPlayer1NameMessage"));
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
-            System.out.println(username + " has been added to the game!");
+            System.out.println(username + Messages.getMessage("PlayerAddedToGameMessage"));
 
             if (nextPlayerCount < tooManyPlayers) {
-                System.out.println("Would you like "
-                        + "to add another player? (y/n)");
+                System.out.println(Messages.getMessage("AddAnotherPlayerMessage"));
             } else {
                 break;
             }

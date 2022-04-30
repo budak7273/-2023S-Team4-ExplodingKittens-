@@ -10,9 +10,11 @@ public enum Messages {
         }
     };
 
-    public static String getMessage(final Locale curLoc, final String key) {
+    static Locale currentLocation = Locale.GERMAN;
+    public static String getMessage(final String key) {
+
         ResourceBundle messages =
-                ResourceBundle.getBundle("message", curLoc);
+                ResourceBundle.getBundle("message", currentLocation);
         String value = messages.getString(key);
         return value;
     }
