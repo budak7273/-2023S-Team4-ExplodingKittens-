@@ -12,7 +12,7 @@ public enum Messages {
 
 
 
-    static Locale currentLocation = Locale.GERMAN;
+    private static Locale currentLocation = Locale.GERMAN;
     public static String getMessage(final String key) {
 
         ResourceBundle messages =

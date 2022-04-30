@@ -1,7 +1,5 @@
 package presentation;
 
-
-import java.util.Locale;
 import datasource.Messages;
 
 public final class ExplodingKittens {

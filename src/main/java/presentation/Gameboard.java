@@ -61,24 +61,29 @@ public class Gameboard {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
-        System.out.println(Messages.getMessage("EnterPlayer1NameMessage"));
+        System.out.println(Messages
+                .getMessage("EnterPlayer1NameMessage"));
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
-            System.out.println(username + Messages.getMessage("PlayerAddedToGameMessage"));
+            System.out.println(username + Messages
+                    .getMessage("PlayerAddedToGameMessage"));
 
             if (nextPlayerCount < tooManyPlayers) {
-                System.out.println(Messages.getMessage("AddAnotherPlayerMessage"));
+                System.out.println(Messages
+                        .getMessage("AddAnotherPlayerMessage"));
             } else {
                 break;
             }
 
             String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y") || response.equals("j"));
+            boolean addAnotherPlayer = (response.equals("y")
+                    || response.equals("j"));
             if (addAnotherPlayer) {
                 System.out.println(Messages.getMessage("EnterPlayerMessage")
-                        + nextPlayerCount + Messages.getMessage("PlayerUsernameMessage"));
+                        + nextPlayerCount + Messages
+                        .getMessage("PlayerUsernameMessage"));
                 nextPlayerCount++;
             } else {
                 break;

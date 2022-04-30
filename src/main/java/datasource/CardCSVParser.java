@@ -66,14 +66,16 @@ public class CardCSVParser {
                 i++;
             }
             if (Arrays.stream(types).noneMatch(cardType::equals)) {
-                throw new IllegalArgumentException(Messages.getMessage("InvalidCardTypeMessage")
-                        + cardType + Messages.getMessage("FoundInFileMessage"));
+                throw new IllegalArgumentException(Messages
+                        .getMessage("InvalidCardTypeMessage") + cardType
+                        + Messages.getMessage("FoundInFileMessage"));
             }
 
             cardCount++;
         }
         if (cardCount != maxCardCount) {
-            throw new IllegalArgumentException(Messages.getMessage("BadNumberOfCardsMessage"));
+            throw new IllegalArgumentException(Messages
+                    .getMessage("BadNumberOfCardsMessage"));
         }
     }
 
