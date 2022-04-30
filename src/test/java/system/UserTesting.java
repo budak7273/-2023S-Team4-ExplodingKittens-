@@ -95,10 +95,10 @@ public class UserTesting {
     }
 
     @Test
-    public void testPlayerDrawsExplodingCardNoDefuse(){
-        ArrayList<Card> hand = new ArrayList<Card>();
-        User user = new User("test1", false, hand);
-        user.addCard(new ExplodingCard());
+    public void testPlayerDiesNoDefuse(){
+        User user = new User("test", false, new ArrayList<>());
+        user.die();
+        Assertions.assertFalse(user.isAlive());
     }
 
 }
