@@ -29,7 +29,7 @@ public enum Messages {
     }
 
     public static String getMessage(Messages message) {
-        return getMessageFromString(message.toString());
+        return getMessage(message.toString());
     }
 
     @Override
@@ -37,7 +37,7 @@ public enum Messages {
         return this.displayName;
     }
 
-    private static String getMessageFromString(final String key) {
+    public static String getMessage(final String key) {
 
         ResourceBundle messages =
                 ResourceBundle.getBundle("message", currentLocation);
