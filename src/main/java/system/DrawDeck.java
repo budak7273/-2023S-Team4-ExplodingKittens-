@@ -36,7 +36,7 @@ public class DrawDeck {
 
     public void drawInitialCard(final User drawer) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage("EmptyDrawDeckMessage");
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
 
