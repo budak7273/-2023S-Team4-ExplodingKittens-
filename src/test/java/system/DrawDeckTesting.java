@@ -3,6 +3,7 @@ package system;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
 import system.cards.ExplodingCard;
@@ -96,5 +97,15 @@ public class DrawDeckTesting {
         Assertions.assertEquals(2, deck.getDeckSize());
         Assertions.assertTrue(deck.getCards().contains(card1));
         Assertions.assertTrue(deck.getCards().contains(card2));
+    }
+
+    @Test
+    public void testDrawFromBottomForUserWithEmptyDeck() {
+        DrawDeck deck = new DrawDeck();
+        User user = new User();
+
+        Executable executable = () -> deck.drawFromBottomForUser(user);
+
+        Assertions.assertThrows(RuntimeException.class, executable);
     }
 }
