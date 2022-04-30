@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
+import system.cards.ExplodingCard;
 
 import java.util.ArrayList;
 
@@ -91,6 +92,13 @@ public class UserTesting {
                 () -> user.verifyEffectForCardsSelected(selected);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
 
+    }
+
+    @Test
+    public void testPlayerDrawsExplodingCardNoDefuse(){
+        ArrayList<Card> hand = new ArrayList<Card>();
+        User user = new User("test1", false, hand);
+        user.addCard(new ExplodingCard());
     }
 
 }

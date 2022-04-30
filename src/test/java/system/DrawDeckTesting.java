@@ -7,6 +7,7 @@ import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
 import system.cards.ExplodingCard;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DrawDeckTesting {
@@ -29,10 +30,26 @@ public class DrawDeckTesting {
 
         DrawDeck deck = new DrawDeck();
         deck.addCard(new AttackCard());
-        deck.drawCard(user);
 
+        assertFalse(deck.drawCard(user));
         assertTrue(deck.getCards().isEmpty());
         assertTrue(!user.getHand().isEmpty());
+    }
+
+    @Test
+    public void testDrawCard_explodingKitten() {
+        ExplodingCard kitten = new ExplodingCard();
+
+        User user = EasyMock.createMock(User.class);
+        user.die();
+        EasyMock.replay(user);
+
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(kitten);
+
+        assertTrue(deck.drawCard(user));
+        assertTrue(deck.getCards().isEmpty());
+        EasyMock.verify(user);
     }
 
     @Test

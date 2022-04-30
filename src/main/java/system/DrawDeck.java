@@ -1,6 +1,9 @@
 package system;
 
 import datasource.CardType;
+import system.cards.DefuseCard;
+import system.cards.ExplodingCard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,13 +22,20 @@ public class DrawDeck {
         cards.add(card);
     }
 
-    public void drawCard(final User drawingUser) {
+    public boolean drawCard(final User drawingUser) {
         if (cards.isEmpty()) {
             String msg = "Draw deck is empty, the game was set up improperly.";
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(0);
-        drawingUser.addCard(drawnCard);
+
+        if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+            drawingUser.die();
+            return true;
+        } else {
+            drawingUser.addCard(drawnCard);
+            return false;
+        }
     }
 
     public List<Card> getCards() {

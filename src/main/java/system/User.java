@@ -1,6 +1,8 @@
 package system;
 
 
+import datasource.CardType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,6 @@ public class User {
     }
 
     public void addCard(final Card drawnCard) {
-
         this.hand.add(drawnCard);
     }
 
