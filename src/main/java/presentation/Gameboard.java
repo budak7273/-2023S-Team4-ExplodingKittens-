@@ -77,15 +77,15 @@ public class Gameboard {
             String response = scanner.next().toLowerCase();
             boolean addAnotherPlayer = (response.equals("y"));
             if (addAnotherPlayer) {
-                System.out.println("Enter player "
-                        + nextPlayerCount + "'s username!");
+                System.out.println(Messages.getMessage("EnterPlayerMessage")
+                        + nextPlayerCount + Messages.getMessage("PlayerUsernameMessage"));
                 nextPlayerCount++;
             } else {
                 break;
             }
         }
 
-        System.out.println("Starting Exploding Kittens game for players: ");
+        System.out.println(Messages.getMessage("StartGameMessage"));
         for (String userName: userNameList) {
             System.out.println(userName);
         }
@@ -162,7 +162,7 @@ public class Gameboard {
         playerDeckDisplayPanel.setLayout(new BorderLayout());
 
         JLabel playerNameLabel =
-                new JLabel("It is your turn, "
+                new JLabel(Messages.getMessage("YourTurnMessage")
                         + gameState.getUsernameForCurrentTurn());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
