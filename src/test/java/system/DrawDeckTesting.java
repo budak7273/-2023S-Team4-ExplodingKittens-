@@ -3,7 +3,6 @@ package system;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
 import system.cards.ExplodingCard;

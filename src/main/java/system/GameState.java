@@ -12,7 +12,8 @@ public class GameState {
     private final int minPlayers = 2;
     private final int maxPlayers = 10;
 
-    public GameState(final Queue<User> pq, final Gameboard g, final DrawDeck deck) {
+    public GameState(final Queue<User> pq, final Gameboard g,
+                     final DrawDeck deck) {
         this.playerQueue = pq;
         this.gameboard = g;
         this.drawDeck = deck;

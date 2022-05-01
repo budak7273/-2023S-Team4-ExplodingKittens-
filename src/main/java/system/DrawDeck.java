@@ -60,7 +60,7 @@ public class DrawDeck {
         return defuseCount;
     }
 
-    public void drawFromBottomForUser(User currentUser) {
+    public void drawFromBottomForUser(final User currentUser) {
         if (cards.isEmpty()) {
             String msg = "Draw deck is empty, the game was set up improperly.";
             throw new RuntimeException(msg);

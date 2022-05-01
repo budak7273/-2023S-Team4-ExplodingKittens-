@@ -2,7 +2,7 @@ package system;
 
 public class DefuseBombEffect implements EffectPattern {
 
-    public void useEffect(GameState gameState) {
+    public void useEffect(final GameState gameState) {
 
     }
 }
