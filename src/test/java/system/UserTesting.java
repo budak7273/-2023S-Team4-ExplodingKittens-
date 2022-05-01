@@ -216,4 +216,14 @@ public class UserTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void testVerifyEffectForCardsSelectedHandWithNoCatCards() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        list.add(new AttackCard());
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(0);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
+    }
+
 }
