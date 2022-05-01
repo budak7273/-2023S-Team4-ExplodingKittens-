@@ -101,11 +101,11 @@ public class Gameboard {
         this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this);
-        this.gameFrame = new JFrame();
         setup.dealHands(this.users, this.drawDeck);
     }
 
     private void initializeGameView() {
+        this.gameFrame = new JFrame();
         buildGameView();
     }
 
