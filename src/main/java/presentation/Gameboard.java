@@ -112,32 +112,28 @@ public class Gameboard {
     private void buildGameView() {
         final int frameWidth = 1000;
         final int frameHeight = 500;
-        if (this.gameFrame != null) {
-            gameFrame.getContentPane().removeAll();
-            JPanel userDisplayPanel = generateUserDisplayPanel();
-            JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
-            JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
+        gameFrame.getContentPane().removeAll();
+        JPanel userDisplayPanel = generateUserDisplayPanel();
+        JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
+        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
 
-            gameFrame.setLayout(new BorderLayout());
-            gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
-            gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
-            gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
-            gameFrame.pack();
-            gameFrame.setSize(frameWidth, frameHeight);
-            gameFrame.setVisible(true);
-        }
+        gameFrame.setLayout(new BorderLayout());
+        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
+        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+        gameFrame.pack();
+        gameFrame.setSize(frameWidth, frameHeight);
+        gameFrame.setVisible(true);
     }
 
     private JPanel generateUserDisplayPanel() {
         JPanel userDisplayPanel = new JPanel();
-        if (this.users != null) {
-            for (User user: this.users) {
-                if (user != this.gameState.getUserForCurrentTurn()) {
-                    JPanel otherPlayer =
-                            createCardImage(user.getName(),
-                                    user.getHand().size() + "");
-                    userDisplayPanel.add(otherPlayer);
-                }
+        for (User user: this.users) {
+            if (user != this.gameState.getUserForCurrentTurn()) {
+                JPanel otherPlayer =
+                        createCardImage(user.getName(),
+                                user.getHand().size() + "");
+                userDisplayPanel.add(otherPlayer);
             }
         }
         return userDisplayPanel;
@@ -145,42 +141,37 @@ public class Gameboard {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-
-        if (this.drawDeck != null && this.discardDeck != null) {
-            JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
-            deckButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(final ActionEvent e) {
-                    drawDeck.drawCard(gameState.getUserForCurrentTurn());
-                    gameState.transitionToNextTurn();
-                }
-            });
-            JPanel discardPile = createCardImage("Top Card",
-                    this.discardDeck.getDeckSize() + "");
-            tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
-            tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
-        }
+        JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
+        deckButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                drawDeck.drawCard(gameState.getUserForCurrentTurn());
+                gameState.transitionToNextTurn();
+            }
+        });
+        JPanel discardPile = createCardImage("Top Card",
+                this.discardDeck.getDeckSize() + "");
+        tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
+        tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
         return tableAreaDisplayPanel;
     }
 
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
-        if (this.gameState != null) {
-            JLabel playerNameLabel =
-                    new JLabel("It is your turn, "
-                            + gameState.getUserForCurrentTurn().getName());
-            playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
+        JLabel playerNameLabel =
+                new JLabel("It is your turn, "
+                        + gameState.getUserForCurrentTurn().getName());
+        playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
-            JPanel handDisplayPanel = new JPanel();
-            handDisplayPanel.setComponentOrientation(
-                    ComponentOrientation.LEFT_TO_RIGHT);
-            for (Card card : gameState.getUserForCurrentTurn().getHand()) {
-                JPanel cardLayout = createCardImage(card.getName(), "");
-                handDisplayPanel.add(cardLayout);
-            }
-            playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
+        JPanel handDisplayPanel = new JPanel();
+        handDisplayPanel.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+        for (Card card : gameState.getUserForCurrentTurn().getHand()) {
+            JPanel cardLayout = createCardImage(card.getName(), "");
+            handDisplayPanel.add(cardLayout);
         }
+        playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
 
