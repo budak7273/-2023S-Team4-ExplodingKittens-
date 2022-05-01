@@ -1,6 +1,8 @@
 package system;
 
 
+import datasource.CardType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,12 +53,14 @@ public class User {
     }
 
     public boolean checkForSpecialEffectPotential() {
-        int count = 0;
+        int otherCount = 0, feralCount=0;
         for(Card card:this.hand){
-            if(card.isCatCard()) count++;
+            if(card.getType()== CardType.FERAL_CAT) feralCount++;
+            else if(card.isCatCard()) otherCount++;
         }
 
-        if(count>=2) return true;
+        if((feralCount>=1&&otherCount>=1)||
+        feralCount>=2) {return true;}
 
         return false;
     }
