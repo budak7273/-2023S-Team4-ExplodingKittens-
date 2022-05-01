@@ -224,6 +224,10 @@ public class UserTesting {
         selected.add(0);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
+        list.add(new AttackCard());
+        selected.add(1);
+        Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
+
 
 }
