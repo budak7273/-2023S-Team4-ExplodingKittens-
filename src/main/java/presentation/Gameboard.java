@@ -33,7 +33,7 @@ public class Gameboard {
     private DiscardDeck discardDeck;
     /**This is the current game's gameState.*/
     private GameState gameState;
-    /**This is what we display the current game on.*/
+    /**This is the current game's Frame that is being drawn on.*/
     private JFrame gameFrame;
 
 
@@ -61,7 +61,7 @@ public class Gameboard {
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
         System.out.println("Please enter player 1's username!");
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, "UTF-8");
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
@@ -141,7 +141,6 @@ public class Gameboard {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-
         JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
         deckButton.addActionListener(new ActionListener() {
             @Override
@@ -160,20 +159,18 @@ public class Gameboard {
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
-
         JLabel playerNameLabel =
                 new JLabel("It is your turn, "
-                        + gameState.getUsernameForCurrentTurn());
+                        + gameState.getUserForCurrentTurn().getName());
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
-        handDisplayPanel
-                .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        for (Card card : gameState.getDeckForCurrentTurn()) {
+        handDisplayPanel.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+        for (Card card : gameState.getUserForCurrentTurn().getHand()) {
             JPanel cardLayout = createCardImage(card.getName(), "");
             handDisplayPanel.add(cardLayout);
         }
-
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
