@@ -257,10 +257,10 @@ public class UserTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedSize2HandSelectTwoDifferent() {
+    public void testVerifyEffectForCardsSelectedSize2HandSelectNonMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new AttackCard());
-        list.add(new NopeCard());
+        list.add(new FeralCatCard());
+        list.add(new CattermelonCard());
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
