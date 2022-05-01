@@ -173,5 +173,27 @@ public class UserTesting {
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }
 
+    @Test
+    public void testCheckForSpecialEffectPotentialMaxCardsTwoPairs() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        for (int i=0; i<120; i++){
+            if(i==7){
+                list.add(new FeralCatCard());
+            }
+
+            if(i==33){
+                list.add(new HairyPotatoCatCard());
+            }
+
+            if(i==67||i==118){
+                list.add(new TacoCatCard());
+            }
+
+            else list.add(new AttackCard());
+        }
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+    }
+
 
 }
