@@ -85,6 +85,10 @@ public class User {
             throw new IllegalArgumentException(
                     "You cannot select cards when your hand is empty");
         }
+        if (selected.size() > this.hand.size()){
+            throw new IllegalArgumentException(
+                    "You should never select more number of cards than what you have. Something is wrong.");
+        }
 
         return false;
     }
