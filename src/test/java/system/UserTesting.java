@@ -126,6 +126,19 @@ public class UserTesting {
     }
 
     @Test
+    public void testCheckForSpecialEffectPotentialThreeMatchingCatCards() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new CattermelonCard();
+        Card card2 = new CattermelonCard();
+        Card card3 = new FeralCatCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+    }
+
+    @Test
     public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList() {
         ArrayList<Card> list = new ArrayList<Card>();
         ArrayList<Integer> selected = new ArrayList<>();
