@@ -77,6 +77,10 @@ public class User {
     }
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
+        if(selected==null){
+            throw new IllegalArgumentException(
+                    "Null list should never happens");
+        }
         if (this.hand.isEmpty() && !selected.isEmpty()) {
             throw new IllegalArgumentException(
                     "You cannot select cards when your hand is empty");

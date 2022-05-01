@@ -139,18 +139,6 @@ public class UserTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList() {
-        ArrayList<Card> list = new ArrayList<Card>();
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(ARBITRARY_COUNT_OF_SELECTED);
-        User user = new User("test1", false, list);
-        Executable executable =
-                () -> user.verifyEffectForCardsSelected(selected);
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
-
-    }
-
-    @Test
     public void testCheckForSpecialEffectPotentialMaxCardsNoPair() {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<120; i++){
@@ -208,5 +196,24 @@ public class UserTesting {
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }
 
+    @Test
+    public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(ARBITRARY_COUNT_OF_SELECTED);
+        User user = new User("test1", false, list);
+        Executable executable =
+                () -> user.verifyEffectForCardsSelected(selected);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testVerifyEffectForCardsSelectedEmptyHandWithNullList() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        User user = new User("test1", false, list);
+        Executable executable =
+                () -> user.verifyEffectForCardsSelected(null);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 
 }
