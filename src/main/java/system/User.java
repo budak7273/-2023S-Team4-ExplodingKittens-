@@ -50,7 +50,15 @@ public class User {
         this.alive = false;
     }
 
-    public boolean checkForSpecialEffectPotential() {return false;
+    public boolean checkForSpecialEffectPotential() {
+        int count = 0;
+        for(Card card:this.hand){
+            if(card.isCatCard()) count++;
+        }
+
+        if(count>=2) return true;
+
+        return false;
     }
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
