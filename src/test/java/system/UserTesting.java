@@ -355,4 +355,23 @@ public class UserTesting {
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
+    @Test
+    public void testVerifyEffectForCardsSelectedMaxSizeHandContainOneTripleSelectMatchingPair() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        for (int i=0; i<120; i++){
+            if(i<3) {
+                list.add(new RainbowRalphingCatCard());
+            }
+            else {
+                list.add(new AttackCard());
+            }
+        }
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(0);
+        selected.add(1);
+        selected.add(2);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
+    }
+
 }
