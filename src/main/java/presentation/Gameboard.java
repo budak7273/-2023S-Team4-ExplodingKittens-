@@ -202,7 +202,7 @@ public class Gameboard {
     /**
      * updateUI changes the GUI of the current game when it is called.
      */
-    public final void updateUI() {
+    public void updateUI() {
         buildGameView();
     }
 }

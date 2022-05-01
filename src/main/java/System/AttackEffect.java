@@ -2,5 +2,7 @@ package system;
 
 public class AttackEffect implements EffectPattern {
 
-    public void useEffect() {}
+    public void useEffect() {
+
+    }
 }
