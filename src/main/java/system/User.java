@@ -3,8 +3,7 @@ package system;
 
 import datasource.CardType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class User {
     private String name;
@@ -79,15 +78,21 @@ public class User {
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
         if(selected==null){
             throw new IllegalArgumentException(
-                    "Null list should never happens");
+                    "Null list should never happens.");
         }
         if (this.hand.isEmpty() && !selected.isEmpty()) {
             throw new IllegalArgumentException(
-                    "You cannot select cards when your hand is empty");
+                    "You cannot select cards when your hand is empty.");
         }
         if (selected.size() > this.hand.size()){
             throw new IllegalArgumentException(
                     "You should never select more number of cards than what you have. Something is wrong.");
+        }
+        Set<Integer> set = new HashSet<>();
+        set.addAll(selected);
+        if (set.size() < selected.size()){
+            throw new IllegalArgumentException(
+                    "You cannot select card at multiple times.");
         }
 
         return false;

@@ -242,4 +242,18 @@ public class UserTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void testVerifyEffectForCardsSelectedSize2HandWithIndexDuplicated() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        list.add(new AttackCard());
+        list.add(new NopeCard());
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(0);
+        selected.add(0);
+        User user = new User("test1", false, list);
+        Executable executable =
+                () -> user.verifyEffectForCardsSelected(null);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
 }
