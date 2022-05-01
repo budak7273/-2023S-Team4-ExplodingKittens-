@@ -3,7 +3,10 @@ package system;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import system.cards.AlterTheFutureCard;
 import system.cards.AttackCard;
+import system.cards.CattermelonCard;
+import system.cards.FeralCatCard;
 
 import java.util.ArrayList;
 
@@ -79,6 +82,28 @@ public class UserTesting {
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
+    }
+
+    @Test
+    public void testCheckForSpecialEffectPotentialTwoCardsDifferentType() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new AttackCard();
+        Card card2 = new AlterTheFutureCard();
+        list.add(card);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+    }
+
+    @Test
+    public void testCheckForSpecialEffectPotentialTwoMatchingCatCards() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new FeralCatCard();
+        Card card2 = new CattermelonCard();
+        list.add(card);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }
 
     @Test

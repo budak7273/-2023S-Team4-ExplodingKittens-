@@ -50,8 +50,7 @@ public class User {
         this.alive = false;
     }
 
-    public boolean checkForSpecialEffectPotential() {
-        return false;
+    public boolean checkForSpecialEffectPotential() {return false;
     }
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
