@@ -238,7 +238,7 @@ public class UserTesting {
         selected.add(1);
         User user = new User("test1", false, list);
         Executable executable =
-                () -> user.verifyEffectForCardsSelected(null);
+                () -> user.verifyEffectForCardsSelected(selected);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
@@ -252,8 +252,20 @@ public class UserTesting {
         selected.add(0);
         User user = new User("test1", false, list);
         Executable executable =
-                () -> user.verifyEffectForCardsSelected(null);
+                () -> user.verifyEffectForCardsSelected(selected);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testVerifyEffectForCardsSelectedSize2HandSelectTwoDifferent() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        list.add(new AttackCard());
+        list.add(new NopeCard());
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(0);
+        selected.add(1);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
 }
