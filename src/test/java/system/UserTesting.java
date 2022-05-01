@@ -259,13 +259,25 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandSelectNonMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new FeralCatCard());
+        list.add(new RainbowRalphingCatCard());
         list.add(new CattermelonCard());
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
+    }
+
+    @Test
+    public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCat() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        list.add(new FeralCatCard());
+        list.add(new CattermelonCard());
+        ArrayList<Integer> selected = new ArrayList<>();
+        selected.add(0);
+        selected.add(1);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
 
 }

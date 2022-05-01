@@ -95,6 +95,15 @@ public class User {
                     "You cannot select card at multiple times.");
         }
 
-        return false;
+        Card first = hand.get(selected.get(0));
+
+        for(Integer i:selected){
+            if(!hand.get(i).isCatCard()) return false;
+            CardType type1 = first.getType();
+            CardType type2 = hand.get(i).getType();
+            if(type1!=type2 && type1!=CardType.FERAL_CAT && type2 !=CardType.FERAL_CAT) return false;
+        }
+
+        return true;
     }
 }
