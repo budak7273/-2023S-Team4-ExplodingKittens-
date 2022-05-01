@@ -150,4 +150,15 @@ public class UserTesting {
 
     }
 
+    @Test
+    public void testCheckForSpecialEffectPotentialMaxCardsNoPair() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        for (int i=0; i<120; i++){
+            list.add(new AttackCard());
+        }
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+    }
+
+
 }
