@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class UserTesting {
 
     static final int ARBITRARY_COUNT_OF_SELECTED = 3;
+    static final int MAX_HAND_SIZE = 120;
     @Test
     public void testUserConstructorDefault() {
         User user = new User();
@@ -141,7 +142,7 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialMaxCardsNoPair() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             list.add(new AttackCard());
         }
         User user = new User("test1", false, list);
@@ -151,7 +152,7 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialMaxCardsOnePair() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==37||i==97){
                 list.add(new CattermelonCard());
             }
@@ -164,7 +165,7 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialMaxCardsTwoPairs() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==7){
                 list.add(new FeralCatCard());
             }
@@ -186,7 +187,7 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialMaxCardsMaxPairs() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i%2==0){
                 list.add(new CattermelonCard());
             }
@@ -295,7 +296,7 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedMaxSizeHandSelectMatchingPair() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==0) {
                 list.add(new CattermelonCard());
             }
@@ -316,7 +317,7 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedMaxSizeHandSelectNonMatchingPair() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==0) {
                 list.add(new CattermelonCard());
             }
@@ -337,7 +338,7 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedMaxSizeHandContainTwoTriplesSelectNonMatchingPair() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i<3) {
                 list.add(new RainbowRalphingCatCard());
             }
@@ -358,7 +359,7 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedMaxSizeHandContainOneTripleSelectMatchingPair() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<120; i++){
+        for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i<3) {
                 list.add(new RainbowRalphingCatCard());
             }
