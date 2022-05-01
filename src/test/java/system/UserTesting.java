@@ -160,5 +160,18 @@ public class UserTesting {
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
     }
 
+    @Test
+    public void testCheckForSpecialEffectPotentialMaxCardsOnePair() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        for (int i=0; i<120; i++){
+            if(i==37||i==97){
+                list.add(new CattermelonCard());
+            }
+            else list.add(new AttackCard());
+        }
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+    }
+
 
 }
