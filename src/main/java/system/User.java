@@ -53,14 +53,25 @@ public class User {
     }
 
     public boolean checkForSpecialEffectPotential() {
-        int otherCount = 0, feralCount=0;
+        int feralCount=0;
+        ArrayList<Card> list = new ArrayList<>();
         for(Card card:this.hand){
             if(card.getType()== CardType.FERAL_CAT) feralCount++;
-            else if(card.isCatCard()) otherCount++;
+            else if(card.isCatCard()) list.add(card);
         }
 
-        if((feralCount>=1&&otherCount>=1)||
+        if((feralCount>=1&&list.size()>=1)||
         feralCount>=2) {return true;}
+        else{
+            if(list.size()<2){return false;}
+            else {
+                for(int i=0; i<list.size()-1;i++){
+                    for(int j=i+1; j<list.size();j++){
+                        if (list.get(i).getType()==list.get(j).getType()) return true;
+                    }
+                }
+            }
+        }
 
         return false;
     }

@@ -104,6 +104,17 @@ public class UserTesting {
     }
 
     @Test
+    public void testCheckForSpecialEffectPotentialTwoMatchingCatCards2() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new CattermelonCard();
+        Card card2 = new CattermelonCard();
+        list.add(card);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+    }
+
+    @Test
     public void testCheckForSpecialEffectPotentialTwoCatCardsNotMatching() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new HairyPotatoCatCard();
