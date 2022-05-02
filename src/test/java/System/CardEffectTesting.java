@@ -43,4 +43,17 @@ public class CardEffectTesting {
         EasyMock.verify(gameState);
     }
 
+    @Test
+    public void testSkip() {
+        EffectPattern skipEffect = new SkipEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.transitionToNextTurn();
+        EasyMock.expectLastCall().times(2);
+        EasyMock.replay(gameState);
+
+        skipEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
+
 }

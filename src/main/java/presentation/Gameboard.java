@@ -47,7 +47,8 @@ public class Gameboard {
     public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
-            throw new InvalidPlayerCountException(Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS));
+            String msg = Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS);
+            throw new InvalidPlayerCountException(msg);
         }
 
         initializeGameState(usernames);
