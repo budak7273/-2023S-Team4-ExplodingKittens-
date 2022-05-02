@@ -1,6 +1,5 @@
 package system;
 
-import presentation.Gameboard;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ public class GameStateTesting {
     @Test
     public void testTransitionToNextTurnWithQueueOf1User() {
         Queue<User> pq = new LinkedList<User>();
-        Gameboard board = new Gameboard();
+        GameDesigner board = new GameDesigner();
         DrawDeck deck = new DrawDeck();
         pq.add(new User());
         GameState gameState = new GameState(pq, board, deck);
@@ -27,8 +26,8 @@ public class GameStateTesting {
 
     @Test
     public void testTransitionToNextTurnWithQueueOf2Users() {
-        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
-        boardMock.updateUI();
+        GameDesigner boardMock = EasyMock.createMock(GameDesigner.class);
+        boardMock.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
@@ -50,8 +49,8 @@ public class GameStateTesting {
 
     @Test
     public void testTransitionToNextTurnWithQueueOf10Users() {
-        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
-        boardMock.updateUI();
+        GameDesigner boardMock = EasyMock.createMock(GameDesigner.class);
+        boardMock.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
@@ -79,7 +78,7 @@ public class GameStateTesting {
         for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
             pq.add(new User());
         }
-        Gameboard board = new Gameboard();
+        GameDesigner board = new GameDesigner();
         DrawDeck deck = new DrawDeck();
 
         GameState gameState = new GameState(pq, board, deck);
@@ -89,8 +88,8 @@ public class GameStateTesting {
 
     @Test
     public void testTransitionToNextAliveWithThreeAliveUsers() {
-        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
-        boardMock.updateUI();
+        GameDesigner boardMock = EasyMock.createMock(GameDesigner.class);
+        boardMock.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
@@ -117,8 +116,8 @@ public class GameStateTesting {
 
     @Test
     public void testTransitionToNextAliveWithThreeUsersFirstDead() {
-        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
-        boardMock.updateUI();
+        GameDesigner boardMock = EasyMock.createMock(GameDesigner.class);
+        boardMock.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
@@ -145,8 +144,8 @@ public class GameStateTesting {
 
     @Test
     public void testTransitionToNextAliveWithThreeUsersTwoDead() {
-        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
-        boardMock.updateUI();
+        GameDesigner boardMock = EasyMock.createMock(GameDesigner.class);
+        boardMock.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
@@ -173,8 +172,8 @@ public class GameStateTesting {
 
     @Test
     public void testTransitionToNextAliveWithTenUsersAndU1U2U4Dead() {
-        Gameboard boardMock = EasyMock.createMock(Gameboard.class);
-        boardMock.updateUI();
+        GameDesigner boardMock = EasyMock.createMock(GameDesigner.class);
+        boardMock.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
 
@@ -208,14 +207,14 @@ public class GameStateTesting {
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        GameDesigner gameboard = EasyMock.createMock(GameDesigner.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
         drawDeck.drawFromBottomForUser(currentUser);
         EasyMock.expectLastCall();
-        gameboard.updateUI();
+        gameboard.updateGamePlayer();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
 
