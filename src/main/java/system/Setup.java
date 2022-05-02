@@ -1,6 +1,7 @@
 package system;
 
 import datasource.CardCSVParser;
+import datasource.Messages;
 import system.cards.DefuseCard;
 
 import java.io.File;
@@ -91,9 +92,11 @@ public class Setup {
     }
 
     public void dealHands(final Queue<User> playerQueue, final DrawDeck deck) {
+
         if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
-            String msg = "Illegal number of players in queue.";
-            throw new IllegalArgumentException(msg);
+
+            throw new IllegalArgumentException(Messages.ILLEGAL_PLAYERS.toString());
+
         }
 
         for (User user : playerQueue) {

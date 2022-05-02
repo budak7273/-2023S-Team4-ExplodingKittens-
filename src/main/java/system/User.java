@@ -1,6 +1,8 @@
 package system;
 
 
+import datasource.Messages;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +61,7 @@ public class User {
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "You cannot select cards when your hand is empty");
+            throw new IllegalArgumentException(Messages.getMessage(Messages.EMPTY_HAND));
         }
 
         return false;
