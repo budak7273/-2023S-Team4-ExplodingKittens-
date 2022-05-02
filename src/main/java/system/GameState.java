@@ -1,5 +1,6 @@
 package system;
 
+import datasource.Messages;
 import presentation.Gameboard;
 
 import java.util.LinkedList;
@@ -22,7 +23,7 @@ public class GameState {
         if (playerQueue.size() < MIN_PLAYERS
                 || playerQueue.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException(
-                    "Illegal number of players in queue");
+                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
         }
         User userForCurrentTurn = playerQueue.poll();
         if (userForCurrentTurn.isAlive()) {

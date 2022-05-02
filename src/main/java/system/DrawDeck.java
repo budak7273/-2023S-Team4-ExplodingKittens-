@@ -1,6 +1,8 @@
 package system;
 
 import datasource.CardType;
+import datasource.Messages;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +23,7 @@ public class DrawDeck {
 
     public void drawCard(final User drawingUser) {
         if (cards.isEmpty()) {
-            String msg = "Draw deck is empty, the game was set up improperly.";
+            String msg = Messages.getMessage("EmptyDrawDeckMessage");
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(0);
@@ -36,7 +38,7 @@ public class DrawDeck {
 
     public void drawInitialCard(final User drawer) {
         if (cards.isEmpty()) {
-            String msg = "Draw deck is empty, the game was set up improperly.";
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
 
