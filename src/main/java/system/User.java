@@ -58,7 +58,7 @@ public class User {
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            throw new IllegalArgumentException(Messages.EMPTY_HAND.toString());
+            throw new IllegalArgumentException(Messages.getMessage(Messages.EMPTY_HAND));
         }
 
         return false;
