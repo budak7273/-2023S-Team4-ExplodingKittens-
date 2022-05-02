@@ -5,9 +5,7 @@ import javax.swing.*;
 public final class ExplodingKittens {
     private ExplodingKittens() { }
     public static void main(final String[] args) {
-        JFrame gameFrame = new JFrame();
-        GamePlayer gp = new GamePlayer(gameFrame);
-        GameDesigner gd = new GameDesigner(gp);
+        GameDesigner gd = new GameDesigner();
         try {
             gd.createGame();
         } catch (InvalidPlayerCountException e) {

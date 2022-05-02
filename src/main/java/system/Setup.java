@@ -95,7 +95,8 @@ public class Setup {
 
         if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
 
-            throw new IllegalArgumentException(Messages.ILLEGAL_PLAYERS.toString());
+            throw new IllegalArgumentException(
+                    Messages.ILLEGAL_PLAYERS.toString());
 
         }
 

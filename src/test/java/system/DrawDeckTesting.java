@@ -118,12 +118,12 @@ public class DrawDeckTesting {
         User user = EasyMock.createMock(User.class);
         user.addCard(bottomCard);
         EasyMock.expectLastCall();
-        EasyMock.replay();
+        EasyMock.replay(user);
 
         deck.drawFromBottomForUser(user);
 
         Assertions.assertFalse(deck.getCards().contains(bottomCard));
 
-        EasyMock.verify();
+        EasyMock.verify(user);
     }
 }
