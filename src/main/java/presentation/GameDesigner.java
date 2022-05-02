@@ -2,7 +2,6 @@ package presentation;
 
 import system.*;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -71,9 +70,9 @@ public class GameDesigner {
         String path = "src/main/resources/cards.csv";
         final DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(users, drawDeck);
-        JFrame gameFrame = new JFrame();
-        final GameState gameState = new GameState(users, this, drawDeck);
-        gamePlayer = new GamePlayer(gameFrame, gameState);
+        final GameState gameState = new GameState(users,
+                this, drawDeck.getCards());
+        gamePlayer = new GamePlayer(gameState);
         updateGamePlayer();
     }
 

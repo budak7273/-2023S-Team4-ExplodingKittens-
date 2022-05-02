@@ -12,14 +12,14 @@ import java.awt.event.ActionListener;
 public class GamePlayer {
 
     /**This is the frame the game is made on.*/
-    JFrame gameFrame;
+    private final JFrame gameFrame;
 
     /**Local storage of the game's current state. */
-    GameState gameState;
+    private final GameState gameState;
 
-    public GamePlayer(JFrame gameFrame, GameState gameState){
-        this.gameState = gameState;
-        this.gameFrame = gameFrame;
+    public GamePlayer(final GameState state) {
+        this.gameState = state;
+        this.gameFrame = new JFrame();
     }
 
     public void buildGameView() {
@@ -55,7 +55,8 @@ public class GamePlayer {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-        JButton deckButton = createDeckImage(this.gameState.getDeckSizeForCurrentTurn() + "");
+        JButton deckButton = createDeckImage(
+                this.gameState.getDeckSizeForCurrentTurn() + "");
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {

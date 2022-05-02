@@ -3,6 +3,7 @@ package system;
 import datasource.Messages;
 import presentation.GameDesigner;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameState {
@@ -13,12 +14,16 @@ public class GameState {
     private static final int MAX_PLAYERS = 10;
 
     public GameState(final Queue<User> pq, final GameDesigner gd,
-                     final DrawDeck deck) {
+                     final List<Card> deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
         this.gameDesigner = gd;
-        this.drawDeck = deck;
+        DrawDeck deckCopy = new DrawDeck();
+        for (Card card: deck) {
+            deckCopy.addCard(card);
+        }
+        this.drawDeck = deckCopy;
     }
 
     public void transitionToNextTurn() {
@@ -48,10 +53,12 @@ public class GameState {
         return playerQueue.peek();
     }
 
-    public int getDeckSizeForCurrentTurn() { return drawDeck.getDeckSize(); }
+    public int getDeckSizeForCurrentTurn() {
+        return drawDeck.getDeckSize();
+    }
 
     public void drawCardForCurrentTurn() {
-        this.drawDeck.drawCard(getUserForCurrentTurn());
+        drawDeck.drawCard(getUserForCurrentTurn());
         transitionToNextTurn();
     }
 
