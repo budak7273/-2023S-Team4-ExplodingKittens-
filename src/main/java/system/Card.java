@@ -2,7 +2,7 @@ package system;
 
 import datasource.CardType;
 
-public abstract class Card {
+public class Card {
     private CardType cardType;
 
     public Card(final CardType type) {
