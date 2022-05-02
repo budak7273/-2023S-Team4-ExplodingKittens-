@@ -73,7 +73,7 @@ public class CardCSVParser {
 
             cardCount++;
         }
-        if (cardCount != maxCardCount) {
+        if (cardCount != MAX_CARD_COUNT) {
             throw new IllegalArgumentException(Messages
                     .getMessage(Messages.BAD_NUMBER_OF_CARDS));
 

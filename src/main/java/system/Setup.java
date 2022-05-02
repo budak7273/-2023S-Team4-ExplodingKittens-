@@ -93,7 +93,7 @@ public class Setup {
 
     public void dealHands(final Queue<User> playerQueue, final DrawDeck deck) {
 
-        if (playerQueue.size() < 2 || playerQueue.size() > maxPlayers) {
+        if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
 
             throw new IllegalArgumentException(Messages.ILLEGAL_PLAYERS.toString());
 
