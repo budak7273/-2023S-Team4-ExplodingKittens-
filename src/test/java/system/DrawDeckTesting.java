@@ -41,7 +41,7 @@ public class DrawDeckTesting {
         ExplodingCard kitten = new ExplodingCard();
 
         User user = EasyMock.createMock(User.class);
-        user.die();
+        user.attemptToDie();
         EasyMock.replay(user);
 
         DrawDeck deck = new DrawDeck();

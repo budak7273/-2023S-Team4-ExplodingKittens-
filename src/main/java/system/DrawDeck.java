@@ -1,8 +1,6 @@
 package system;
 
 import datasource.CardType;
-import system.cards.DefuseCard;
-import system.cards.ExplodingCard;
 
 import datasource.Messages;
 
@@ -32,7 +30,7 @@ public class DrawDeck {
         Card drawnCard = cards.remove(0);
 
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
-            drawingUser.die();
+            drawingUser.attemptToDie();
             return true;
         } else {
             drawingUser.addCard(drawnCard);

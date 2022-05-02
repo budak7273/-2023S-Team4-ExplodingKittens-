@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
 import system.cards.DefuseCard;
-import system.cards.ExplodingCard;
 
 import java.util.ArrayList;
 
@@ -98,7 +97,7 @@ public class UserTesting {
     @Test
     public void testPlayerDiesNoDefuse(){
         User user = new User("test", false, new ArrayList<>());
-        user.die();
+        user.attemptToDie();
         Assertions.assertFalse(user.isAlive());
     }
 
@@ -108,7 +107,7 @@ public class UserTesting {
         hand.add(new DefuseCard());
 
         User user = new User("test", false, hand);
-        user.die();
+        user.attemptToDie();
         Assertions.assertTrue(user.isAlive());
         Assertions.assertTrue(hand.isEmpty());
     }

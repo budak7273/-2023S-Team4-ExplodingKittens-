@@ -52,7 +52,7 @@ public class User {
         return this.alive;
     }
 
-    public void die() {
+    public void attemptToDie() {
         this.alive = false;
         int i;
         for (i=0; i<hand.size(); i++) {
