@@ -1,7 +1,5 @@
 package presentation;
 
-
-import java.util.Locale;
 import datasource.Messages;
 
 public final class ExplodingKittens {
@@ -11,10 +9,7 @@ public final class ExplodingKittens {
         try {
             g.createGame();
         } catch (InvalidPlayerCountException e) {
-            Locale loc = Locale.GERMAN;
-            String key = "invalidMessage";
-            String invalidPlayerMessage = Messages.getMessage(loc, key);
-            System.out.println(invalidPlayerMessage);
+            System.out.println(e.getMessage());
         }
     }
 }
