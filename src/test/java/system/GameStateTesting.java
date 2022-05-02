@@ -223,4 +223,31 @@ public class GameStateTesting {
         EasyMock.verify();
     }
 
+    @Test
+    public void testDrawFromCurrentDeck() {
+        Queue<User> userQueue = new LinkedList<>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GameDesigner gameboard = EasyMock.createMock(GameDesigner.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        drawDeck.drawCard(currentUser);
+        EasyMock.expectLastCall();
+        EasyMock.expect(drawDeck.getDeckSize()).andReturn(28);
+        gameboard.updateGamePlayer();
+        EasyMock.expectLastCall();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.drawCardForCurrentTurn();
+        int deckSize = gameState.getDeckSizeForCurrentTurn();
+        final int expectedDeckSize = 28;
+        Assertions.assertEquals(deckSize,expectedDeckSize);
+
+        EasyMock.verify();
+    }
+
 }
