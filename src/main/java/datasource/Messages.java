@@ -23,10 +23,10 @@ public enum Messages {
     EMPTY_HAND("EmptyHandMessage");
 
     private static Locale currentLocation = Locale.GERMAN;
-    private final String displayName;
+    private final String messageName;
 
     Messages(final String displayNameStr) {
-        this.displayName = displayNameStr;
+        this.messageName = displayNameStr;
     }
 
     public static String getMessage(Messages message) {
@@ -35,7 +35,7 @@ public enum Messages {
 
     @Override
     public String toString() {
-        return this.displayName;
+        return this.messageName;
     }
 
     public static String getMessage(final String key) {
