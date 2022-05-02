@@ -1,7 +1,5 @@
 package presentation;
 
-import datasource.Messages;
-
 public final class ExplodingKittens {
     private ExplodingKittens() { }
     public static void main(final String[] args) {
