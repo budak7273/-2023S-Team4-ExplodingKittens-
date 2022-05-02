@@ -45,7 +45,7 @@ public class Gameboard {
     public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
-            throw new InvalidPlayerCountException(Messages.NOT_ENOUGH_PLAYERS.toString());
+            throw new InvalidPlayerCountException(Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS));
         }
 
         initializeGameState(usernames);
@@ -168,7 +168,7 @@ public class Gameboard {
         playerDeckDisplayPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
                 new JLabel(Messages.getMessage(Messages.YOUR_TURN)
-                        + gameState.getUsernameForCurrentTurn());
+                        + gameState.getUserForCurrentTurn());
 
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
