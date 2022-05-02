@@ -5,10 +5,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import presentation.GameDesigner;
+import system.cards.AttackCard;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameStateTesting {
+
+    private final List<Card> cards = new ArrayList<>();
+
+    public GameStateTesting() {
+        cards.add(new AttackCard());
+    }
 
     static final int MAX_USER_COUNT = 10;
     static final int ARBITRARY_USER_ID_TO_KILL = 3;
@@ -17,9 +27,8 @@ public class GameStateTesting {
     public void testTransitionToNextTurnWithQueueOf1User() {
         Queue<User> pq = new LinkedList<User>();
         GameDesigner board = new GameDesigner();
-        DrawDeck deck = new DrawDeck();
         pq.add(new User());
-        GameState gameState = new GameState(pq, board, deck);
+        GameState gameState = new GameState(pq, board, cards);
         Executable executable = () -> gameState.transitionToNextTurn();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -36,9 +45,8 @@ public class GameStateTesting {
         User userNextInQueue = new User();
         pq.add(userStartingAtTopOfQueue);
         pq.add(userNextInQueue);
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, boardMock, deck);
+        GameState gameState = new GameState(pq, boardMock, cards);
         gameState.transitionToNextTurn();
 
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
@@ -62,9 +70,8 @@ public class GameStateTesting {
         for (int i = 0; i < MAX_USER_COUNT - 2; i++) {
             pq.add(new User());
         }
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, boardMock, deck);
+        GameState gameState = new GameState(pq, boardMock, cards);
         gameState.transitionToNextTurn();
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
@@ -79,9 +86,8 @@ public class GameStateTesting {
             pq.add(new User());
         }
         GameDesigner board = new GameDesigner();
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, board, deck);
+        GameState gameState = new GameState(pq, board, cards);
         Executable executable = () -> gameState.transitionToNextTurn();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -100,9 +106,8 @@ public class GameStateTesting {
         pq.add(user1);
         pq.add(user2);
         pq.add(user3);
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, boardMock, deck);
+        GameState gameState = new GameState(pq, boardMock, cards);
         gameState.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -129,9 +134,8 @@ public class GameStateTesting {
         pq.add(user1);
         pq.add(user2);
         pq.add(user3);
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, boardMock, deck);
+        GameState gameState = new GameState(pq, boardMock, cards);
         gameState.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -158,9 +162,8 @@ public class GameStateTesting {
         pq.add(user1);
         pq.add(user2);
         pq.add(user3);
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, boardMock, deck);
+        GameState gameState = new GameState(pq, boardMock, cards);
         gameState.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -190,9 +193,8 @@ public class GameStateTesting {
                 expected.add(user);
             }
         }
-        DrawDeck deck = new DrawDeck();
 
-        GameState gameState = new GameState(pq, boardMock, deck);
+        GameState gameState = new GameState(pq, boardMock, cards);
         gameState.transitionToNextTurn();
 
         Assertions.assertEquals(expected, gameState.getPlayerQueue());
@@ -208,19 +210,15 @@ public class GameStateTesting {
         userQueue.add(new User());
 
         GameDesigner gameboard = EasyMock.createMock(GameDesigner.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
-        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
-
-        drawDeck.drawFromBottomForUser(currentUser);
-        EasyMock.expectLastCall();
+        GameState gameState = new GameState(userQueue, gameboard, cards);
         gameboard.updateGamePlayer();
         EasyMock.expectLastCall();
-        EasyMock.replay(gameboard, drawDeck);
+        EasyMock.replay(gameboard);
 
         gameState.drawFromBottom();
 
-        EasyMock.verify();
+        EasyMock.verify(gameboard);
     }
 
     @Test
@@ -231,23 +229,19 @@ public class GameStateTesting {
         userQueue.add(new User());
 
         GameDesigner gameboard = EasyMock.createMock(GameDesigner.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
-        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+        GameState gameState = new GameState(userQueue, gameboard, cards);
 
-        drawDeck.drawCard(currentUser);
-        EasyMock.expectLastCall();
-        EasyMock.expect(drawDeck.getDeckSize()).andReturn(28);
         gameboard.updateGamePlayer();
         EasyMock.expectLastCall();
-        EasyMock.replay(gameboard, drawDeck);
+        EasyMock.replay(gameboard);
 
         gameState.drawCardForCurrentTurn();
         int deckSize = gameState.getDeckSizeForCurrentTurn();
-        final int expectedDeckSize = 28;
-        Assertions.assertEquals(deckSize,expectedDeckSize);
+        final int expectedDeckSize = 0;
+        Assertions.assertEquals(deckSize, expectedDeckSize);
 
-        EasyMock.verify();
+        EasyMock.verify(gameboard);
     }
 
 }
