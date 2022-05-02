@@ -114,4 +114,33 @@ public class DrawDeckTesting {
         Assertions.assertTrue(deck.getCards().contains(card1));
         Assertions.assertTrue(deck.getCards().contains(card2));
     }
+
+    @Test
+    public void testDrawFromBottomForUserWithEmptyDeck() {
+        DrawDeck deck = new DrawDeck();
+        User user = new User();
+
+        Executable executable = () -> deck.drawFromBottomForUser(user);
+
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
+    public void testDrawFromBottomForUserWithNonEmptyDeck() {
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(new AttackCard());
+        Card bottomCard = new AttackCard();
+        deck.addCard(bottomCard);
+
+        User user = EasyMock.createMock(User.class);
+        user.addCard(bottomCard);
+        EasyMock.expectLastCall();
+        EasyMock.replay();
+
+        deck.drawFromBottomForUser(user);
+
+        Assertions.assertFalse(deck.getCards().contains(bottomCard));
+
+        EasyMock.verify();
+    }
 }

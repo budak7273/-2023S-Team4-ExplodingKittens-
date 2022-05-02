@@ -2,5 +2,5 @@ package system;
 
 public interface EffectPattern {
 
-    void useEffect();
+    void useEffect(GameState gameState);
 }

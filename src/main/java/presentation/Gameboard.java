@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import datasource.Messages;
 import system.User;
 import system.DrawDeck;
 import system.DiscardDeck;
@@ -33,18 +35,20 @@ public class Gameboard {
     private DiscardDeck discardDeck;
     /**This is the current game's gameState.*/
     private GameState gameState;
-    /**This is what we display the current game on.*/
+    /**This is the current game's Frame that is being drawn on.*/
     private JFrame gameFrame;
 
-
+    public Gameboard() {
+        this.gameFrame = new JFrame();
+    }
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
     public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
-            throw new InvalidPlayerCountException("ERROR: "
-                    + "Must have at least 2 players!");
+            String msg = Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS);
+            throw new InvalidPlayerCountException(msg);
         }
 
         initializeGameState(usernames);
@@ -60,32 +64,38 @@ public class Gameboard {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
-        System.out.println("Please enter player 1's username!");
-        Scanner scanner = new Scanner(System.in);
+
+        System.out.println(Messages
+                .getMessage(Messages.ENTER_PLAYER_1_NAME));
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
-            System.out.println(username + " has been added to the game!");
+            System.out.println(username + Messages
+                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
 
             if (nextPlayerCount < tooManyPlayers) {
-                System.out.println("Would you like "
-                        + "to add another player? (y/n)");
+                System.out.println(Messages
+                        .getMessage(Messages.ADD_ANOTHER_PLAYER));
             } else {
                 break;
             }
 
             String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y"));
+            boolean addAnotherPlayer = (response.equals("y")
+                    || response.equals("j"));
             if (addAnotherPlayer) {
-                System.out.println("Enter player "
-                        + nextPlayerCount + "'s username!");
+                System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
+                        + nextPlayerCount + Messages
+                        .getMessage(Messages.PLAYER_USERNAME));
                 nextPlayerCount++;
             } else {
                 break;
             }
         }
 
-        System.out.println("Starting Exploding Kittens game for players: ");
+        System.out.println(Messages.getMessage(Messages.START_GAME));
         for (String userName: userNameList) {
             System.out.println(userName);
         }
@@ -100,16 +110,20 @@ public class Gameboard {
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
 
-        this.gameState = new GameState(this.users, this);
+        this.gameState = new GameState(this.users, this, this.drawDeck);
         setup.dealHands(this.users, this.drawDeck);
     }
 
-    private void initializeGameView() {
+    public void initializeGameView() {
         this.gameFrame = new JFrame();
         buildGameView();
     }
 
     private void buildGameView() {
+        if (gameFrame == null) {
+            return;
+        }
+
         final int frameWidth = 1000;
         final int frameHeight = 500;
         gameFrame.getContentPane().removeAll();
@@ -141,7 +155,6 @@ public class Gameboard {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-
         JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
         deckButton.addActionListener(new ActionListener() {
             @Override
@@ -160,20 +173,19 @@ public class Gameboard {
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
-
         JLabel playerNameLabel =
-                new JLabel("It is your turn, "
-                        + gameState.getUsernameForCurrentTurn());
+                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
+                        + gameState.getUserForCurrentTurn().getName());
+
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
-        handDisplayPanel
-                .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        for (Card card : gameState.getDeckForCurrentTurn()) {
+        handDisplayPanel.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+        for (Card card : gameState.getUserForCurrentTurn().getHand()) {
             JPanel cardLayout = createCardImage(card.getName(), "");
             handDisplayPanel.add(cardLayout);
         }
-
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
@@ -202,7 +214,7 @@ public class Gameboard {
     /**
      * updateUI changes the GUI of the current game when it is called.
      */
-    public final void updateUI() {
+    public void updateUI() {
         buildGameView();
     }
 }
