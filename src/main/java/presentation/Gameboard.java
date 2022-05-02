@@ -109,7 +109,7 @@ public class Gameboard {
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
 
-        this.gameState = new GameState(this.users, this, this.drawDeck);
+//        this.gameState = new GameState(this.users, this, this.drawDeck);
         setup.dealHands(this.users, this.drawDeck);
     }
 

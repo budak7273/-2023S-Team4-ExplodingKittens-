@@ -11,11 +11,14 @@ import java.awt.event.ActionListener;
 
 public class GamePlayer {
 
+    /**This is the frame the game is made on.*/
     JFrame gameFrame;
 
+    /**Local storage of the game's current state. */
     GameState gameState;
 
-    public GamePlayer(JFrame gameFrame){
+    public GamePlayer(JFrame gameFrame, GameState gameState){
+        this.gameState = gameState;
         this.gameFrame = gameFrame;
     }
 
@@ -57,11 +60,9 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 gameState.drawCardForCurrentTurn();
-                gameState.transitionToNextTurn();
             }
         });
-        JPanel discardPile = createCardImage("Top Card",
-                this.gameState.getTopDiscardedCardForCurrentTurn() + "");
+        JPanel discardPile = createCardImage("Top Card", "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
         return tableAreaDisplayPanel;
@@ -110,8 +111,7 @@ public class GamePlayer {
     /**
      * updateUI changes the GUI of the current game when it is called.
      */
-    public void updateUI(GameState gameState) {
-        this.gameState = gameState;
+    public void updateUI() {
         buildGameView();
     }
 }

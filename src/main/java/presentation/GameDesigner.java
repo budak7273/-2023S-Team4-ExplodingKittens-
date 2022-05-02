@@ -1,18 +1,15 @@
 package presentation;
 
 import system.*;
+
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
 public class GameDesigner {
 
-    /**This is the internal storage of GameDesigner.
-     * which allows the user to Create Prestentation.*/
-    public GamePlayer gamePlayer;
-
-    public GameDesigner(GamePlayer gamePlayer){
-        this.gamePlayer = gamePlayer;
-    }
+    /**This is the local place to find the gamePlayer.*/
+    private GamePlayer gamePlayer;
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
@@ -74,8 +71,14 @@ public class GameDesigner {
         String path = "src/main/resources/cards.csv";
         final DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(users, drawDeck);
-        final GameState gameState = new GameState(users, gamePlayer, drawDeck);
-        gamePlayer.buildGameView(gameState);
+        JFrame gameFrame = new JFrame();
+        final GameState gameState = new GameState(users, this, drawDeck);
+        gamePlayer = new GamePlayer(gameFrame, gameState);
+        updateGamePlayer();
+    }
+
+    public void updateGamePlayer() {
+        this.gamePlayer.updateUI();
     }
 
 }
