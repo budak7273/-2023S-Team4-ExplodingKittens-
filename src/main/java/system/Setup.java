@@ -12,8 +12,6 @@ public class Setup {
 
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
-
-
     private static final int MAX_COUNT_WITH_PAW = 3;
     private static final int MIN_COUNT_WITHOUT_PAW = 4;
     private static final int MAX_COUNT_WITHOUT_PAW = 7;
