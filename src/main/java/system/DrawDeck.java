@@ -31,7 +31,9 @@ public class DrawDeck {
     }
 
     public List<Card> getCards() {
-        return this.cards;
+        List<Card> toReturn = new ArrayList<>();
+        toReturn.addAll(this.cards);
+        return toReturn;
     }
 
     public void drawInitialCard(final User drawer) {

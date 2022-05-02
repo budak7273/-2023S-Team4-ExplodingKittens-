@@ -35,7 +35,7 @@ public class Gameboard {
     private DiscardDeck discardDeck;
     /**This is the current game's gameState.*/
     private GameState gameState;
-    /**This is what we display the current game on.*/
+    /**This is the current game's Frame that is being drawn on.*/
     private JFrame gameFrame;
 
 
@@ -61,9 +61,11 @@ public class Gameboard {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
+
         System.out.println(Messages
                 .getMessage(Messages.ENTER_PLAYER_1_NAME));
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+
         while (scanner.hasNext()) {
             String username = scanner.next();
             userNameList.add(username);
@@ -146,7 +148,6 @@ public class Gameboard {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-
         JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
         deckButton.addActionListener(new ActionListener() {
             @Override
@@ -165,20 +166,19 @@ public class Gameboard {
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
-
         JLabel playerNameLabel =
                 new JLabel(Messages.getMessage(Messages.YOUR_TURN)
                         + gameState.getUsernameForCurrentTurn());
+
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
-        handDisplayPanel
-                .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        for (Card card : gameState.getDeckForCurrentTurn()) {
+        handDisplayPanel.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+        for (Card card : gameState.getUserForCurrentTurn().getHand()) {
             JPanel cardLayout = createCardImage(card.getName(), "");
             handDisplayPanel.add(cardLayout);
         }
-
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
@@ -207,7 +207,7 @@ public class Gameboard {
     /**
      * updateUI changes the GUI of the current game when it is called.
      */
-    public final void updateUI() {
+    public void updateUI() {
         buildGameView();
     }
 }
