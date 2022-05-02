@@ -1,29 +1,32 @@
 package system;
 
+import datasource.Messages;
 import presentation.Gameboard;
 
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class GameState {
     private final Queue<User> playerQueue;
     private final Gameboard gameboard;
     private final DrawDeck drawDeck;
-    private final int minPlayers = 2;
-    private final int maxPlayers = 10;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 10;
 
     public GameState(final Queue<User> pq, final Gameboard g,
                      final DrawDeck deck) {
-        this.playerQueue = pq;
+        Queue<User> pqCopy = new LinkedList<>();
+        pqCopy.addAll(pq);
+        this.playerQueue = pqCopy;
         this.gameboard = g;
         this.drawDeck = deck;
     }
 
     public void transitionToNextTurn() {
-        if (playerQueue.size() < minPlayers
-                || playerQueue.size() > maxPlayers) {
+        if (playerQueue.size() < MIN_PLAYERS
+                || playerQueue.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException(
-                    "Illegal number of players in queue");
+                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
         }
         User userForCurrentTurn = playerQueue.poll();
         if (userForCurrentTurn.isAlive()) {
@@ -46,16 +49,10 @@ public class GameState {
         return playerQueue.peek();
     }
 
-    public String getUsernameForCurrentTurn() {
-        return getUserForCurrentTurn().getName();
-    }
-
-    public List<Card> getDeckForCurrentTurn() {
-        return getUserForCurrentTurn().getHand();
-    }
-
     public Queue<User> getPlayerQueue() {
-        return this.playerQueue;
+        Queue<User> toReturn = new LinkedList<>();
+        toReturn.addAll(this.playerQueue);
+        return toReturn;
     }
 
 }

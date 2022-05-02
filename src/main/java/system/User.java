@@ -1,6 +1,8 @@
 package system;
 
 
+import datasource.Messages;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,9 @@ public class User {
                 final ArrayList<Card> playerHand) {
         this.name = playerName;
         this.alive = activeStatus;
-        this.hand = playerHand;
+        ArrayList<Card> playerHandClone = new ArrayList<>();
+        playerHandClone.addAll(playerHand);
+        this.hand = playerHandClone;
     }
 
     public String getName() {
@@ -33,8 +37,9 @@ public class User {
     }
 
     public List<Card> getHand() {
-
-        return this.hand;
+        List<Card> toReturn = new ArrayList<>();
+        toReturn.addAll(this.hand);
+        return toReturn;
     }
 
     public void addCard(final Card drawnCard) {
@@ -56,8 +61,7 @@ public class User {
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "You cannot select cards when your hand is empty");
+            throw new IllegalArgumentException(Messages.getMessage(Messages.EMPTY_HAND));
         }
 
         return false;
