@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class GameState {
-    private final Queue<User> playerQueue;
+    private Queue<User> playerQueue;
     private final Gameboard gameboard;
-    private final DrawDeck drawDeck;
+    private DrawDeck drawDeck;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
