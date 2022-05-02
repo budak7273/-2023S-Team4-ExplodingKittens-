@@ -1,4 +1,6 @@
-package system;
+package system.cardEffects;
+
+import system.GameState;
 
 public class SkipEffect implements EffectPattern {
     @Override
