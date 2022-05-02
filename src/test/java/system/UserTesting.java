@@ -1,10 +1,9 @@
 package system;
 
+import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.AttackCard;
-
 import java.util.ArrayList;
 
 public class UserTesting {
@@ -42,7 +41,7 @@ public class UserTesting {
     @Test
     public void testUserConstructorHandWithOneCard() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new AttackCard();
+        Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertEquals(list, user.getHand());
@@ -53,8 +52,8 @@ public class UserTesting {
     @Test
     public void testUserConstructorHandWithMultipleCard() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new AttackCard();
-        Card card2 = new AttackCard();
+        Card card = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -75,7 +74,7 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialOneCard() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new AttackCard();
+        Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());

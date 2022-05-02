@@ -1,11 +1,10 @@
 package system;
 
+import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.AttackCard;
-import system.cards.ExplodingCard;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -28,7 +27,7 @@ public class DrawDeckTesting {
         User user = new User();
 
         DrawDeck deck = new DrawDeck();
-        deck.addCard(new AttackCard());
+        deck.addCard(new Card(CardType.ATTACK));
         deck.drawCard(user);
 
         assertTrue(deck.getCards().isEmpty());
@@ -50,8 +49,14 @@ public class DrawDeckTesting {
     @Test
     public void testDrawInitialCardFromNonEmptyDrawDeck() {
         User player = EasyMock.createMock(User.class);
-        Card drawnCard = EasyMock.createMock(AttackCard.class);
-        Card explodeCard = EasyMock.createMock(ExplodingCard.class);
+        Card drawnCard = EasyMock.createMockBuilder(Card.class)
+                .withConstructor(CardType.class)
+                .withArgs(CardType.ATTACK)
+                .createMock();
+        Card explodeCard = EasyMock.createMockBuilder(Card.class)
+                .withConstructor(CardType.class)
+                .withArgs(CardType.EXPLODING_KITTEN)
+                .createMock();
         EasyMock.expect(explodeCard.getName()).andReturn("Exploding Kitten");
         EasyMock.expect(drawnCard.getName()).andReturn("Attack");
         player.addCard(drawnCard);
@@ -76,7 +81,7 @@ public class DrawDeckTesting {
     @Test
     public void testShuffleOnDeckOfOneCard() {
         DrawDeck deck = new DrawDeck();
-        Card card = new AttackCard();
+        Card card = new Card(CardType.ATTACK);
         deck.addCard(card);
         deck.shuffle();
 
@@ -87,8 +92,8 @@ public class DrawDeckTesting {
     @Test
     public void testShuffleOnDeckOfMultipleCards() {
         DrawDeck deck = new DrawDeck();
-        Card card1 = new AttackCard();
-        Card card2 = new AttackCard();
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
         deck.addCard(card1);
         deck.addCard(card2);
         deck.shuffle();
@@ -111,8 +116,8 @@ public class DrawDeckTesting {
     @Test
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
         DrawDeck deck = new DrawDeck();
-        deck.addCard(new AttackCard());
-        Card bottomCard = new AttackCard();
+        deck.addCard(new Card(CardType.ATTACK));
+        Card bottomCard = new Card(CardType.ATTACK);
         deck.addCard(bottomCard);
 
         User user = EasyMock.createMock(User.class);
