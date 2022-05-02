@@ -9,14 +9,17 @@ import java.util.Queue;
 public class GameState {
     private final Queue<User> playerQueue;
     private final Gameboard gameboard;
+    private final DrawDeck drawDeck;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final Gameboard g) {
+    public GameState(final Queue<User> pq, final Gameboard g,
+                     final DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
         this.gameboard = g;
+        this.drawDeck = deck;
     }
 
     public void transitionToNextTurn() {
@@ -36,6 +39,12 @@ public class GameState {
         gameboard.updateUI();
     }
 
+    public void drawFromBottom() {
+        User currentUser = getUserForCurrentTurn();
+        drawDeck.drawFromBottomForUser(currentUser);
+        transitionToNextTurn();
+    }
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
@@ -45,6 +54,5 @@ public class GameState {
         toReturn.addAll(this.playerQueue);
         return toReturn;
     }
-
 
 }

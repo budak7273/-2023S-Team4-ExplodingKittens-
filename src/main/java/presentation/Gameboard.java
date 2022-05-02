@@ -38,7 +38,9 @@ public class Gameboard {
     /**This is the current game's Frame that is being drawn on.*/
     private JFrame gameFrame;
 
-
+    public Gameboard() {
+        this.gameFrame = new JFrame();
+    }
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
@@ -107,16 +109,20 @@ public class Gameboard {
         this.drawDeck = setup.createDrawDeck(new File(path));
         this.discardDeck = setup.createDiscardDeck();
 
-        this.gameState = new GameState(this.users, this);
+        this.gameState = new GameState(this.users, this, this.drawDeck);
         setup.dealHands(this.users, this.drawDeck);
     }
 
-    private void initializeGameView() {
+    public void initializeGameView() {
         this.gameFrame = new JFrame();
         buildGameView();
     }
 
     private void buildGameView() {
+        if (gameFrame == null) {
+            return;
+        }
+
         final int frameWidth = 1000;
         final int frameHeight = 500;
         gameFrame.getContentPane().removeAll();
