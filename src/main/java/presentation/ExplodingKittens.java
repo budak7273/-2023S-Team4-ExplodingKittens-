@@ -9,9 +9,7 @@ public final class ExplodingKittens {
         try {
             g.createGame();
         } catch (InvalidPlayerCountException e) {
-            String key = e.getMessage();
-            String invalidPlayerMessage = Messages.getMessage(key);
-            System.out.println(invalidPlayerMessage);
+            System.out.println(e.getMessage());
         }
     }
 }
