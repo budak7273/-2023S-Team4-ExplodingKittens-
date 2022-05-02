@@ -25,12 +25,10 @@ public class User {
 
     public User(final String playerName,
                 final boolean activeStatus,
-                final ArrayList<Card> playerHand) {
+                ArrayList<Card> playerHand) {
         this.name = playerName;
         this.alive = activeStatus;
-        ArrayList<Card> playerHandClone = new ArrayList<>();
-        playerHandClone.addAll(playerHand);
-        this.hand = playerHandClone;
+        this.hand = playerHand;
     }
 
     public String getName() {
@@ -54,15 +52,12 @@ public class User {
 
     public void attemptToDie() {
         this.alive = false;
-        int i;
-        for (i=0; i<hand.size(); i++) {
+        for (int i=0; i<hand.size(); i++) {
             if (hand.get(i).getType() == CardType.DEFUSE) {
                 this.alive = true;
+                hand.remove(i);
                 break;
             }
-        }
-        if (this.alive) {
-            hand.remove(i);
         }
     }
 
