@@ -52,16 +52,16 @@ public class GamePlayer {
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
-        JButton deckButton = createDeckImage(drawDeck.getDeckSize() + "");
+        JButton deckButton = createDeckImage(this.gameState.getDeckSizeForCurrentTurn() + "");
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                drawDeck.drawCard(gameState.getUserForCurrentTurn());
+                gameState.drawCardForCurrentTurn();
                 gameState.transitionToNextTurn();
             }
         });
         JPanel discardPile = createCardImage("Top Card",
-                this.discardDeck.getDeckSize() + "");
+                this.gameState.getTopDiscardedCardForCurrentTurn() + "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
         return tableAreaDisplayPanel;
@@ -110,7 +110,7 @@ public class GamePlayer {
     /**
      * updateUI changes the GUI of the current game when it is called.
      */
-    public final void updateUI(GameState gameState) {
+    public void updateUI(GameState gameState) {
         this.gameState = gameState;
         buildGameView();
     }

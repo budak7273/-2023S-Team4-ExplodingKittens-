@@ -1,8 +1,6 @@
 package presentation;
 
 import system.*;
-
-import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -11,16 +9,6 @@ public class GameDesigner {
     /**This is the internal storage of GameDesigner.
      * which allows the user to Create Prestentation.*/
     public GamePlayer gamePlayer;
-    /**This is the Queue of all Player's in the current game.*/
-    private Queue<User> users = new ArrayDeque<>();
-    /**This is the drawDeck in the current game.*/
-    private DrawDeck drawDeck;
-    /**This is the discardDeck in the current game.*/
-    private DiscardDeck discardDeck;
-    /**This is the current game's gameState.*/
-    private GameState gameState;
-    /**This is the current game's Frame that is being drawn on.*/
-    private JFrame gameFrame;
 
     public GameDesigner(GamePlayer gamePlayer){
         this.gamePlayer = gamePlayer;
@@ -36,7 +24,6 @@ public class GameDesigner {
         }
 
         initializeGameState(usernames);
-        initializeGameView();
     }
 
     /**
@@ -83,17 +70,12 @@ public class GameDesigner {
 
     private void initializeGameState(final List<String> usernames) {
         Setup setup = new Setup(usernames.size());
-        this.users = setup.createUsers(usernames);
+        final Queue<User> users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
-        this.drawDeck = setup.createDrawDeck(new File(path));
-        this.discardDeck = setup.createDiscardDeck();
-
-//        this.gameState = new GameState(this.users);
-        setup.dealHands(this.users, this.drawDeck);
+        final DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        setup.dealHands(users, drawDeck);
+        final GameState gameState = new GameState(users, gamePlayer, drawDeck);
+        gamePlayer.buildGameView(gameState);
     }
 
-    private void initializeGameView() {
-        this.gameFrame = new JFrame();
-        gamePlayer.buildGameView();
-    }
 }
