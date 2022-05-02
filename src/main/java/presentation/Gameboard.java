@@ -168,7 +168,7 @@ public class Gameboard {
         playerDeckDisplayPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
                 new JLabel(Messages.getMessage(Messages.YOUR_TURN)
-                        + gameState.getUserForCurrentTurn());
+                        + gameState.getUserForCurrentTurn().getName());
 
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
