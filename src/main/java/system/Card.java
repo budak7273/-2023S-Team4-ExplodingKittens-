@@ -16,4 +16,10 @@ public class Card {
     public CardType getType() {
         return this.cardType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Card)) return false;
+        return cardType.equals(((Card) o).cardType);
+    }
 }
