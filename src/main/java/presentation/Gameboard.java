@@ -44,7 +44,7 @@ public class Gameboard {
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
-    public final void createGame() throws InvalidPlayerCountException {
+    public void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
             String msg = Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS);
@@ -63,7 +63,7 @@ public class Gameboard {
     public static List<String> readUserInfo() {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
-        final int tooManyPlayers = 11;
+        int tooManyPlayers = 11;
 
         System.out.println(Messages
                 .getMessage(Messages.ENTER_PLAYER_1_NAME));
@@ -103,7 +103,7 @@ public class Gameboard {
         return userNameList;
     }
 
-    private void initializeGameState(final List<String> usernames) {
+    private void initializeGameState(List<String> usernames) {
         Setup setup = new Setup(usernames.size());
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
@@ -124,8 +124,8 @@ public class Gameboard {
             return;
         }
 
-        final int frameWidth = 1000;
-        final int frameHeight = 500;
+        int frameWidth = 1000;
+        int frameHeight = 500;
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
@@ -190,16 +190,16 @@ public class Gameboard {
         return playerDeckDisplayPanel;
     }
 
-    private JButton createDeckImage(final String desc) {
+    private JButton createDeckImage(String desc) {
         JButton deckImage = new JButton("<html><center>Draw Deck<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         return deckImage;
     }
 
-    private JPanel createCardImage(final String name, final String desc) {
-        final int cardWidth = 55;
-        final int cardHeight = 80;
+    private JPanel createCardImage(String name, String desc) {
+        int cardWidth = 55;
+        int cardHeight = 80;
         JPanel cardImage = new JPanel();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));

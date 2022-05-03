@@ -17,11 +17,11 @@ public class Setup {
 
     private static final int INITIAL_HAND_SIZE = 7;
 
-    public Setup(final int playerCount) {
+    public Setup(int playerCount) {
         this.numOfPlayers = playerCount;
     }
 
-    public Queue<User> createUsers(final List<String> names) {
+    public Queue<User> createUsers(List<String> names) {
         if (names == null) {
             throw new NullPointerException();
         }
@@ -44,14 +44,14 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(final File cardInfoFile) {
+    public DrawDeck createDrawDeck(File cardInfoFile) {
         List<Card> cardList = generateCardList(cardInfoFile);
         DrawDeck drawDeck = generateDrawDeck(cardList);
         drawDeck.shuffle();
         return drawDeck;
     }
 
-    private List<Card> generateCardList(final File cardInfoFile) {
+    private List<Card> generateCardList(File cardInfoFile) {
         boolean countIsInPawOnlyBracket = numOfPlayers <= MAX_COUNT_WITH_PAW;
         boolean countIsInNoPawOnlyBracket =
                 numOfPlayers >= MIN_COUNT_WITHOUT_PAW
@@ -80,7 +80,7 @@ public class Setup {
         return cardList;
     }
 
-    private DrawDeck generateDrawDeck(final List<Card> cardList) {
+    private DrawDeck generateDrawDeck(List<Card> cardList) {
         DrawDeck drawDeck = new DrawDeck();
         for (Card card : cardList) {
             drawDeck.addCard(card);
@@ -88,7 +88,7 @@ public class Setup {
         return drawDeck;
     }
 
-    public void dealHands(final Queue<User> playerQueue, final DrawDeck deck) {
+    public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
 
         if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
             String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);

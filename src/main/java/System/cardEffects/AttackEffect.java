@@ -4,7 +4,7 @@ import system.GameState;
 
 public class AttackEffect implements EffectPattern {
 
-    public void useEffect(final GameState gameState) {
+    public void useEffect(GameState gameState) {
 
     }
 

@@ -5,7 +5,7 @@ import datasource.CardType;
 public class Card {
     private CardType cardType;
 
-    public Card(final CardType type) {
+    public Card(CardType type) {
         this.cardType = type;
     }
 
