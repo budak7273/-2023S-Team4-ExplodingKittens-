@@ -7,18 +7,23 @@ import org.junit.jupiter.api.function.Executable;
 import system.cards.AttackCard;
 import system.cards.ExplodingCard;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DrawDeckTesting {
     @Test
     public void testGetCards() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+
+        DrawDeck deck = new DrawDeck(cards);
         assertTrue(deck.getCards().isEmpty());
     }
 
     @Test
     public void testDrawCardFromEmptyDrawDeck() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
         Executable executable = () -> deck.drawCard(new User());
         Assertions.assertThrows(RuntimeException.class, executable);
     }
@@ -26,8 +31,9 @@ public class DrawDeckTesting {
     @Test
     public void testDrawCardFromNonEmptyDrawDeck() {
         User user = new User();
+        ArrayList<Card> cards = new ArrayList<>();
 
-        DrawDeck deck = new DrawDeck();
+        DrawDeck deck = new DrawDeck(cards);
         deck.addCard(new AttackCard());
         deck.drawCard(user);
 
@@ -39,8 +45,9 @@ public class DrawDeckTesting {
     public void testDrawInitialCardFromEmptyDrawDeck() {
         User player = EasyMock.createMock(User.class);
         EasyMock.replay(player);
+        ArrayList<Card> cards = new ArrayList<>();
 
-        DrawDeck deck = new DrawDeck();
+        DrawDeck deck = new DrawDeck(cards);
         Executable executable = () -> deck.drawInitialCard(player);
 
         Assertions.assertThrows(RuntimeException.class, executable);
@@ -56,8 +63,9 @@ public class DrawDeckTesting {
         EasyMock.expect(drawnCard.getName()).andReturn("Attack");
         player.addCard(drawnCard);
         EasyMock.replay(player, drawnCard, explodeCard);
+        ArrayList<Card> cards = new ArrayList<>();
 
-        DrawDeck deck = new DrawDeck();
+        DrawDeck deck = new DrawDeck(cards);
         deck.addCard(explodeCard);
         deck.addCard(drawnCard);
 
@@ -68,14 +76,16 @@ public class DrawDeckTesting {
 
     @Test
     public void testShuffleOnEmptyDeck() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
         deck.shuffle();
         Assertions.assertEquals(0, deck.getDeckSize());
     }
 
     @Test
     public void testShuffleOnDeckOfOneCard() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
         Card card = new AttackCard();
         deck.addCard(card);
         deck.shuffle();
@@ -86,7 +96,8 @@ public class DrawDeckTesting {
 
     @Test
     public void testShuffleOnDeckOfMultipleCards() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
         Card card1 = new AttackCard();
         Card card2 = new AttackCard();
         deck.addCard(card1);
@@ -100,7 +111,8 @@ public class DrawDeckTesting {
 
     @Test
     public void testDrawFromBottomForUserWithEmptyDeck() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
         User user = new User();
 
         Executable executable = () -> deck.drawFromBottomForUser(user);
@@ -110,7 +122,8 @@ public class DrawDeckTesting {
 
     @Test
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
-        DrawDeck deck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
         deck.addCard(new AttackCard());
         Card bottomCard = new AttackCard();
         deck.addCard(bottomCard);
