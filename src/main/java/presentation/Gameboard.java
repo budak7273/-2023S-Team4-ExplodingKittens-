@@ -144,7 +144,7 @@ public class Gameboard {
         JPanel userDisplayPanel = new JPanel();
         for (User user: this.users) {
             if (user != this.gameState.getUserForCurrentTurn()) {
-                JPanel otherPlayer =
+                JButton otherPlayer =
                         createCardImage(user.getName(),
                                 user.getHand().size() + "");
                 userDisplayPanel.add(otherPlayer);
@@ -163,7 +163,7 @@ public class Gameboard {
                 gameState.transitionToNextTurn();
             }
         });
-        JPanel discardPile = createCardImage("Top Card",
+        JButton discardPile = createCardImage("Top Card",
                 this.discardDeck.getDeckSize() + "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
@@ -183,7 +183,21 @@ public class Gameboard {
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getUserForCurrentTurn().getHand()) {
-            JPanel cardLayout = createCardImage(card.getName(), "");
+            JButton cardLayout = createCardImage(card.getName(), "");
+            cardLayout.getPreferredSize();
+            cardLayout.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+
+                    if(cardLayout.getBackground()==Color.magenta){
+                        System.out.println(card.getName()+" is selected!");
+                        cardLayout.setBackground(Color.red);
+                    }else{
+                        System.out.println(card.getName()+" is deselected!");
+                        cardLayout.setBackground(Color.magenta);
+                    }
+                }
+            });
             handDisplayPanel.add(cardLayout);
         }
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
@@ -197,10 +211,10 @@ public class Gameboard {
         return deckImage;
     }
 
-    private JPanel createCardImage(String name, String desc) {
-        int cardWidth = 55;
+    private JButton createCardImage(String name, String desc) {
+        int cardWidth = 75;
         int cardHeight = 80;
-        JPanel cardImage = new JPanel();
+        JButton cardImage = new JButton();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.magenta);
