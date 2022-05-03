@@ -18,4 +18,11 @@ public class CardTesting {
         Object otherObj = new Card(CardType.ALTER_THE_FUTURE);
         Assertions.assertFalse(card.equals(otherObj));
     }
+
+    @Test
+    public void testEqualsSameTypeDifferentInstance() {
+        Card card = new Card(CardType.ATTACK);
+        Object otherObj = new Card(CardType.ATTACK);
+        Assertions.assertTrue(card.equals(otherObj));
+    }
 }
