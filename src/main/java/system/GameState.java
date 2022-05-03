@@ -8,13 +8,13 @@ import java.util.Queue;
 
 public class GameState {
     private Queue<User> playerQueue;
-    private final Gameboard gameboard;
+    private Gameboard gameboard;
     private DrawDeck drawDeck;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final Gameboard g,
-                     final DrawDeck deck) {
+    public GameState(Queue<User> pq, Gameboard g,
+                     DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
