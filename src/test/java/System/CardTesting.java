@@ -44,4 +44,11 @@ public class CardTesting {
         Card card = new Card(CardType.ATTACK);
         Assertions.assertEquals(card.hashCode(), card.hashCode());
     }
+
+    @Test
+    public void testHashCodeDifferentType() {
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ALTER_THE_FUTURE);
+        Assertions.assertEquals(card1.hashCode(), card2.hashCode());
+    }
 }
