@@ -4,7 +4,6 @@ import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.*;
 
 import java.util.ArrayList;
 
@@ -86,8 +85,8 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoCardsDifferentType() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new AttackCard();
-        Card card2 = new AlterTheFutureCard();
+        Card card = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ALTER_THE_FUTURE);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -97,8 +96,8 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoMatchingCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new FeralCatCard();
-        Card card2 = new CattermelonCard();
+        Card card = new Card(CardType.FERAL_CAT);
+        Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -108,8 +107,8 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoMatchingCatCards2() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new CattermelonCard();
-        Card card2 = new CattermelonCard();
+        Card card = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -119,8 +118,8 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoCatCardsNotMatching() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new HairyPotatoCatCard();
-        Card card2 = new CattermelonCard();
+        Card card = new Card(CardType.HAIRY_POTATO_CAT);
+        Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -130,9 +129,9 @@ public class UserTesting {
     @Test
     public void testCheckForSpecialEffectPotentialThreeMatchingCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new CattermelonCard();
-        Card card2 = new CattermelonCard();
-        Card card3 = new FeralCatCard();
+        Card card = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.CATTERMELON);
+        Card card3 = new Card(CardType.FERAL_CAT);
         list.add(card);
         list.add(card2);
         list.add(card3);
@@ -144,7 +143,7 @@ public class UserTesting {
     public void testCheckForSpecialEffectPotentialMaxCardsNoPair() {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
-            list.add(new AttackCard());
+            list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
@@ -155,9 +154,9 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==37||i==97){
-                list.add(new CattermelonCard());
+                list.add(new Card(CardType.CATTERMELON));
             }
-            else list.add(new AttackCard());
+            else list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
@@ -168,18 +167,18 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==7){
-                list.add(new FeralCatCard());
+                list.add(new Card(CardType.FERAL_CAT));
             }
 
             if(i==33){
-                list.add(new HairyPotatoCatCard());
+                list.add(new Card(CardType.HAIRY_POTATO_CAT));
             }
 
             if(i==67||i==118){
-                list.add(new TacoCatCard());
+                list.add(new Card(CardType.TACO_CAT));
             }
 
-            else list.add(new AttackCard());
+            else list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
@@ -190,9 +189,9 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i%2==0){
-                list.add(new CattermelonCard());
+                list.add(new Card(CardType.CATTERMELON));
             }
-            else list.add(new FeralCatCard());
+            else list.add(new Card(CardType.FERAL_CAT));
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
@@ -221,12 +220,12 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedHandWithNoCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new AttackCard());
+        list.add(new Card(CardType.ATTACK));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
-        list.add(new AttackCard());
+        list.add(new Card(CardType.ATTACK));
         selected.add(1);
         Executable executable =
                 () -> user.verifyEffectForCardsSelected(selected);
@@ -236,7 +235,7 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize1HandWithMultipleIndex() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new AttackCard());
+        list.add(new Card(CardType.ATTACK));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -249,8 +248,8 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandWithIndexDuplicated() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new AttackCard());
-        list.add(new NopeCard());
+        list.add(new Card(CardType.ATTACK));
+        list.add(new Card(CardType.NOPE));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(0);
@@ -263,8 +262,8 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandSelectNonMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new RainbowRalphingCatCard());
-        list.add(new CattermelonCard());
+        list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
+        list.add(new Card(CardType.CATTERMELON));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -275,8 +274,8 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new FeralCatCard());
-        list.add(new CattermelonCard());
+        list.add(new Card(CardType.FERAL_CAT));
+        list.add(new Card(CardType.CATTERMELON));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -287,8 +286,8 @@ public class UserTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCat2() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new CattermelonCard());
-        list.add(new CattermelonCard());
+        list.add(new Card(CardType.CATTERMELON));
+        list.add(new Card(CardType.CATTERMELON));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -301,13 +300,13 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==0) {
-                list.add(new CattermelonCard());
+                list.add(new Card(CardType.CATTERMELON));
             }
             else if(i==1) {
-                list.add(new FeralCatCard());
+                list.add(new Card(CardType.FERAL_CAT));
             }
             else {
-                list.add(new AttackCard());
+                list.add(new Card(CardType.ATTACK));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();
@@ -322,13 +321,13 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i==0) {
-                list.add(new CattermelonCard());
+                list.add(new Card(CardType.CATTERMELON));
             }
             else if(i==1) {
-                list.add(new FeralCatCard());
+                list.add(new Card(CardType.FERAL_CAT));
             }
             else {
-                list.add(new AttackCard());
+                list.add(new Card(CardType.ATTACK));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();
@@ -343,13 +342,13 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i<3) {
-                list.add(new RainbowRalphingCatCard());
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
             }
             else if(i<6) {
-                list.add(new HairyPotatoCatCard());
+                list.add(new Card(CardType.HAIRY_POTATO_CAT));
             }
             else {
-                list.add(new AttackCard());
+                list.add(new Card(CardType.ATTACK));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();
@@ -364,10 +363,10 @@ public class UserTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i=0; i<MAX_HAND_SIZE; i++){
             if(i<3) {
-                list.add(new RainbowRalphingCatCard());
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
             }
             else {
-                list.add(new AttackCard());
+                list.add(new Card(CardType.ATTACK));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();
