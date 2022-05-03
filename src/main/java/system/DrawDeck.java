@@ -23,7 +23,7 @@ public class DrawDeck {
 
     public void drawCard(final User drawingUser) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage("EmptyDrawDeckMessage");
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(0);
