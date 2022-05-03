@@ -20,7 +20,8 @@ public enum Messages {
     COULD_NOT_CREATE("CouldNotCreateMessage"),
     ILLEGAL_PLAYERS("IllegalPlayersMessage"),
     EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
-    EMPTY_HAND("EmptyHandMessage");
+    EMPTY_HAND("EmptyHandMessage"),
+    BAD_CARD_SELECTION("BadCardSelectionMessage");
 
     private static Locale currentLocation = Locale.GERMAN;
     private String messageName;
