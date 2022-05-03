@@ -1,9 +1,10 @@
 package system;
 
 
-import datasource.CardType;
+import datasource.Messages;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private String name;
@@ -16,15 +17,18 @@ public class User {
         this.hand = new ArrayList<>();
     }
 
-    public User(final String playerName) {
+    public User(String playerName) {
         this.name = playerName;
     }
 
-    public User(final String playerName, final boolean activeStatus,
-                final ArrayList<Card> playerHand) {
+    public User(String playerName,
+                boolean activeStatus,
+                ArrayList<Card> playerHand) {
         this.name = playerName;
         this.alive = activeStatus;
-        this.hand = playerHand;
+        ArrayList<Card> playerHandClone = new ArrayList<>();
+        playerHandClone.addAll(playerHand);
+        this.hand = playerHandClone;
     }
 
     public String getName() {
@@ -33,11 +37,12 @@ public class User {
     }
 
     public List<Card> getHand() {
-
-        return this.hand;
+        List<Card> toReturn = new ArrayList<>();
+        toReturn.addAll(this.hand);
+        return toReturn;
     }
 
-    public void addCard(final Card drawnCard) {
+    public void addCard(Card drawnCard) {
 
         this.hand.add(drawnCard);
     }
@@ -106,8 +111,8 @@ public class User {
                     "Null list should never happens.");
         }
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "You cannot select cards when your hand is empty.");
+            String msg = Messages.getMessage(Messages.EMPTY_HAND);
+            throw new IllegalArgumentException(msg);
         }
         if (selected.size() > this.hand.size()) {
             throw new IllegalArgumentException(

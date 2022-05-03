@@ -1,26 +1,32 @@
 package system;
 
+import datasource.Messages;
 import presentation.Gameboard;
 
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class GameState {
-    private final Queue<User> playerQueue;
-    private final Gameboard gameboard;
-    private final int minPlayers = 2;
-    private final int maxPlayers = 10;
+    private Queue<User> playerQueue;
+    private Gameboard gameboard;
+    private DrawDeck drawDeck;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final Gameboard g) {
-        this.playerQueue = pq;
+    public GameState(Queue<User> pq, Gameboard g,
+                     DrawDeck deck) {
+        Queue<User> pqCopy = new LinkedList<>();
+        pqCopy.addAll(pq);
+        this.playerQueue = pqCopy;
         this.gameboard = g;
+        this.drawDeck = deck;
     }
 
     public void transitionToNextTurn() {
-        if (playerQueue.size() < minPlayers
-                || playerQueue.size() > maxPlayers) {
+        if (playerQueue.size() < MIN_PLAYERS
+                || playerQueue.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException(
-                    "Illegal number of players in queue");
+                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
         }
         User userForCurrentTurn = playerQueue.poll();
         if (userForCurrentTurn.isAlive()) {
@@ -33,21 +39,20 @@ public class GameState {
         gameboard.updateUI();
     }
 
+    public void drawFromBottom() {
+        User currentUser = getUserForCurrentTurn();
+        drawDeck.drawFromBottomForUser(currentUser);
+        transitionToNextTurn();
+    }
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
 
-    public String getUsernameForCurrentTurn() {
-        return getUserForCurrentTurn().getName();
-    }
-
-    public List<Card> getDeckForCurrentTurn() {
-        return getUserForCurrentTurn().getHand();
-    }
-
     public Queue<User> getPlayerQueue() {
-        return this.playerQueue;
+        Queue<User> toReturn = new LinkedList<>();
+        toReturn.addAll(this.playerQueue);
+        return toReturn;
     }
-
 
 }

@@ -1,6 +1,8 @@
 package system;
 
 import datasource.CardType;
+import datasource.Messages;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,13 +17,13 @@ public class DrawDeck {
         return cards.size();
     }
 
-    public void addCard(final Card card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
 
-    public void drawCard(final User drawingUser) {
+    public void drawCard(User drawingUser) {
         if (cards.isEmpty()) {
-            String msg = "Draw deck is empty, the game was set up improperly.";
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(0);
@@ -29,12 +31,14 @@ public class DrawDeck {
     }
 
     public List<Card> getCards() {
-        return this.cards;
+        List<Card> toReturn = new ArrayList<>();
+        toReturn.addAll(this.cards);
+        return toReturn;
     }
 
-    public void drawInitialCard(final User drawer) {
+    public void drawInitialCard(User drawer) {
         if (cards.isEmpty()) {
-            String msg = "Draw deck is empty, the game was set up improperly.";
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
 
@@ -58,5 +62,14 @@ public class DrawDeck {
             }
         }
         return defuseCount;
+    }
+
+    public void drawFromBottomForUser(User currentUser) {
+        if (cards.isEmpty()) {
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
+            throw new RuntimeException(msg);
+        }
+        Card drawnCard = cards.remove(cards.size() - 1);
+        currentUser.addCard(drawnCard);
     }
 }

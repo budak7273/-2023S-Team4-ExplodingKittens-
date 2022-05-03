@@ -12,19 +12,19 @@ import java.util.Scanner;
 public class CardCSVParser {
 
     private File csvFile;
-    private final int maxCardCount = 101;
+    private static final int MAX_CARD_COUNT = 101;
 
-    public CardCSVParser(final File csv) {
+    public CardCSVParser(File csv) {
         this.csvFile = csv;
     }
 
-    public List<Card> generateListOfCards(final boolean includePaw,
-                                          final boolean includeNoPaw) {
+    public List<Card> generateListOfCards(boolean includePaw,
+                                          boolean includeNoPaw) {
         verifyCSVFormat();
 
         List<Card> cardList = new ArrayList<Card>();
         Scanner scanner = generateScanner();
-        String header = scanner.nextLine();
+        scanner.nextLine();
         while (scanner.hasNextLine()) {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
@@ -48,17 +48,17 @@ public class CardCSVParser {
 
     private void verifyCSVFormat() {
         Scanner scanner = generateScanner();
-        String header = scanner.nextLine();
+        scanner.nextLine();
         int cardCount = 0;
         while (scanner.hasNextLine()) {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
             if (cardProperties.length != 2) {
                 throw new IllegalArgumentException(
-                        "Missing data in .csv file.");
+                        Messages.getMessage(Messages.MISSING_DATA));
             }
             String cardType = cardProperties[0];
-            final int typeCount = 17;
+            int typeCount = 17;
             String[] types = new String[typeCount];
             int i = 0;
             for (CardType typeEnum : CardType.class.getEnumConstants()) {
@@ -66,24 +66,26 @@ public class CardCSVParser {
                 i++;
             }
             if (Arrays.stream(types).noneMatch(cardType::equals)) {
-                throw new IllegalArgumentException("Invalid card type "
-                        + cardType + " found in file");
+                throw new IllegalArgumentException(Messages
+                        .getMessage(Messages.INVALID_CARD_TYPE) + cardType
+                        + Messages.getMessage(Messages.FOUND_IN_FILE));
             }
 
             cardCount++;
         }
-        if (cardCount != maxCardCount) {
-            throw new IllegalArgumentException("Bad number "
-                    + "of cards in .csv file.");
+        if (cardCount != MAX_CARD_COUNT) {
+            throw new IllegalArgumentException(Messages
+                    .getMessage(Messages.BAD_NUMBER_OF_CARDS));
+
         }
     }
 
     private Scanner generateScanner() {
         try {
-            return new Scanner(csvFile);
+            return new Scanner(csvFile, "UTF-8");
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(
-                    "Could not generate scanner from file.");
+                    Messages.getMessage(Messages.COULD_NOT_GENERATE));
         }
     }
 }

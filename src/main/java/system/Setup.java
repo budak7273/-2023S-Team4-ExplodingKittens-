@@ -1,6 +1,7 @@
 package system;
 
 import datasource.CardCSVParser;
+import datasource.Messages;
 import system.cards.DefuseCard;
 
 import java.io.File;
@@ -9,26 +10,25 @@ import java.util.*;
 public class Setup {
     private int numOfPlayers;
 
-    private final int minPlayers = 2;
-    private final int maxPlayers = 10;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 10;
+    private static final int MAX_COUNT_WITH_PAW = 3;
+    private static final int MIN_COUNT_WITHOUT_PAW = 4;
+    private static final int MAX_COUNT_WITHOUT_PAW = 7;
 
-    private final int maxCountWithPaw = 3;
-    private final int minCountWithoutPaw = 4;
-    private final int maxCountWithoutPaw = 7;
+    private static final int INITIAL_HAND_SIZE = 7;
 
-    private final int initialHandSize = 7;
-
-    public Setup(final int playerCount) {
+    public Setup(int playerCount) {
         this.numOfPlayers = playerCount;
     }
 
-    public Queue<User> createUsers(final List<String> names) {
+    public Queue<User> createUsers(List<String> names) {
         if (names == null) {
             throw new NullPointerException();
         }
 
-        if (names.size() < minPlayers
-                || names.size() > maxPlayers) {
+        if (names.size() < MIN_PLAYERS
+                || names.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
 
@@ -45,17 +45,18 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(final File cardInfoFile) {
+    public DrawDeck createDrawDeck(File cardInfoFile) {
         List<Card> cardList = generateCardList(cardInfoFile);
         DrawDeck drawDeck = generateDrawDeck(cardList);
         drawDeck.shuffle();
         return drawDeck;
     }
 
-    private List<Card> generateCardList(final File cardInfoFile) {
-        boolean countIsInPawOnlyBracket = numOfPlayers <= maxCountWithPaw;
-        boolean countIsInNoPawOnlyBracket = numOfPlayers >= minCountWithoutPaw
-                && numOfPlayers <= maxCountWithoutPaw;
+    private List<Card> generateCardList(File cardInfoFile) {
+        boolean countIsInPawOnlyBracket = numOfPlayers <= MAX_COUNT_WITH_PAW;
+        boolean countIsInNoPawOnlyBracket =
+                numOfPlayers >= MIN_COUNT_WITHOUT_PAW
+                && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
         boolean countIsInAllBracket = !countIsInPawOnlyBracket
                 && !countIsInNoPawOnlyBracket;
 
@@ -67,11 +68,11 @@ public class Setup {
 
         int numOfDefuseCardsToAdd;
         if (countIsInPawOnlyBracket) {
-            numOfDefuseCardsToAdd = maxCountWithPaw - numOfPlayers;
+            numOfDefuseCardsToAdd = MAX_COUNT_WITH_PAW - numOfPlayers;
         } else if (countIsInNoPawOnlyBracket) {
-            numOfDefuseCardsToAdd = maxCountWithoutPaw - numOfPlayers;
+            numOfDefuseCardsToAdd = MAX_COUNT_WITHOUT_PAW - numOfPlayers;
         } else {
-            numOfDefuseCardsToAdd = maxPlayers - numOfPlayers;
+            numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
             cardList.add(new DefuseCard());
@@ -80,7 +81,7 @@ public class Setup {
         return cardList;
     }
 
-    private DrawDeck generateDrawDeck(final List<Card> cardList) {
+    private DrawDeck generateDrawDeck(List<Card> cardList) {
         DrawDeck drawDeck = new DrawDeck();
         for (Card card : cardList) {
             drawDeck.addCard(card);
@@ -88,14 +89,16 @@ public class Setup {
         return drawDeck;
     }
 
-    public void dealHands(final Queue<User> playerQueue, final DrawDeck deck) {
-        if (playerQueue.size() < 2 || playerQueue.size() > maxPlayers) {
-            String msg = "Illegal number of players in queue.";
+    public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
+
+        if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
+            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
             throw new IllegalArgumentException(msg);
+
         }
 
         for (User user : playerQueue) {
-            for (int i = 0; i < initialHandSize; i++) {
+            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawInitialCard(user);
             }
             user.addCard(new DefuseCard());

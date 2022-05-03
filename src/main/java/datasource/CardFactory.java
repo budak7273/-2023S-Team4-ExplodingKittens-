@@ -3,12 +3,12 @@ package datasource;
 import system.cards.*;
 import system.Card;
 
-final class CardFactory {
+class CardFactory {
 
     private CardFactory() {
     }
 
-    public static Card createCardOfType(final CardType type) {
+    public static Card createCardOfType(CardType type) {
         switch (type) {
             case ATTACK:
                 return new AttackCard();
@@ -45,7 +45,8 @@ final class CardFactory {
             case SEE_THE_FUTURE:
                 return new SeeTheFutureCard();
             default:
-                throw new IllegalArgumentException("Could not create card.");
+                throw new IllegalArgumentException(Messages
+                        .getMessage(Messages.COULD_NOT_CREATE));
         }
     }
 }
