@@ -57,8 +57,6 @@ public class DrawDeckTesting {
                 .withConstructor(CardType.class)
                 .withArgs(CardType.EXPLODING_KITTEN)
                 .createMock();
-        EasyMock.expect(explodeCard.getName()).andReturn("Exploding Kitten");
-        EasyMock.expect(drawnCard.getName()).andReturn("Attack");
         player.addCard(drawnCard);
         EasyMock.replay(player, drawnCard, explodeCard);
 
@@ -117,7 +115,7 @@ public class DrawDeckTesting {
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
         DrawDeck deck = new DrawDeck();
         deck.addCard(new Card(CardType.ATTACK));
-        Card bottomCard = new Card(CardType.ATTACK);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
         deck.addCard(bottomCard);
 
         User user = EasyMock.createMock(User.class);

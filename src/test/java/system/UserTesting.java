@@ -59,8 +59,8 @@ public class UserTesting {
         User user = new User("test1", false, list);
         Assertions.assertEquals(list, user.getHand());
         Assertions.assertEquals(2, user.getHand().size());
-        Assertions.assertNotEquals(card2, user.getHand().get(0));
-        Assertions.assertEquals(card2, user.getHand().get(1));
+        Assertions.assertEquals(card, user.getHand().get(0));
+        Assertions.assertEquals(card, user.getHand().get(1));
     }
 
     @Test
