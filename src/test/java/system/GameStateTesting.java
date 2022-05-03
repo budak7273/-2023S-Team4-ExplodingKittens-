@@ -241,7 +241,7 @@ public class GameStateTesting {
         EasyMock.replay(gameboard, drawDeck);
 
         gameState.shuffleDeck();
-        Assertions.assertNotEquals(currentUser, gameState.getUserForCurrentTurn());
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
         EasyMock.verify();
     }

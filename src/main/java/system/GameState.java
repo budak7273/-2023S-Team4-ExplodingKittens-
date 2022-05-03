@@ -47,7 +47,6 @@ public class GameState {
 
     public void shuffleDeck() {
         drawDeck.shuffle();
-        transitionToNextTurn();
     }
 
     public User getUserForCurrentTurn() {
