@@ -25,4 +25,10 @@ public class CardTesting {
         Object otherObj = new Card(CardType.ATTACK);
         Assertions.assertTrue(card.equals(otherObj));
     }
+
+    @Test
+    public void testEqualsSameInstance() {
+        Card card = new Card(CardType.ATTACK);
+        Assertions.assertTrue(card.equals(card));
+    }
 }
