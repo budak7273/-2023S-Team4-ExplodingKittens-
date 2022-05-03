@@ -108,10 +108,10 @@ public class Gameboard {
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
+        setup.dealHands(this.users, this.drawDeck);
         this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this, this.drawDeck);
-        setup.dealHands(this.users, this.drawDeck);
     }
 
     public void initializeGameView() {

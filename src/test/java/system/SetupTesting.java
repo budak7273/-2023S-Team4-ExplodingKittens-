@@ -293,4 +293,23 @@ public class SetupTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void testShuffleExplodingKittensInDeck() {
+        for (int i = 2; i <= 10; i++) {
+            int playerCount = i;
+            Setup setup = new Setup(playerCount);
+            DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+
+            deck.addCard(eq(new Card(CardType.EXPLODING_KITTEN)));
+            EasyMock.expectLastCall().times(playerCount - 1);
+            deck.shuffle();
+            EasyMock.expectLastCall();
+            EasyMock.replay(deck);
+
+            setup.shuffleExplodingKittensInDeck();
+
+            EasyMock.verify(deck);
+        }
+    }
+
 }

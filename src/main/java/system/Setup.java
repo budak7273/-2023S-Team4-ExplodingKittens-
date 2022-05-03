@@ -108,4 +108,6 @@ public class Setup {
         return new DiscardDeck();
     }
 
+    public void shuffleExplodingKittensInDeck() {
+    }
 }
