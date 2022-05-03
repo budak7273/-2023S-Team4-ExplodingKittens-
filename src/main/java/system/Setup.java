@@ -108,6 +108,10 @@ public class Setup {
         return new DiscardDeck();
     }
 
-    public void shuffleExplodingKittensInDeck() {
+    public void shuffleExplodingKittensInDeck(DrawDeck deck) {
+        for (int i = 0; i < numOfPlayers - 1; i++) {
+            deck.addCard(new Card(CardType.EXPLODING_KITTEN));
+        }
+        deck.shuffle();
     }
 }

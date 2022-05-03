@@ -109,6 +109,7 @@ public class Gameboard {
         String path = "src/main/resources/cards.csv";
         this.drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, this.drawDeck);
+        setup.shuffleExplodingKittensInDeck(this.drawDeck);
         this.discardDeck = setup.createDiscardDeck();
 
         this.gameState = new GameState(this.users, this, this.drawDeck);

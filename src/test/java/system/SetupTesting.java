@@ -306,7 +306,7 @@ public class SetupTesting {
             EasyMock.expectLastCall();
             EasyMock.replay(deck);
 
-            setup.shuffleExplodingKittensInDeck();
+            setup.shuffleExplodingKittensInDeck(deck);
 
             EasyMock.verify(deck);
         }
