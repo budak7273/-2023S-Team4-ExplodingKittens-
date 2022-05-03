@@ -21,9 +21,10 @@ public enum Messages {
     ILLEGAL_PLAYERS("IllegalPlayersMessage"),
     EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
     EMPTY_HAND("EmptyHandMessage"),
-    BAD_CARD_SELECTION("BadCardSelectionMessage");
+    BAD_CARD_SELECTION("BadCardSelectionMessage"),
+    CHOOSE_LANGUAGE("ChooseLanguageMessage");
 
-    private static Locale currentLocation = Locale.GERMAN;
+    private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
 
     Messages(String displayNameStr) {
@@ -32,6 +33,10 @@ public enum Messages {
 
     public static String getMessage(Messages message) {
         return getMessage(message.toString());
+    }
+
+    public static void switchLanguageToGerman() {
+        currentLocation = Locale.GERMAN;
     }
 
     @Override
