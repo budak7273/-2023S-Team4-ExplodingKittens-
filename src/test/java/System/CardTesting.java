@@ -38,4 +38,10 @@ public class CardTesting {
         Card card2 = new Card(CardType.ATTACK);
         Assertions.assertEquals(card1.hashCode(), card2.hashCode());
     }
+
+    @Test
+    public void testHashCodeSameInstance() {
+        Card card = new Card(CardType.ATTACK);
+        Assertions.assertEquals(card.hashCode(), card.hashCode());
+    }
 }
