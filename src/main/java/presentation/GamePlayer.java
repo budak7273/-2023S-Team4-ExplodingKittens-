@@ -17,7 +17,7 @@ public class GamePlayer {
     /**Local storage of the game's current state. */
     private GameState gameState;
 
-    public GamePlayer(){
+    public GamePlayer() {
         this.gameFrame = new JFrame();
     }
 
