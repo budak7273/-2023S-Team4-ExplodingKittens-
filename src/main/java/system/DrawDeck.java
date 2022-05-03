@@ -10,8 +10,10 @@ import java.util.List;
 public class DrawDeck {
     private List<Card> cards;
 
-    public DrawDeck() {
-        cards = new ArrayList<>();
+    public DrawDeck(final List<Card> cardList) {
+        List<Card> cardsCopy = new ArrayList<>();
+        cardsCopy.addAll(cardList);
+        cards = cardsCopy;
     }
     public int getDeckSize() {
         return cards.size();
