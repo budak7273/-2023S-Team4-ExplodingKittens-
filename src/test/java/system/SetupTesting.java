@@ -221,7 +221,8 @@ public class SetupTesting {
     public void testDistributeCards1User() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
-        DrawDeck drawDeck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck drawDeck = new DrawDeck(cards);
 
         Setup setup = new Setup(1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
@@ -286,7 +287,8 @@ public class SetupTesting {
         for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
-        DrawDeck drawDeck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck drawDeck = new DrawDeck(cards);
 
         Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
