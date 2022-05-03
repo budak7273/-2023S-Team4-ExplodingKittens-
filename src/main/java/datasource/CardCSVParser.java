@@ -14,12 +14,12 @@ public class CardCSVParser {
     private File csvFile;
     private static final int MAX_CARD_COUNT = 101;
 
-    public CardCSVParser(final File csv) {
+    public CardCSVParser(File csv) {
         this.csvFile = csv;
     }
 
-    public List<Card> generateListOfCards(final boolean includePaw,
-                                          final boolean includeNoPaw) {
+    public List<Card> generateListOfCards(boolean includePaw,
+                                          boolean includeNoPaw) {
         verifyCSVFormat();
 
         List<Card> cardList = new ArrayList<Card>();
@@ -58,7 +58,7 @@ public class CardCSVParser {
                         Messages.getMessage(Messages.MISSING_DATA));
             }
             String cardType = cardProperties[0];
-            final int typeCount = 17;
+            int typeCount = 17;
             String[] types = new String[typeCount];
             int i = 0;
             for (CardType typeEnum : CardType.class.getEnumConstants()) {
