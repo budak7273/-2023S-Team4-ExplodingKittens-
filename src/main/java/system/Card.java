@@ -25,6 +25,11 @@ public class Card {
         return cardType.equals(((Card) o).cardType);
     }
 
+    @Override
+    public int hashCode() {
+        return cardType.ordinal();
+    }
+
     public boolean isCatCard() {
         if (this.cardType == CardType.HAIRY_POTATO_CAT
                 || this.cardType == CardType.BEARD_CAT
