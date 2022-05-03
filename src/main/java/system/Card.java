@@ -19,10 +19,12 @@ public class Card {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Card)) return false;
+        if (!(o instanceof Card)) {
+            return false;
+        }
         return cardType.equals(((Card) o).cardType);
     }
-    
+
     public boolean isCatCard() {
         if (this.cardType == CardType.HAIRY_POTATO_CAT
                 || this.cardType == CardType.BEARD_CAT
