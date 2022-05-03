@@ -4,7 +4,7 @@ import system.GameState;
 
 public class DrawFromBottomEffect implements EffectPattern {
     @Override
-    public void useEffect(final GameState gameState) {
+    public void useEffect(GameState gameState) {
         gameState.drawFromBottom();
     }
 }
