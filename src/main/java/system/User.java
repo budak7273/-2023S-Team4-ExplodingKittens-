@@ -17,13 +17,13 @@ public class User {
         this.hand = new ArrayList<>();
     }
 
-    public User(final String playerName) {
+    public User(String playerName) {
         this.name = playerName;
     }
 
-    public User(final String playerName,
-                final boolean activeStatus,
-                final ArrayList<Card> playerHand) {
+    public User(String playerName,
+                boolean activeStatus,
+                ArrayList<Card> playerHand) {
         this.name = playerName;
         this.alive = activeStatus;
         ArrayList<Card> playerHandClone = new ArrayList<>();
@@ -42,7 +42,7 @@ public class User {
         return toReturn;
     }
 
-    public void addCard(final Card drawnCard) {
+    public void addCard(Card drawnCard) {
 
         this.hand.add(drawnCard);
     }
@@ -59,7 +59,7 @@ public class User {
         return false;
     }
 
-    public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
+    public boolean verifyEffectForCardsSelected(List<Integer> selected) {
         if (this.hand.isEmpty() && !selected.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_HAND);
             throw new IllegalArgumentException(msg);
