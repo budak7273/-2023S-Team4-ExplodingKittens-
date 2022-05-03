@@ -23,13 +23,13 @@ public enum Messages {
     EMPTY_HAND("EmptyHandMessage");
 
     private static Locale currentLocation = Locale.GERMAN;
-    private final String messageName;
+    private String messageName;
 
-    Messages(final String displayNameStr) {
+    Messages(String displayNameStr) {
         this.messageName = displayNameStr;
     }
 
-    public static String getMessage(final Messages message) {
+    public static String getMessage(Messages message) {
         return getMessage(message.toString());
     }
 
@@ -38,7 +38,7 @@ public enum Messages {
         return this.messageName;
     }
 
-    public static String getMessage(final String key) {
+    private static String getMessage(String key) {
 
         ResourceBundle messages =
                 ResourceBundle.getBundle("message", currentLocation);
