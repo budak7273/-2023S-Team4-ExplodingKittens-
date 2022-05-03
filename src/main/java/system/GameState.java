@@ -1,29 +1,24 @@
 package system;
 
 import datasource.Messages;
-import presentation.GameDesigner;
+import presentation.GamePlayer;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class GameState {
     private final Queue<User> playerQueue;
-    private final GameDesigner gameDesigner;
+    private final GamePlayer gamePlayer;
     private final DrawDeck drawDeck;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final GameDesigner gd,
-                     final List<Card> deck) {
+    public GameState(final Queue<User> pq, final GamePlayer gp,
+                     final DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
-        this.gameDesigner = gd;
-        DrawDeck deckCopy = new DrawDeck();
-        for (Card card: deck) {
-            deckCopy.addCard(card);
-        }
-        this.drawDeck = deckCopy;
+        this.gamePlayer = gp;
+        this.drawDeck = deck;
     }
 
     public void transitionToNextTurn() {
@@ -40,7 +35,7 @@ public class GameState {
             playerQueue.poll();
         }
 
-        gameDesigner.updateGamePlayer();
+        gamePlayer.updateUI();
     }
 
     public void drawFromBottom() {

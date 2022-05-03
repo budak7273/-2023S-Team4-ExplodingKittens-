@@ -15,11 +15,14 @@ public class GamePlayer {
     private final JFrame gameFrame;
 
     /**Local storage of the game's current state. */
-    private final GameState gameState;
+    private GameState gameState;
 
-    public GamePlayer(final GameState state) {
-        this.gameState = state;
+    public GamePlayer(){
         this.gameFrame = new JFrame();
+    }
+
+    public void setGameState(final GameState currentGameState) {
+        this.gameState = currentGameState;
     }
 
     public void buildGameView() {
