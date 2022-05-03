@@ -3,12 +3,12 @@ package datasource;
 import system.cards.*;
 import system.Card;
 
-final class CardFactory {
+class CardFactory {
 
     private CardFactory() {
     }
 
-    public static Card createCardOfType(final CardType type) {
+    public static Card createCardOfType(CardType type) {
         switch (type) {
             case ATTACK:
                 return new AttackCard();
