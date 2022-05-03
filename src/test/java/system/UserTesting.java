@@ -227,7 +227,9 @@ public class UserTesting {
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
         list.add(new AttackCard());
         selected.add(1);
-        Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
+        Executable executable =
+                () -> user.verifyEffectForCardsSelected(selected);
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test

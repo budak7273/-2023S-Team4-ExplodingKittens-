@@ -1,10 +1,10 @@
 package system;
 
 
+import datasource.CardType;
 import datasource.Messages;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class User {
     private String name;
@@ -106,25 +106,24 @@ public class User {
     }
 
     public void verifyCardsSelected(final List<Integer> selected) {
+        String msg;
         if (selected == null) {
-            throw new IllegalArgumentException(
-                    "Null list should never happens.");
+            msg = Messages.getMessage(Messages.MISSING_DATA);
+            throw new IllegalArgumentException(msg);
         }
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_HAND);
+            msg = Messages.getMessage(Messages.EMPTY_HAND);
             throw new IllegalArgumentException(msg);
         }
         if (selected.size() > this.hand.size()) {
-            throw new IllegalArgumentException(
-                    "You should never select more number of cards than "
-                            +
-                            "what you have. Something is wrong.");
+            msg = Messages.getMessage(Messages.BAD_CARD_SELECTION);
+            throw new IllegalArgumentException(msg);
         }
         Set<Integer> set = new HashSet<>();
         set.addAll(selected);
         if (set.size() < selected.size()) {
-            throw new IllegalArgumentException(
-                    "You cannot select the same card more than once.");
+            msg = Messages.getMessage(Messages.BAD_CARD_SELECTION);
+            throw new IllegalArgumentException(msg);
         }
     }
 }
