@@ -8,7 +8,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DrawDeckTesting {
+public class DrawDeckUnitTesting {
     @Test
     public void testGetCards() {
         DrawDeck deck = new DrawDeck();

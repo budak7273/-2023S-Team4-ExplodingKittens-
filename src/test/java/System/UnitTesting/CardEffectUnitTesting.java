@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.cardEffects.*;
 
-public class CardEffectTesting {
+public class CardEffectUnitTesting {
     @Test
     public void testDefuseBombEffectUse() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();

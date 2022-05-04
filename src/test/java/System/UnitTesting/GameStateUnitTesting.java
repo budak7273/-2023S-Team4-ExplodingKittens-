@@ -9,7 +9,7 @@ import org.junit.jupiter.api.function.Executable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class GameStateTesting {
+public class GameStateUnitTesting {
 
     static final int MAX_USER_COUNT = 10;
     static final int ARBITRARY_USER_ID_TO_KILL = 3;
