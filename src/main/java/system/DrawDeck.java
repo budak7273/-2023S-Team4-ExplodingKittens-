@@ -72,4 +72,9 @@ public class DrawDeck {
         Card drawnCard = cards.remove(cards.size() - 1);
         currentUser.addCard(drawnCard);
     }
+
+    public List<Card> getTopOfDeck() {
+        String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
+        throw new RuntimeException(msg);
+    }
 }
