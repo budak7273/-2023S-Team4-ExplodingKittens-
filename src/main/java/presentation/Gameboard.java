@@ -103,7 +103,7 @@ public class Gameboard {
         return userNameList;
     }
 
-    private void initializeGameState(List<String> usernames) {
+    public void initializeGameState(List<String> usernames) {
         Setup setup = new Setup(usernames.size());
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
@@ -231,4 +231,13 @@ public class Gameboard {
     public void updateUI() {
         buildGameView();
     }
+
+    /**
+     * This method should only be used for Integration Testing
+     * @return
+     */
+    public GameState getGameState(){
+        return this.gameState;
+    }
+    public DrawDeck getDrawDeck(){ return this.drawDeck;}
 }
