@@ -75,19 +75,21 @@ public class GameStateIntegrationTesting {
 
     }
 
-//    @Test
-//    public void testTransitionToNextTurnWithQueueOf11UsersIntegrationTest() {
-//        Queue<User> pq = new LinkedList<User>();
-//        for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
-//            pq.add(new User());
-//        }
-//        Gameboard board = new Gameboard();
-//        DrawDeck deck = new DrawDeck();
-//
-//        GameState gameState = new GameState(pq, board, deck);
-//        Executable executable = () -> gameState.transitionToNextTurn();
-//        Assertions.assertThrows(IllegalArgumentException.class, executable);
-//    }
+    @Test
+    public void testTransitionToNextTurnWithQueueOf11UsersIntegrationTest() {
+        Queue<User> pq = new LinkedList<User>();
+        for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
+            pq.add(new User());
+        }
+        Gameboard gameboard = new Gameboard(pq);
+        gameboard.initializeGameState();
+        gameboard.updateUI();
+        DrawDeck deck = gameboard.getDrawDeck();
+        GameState gameState = gameboard.getGameState();
+        Executable executable = () -> gameState.transitionToNextTurn();
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
 //
 //    @Test
 //    public void testTransitionToNextAliveWithThreeAliveUsersIntegrationTest() {
