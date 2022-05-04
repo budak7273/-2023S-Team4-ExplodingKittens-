@@ -7,7 +7,7 @@ import system.cards.*;
 
 import java.util.ArrayList;
 
-public class UserTesting {
+public class UserUnitTesting {
 
     static final int ARBITRARY_COUNT_OF_SELECTED = 3;
     static final int MAX_HAND_SIZE = 120;

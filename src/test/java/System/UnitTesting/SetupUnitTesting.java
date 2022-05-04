@@ -14,7 +14,7 @@ import java.util.Queue;
 
 import static org.easymock.EasyMock.isA;
 
-public class SetupTesting {
+public class SetupUnitTesting {
     private static final int FULL_SIZE = 101;
     private static final int PAW_ONLY_SIZE = 41;
 

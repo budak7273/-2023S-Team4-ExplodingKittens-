@@ -1,5 +1,5 @@
 package system;
 
-public class SystemTesting {
+public class SystemUnitTesting {
 
 }
