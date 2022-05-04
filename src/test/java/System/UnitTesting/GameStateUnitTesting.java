@@ -1,12 +1,16 @@
-package system;
+package system.UnitTesting;
 
+import datasource.CardType;
 import presentation.Gameboard;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import system.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameStateUnitTesting {
@@ -240,6 +244,30 @@ public class GameStateUnitTesting {
         EasyMock.replay(gameboard, drawDeck);
 
         gameState.shuffleDeck();
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
+
+        EasyMock.verify();
+    }
+
+    @Test
+    public void testSeeTheFuture() {
+        Queue<User> userQueue = new LinkedList<>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        List<Card> future = EasyMock.createMock(List.class);
+        EasyMock.expect(drawDeck.getTopOfDeck()).andReturn(future);
+
+        gameboard.displayFutureCards(future);
+        EasyMock.replay(gameboard, drawDeck, future);
+
+        gameState.seeTheFuture();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
         EasyMock.verify();
