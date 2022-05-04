@@ -172,32 +172,34 @@ public class GameStateIntegrationTesting {
         Assertions.assertEquals(expected, gameState.getPlayerQueue());
 
     }
-//
-//    @Test
-//    public void testTransitionToNextAliveWithTenUsersAndU1U2U4DeadIntegrationTest() {
-//        Gameboard boardMock = new Gameboard();
-//        boardMock.updateUI();
-//        Queue<User> pq = new LinkedList<User>();
-//        Queue<User> expected = new LinkedList<User>();
-//
-//        for (int i = 0; i < MAX_USER_COUNT; i++) {
-//            User user = new User();
-//            if (i == 0 || i == 1 || i == ARBITRARY_USER_ID_TO_KILL) {
-//                user.die();
-//            }
-//            pq.add(user);
-//            if (i != 0 && i != 1) {
-//                expected.add(user);
-//            }
-//        }
-//        DrawDeck deck = new DrawDeck();
-//
-//        GameState gameState = new GameState(pq, boardMock, deck);
-//        gameState.transitionToNextTurn();
-//
-//        Assertions.assertEquals(expected, gameState.getPlayerQueue());
-//
-//    }
+
+    @Test
+    public void testTransitionToNextAliveWithTenUsersAndU1U2U4DeadIntegrationTest() {
+
+        Queue<User> pq = new LinkedList<User>();
+        Queue<User> expected = new LinkedList<User>();
+
+        for (int i = 0; i < MAX_USER_COUNT; i++) {
+            User user = new User();
+            if (i == 0 || i == 1 || i == ARBITRARY_USER_ID_TO_KILL) {
+                user.die();
+            }
+            pq.add(user);
+            if (i != 0 && i != 1) {
+                expected.add(user);
+            }
+        }
+        Gameboard gameboard = new Gameboard(pq);
+        gameboard.initializeGameState();
+        gameboard.updateUI();
+        DrawDeck deck = gameboard.getDrawDeck();
+        GameState gameState = gameboard.getGameState();
+
+        gameState.transitionToNextTurn();
+
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+    }
 
     @Test
     public void testDrawFromBottomIntegrationTest() {
@@ -241,5 +243,4 @@ public class GameStateIntegrationTesting {
         gameState.shuffleDeck();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
     }
-
 }
