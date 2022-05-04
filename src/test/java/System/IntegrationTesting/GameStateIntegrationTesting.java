@@ -35,24 +35,21 @@ public class GameStateIntegrationTesting {
 
     @Test
     public void testTransitionToNextTurnWithQueueOf2UsersIntegrationTest() {
-//        Gameboard gameboard = new Gameboard();
-//        List<String> playerUsernames = new ArrayList<>();
-//        playerUsernames.add("Player1ForIntegrationTest");
-//        playerUsernames.add("Player2ForIntegrationTest");
-//
-//        Gameboard gameboard = new Gameboard();
-//
-//        gameboard.initializeGameState(playerUsernames);
-//
-//        gameboard.updateUI();
-//        Queue<User> userQueue = gameboard.getUsers();
-//        GameState gameState = gameboard.getGameState();
-//        DrawDeck drawDeck = gameboard.getDrawDeck();
-//        gameState.transitionToNextTurn();
-//
-        //
-//        User userForCurrentTurn = gameState.getUserForCurrentTurn();
-//        Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
+        Queue<User> pq = new LinkedList<User>();
+        User userStartingAtTopOfQueue = new User();
+        User userNextInQueue = new User();
+        pq.add(userStartingAtTopOfQueue);
+        pq.add(userNextInQueue);
+
+        Gameboard gameboard = new Gameboard(pq);
+        gameboard.initializeGameState();
+        gameboard.updateUI();
+        DrawDeck deck = gameboard.getDrawDeck();
+        GameState gameState = gameboard.getGameState();
+        gameState.transitionToNextTurn();
+
+        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
     }
 //
