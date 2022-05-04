@@ -243,4 +243,5 @@ public class Gameboard {
         return this.gameState;
     }
     public DrawDeck getDrawDeck(){ return this.drawDeck;}
+    public User getCurrentUser(){ return this.users.peek();}
 }
