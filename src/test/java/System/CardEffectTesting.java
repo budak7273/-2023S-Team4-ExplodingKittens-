@@ -57,4 +57,16 @@ public class CardEffectTesting {
         EasyMock.verify(gameState);
     }
 
+    @Test
+    public void testShuffleDeck() {
+        EffectPattern shuffleEffect = new ShuffleEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.shuffleDeck();
+        EasyMock.replay(gameState);
+
+        shuffleEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
+
 }
