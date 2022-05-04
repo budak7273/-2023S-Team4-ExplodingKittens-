@@ -1,10 +1,11 @@
-package system;
+package system.UnitTesting;
 
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.cardEffects.*;
+import system.*;
 
 public class CardEffectUnitTesting {
     @Test
@@ -69,4 +70,15 @@ public class CardEffectUnitTesting {
         EasyMock.verify(gameState);
     }
 
+    @Test
+    public void testSeeTheFuture() {
+        EffectPattern futureEffect = new SeeTheFutureEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.seeTheFuture();
+        EasyMock.replay(gameState);
+
+        futureEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
 }

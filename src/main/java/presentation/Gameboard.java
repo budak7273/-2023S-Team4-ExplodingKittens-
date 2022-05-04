@@ -122,6 +122,26 @@ public class Gameboard {
         buildGameView();
     }
 
+    public void displayFutureCards(List<Card> future) {
+        JPanel popupPanel = new JPanel();
+        for (int i=0; i<future.size(); i++) {
+            Card topCard = future.get(i);
+            JButton futureCard = createCardImage(topCard.getName(), i + "");
+            popupPanel.add(futureCard);
+        }
+        JButton exit = new JButton("<html><center>Draw Deck <br> Done </center></html>");
+        exit.setBackground(Color.GRAY);
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameState.returnFutureCards(future);
+            }
+        });
+        popupPanel.add(exit, BorderLayout.CENTER);
+
+        gameFrame.add(popupPanel, BorderLayout.CENTER);
+    }
+
     private void buildGameView() {
         if (gameFrame == null) {
             return;

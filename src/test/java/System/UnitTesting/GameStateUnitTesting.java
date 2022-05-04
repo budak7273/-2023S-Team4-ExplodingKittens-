@@ -1,12 +1,17 @@
-package system;
+package system.UnitTesting;
 
+import datasource.CardType;
+import org.easymock.IMocksControl;
 import presentation.Gameboard;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import system.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameStateUnitTesting {
@@ -203,7 +208,7 @@ public class GameStateUnitTesting {
 
     @Test
     public void testDrawFromBottom() {
-        Queue<User> userQueue = new LinkedList<>();
+        Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
         userQueue.add(new User());
@@ -226,7 +231,7 @@ public class GameStateUnitTesting {
 
     @Test
     public void testShuffleDeck() {
-        Queue<User> userQueue = new LinkedList<>();
+        Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
         userQueue.add(new User());
@@ -243,6 +248,60 @@ public class GameStateUnitTesting {
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
         EasyMock.verify();
+    }
+
+    @Test
+    public void testSeeTheFuture() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        List<Card> future = EasyMock.createMock(List.class);
+        EasyMock.expect(drawDeck.getTopOfDeck()).andReturn(future);
+
+        gameboard.displayFutureCards(future);
+        EasyMock.replay(gameboard, drawDeck, future);
+
+        gameState.seeTheFuture();
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
+
+        EasyMock.verify(gameboard, drawDeck, future);
+    }
+
+    @Test
+    public void testReturnFutureCards() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        IMocksControl control = EasyMock.createStrictControl();
+
+        Card first = EasyMock.createMock(Card.class);
+        Card second = EasyMock.createMock(Card.class);
+        Card third = EasyMock.createMock(Card.class);
+        ArrayList<Card> futures = new ArrayList<Card>();
+        futures.add(third);
+        futures.add(second);
+        futures.add(first);
+
+        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        DrawDeck drawDeck = EasyMock.createStrictMock(DrawDeck.class);
+        drawDeck.prependCard(first);
+        drawDeck.prependCard(second);
+        drawDeck.prependCard(third);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+        EasyMock.replay(first, second, third, gameboard, drawDeck);
+
+        gameState.returnFutureCards(futures);
+        EasyMock.verify(first, second, third, gameboard, drawDeck);
     }
 
 }
