@@ -1,6 +1,7 @@
 package system.UnitTesting;
 
 import datasource.CardType;
+import org.easymock.IMocksControl;
 import presentation.Gameboard;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
@@ -207,7 +208,7 @@ public class GameStateUnitTesting {
 
     @Test
     public void testDrawFromBottom() {
-        Queue<User> userQueue = new LinkedList<>();
+        Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
         userQueue.add(new User());
@@ -230,7 +231,7 @@ public class GameStateUnitTesting {
 
     @Test
     public void testShuffleDeck() {
-        Queue<User> userQueue = new LinkedList<>();
+        Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
         userQueue.add(new User());
@@ -251,7 +252,7 @@ public class GameStateUnitTesting {
 
     @Test
     public void testSeeTheFuture() {
-        Queue<User> userQueue = new LinkedList<>();
+        Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
         userQueue.add(new User());
@@ -270,7 +271,37 @@ public class GameStateUnitTesting {
         gameState.seeTheFuture();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
-        EasyMock.verify();
+        EasyMock.verify(gameboard, drawDeck, future);
+    }
+
+    @Test
+    public void testReturnFutureCards() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        IMocksControl control = EasyMock.createStrictControl();
+
+        Card first = EasyMock.createMock(Card.class);
+        Card second = EasyMock.createMock(Card.class);
+        Card third = EasyMock.createMock(Card.class);
+        ArrayList<Card> futures = new ArrayList<Card>();
+        futures.add(third);
+        futures.add(second);
+        futures.add(first);
+
+        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        DrawDeck drawDeck = EasyMock.createStrictMock(DrawDeck.class);
+        drawDeck.prependCard(first);
+        drawDeck.prependCard(second);
+        drawDeck.prependCard(third);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+        EasyMock.replay(first, second, third, gameboard, drawDeck);
+
+        gameState.returnFutureCards(futures);
+        EasyMock.verify(first, second, third, gameboard, drawDeck);
     }
 
 }

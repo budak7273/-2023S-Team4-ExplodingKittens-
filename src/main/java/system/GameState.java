@@ -55,6 +55,13 @@ public class GameState {
         gameboard.displayFutureCards(futureCards);
     }
 
+    public void returnFutureCards(List<Card> future) {
+        for (int i=2; i>=0; i--) {
+            Card replace = future.get(i);
+            drawDeck.prependCard(replace);
+        }
+    }
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
