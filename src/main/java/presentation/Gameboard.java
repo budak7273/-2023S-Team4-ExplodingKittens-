@@ -37,6 +37,9 @@ public class Gameboard {
     public Gameboard() {
         this.gameFrame = new JFrame();
     }
+    public Gameboard(Queue<User> usersQueue){
+        this.users = usersQueue;
+    }
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
