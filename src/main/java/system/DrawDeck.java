@@ -74,7 +74,17 @@ public class DrawDeck {
     }
 
     public List<Card> getTopOfDeck() {
-        String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-        throw new RuntimeException(msg);
+        if (cards.isEmpty()) {
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
+            throw new RuntimeException(msg);
+        }
+
+        ArrayList<Card> top = new ArrayList<>();
+
+        while (cards.size() > 0) {
+            top.add(cards.remove(0));
+        }
+
+        return top;
     }
 }

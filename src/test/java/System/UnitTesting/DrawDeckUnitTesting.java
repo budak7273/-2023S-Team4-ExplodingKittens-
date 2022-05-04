@@ -1,10 +1,13 @@
-package system;
+package system.UnitTesting;
 
 import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import system.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -128,5 +131,27 @@ public class DrawDeckUnitTesting {
         Assertions.assertFalse(deck.getCards().contains(bottomCard));
 
         EasyMock.verify();
+    }
+
+    @Test
+    public void testGetTopOfDeckWithEmptyDeck() {
+        DrawDeck deck = new DrawDeck();
+
+        Executable executable = deck::getTopOfDeck;
+
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
+    public void testGetTopOfDeckWithOneCard() {
+        Card topCard = EasyMock.createMock(Card.class);
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(topCard);
+        EasyMock.replay(topCard);
+
+        List<Card> future = deck.getTopOfDeck();
+
+        Assertions.assertEquals(1, future.size());
+        Assertions.assertEquals(topCard, future.get(0));
     }
 }
