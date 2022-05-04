@@ -237,7 +237,6 @@ public class GameStateTesting {
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
         drawDeck.shuffle();
-        gameboard.updateUI();
         EasyMock.replay(gameboard, drawDeck);
 
         gameState.shuffleDeck();
