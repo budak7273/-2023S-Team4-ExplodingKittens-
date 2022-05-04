@@ -224,4 +224,25 @@ public class GameStateUnitTesting {
         EasyMock.verify();
     }
 
+    @Test
+    public void testShuffleDeck() {
+        Queue<User> userQueue = new LinkedList<>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        Gameboard gameboard = EasyMock.createMock(Gameboard.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        drawDeck.shuffle();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.shuffleDeck();
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
+
+        EasyMock.verify();
+    }
+
 }
