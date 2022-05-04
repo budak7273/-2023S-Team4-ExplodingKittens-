@@ -2,7 +2,7 @@ package system;
 
 import datasource.CardType;
 
-public abstract class Card {
+public class Card {
     private CardType cardType;
 
     public Card(CardType type) {
@@ -15,6 +15,19 @@ public abstract class Card {
 
     public CardType getType() {
         return this.cardType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Card)) {
+            return false;
+        }
+        return cardType.equals(((Card) o).cardType);
+    }
+
+    @Override
+    public int hashCode() {
+        return cardType.ordinal();
     }
 
     public boolean isCatCard() {
