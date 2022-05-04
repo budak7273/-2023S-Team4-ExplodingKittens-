@@ -145,29 +145,32 @@ public class GameStateIntegrationTesting {
         Assertions.assertEquals(expected, gameState.getPlayerQueue());
 
     }
-//
-//    @Test
-//    public void testTransitionToNextAliveWithThreeUsersTwoDeadIntegrationTest() {
-//        Gameboard boardMock = new Gameboard();
-//        boardMock.updateUI();
-//        Queue<User> pq = new LinkedList<User>();
-//        User user1 = new User();
-//        user1.die();
-//        User user2 = new User();
-//        user2.die();
-//        User user3 = new User();
-//        pq.add(user1);
-//        pq.add(user2);
-//        pq.add(user3);
-//        DrawDeck deck = new DrawDeck();
-//
-//        GameState gameState = new GameState(pq, boardMock, deck);
-//        gameState.transitionToNextTurn();
-//
-//        Queue<User> expected = new LinkedList<User>();
-//        expected.add(user3);
-//        Assertions.assertEquals(expected, gameState.getPlayerQueue());
-//
+
+    @Test
+    public void testTransitionToNextAliveWithThreeUsersTwoDeadIntegrationTest() {
+
+        Queue<User> pq = new LinkedList<User>();
+        User user1 = new User();
+        user1.die();
+        User user2 = new User();
+        user2.die();
+        User user3 = new User();
+        pq.add(user1);
+        pq.add(user2);
+        pq.add(user3);
+
+        Gameboard gameboard = new Gameboard(pq);
+        gameboard.initializeGameState();
+        gameboard.updateUI();
+        DrawDeck deck = gameboard.getDrawDeck();
+        GameState gameState = gameboard.getGameState();
+
+        gameState.transitionToNextTurn();
+
+        Queue<User> expected = new LinkedList<User>();
+        expected.add(user3);
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
 //    }
 //
 //    @Test
