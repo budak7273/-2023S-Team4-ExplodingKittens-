@@ -228,47 +228,53 @@ public class SetupIntegrationTesting {
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
-//    @Test
-//    public void testDistributeCards2UsersIntegrationTest() {
-//        User player1 = EasyMock.createMock(User.class);
-//        User player2 = EasyMock.createMock(User.class);
-//        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-//        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-//            drawDeck.drawInitialCard(player1);
-//            drawDeck.drawInitialCard(player2);
-//        }
-//        player1.addCard(eq(new Card(CardType.DEFUSE)));
-//        player2.addCard(eq(new Card(CardType.DEFUSE)));
-//        EasyMock.replay(player1, player2, drawDeck);
-//
-//        Queue<User> users = new LinkedList<>();
-//        users.add(player1);
-//        users.add(player2);
-//
-//        Setup setup = new Setup(2);
-//        setup.dealHands(users, drawDeck);
-//
-//        EasyMock.verify(player1, player2, drawDeck);
-//    }
-
     @Test
-    public void testDistributeCards10UsersIntegrationTest() {
-        Queue<User> users = new ArrayDeque<>();
-        for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
-            users.add(new User());
-        }
-        Setup setup = new Setup(MAX_PLAYER_COUNT);
+    public void testDistributeCards2UsersIntegrationTest() {
+        User player1 = new User("player1");
+        User player2 = new User("player2");
+        Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-
-        for (User user : users) {
-            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-                drawDeck.drawInitialCard(user);
-            }
-            user.addCard(new Card(CardType.DEFUSE));
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
+            drawDeck.drawInitialCard(player1);
+            drawDeck.drawInitialCard(player2);
         }
+        player1.addCard(new Card(CardType.DEFUSE));
+        player2.addCard(new Card(CardType.DEFUSE));
+
+        Queue<User> users = new LinkedList<>();
+        users.add(player1);
+        users.add(player2);
+
         setup.dealHands(users, drawDeck);
+
     }
+//    @Test
+//    public void testDistributeCards10UsersIntegrationTest() {
+//        Queue<User> users = new ArrayDeque<>();
+//        for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
+//            users.add(new User());
+//        }
+//        Setup setup = new Setup(MAX_PLAYER_COUNT);
+//        String path = "src/test/resources/fullfile.csv";
+//        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+//            for(Card card : drawDeck.getCards()){
+//                System.out.println(card.getName());
+//            }
+//        System.out.print(drawDeck.getCards().size());
+//        for (User user : users) {
+//            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
+//                drawDeck.drawInitialCard(user);
+//
+//            }
+//            user.addCard(new Card(CardType.DEFUSE));
+//        }
+//        for(Card card : drawDeck.getCards()){
+//            System.out.println(card.getName());
+//        }
+//        System.out.print(drawDeck.getCards().size());
+//        setup.dealHands(users, drawDeck);
+//    }
 
     @Test
     public void testDistributeCards11UsersIntegrationTest() {
