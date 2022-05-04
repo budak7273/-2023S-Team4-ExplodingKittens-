@@ -82,39 +82,45 @@ public class GameStateIntegrationTesting {
             pq.add(new User());
         }
         Gameboard gameboard = new Gameboard(pq);
+        Executable executable1 = () -> gameboard.initializeGameState();
+        Assertions.assertThrows(IllegalArgumentException.class, executable1);
+        gameboard.updateUI();
+        DrawDeck deck = gameboard.getDrawDeck();
+        GameState gameState = gameboard.getGameState();
+        Executable executable2 = () -> gameState.transitionToNextTurn();
+        Assertions.assertThrows(IllegalArgumentException.class, executable2);
+
+    }
+
+    @Test
+    public void testTransitionToNextAliveWithThreeAliveUsersIntegrationTest() {
+
+
+        Queue<User> pq = new LinkedList<User>();
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
+        pq.add(user1);
+        pq.add(user2);
+        pq.add(user3);
+
+        Gameboard gameboard = new Gameboard(pq);
         gameboard.initializeGameState();
         gameboard.updateUI();
         DrawDeck deck = gameboard.getDrawDeck();
         GameState gameState = gameboard.getGameState();
-        Executable executable = () -> gameState.transitionToNextTurn();
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
-    }
 
-//
-//    @Test
-//    public void testTransitionToNextAliveWithThreeAliveUsersIntegrationTest() {
-//        Gameboard boardMock = new Gameboard();
-//        boardMock.updateUI();
-//
-//        Queue<User> pq = new LinkedList<User>();
-//        User user1 = new User();
-//        User user2 = new User();
-//        User user3 = new User();
-//        pq.add(user1);
-//        pq.add(user2);
-//        pq.add(user3);
-//        DrawDeck deck = new DrawDeck();
-//
-//        GameState gameState = new GameState(pq, boardMock, deck);
-//        gameState.transitionToNextTurn();
-//
-//        Queue<User> expected = new LinkedList<User>();
-//        expected.add(user2);
-//        expected.add(user3);
-//        expected.add(user1);
-//        Assertions.assertEquals(expected, gameState.getPlayerQueue());
-//
-//    }
+
+
+        gameState.transitionToNextTurn();
+
+        Queue<User> expected = new LinkedList<User>();
+        expected.add(user2);
+        expected.add(user3);
+        expected.add(user1);
+        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+
+    }
 //
 //    @Test
 //    public void testTransitionToNextAliveWithThreeUsersFirstDeadIntegrationTest() {
