@@ -81,7 +81,7 @@ public class DrawDeck {
 
         ArrayList<Card> top = new ArrayList<>();
 
-        while (cards.size() > 0) {
+        while (cards.size() > 0 && top.size() < 3) {
             top.add(cards.remove(0));
         }
 
