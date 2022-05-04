@@ -1,9 +1,8 @@
 package system;
 
 import datasource.CardCSVParser;
+import datasource.CardType;
 import datasource.Messages;
-import system.cards.DefuseCard;
-
 import java.io.File;
 import java.util.*;
 
@@ -75,7 +74,7 @@ public class Setup {
             numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
-            cardList.add(new DefuseCard());
+            cardList.add(new Card(CardType.DEFUSE));
         }
 
         return cardList;
@@ -101,7 +100,7 @@ public class Setup {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawInitialCard(user);
             }
-            user.addCard(new DefuseCard());
+            user.addCard(new Card(CardType.DEFUSE));
         }
     }
 
