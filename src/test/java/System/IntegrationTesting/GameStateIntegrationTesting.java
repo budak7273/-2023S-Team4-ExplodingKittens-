@@ -171,7 +171,7 @@ public class GameStateIntegrationTesting {
         expected.add(user3);
         Assertions.assertEquals(expected, gameState.getPlayerQueue());
 
-//    }
+    }
 //
 //    @Test
 //    public void testTransitionToNextAliveWithTenUsersAndU1U2U4DeadIntegrationTest() {
@@ -224,23 +224,22 @@ public class GameStateIntegrationTesting {
 
     }
 
-//    @Test
-//    public void testShuffleDeckIntegrationTest() {
-//        Queue<User> userQueue = new LinkedList<>();
-//        User currentUser = new User();
-//        userQueue.add(currentUser);
-//        userQueue.add(new User());
-//
-//        Gameboard gameboard = new Gameboard();
-//        DrawDeck drawDeck = new DrawDeck();
-//
-//        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
-//
-//        drawDeck.shuffle();
-//
-//        gameState.shuffleDeck();
-//        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
-//
-//    }
-//
+    @Test
+    public void testShuffleDeckIntegrationTest() {
+        Queue<User> userQueue = new LinkedList<>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        Gameboard gameboard = new Gameboard();
+        DrawDeck drawDeck = new DrawDeck();
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        drawDeck.shuffle();
+
+        gameState.shuffleDeck();
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
+    }
+
 }
