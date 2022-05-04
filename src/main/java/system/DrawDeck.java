@@ -43,7 +43,7 @@ public class DrawDeck {
         }
 
         Card drawnCard = cards.remove(0);
-        while (drawnCard.getName().equals("Exploding Kitten")) {
+        while (drawnCard.getType().equals(CardType.EXPLODING_KITTEN)) {
             cards.add(cards.size(), drawnCard);
             drawnCard = cards.remove(0);
         }

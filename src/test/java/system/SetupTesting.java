@@ -1,17 +1,17 @@
 package system;
 
+import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.DefuseCard;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.isA;
 
 public class SetupTesting {
@@ -237,8 +237,8 @@ public class SetupTesting {
             drawDeck.drawInitialCard(player1);
             drawDeck.drawInitialCard(player2);
         }
-        player1.addCard(isA(DefuseCard.class));
-        player2.addCard(isA(DefuseCard.class));
+        player1.addCard(eq(new Card(CardType.DEFUSE)));
+        player2.addCard(eq(new Card(CardType.DEFUSE)));
         EasyMock.replay(player1, player2, drawDeck);
 
         Queue<User> users = new LinkedList<>();
@@ -263,7 +263,7 @@ public class SetupTesting {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 drawDeck.drawInitialCard(user);
             }
-            user.addCard(isA(DefuseCard.class));
+            user.addCard(eq(new Card(CardType.DEFUSE)));
         }
 
         for (User user : users) {

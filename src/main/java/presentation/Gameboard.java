@@ -8,11 +8,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import datasource.Messages;
 import system.User;
@@ -64,10 +60,17 @@ public class Gameboard {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         int tooManyPlayers = 11;
+        System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+        String languageSelection = scanner.next().toLowerCase();
+        boolean useGermanLanguage = (languageSelection.equals("g"));
 
+        if(useGermanLanguage){
+            Messages.switchLanguageToGerman();
+        }
         System.out.println(Messages
                 .getMessage(Messages.ENTER_PLAYER_1_NAME));
-        Scanner scanner = new Scanner(System.in, "UTF-8");
+
 
         while (scanner.hasNext()) {
             String username = scanner.next();
