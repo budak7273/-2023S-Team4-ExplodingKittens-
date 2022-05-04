@@ -21,6 +21,8 @@ public class DrawDeck {
         cards.add(card);
     }
 
+    public void prependCard(Card card) { cards.add(0, card); }
+
     public void drawCard(User drawingUser) {
         if (cards.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);

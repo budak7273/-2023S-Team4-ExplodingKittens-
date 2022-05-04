@@ -198,4 +198,22 @@ public class DrawDeckUnitTesting {
         Assertions.assertEquals(third, future.get(2));
         Assertions.assertEquals(1, deck.getDeckSize());
     }
+
+    @Test
+    public void testPrependCard() {
+        Card second = EasyMock.createMock(Card.class);
+        Card first = EasyMock.createMock(Card.class);
+        EasyMock.replay(second, first);
+
+        DrawDeck deck = new DrawDeck();
+
+        deck.prependCard(second);
+        deck.prependCard(first);
+
+        List<Card> orderedCards = deck.getCards();
+
+        Assertions.assertEquals(2, orderedCards.size());
+        Assertions.assertEquals(first, orderedCards.get(0));
+        Assertions.assertEquals(second, orderedCards.get(1));
+    }
 }
