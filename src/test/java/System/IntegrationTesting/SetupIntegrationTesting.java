@@ -265,7 +265,6 @@ public class SetupIntegrationTesting {
 //        for (User user : users) {
 //            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
 //                drawDeck.drawInitialCard(user);
-//
 //            }
 //            user.addCard(new Card(CardType.DEFUSE));
 //        }
