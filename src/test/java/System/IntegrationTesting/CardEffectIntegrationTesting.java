@@ -1,18 +1,25 @@
-package system;
+package system.IntegrationTesting;
 
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cardEffects.*;
-import system.cards.*;
-import presentation.Gameboard;
-import datasource.CardType;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
+
+import datasource.CardType;
+
+import system.cardEffects.*;
+import system.User;
+import system.DrawDeck;
+import system.GameState;
+
+import presentation.Gameboard;
+
+
 
 public class CardEffectIntegrationTesting {
 

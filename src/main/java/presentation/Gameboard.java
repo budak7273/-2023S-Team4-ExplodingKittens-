@@ -37,6 +37,9 @@ public class Gameboard {
     public Gameboard() {
         this.gameFrame = new JFrame();
     }
+    public Gameboard(Queue<User> usersQueue){
+        this.users = usersQueue;
+    }
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
@@ -256,11 +259,21 @@ public class Gameboard {
     }
 
     /**
-     * This method should only be used for Integration Testing
+     * These methods should only be used for Integration Testing
      * @return
      */
     public GameState getGameState(){
         return this.gameState;
     }
     public DrawDeck getDrawDeck(){ return this.drawDeck;}
+    public User getCurrentUser(){ return this.users.peek();}
+    public void initializeGameState() {
+        Setup setup = new Setup(users.size());
+        String path = "src/main/resources/cards.csv";
+        this.drawDeck = setup.createDrawDeck(new File(path));
+        this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users, this, this.drawDeck);
+        setup.dealHands(this.users, this.drawDeck);
+    }
 }
