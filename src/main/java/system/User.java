@@ -76,7 +76,8 @@ public class User {
         } else if (otherCount < 2) {
             return false;
         } else {
-            for (String cname : list.keySet()) {
+            for (Map.Entry<String, Integer> entry : list.entrySet()) {
+                String cname = entry.getKey();
                 if (list.get(cname) > 1) {
                     return true;
                 }
@@ -87,7 +88,7 @@ public class User {
     }
 
     public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
-		this.verifyCardsSelected(selected);
+        this.verifyCardsSelected(selected);
         Card first = hand.get(selected.get(0));
 
         for (Integer i : selected) {
@@ -99,7 +100,8 @@ public class User {
             if (type1 != type2 && type1 != CardType.FERAL_CAT
                     && type2 != CardType.FERAL_CAT) {
                 return false;
-            }        }
+            }
+        }
 
         return true;
     }

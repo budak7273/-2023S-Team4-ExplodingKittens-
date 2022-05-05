@@ -58,7 +58,7 @@ public class CardCSVParser {
                         Messages.getMessage(Messages.MISSING_DATA));
             }
             String cardType = cardProperties[0];
-            int typeCount = 17;
+            final int typeCount = 17;
             String[] types = new String[typeCount];
             int i = 0;
             for (CardType typeEnum : CardType.class.getEnumConstants()) {

@@ -1,13 +1,13 @@
 package presentation;
 
-import system.Card;
-import system.GameState;
-import system.User;
+import datasource.Messages;
+import system.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class GamePlayer {
 
@@ -17,8 +17,30 @@ public class GamePlayer {
     /**Local storage of the game's current state. */
     private GameState gameState;
 
-    public GamePlayer(final GameState currentGameState) {
+    public void setGameState(final GameState currentGameState) {
         this.gameState = currentGameState;
+    }
+
+    public void displayFutureCards(List<Card> future) {
+        JPanel popupPanel = new JPanel();
+        for (int i = 0; i < future.size(); i++) {
+            Card topCard = future.get(i);
+            JButton futureCard = createCardImage(
+                    topCard.getName(), i + "");
+            popupPanel.add(futureCard);
+        }
+        JButton exit = new JButton(
+                "<html><center>Draw Deck <br> Done </center></html>");
+        exit.setBackground(Color.GRAY);
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameState.returnFutureCards(future);
+            }
+        });
+        popupPanel.add(exit, BorderLayout.CENTER);
+
+        gameFrame.add(popupPanel, BorderLayout.CENTER);
     }
 
     public void buildGameView() {
@@ -36,14 +58,13 @@ public class GamePlayer {
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.setVisible(true);
-
     }
 
     private JPanel generateUserDisplayPanel() {
         JPanel userDisplayPanel = new JPanel();
         for (User user: this.gameState.getPlayerQueue()) {
             if (user != this.gameState.getUserForCurrentTurn()) {
-                JPanel otherPlayer =
+                JButton otherPlayer =
                         createCardImage(user.getName(),
                                 user.getHand().size() + "");
                 userDisplayPanel.add(otherPlayer);
@@ -62,7 +83,8 @@ public class GamePlayer {
                 gameState.drawCardForCurrentTurn();
             }
         });
-        JPanel discardPile = createCardImage("Top Card", "");
+        JButton discardPile = createCardImage("Top Card",
+                 "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
         return tableAreaDisplayPanel;
@@ -72,32 +94,47 @@ public class GamePlayer {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
-                new JLabel("It is your turn, "
+                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
                         + gameState.getUserForCurrentTurn().getName());
+
         playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getUserForCurrentTurn().getHand()) {
-            JPanel cardLayout = createCardImage(card.getName(), "");
+            JButton cardLayout = createCardImage(card.getName(), "");
+            cardLayout.getPreferredSize();
+            cardLayout.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+
+                    if (cardLayout.getBackground() == Color.magenta) {
+                        System.out.println(card.getName() + " is selected!");
+                        cardLayout.setBackground(Color.red);
+                    } else {
+                        System.out.println(card.getName() + " is deselected!");
+                        cardLayout.setBackground(Color.magenta);
+                    }
+                }
+            });
             handDisplayPanel.add(cardLayout);
         }
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
 
-    private JButton createDeckImage(final String desc) {
+    private JButton createDeckImage(String desc) {
         JButton deckImage = new JButton("<html><center>Draw Deck<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         return deckImage;
     }
 
-    private JPanel createCardImage(final String name, final String desc) {
-        final int cardWidth = 55;
+    private JButton createCardImage(String name, String desc) {
+        final int cardWidth = 75;
         final int cardHeight = 80;
-        JPanel cardImage = new JPanel();
+        JButton cardImage = new JButton();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.magenta);
@@ -113,5 +150,13 @@ public class GamePlayer {
      */
     public void updateUI() {
         buildGameView();
+    }
+
+    /**
+     * These methods should only be used for Integration Testing
+     * @return
+     */
+    public GameState getGameState() {
+        return this.gameState;
     }
 }

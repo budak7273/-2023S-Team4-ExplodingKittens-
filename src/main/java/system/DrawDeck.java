@@ -23,7 +23,9 @@ public class DrawDeck {
         cards.add(card);
     }
 
-    public void prependCard(Card card) { cards.add(0, card); }
+    public void prependCard(Card card) {
+        cards.add(0, card);
+    }
 
     public void drawCard(User drawingUser) {
         if (cards.isEmpty()) {
@@ -84,8 +86,9 @@ public class DrawDeck {
         }
 
         ArrayList<Card> top = new ArrayList<>();
+        final int maxTop = 3;
 
-        while (cards.size() > 0 && top.size() < 3) {
+        while (cards.size() > 0 && top.size() < maxTop) {
             top.add(cards.remove(0));
         }
 

@@ -1,21 +1,24 @@
 package system;
 
 import datasource.Messages;
-import presentation.GameDesigner;
+import presentation.GamePlayer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class GameState {
-    private final GameDesigner gameDesigner;
-    private final DrawDeck drawDeck;    private static final int MIN_PLAYERS = 2;
+    private final Queue<User> playerQueue;
+    private final GamePlayer gamePlayer;
+    private final DrawDeck drawDeck;
+    private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final GameDesigner gd,
-                     final DrawDeck deck) {        Queue<User> pqCopy = new LinkedList<>();
+    public GameState(final Queue<User> pq, final GamePlayer gp,
+                     final DrawDeck deck) {
+        Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
-        this.gameDesigner = gd;
+        this.gamePlayer = gp;
         this.drawDeck = deck;
     }
 
@@ -33,7 +36,7 @@ public class GameState {
             playerQueue.poll();
         }
 
-        gameDesigner.updatePlayerUI();
+        gamePlayer.updateUI();
     }
 
     public void drawFromBottom() {
@@ -48,11 +51,11 @@ public class GameState {
 
     public void seeTheFuture() {
         List<Card> futureCards = drawDeck.getTopOfDeck();
-        gameboard.displayFutureCards(futureCards);
+        gamePlayer.displayFutureCards(futureCards);
     }
 
     public void returnFutureCards(List<Card> future) {
-        for (int i=2; i>=0; i--) {
+        for (int i = 2; i >= 0; i--) {
             Card replace = future.get(i);
             drawDeck.prependCard(replace);
         }
@@ -75,6 +78,10 @@ public class GameState {
         Queue<User> toReturn = new LinkedList<>();
         toReturn.addAll(this.playerQueue);
         return toReturn;
+    }
+
+    public DrawDeck getDrawDeck() {
+        return this.drawDeck;
     }
 
 }
