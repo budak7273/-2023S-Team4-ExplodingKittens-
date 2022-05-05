@@ -1,10 +1,13 @@
-package system;
+package system.UnitTesting;
 
 import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import system.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -128,5 +131,89 @@ public class DrawDeckUnitTesting {
         Assertions.assertFalse(deck.getCards().contains(bottomCard));
 
         EasyMock.verify();
+    }
+
+    @Test
+    public void testGetTopOfDeckWithEmptyDeck() {
+        DrawDeck deck = new DrawDeck();
+
+        Executable executable = deck::getTopOfDeck;
+
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
+    public void testGetTopOfDeckWithOneCard() {
+        Card topCard = EasyMock.createMock(Card.class);
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(topCard);
+        EasyMock.replay(topCard);
+
+        List<Card> future = deck.getTopOfDeck();
+
+        Assertions.assertEquals(1, future.size());
+        Assertions.assertEquals(topCard, future.get(0));
+        Assertions.assertEquals(0, deck.getDeckSize());
+    }
+
+    @Test
+    public void testGetTopOfDeckWithThreeCards() {
+        Card first = EasyMock.createMock(Card.class);
+        Card second = EasyMock.createMock(Card.class);
+        Card third = EasyMock.createMock(Card.class);
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(first);
+        deck.addCard(second);
+        deck.addCard(third);
+
+        EasyMock.replay(first, second, third);
+
+        List<Card> future = deck.getTopOfDeck();
+
+        Assertions.assertEquals(3, future.size());
+        Assertions.assertEquals(first, future.get(0));
+        Assertions.assertEquals(second, future.get(1));
+        Assertions.assertEquals(third, future.get(2));
+        Assertions.assertEquals(0, deck.getDeckSize());
+    }
+
+    @Test
+    public void testGetTopOfDeckWithFourCards() {
+        Card first = EasyMock.createMock(Card.class);
+        Card second = EasyMock.createMock(Card.class);
+        Card third = EasyMock.createMock(Card.class);
+        DrawDeck deck = new DrawDeck();
+        deck.addCard(first);
+        deck.addCard(second);
+        deck.addCard(third);
+        deck.addCard(new Card(CardType.ATTACK));
+
+        EasyMock.replay(first, second, third);
+
+        List<Card> future = deck.getTopOfDeck();
+
+        Assertions.assertEquals(3, future.size());
+        Assertions.assertEquals(first, future.get(0));
+        Assertions.assertEquals(second, future.get(1));
+        Assertions.assertEquals(third, future.get(2));
+        Assertions.assertEquals(1, deck.getDeckSize());
+    }
+
+    @Test
+    public void testPrependCard() {
+        Card second = EasyMock.createMock(Card.class);
+        Card first = EasyMock.createMock(Card.class);
+        EasyMock.replay(second, first);
+
+        DrawDeck deck = new DrawDeck();
+
+        deck.prependCard(second);
+        deck.prependCard(first);
+
+        List<Card> orderedCards = deck.getCards();
+
+        Assertions.assertEquals(2, orderedCards.size());
+        Assertions.assertEquals(first, orderedCards.get(0));
+        Assertions.assertEquals(second, orderedCards.get(1));
     }
 }
