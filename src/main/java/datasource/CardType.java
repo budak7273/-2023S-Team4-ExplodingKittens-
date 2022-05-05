@@ -20,9 +20,9 @@ public enum CardType {
     TARGETED_ATTACK("Targeted Attack"),
     SEE_THE_FUTURE("See The Future");
 
-    private final String displayName;
+    private String displayName;
 
-    CardType(final String displayNameStr) {
+    CardType(String displayNameStr) {
         this.displayName = displayNameStr;
     }
 

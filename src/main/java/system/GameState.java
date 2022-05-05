@@ -3,18 +3,16 @@ package system;
 import datasource.Messages;
 import presentation.GameDesigner;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameState {
-    private final Queue<User> playerQueue;
     private final GameDesigner gameDesigner;
-    private final DrawDeck drawDeck;
-    private static final int MIN_PLAYERS = 2;
+    private final DrawDeck drawDeck;    private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
     public GameState(final Queue<User> pq, final GameDesigner gd,
-                     final DrawDeck deck) {
-        Queue<User> pqCopy = new LinkedList<>();
+                     final DrawDeck deck) {        Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
         this.gameDesigner = gd;
@@ -42,6 +40,22 @@ public class GameState {
         User currentUser = getUserForCurrentTurn();
         drawDeck.drawFromBottomForUser(currentUser);
         transitionToNextTurn();
+    }
+
+    public void shuffleDeck() {
+        drawDeck.shuffle();
+    }
+
+    public void seeTheFuture() {
+        List<Card> futureCards = drawDeck.getTopOfDeck();
+        gameboard.displayFutureCards(futureCards);
+    }
+
+    public void returnFutureCards(List<Card> future) {
+        for (int i=2; i>=0; i--) {
+            Card replace = future.get(i);
+            drawDeck.prependCard(replace);
+        }
     }
 
     public User getUserForCurrentTurn() {

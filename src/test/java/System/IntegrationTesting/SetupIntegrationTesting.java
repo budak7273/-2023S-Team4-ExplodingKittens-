@@ -1,20 +1,21 @@
-package system;
+package system.IntegrationTesting;
 
-import org.easymock.EasyMock;
+import system.Setup;
+import system.User;
+import system.DrawDeck;
+import system.DiscardDeck;
+import system.Card;
+import presentation.Gameboard;
+
+import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.DefuseCard;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-import static org.easymock.EasyMock.isA;
 
-public class SetupTesting {
+public class SetupIntegrationTesting {
     private static final int FULL_SIZE = 101;
     private static final int PAW_ONLY_SIZE = 41;
 
@@ -28,7 +29,7 @@ public class SetupTesting {
     private static final int INITIAL_HAND_SIZE = 7;
 
     @Test
-    public void testCreateUsersFromEmptyList() {
+    public void testCreateUsersFromEmptyListIntegrationTest() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         Executable executable = () -> setup.createUsers(names);
@@ -36,14 +37,14 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsersFromNull() {
+    public void testCreateUsersFromNullIntegrationTest() {
         Setup setup = new Setup(2);
         Executable executable = () -> setup.createUsers(null);
         Assertions.assertThrows(NullPointerException.class, executable);
     }
 
     @Test
-    public void testCreateUsersFromListOfSize1() {
+    public void testCreateUsersFromListOfSize1IntegrationTest() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         names.add("name");
@@ -52,7 +53,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsersFromListOfSize2() {
+    public void testCreateUsersFromListOfSize2IntegrationTest() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
@@ -63,7 +64,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsersFromListOfSize10() {
+    public void testCreateUsersFromListOfSize10IntegrationTest() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= MAX_PLAYER_COUNT; i++) {
@@ -74,7 +75,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsersFromListOfSize11() {
+    public void testCreateUsersFromListOfSize11IntegrationTest() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= MAX_PLAYER_COUNT + 1; i++) {
@@ -85,7 +86,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateUsersFromListWithDuplicates() {
+    public void testCreateUsersFromListWithDuplicatesIntegrationTest() {
         Setup setup = new Setup(2);
         List<String> names = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
@@ -96,7 +97,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromEmptyFile() {
+    public void testCreateDrawDeckFromEmptyFileIntegrationTest() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/empty.csv";
         File cardInfoFile = new File(path);
@@ -105,7 +106,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFileWithOneLine() {
+    public void testCreateDrawDeckFromFileWithOneLineIntegrationTest() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/oneline.csv";
         File cardInfoFile = new File(path);
@@ -114,7 +115,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileAnd2Players() {
+    public void testCreateDrawDeckFromFullFileAnd2PlayersIntegrationTest() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -126,9 +127,8 @@ public class SetupTesting {
                 drawDeck.getDeckSize());
         Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
-
     @Test
-    public void testCreateDrawDeckFromFullFileAnd3Players() {
+    public void testCreateDrawDeckFromFullFileAnd3PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -141,7 +141,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileAnd4Players() {
+    public void testCreateDrawDeckFromFullFileAnd4PlayersIntegrationTest() {
         Setup setup = new Setup(MIN_NO_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -154,7 +154,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileAnd7Players() {
+    public void testCreateDrawDeckFromFullFileAnd7PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_NO_PAW_ONLY_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -167,7 +167,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileAnd8Players() {
+    public void testCreateDrawDeckFromFullFileAnd8PlayersIntegrationTest() {
         Setup setup = new Setup(MIN_ALL_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -180,7 +180,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileAnd10Players() {
+    public void testCreateDrawDeckFromFullFileAnd10PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_PLAYER_COUNT);
         String path = "src/test/resources/fullfile.csv";
         File cardInfoFile = new File(path);
@@ -193,7 +193,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromOneLineOfInvalidData() {
+    public void testCreateDrawDeckFromOneLineOfInvalidDataIntegrationTest() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/oneline_invalid.csv";
         File cardInfoFile = new File(path);
@@ -202,7 +202,7 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileWithOneLineOfInvalidData() {
+    public void testCreateDrawDeckFromFullFileWithOneLineOfInvalidDataIntegrationTest() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile_invalid.csv";
         File cardInfoFile = new File(path);
@@ -211,18 +211,17 @@ public class SetupTesting {
     }
 
     @Test
-    public void testCreateDiscardDeck() {
+    public void testCreateDiscardDeckIntegrationTest() {
         Setup setup = new Setup(2);
         DiscardDeck discDeck = setup.createDiscardDeck();
         Assertions.assertTrue(discDeck.getDeckSize() == 0);
     }
 
     @Test
-    public void testDistributeCards1User() {
+    public void testDistributeCards1UserIntegrationTest() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
-        ArrayList<Card> cards = new ArrayList<>();
-        DrawDeck drawDeck = new DrawDeck(cards);
+        DrawDeck drawDeck = new DrawDeck();
 
         Setup setup = new Setup(1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
@@ -230,65 +229,45 @@ public class SetupTesting {
     }
 
     @Test
-    public void testDistributeCards2Users() {
-        User player1 = EasyMock.createMock(User.class);
-        User player2 = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            drawDeck.drawInitialCard(player1);
-            drawDeck.drawInitialCard(player2);
-        }
-        player1.addCard(isA(DefuseCard.class));
-        player2.addCard(isA(DefuseCard.class));
-        EasyMock.replay(player1, player2, drawDeck);
+    public void testDistributeCards2UsersIntegrationTest() {
+        User player1 = new User("player1");
+        User player2 = new User("player2");
+        Setup setup = new Setup(2);
+        String path = "src/test/resources/fullfile.csv";
+        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        Assertions.assertEquals(42, drawDeck.getCards().size());
 
         Queue<User> users = new LinkedList<>();
         users.add(player1);
         users.add(player2);
 
-        Setup setup = new Setup(2);
         setup.dealHands(users, drawDeck);
+        Assertions.assertEquals(28, drawDeck.getCards().size());
 
-        EasyMock.verify(player1, player2, drawDeck);
+
     }
-
     @Test
-    public void testDistributeCards10Users() {
-        Queue<User> users = new LinkedList<>();
+    public void testDistributeCards10UsersIntegrationTest() {
+        Queue<User> users = new ArrayDeque<>();
         for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
-            users.add(EasyMock.createMock(User.class));
+            users.add(new User());
         }
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-
-        for (User user : users) {
-            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-                drawDeck.drawInitialCard(user);
-            }
-            user.addCard(isA(DefuseCard.class));
-        }
-
-        for (User user : users) {
-            EasyMock.replay(user);
-        }
-        EasyMock.replay(drawDeck);
-
         Setup setup = new Setup(MAX_PLAYER_COUNT);
+        String path = "src/test/resources/fullfile.csv";
+        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        Assertions.assertEquals(101, drawDeck.getCards().size());
         setup.dealHands(users, drawDeck);
+        Assertions.assertEquals(31, drawDeck.getCards().size());
 
-        for (User user : users) {
-            EasyMock.verify(user);
-        }
-        EasyMock.verify(drawDeck);
     }
 
     @Test
-    public void testDistributeCards11Users() {
+    public void testDistributeCards11UsersIntegrationTest() {
         Queue<User> users = new LinkedList<>();
         for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
-        ArrayList<Card> cards = new ArrayList<>();
-        DrawDeck drawDeck = new DrawDeck(cards);
+        DrawDeck drawDeck = new DrawDeck();
 
         Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);

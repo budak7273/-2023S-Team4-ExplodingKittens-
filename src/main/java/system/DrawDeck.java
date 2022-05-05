@@ -19,13 +19,15 @@ public class DrawDeck {
         return cards.size();
     }
 
-    public void addCard(final Card card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
 
-    public void drawCard(final User drawingUser) {
+    public void prependCard(Card card) { cards.add(0, card); }
+
+    public void drawCard(User drawingUser) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage("EmptyDrawDeckMessage");
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(0);
@@ -38,14 +40,14 @@ public class DrawDeck {
         return toReturn;
     }
 
-    public void drawInitialCard(final User drawer) {
+    public void drawInitialCard(User drawer) {
         if (cards.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
 
         Card drawnCard = cards.remove(0);
-        while (drawnCard.getName().equals("Exploding Kitten")) {
+        while (drawnCard.getType().equals(CardType.EXPLODING_KITTEN)) {
             cards.add(cards.size(), drawnCard);
             drawnCard = cards.remove(0);
         }
@@ -66,12 +68,27 @@ public class DrawDeck {
         return defuseCount;
     }
 
-    public void drawFromBottomForUser(final User currentUser) {
+    public void drawFromBottomForUser(User currentUser) {
         if (cards.isEmpty()) {
-            String msg = "Draw deck is empty, the game was set up improperly.";
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.remove(cards.size() - 1);
         currentUser.addCard(drawnCard);
+    }
+
+    public List<Card> getTopOfDeck() {
+        if (cards.isEmpty()) {
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
+            throw new RuntimeException(msg);
+        }
+
+        ArrayList<Card> top = new ArrayList<>();
+
+        while (cards.size() > 0 && top.size() < 3) {
+            top.add(cards.remove(0));
+        }
+
+        return top;
     }
 }

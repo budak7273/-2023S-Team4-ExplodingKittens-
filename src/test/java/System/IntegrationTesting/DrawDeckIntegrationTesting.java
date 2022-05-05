@@ -1,19 +1,25 @@
-package system;
 
-import org.easymock.EasyMock;
+package system.IntegrationTesting;
+
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.AttackCard;
-import system.cards.ExplodingCard;
 
-import java.util.ArrayList;
 
+import datasource.CardType;
+
+import system.DrawDeck;
+import system.User;
+import system.Card;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DrawDeckTesting {
+
+public class DrawDeckIntegrationTesting {
     @Test
-    public void testGetCards() {
+
+    public void testGetCardsIntegrationTest() {
+  
         ArrayList<Card> cards = new ArrayList<>();
 
         DrawDeck deck = new DrawDeck(cards);
@@ -21,7 +27,9 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawCardFromEmptyDrawDeck() {
+
+    public void testDrawCardFromEmptyDrawDeckIntegrationTest() {
+
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
         Executable executable = () -> deck.drawCard(new User());
@@ -29,12 +37,15 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawCardFromNonEmptyDrawDeck() {
+
+    public void testDrawCardFromNonEmptyDrawDeckIntegrationTest() {
         User user = new User();
         ArrayList<Card> cards = new ArrayList<>();
 
+
         DrawDeck deck = new DrawDeck(cards);
-        deck.addCard(new AttackCard());
+
+        deck.addCard(new Card(CardType.ATTACK));
         deck.drawCard(user);
 
         assertTrue(deck.getCards().isEmpty());
@@ -42,28 +53,29 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawInitialCardFromEmptyDrawDeck() {
-        User player = EasyMock.createMock(User.class);
-        EasyMock.replay(player);
+
+    public void testDrawInitialCardFromEmptyDrawDeckIntegrationTest() {
+        User player = new User("TestPlayer");
         ArrayList<Card> cards = new ArrayList<>();
+
 
         DrawDeck deck = new DrawDeck(cards);
         Executable executable = () -> deck.drawInitialCard(player);
 
         Assertions.assertThrows(RuntimeException.class, executable);
-        EasyMock.verify(player);
+
     }
 
     @Test
-    public void testDrawInitialCardFromNonEmptyDrawDeck() {
-        User player = EasyMock.createMock(User.class);
-        Card drawnCard = EasyMock.createMock(AttackCard.class);
-        Card explodeCard = EasyMock.createMock(ExplodingCard.class);
-        EasyMock.expect(explodeCard.getName()).andReturn("Exploding Kitten");
-        EasyMock.expect(drawnCard.getName()).andReturn("Attack");
+
+    public void testDrawInitialCardFromNonEmptyDrawDeckIntegrationTest() {
+        User player = new User("TestPlayer");
+        Card drawnCard = new Card(CardType.ATTACK);
+        Card explodeCard = new Card(CardType.EXPLODING_KITTEN);
         player.addCard(drawnCard);
-        EasyMock.replay(player, drawnCard, explodeCard);
+
         ArrayList<Card> cards = new ArrayList<>();
+
 
         DrawDeck deck = new DrawDeck(cards);
         deck.addCard(explodeCard);
@@ -71,11 +83,13 @@ public class DrawDeckTesting {
 
         deck.drawInitialCard(player);
         Assertions.assertEquals(1, deck.getDeckSize());
-        EasyMock.verify(player, drawnCard, explodeCard);
+
     }
 
     @Test
-    public void testShuffleOnEmptyDeck() {
+
+    public void testShuffleOnEmptyDeckIntegrationTest() {
+
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
         deck.shuffle();
@@ -83,10 +97,13 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testShuffleOnDeckOfOneCard() {
+
+    public void testShuffleOnDeckOfOneCardIntegrationTest() {
+
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        Card card = new AttackCard();
+
+        Card card = new Card(CardType.ATTACK);
         deck.addCard(card);
         deck.shuffle();
 
@@ -95,11 +112,14 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testShuffleOnDeckOfMultipleCards() {
+
+    public void testShuffleOnDeckOfMultipleCardsIntegrationTest() {
+
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        Card card1 = new AttackCard();
-        Card card2 = new AttackCard();
+
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
         deck.addCard(card1);
         deck.addCard(card2);
         deck.shuffle();
@@ -110,7 +130,9 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawFromBottomForUserWithEmptyDeck() {
+
+    public void testDrawFromBottomForUserWithEmptyDeckIntegrationTest() {
+
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
         User user = new User();
@@ -121,22 +143,24 @@ public class DrawDeckTesting {
     }
 
     @Test
-    public void testDrawFromBottomForUserWithNonEmptyDeck() {
+
+    public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
+
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        deck.addCard(new AttackCard());
-        Card bottomCard = new AttackCard();
+ 
+        deck.addCard(new Card(CardType.ATTACK));
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
         deck.addCard(bottomCard);
 
-        User user = EasyMock.createMock(User.class);
+
+        User user = new User("TestPlayer");
         user.addCard(bottomCard);
-        EasyMock.expectLastCall();
-        EasyMock.replay(user);
+
 
         deck.drawFromBottomForUser(user);
 
         Assertions.assertFalse(deck.getCards().contains(bottomCard));
 
-        EasyMock.verify(user);
-    }
+        EasyMock.verify();    }
 }
