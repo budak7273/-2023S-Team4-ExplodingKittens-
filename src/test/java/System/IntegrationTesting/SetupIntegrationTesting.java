@@ -14,6 +14,7 @@ import org.junit.jupiter.api.function.Executable;
 import java.io.File;
 import java.util.*;
 
+
 public class SetupIntegrationTesting {
     private static final int FULL_SIZE = 101;
     private static final int PAW_ONLY_SIZE = 41;
@@ -126,7 +127,6 @@ public class SetupIntegrationTesting {
                 drawDeck.getDeckSize());
         Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
-
     @Test
     public void testCreateDrawDeckFromFullFileAnd3PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_PAW_ONLY_COUNT);
@@ -235,45 +235,31 @@ public class SetupIntegrationTesting {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            drawDeck.drawInitialCard(player1);
-            drawDeck.drawInitialCard(player2);
-        }
-        player1.addCard(new Card(CardType.DEFUSE));
-        player2.addCard(new Card(CardType.DEFUSE));
+        Assertions.assertEquals(42, drawDeck.getCards().size());
 
         Queue<User> users = new LinkedList<>();
         users.add(player1);
         users.add(player2);
 
         setup.dealHands(users, drawDeck);
+        Assertions.assertEquals(28, drawDeck.getCards().size());
+
 
     }
-//    @Test
-//    public void testDistributeCards10UsersIntegrationTest() {
-//        Queue<User> users = new ArrayDeque<>();
-//        for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
-//            users.add(new User());
-//        }
-//        Setup setup = new Setup(MAX_PLAYER_COUNT);
-//        String path = "src/test/resources/fullfile.csv";
-//        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-//            for(Card card : drawDeck.getCards()){
-//                System.out.println(card.getName());
-//            }
-//        System.out.print(drawDeck.getCards().size());
-//        for (User user : users) {
-//            for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-//                drawDeck.drawInitialCard(user);
-//            }
-//            user.addCard(new Card(CardType.DEFUSE));
-//        }
-//        for(Card card : drawDeck.getCards()){
-//            System.out.println(card.getName());
-//        }
-//        System.out.print(drawDeck.getCards().size());
-//        setup.dealHands(users, drawDeck);
-//    }
+    @Test
+    public void testDistributeCards10UsersIntegrationTest() {
+        Queue<User> users = new ArrayDeque<>();
+        for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
+            users.add(new User());
+        }
+        Setup setup = new Setup(MAX_PLAYER_COUNT);
+        String path = "src/test/resources/fullfile.csv";
+        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        Assertions.assertEquals(101, drawDeck.getCards().size());
+        setup.dealHands(users, drawDeck);
+        Assertions.assertEquals(31, drawDeck.getCards().size());
+
+    }
 
     @Test
     public void testDistributeCards11UsersIntegrationTest() {
