@@ -4,20 +4,17 @@ package system.IntegrationTesting;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 
-import datasource.CardType;
-
+import presentation.GameDesigner;
+import presentation.GamePlayer;
 import system.cardEffects.*;
 import system.User;
 import system.DrawDeck;
 import system.GameState;
-
-import presentation.Gameboard;
 
 
 
@@ -37,8 +34,8 @@ public class CardEffectIntegrationTesting {
         playerQueue.add(player3);
         playerQueue.add(player4);
         playerQueue.add(player5);
-        Gameboard gameBoard = new Gameboard();
-        DrawDeck drawDeck = new DrawDeck();
+        GamePlayer gameBoard = new GamePlayer();
+        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, gameBoard, drawDeck);
 
@@ -61,8 +58,8 @@ public class CardEffectIntegrationTesting {
         playerQueue.add(player3);
         playerQueue.add(player4);
         playerQueue.add(player5);
-        Gameboard gameBoard = new Gameboard();
-        DrawDeck drawDeck = new DrawDeck();
+        GamePlayer gameBoard = new GamePlayer();
+        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, gameBoard, drawDeck);
 
@@ -74,7 +71,7 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testDrawFromBottomIntegrationTest() {
         EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
-        Gameboard gameBoard = new Gameboard();
+        GameDesigner gameDesigner = new GameDesigner();
         List<String> playerUsernames = new ArrayList<>();
         playerUsernames.add("Player1ForIntegrationTest");
         playerUsernames.add("Player2ForIntegrationTest");
@@ -82,21 +79,24 @@ public class CardEffectIntegrationTesting {
         playerUsernames.add("Player4ForIntegrationTest");
         playerUsernames.add("Player5ForIntegrationTest");
 
-        gameBoard.initializeGameState(playerUsernames);
+        gameDesigner.initializeGameState(playerUsernames);
+        GamePlayer gameBoard = gameDesigner.getGamePlayer();
 
         GameState gameState = gameBoard.getGameState();
-        int beforeCount = gameBoard.getDrawDeck().getCards().size();
+        int beforeCount = gameState.getDeckSizeForCurrentTurn();
         gameState.drawFromBottom();
-        Assertions.assertEquals(beforeCount - 1, gameBoard.getDrawDeck().getCards().size());
+        Assertions.assertEquals(
+                beforeCount - 1, gameState.getDeckSizeForCurrentTurn());
         drawFromBottomEffect.useEffect(gameState);
-        Assertions.assertEquals(beforeCount - 2, gameBoard.getDrawDeck().getCards().size());
+        Assertions.assertEquals(
+                beforeCount - 2, gameState.getDeckSizeForCurrentTurn());
 
     }
 
     @Test
     public void testSkipIntegrationTest() {
         EffectPattern skipEffect = new SkipEffect();
-        Gameboard gameBoard = new Gameboard();
+        GameDesigner gameDesigner = new GameDesigner();
         List<String> playerUsernames = new ArrayList<>();
         playerUsernames.add("Player1ForIntegrationTest");
         playerUsernames.add("Player2ForIntegrationTest");
@@ -104,7 +104,8 @@ public class CardEffectIntegrationTesting {
         playerUsernames.add("Player4ForIntegrationTest");
         playerUsernames.add("Player5ForIntegrationTest");
 
-        gameBoard.initializeGameState(playerUsernames);
+        gameDesigner.initializeGameState(playerUsernames);
+        GamePlayer gameBoard = gameDesigner.getGamePlayer();
 
         GameState gameState = gameBoard.getGameState();
         gameState.transitionToNextTurn();

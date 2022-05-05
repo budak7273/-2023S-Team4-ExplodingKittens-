@@ -4,10 +4,6 @@ import system.Setup;
 import system.User;
 import system.DrawDeck;
 import system.DiscardDeck;
-import system.Card;
-import presentation.Gameboard;
-
-import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -202,7 +198,8 @@ public class SetupIntegrationTesting {
     }
 
     @Test
-    public void testCreateDrawDeckFromFullFileWithOneLineOfInvalidDataIntegrationTest() {
+    public void
+    testCreateDrawDeckFromFullFileWithOneLineOfInvalidDataIntegrationTest() {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile_invalid.csv";
         File cardInfoFile = new File(path);
@@ -221,7 +218,7 @@ public class SetupIntegrationTesting {
     public void testDistributeCards1UserIntegrationTest() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
-        DrawDeck drawDeck = new DrawDeck();
+        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         Setup setup = new Setup(1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
@@ -235,14 +232,16 @@ public class SetupIntegrationTesting {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        Assertions.assertEquals(42, drawDeck.getCards().size());
+        final int firstDeckSize = 42;
+        Assertions.assertEquals(firstDeckSize, drawDeck.getCards().size());
 
         Queue<User> users = new LinkedList<>();
         users.add(player1);
         users.add(player2);
 
         setup.dealHands(users, drawDeck);
-        Assertions.assertEquals(28, drawDeck.getCards().size());
+        final int secondDeckSize = 28;
+        Assertions.assertEquals(secondDeckSize, drawDeck.getCards().size());
 
 
     }
@@ -255,9 +254,11 @@ public class SetupIntegrationTesting {
         Setup setup = new Setup(MAX_PLAYER_COUNT);
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        Assertions.assertEquals(101, drawDeck.getCards().size());
+        final int firstDeckSize = 101;
+        Assertions.assertEquals(firstDeckSize, drawDeck.getCards().size());
         setup.dealHands(users, drawDeck);
-        Assertions.assertEquals(31, drawDeck.getCards().size());
+        final int secondDeckSize = 31;
+        Assertions.assertEquals(secondDeckSize, drawDeck.getCards().size());
 
     }
 
@@ -267,7 +268,7 @@ public class SetupIntegrationTesting {
         for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
-        DrawDeck drawDeck = new DrawDeck();
+        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);

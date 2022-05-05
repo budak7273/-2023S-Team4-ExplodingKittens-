@@ -5,13 +5,12 @@ package system.IntegrationTesting;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
-
 import datasource.CardType;
-
 import system.DrawDeck;
 import system.User;
 import system.Card;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -19,7 +18,6 @@ public class DrawDeckIntegrationTesting {
     @Test
 
     public void testGetCardsIntegrationTest() {
-  
         ArrayList<Card> cards = new ArrayList<>();
 
         DrawDeck deck = new DrawDeck(cards);
@@ -145,10 +143,8 @@ public class DrawDeckIntegrationTesting {
     @Test
 
     public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
-
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
- 
         deck.addCard(new Card(CardType.ATTACK));
         Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
         deck.addCard(bottomCard);
@@ -161,6 +157,5 @@ public class DrawDeckIntegrationTesting {
         deck.drawFromBottomForUser(user);
 
         Assertions.assertFalse(deck.getCards().contains(bottomCard));
-
-        EasyMock.verify();    }
+    }
 }

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.User;
 import system.Card;
-
 import java.util.ArrayList;
 
 public class UserIntegrationTesting {
@@ -85,7 +84,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialTwoCardsDifferentTypeIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialTwoCardsDifferentTypeIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.ATTACK);
         Card card2 = new Card(CardType.ALTER_THE_FUTURE);
@@ -96,7 +96,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialTwoMatchingCatCardsIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialTwoMatchingCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.FERAL_CAT);
         Card card2 = new Card(CardType.CATTERMELON);
@@ -107,7 +108,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialTwoMatchingCatCards2IntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialTwoMatchingCatCards2IntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.CATTERMELON);
         Card card2 = new Card(CardType.CATTERMELON);
@@ -118,7 +120,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialTwoCatCardsNotMatchingIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialTwoCatCardsNotMatchingIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.HAIRY_POTATO_CAT);
         Card card2 = new Card(CardType.CATTERMELON);
@@ -129,7 +132,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialThreeMatchingCatCardsIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialThreeMatchingCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.CATTERMELON);
         Card card2 = new Card(CardType.CATTERMELON);
@@ -142,9 +146,10 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialMaxCardsNoPairIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialMaxCardsNoPairIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
             list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
@@ -152,55 +157,67 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialMaxCardsOnePairIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialMaxCardsOnePairIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i==37||i==97){
+        final int minCattermelonCount = 37;
+        final int maxCattermelonCount = 97;
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i == minCattermelonCount || i == maxCattermelonCount) {
                 list.add(new Card(CardType.CATTERMELON));
+            } else {
+                list.add(new Card(CardType.ATTACK));
             }
-            else list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialMaxCardsTwoPairsIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialMaxCardsTwoPairsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i==7){
+        final int feralCatNumber = 7;
+        final int hairyPotatoNumber = 33;
+        final int tacoCatFirstNumber = 67;
+        final int tacoCatSecondNumber = 118;
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i == feralCatNumber) {
                 list.add(new Card(CardType.FERAL_CAT));
             }
 
-            if(i==33){
+            if (i == hairyPotatoNumber) {
                 list.add(new Card(CardType.HAIRY_POTATO_CAT));
             }
 
-            if(i==67||i==118){
+            if (i == tacoCatFirstNumber || i == tacoCatSecondNumber) {
                 list.add(new Card(CardType.TACO_CAT));
+            } else {
+                list.add(new Card(CardType.ATTACK));
             }
-
-            else list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }
 
     @Test
-    public void testCheckForSpecialEffectPotentialMaxCardsMaxPairsIntegrationTest() {
+    public void
+    testCheckForSpecialEffectPotentialMaxCardsMaxPairsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i%2==0){
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i % 2 == 0) {
                 list.add(new Card(CardType.CATTERMELON));
+            } else {
+                list.add(new Card(CardType.FERAL_CAT));
             }
-            else list.add(new Card(CardType.FERAL_CAT));
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyListIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyListIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(ARBITRARY_COUNT_OF_SELECTED);
@@ -211,7 +228,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedEmptyHandWithNullListIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectedEmptyHandWithNullListIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
         Executable executable =
@@ -220,7 +238,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedHandWithNoCatCardsIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectedHandWithNoCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.ATTACK));
         ArrayList<Integer> selected = new ArrayList<>();
@@ -235,7 +254,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedSize1HandWithMultipleIndexIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectSize1HandWMultIndexIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.ATTACK));
         ArrayList<Integer> selected = new ArrayList<>();
@@ -248,7 +268,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedSize2HandWithIndexDuplicatedIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectSize2HandWIndexDupIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.ATTACK));
         list.add(new Card(CardType.NOPE));
@@ -262,7 +283,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedSize2HandSelectNonMatchingCatIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectSize2HandSelectNonMatchCatIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
         list.add(new Card(CardType.CATTERMELON));
@@ -274,7 +296,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCatIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectSize2HandSelectMatchCatIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.FERAL_CAT));
         list.add(new Card(CardType.CATTERMELON));
@@ -286,7 +309,8 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCat2IntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectSize2HandSelectMatchCat2IntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.CATTERMELON));
         list.add(new Card(CardType.CATTERMELON));
@@ -298,16 +322,15 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedMaxSizeHandSelectMatchingPairIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectMaxSizeHandSelectMatchPairIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i==0) {
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i == 0) {
                 list.add(new Card(CardType.CATTERMELON));
-            }
-            else if(i==1) {
+            } else if (i == 1) {
                 list.add(new Card(CardType.FERAL_CAT));
-            }
-            else {
+            } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
@@ -319,55 +342,58 @@ public class UserIntegrationTesting {
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedMaxSizeHandSelectNonMatchingPairIntegrationTest() {
+    public void
+    testVerifyEffectForCardsSelectMaxSizeHandSelectNonMatchPairIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i==0) {
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i == 0) {
                 list.add(new Card(CardType.CATTERMELON));
-            }
-            else if(i==1) {
+            } else if (i == 1) {
                 list.add(new Card(CardType.FERAL_CAT));
-            }
-            else {
+            } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
+        final int falseAdd = 3;
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
-        selected.add(3);
+        selected.add(falseAdd);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedMaxSizeHandContainTwoTriplesSelectNonMatchingPairIntegrationTest() {
+    public void
+    testVerifyEffectForCardSelMaxHandCont2TripSelNonMatchPairIntegratTest() {
+        final int rainbowRaphNumber = 3;
+        final int hairPotatoNumber = 6;
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i<3) {
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i < rainbowRaphNumber) {
                 list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
-            }
-            else if(i<6) {
+            } else if (i < hairPotatoNumber) {
                 list.add(new Card(CardType.HAIRY_POTATO_CAT));
-            }
-            else {
+            } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
+        final int falseAdd = 3;
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
-        selected.add(3);
+        selected.add(falseAdd);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
     @Test
-    public void testVerifyEffectForCardsSelectedMaxSizeHandContainOneTripleSelectMatchingPairIntegrationTest() {
+    public void
+    testVerifyEffectForCardSelMaxHandContOneTripleSelMatchPairIntegratTest() {
+        final int rainbowRaphNumber = 3;
         ArrayList<Card> list = new ArrayList<Card>();
-        for (int i=0; i<MAX_HAND_SIZE; i++){
-            if(i<3) {
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            if (i < rainbowRaphNumber) {
                 list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
-            }
-            else {
+            } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }

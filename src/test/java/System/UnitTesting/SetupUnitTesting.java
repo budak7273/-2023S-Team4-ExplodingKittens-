@@ -1,4 +1,4 @@
-package system;
+package system.UnitTesting;
 
 import datasource.CardType;
 import org.easymock.EasyMock;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import system.*;
 
 import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.isA;
 
 public class SetupUnitTesting {
     private static final int FULL_SIZE = 101;
