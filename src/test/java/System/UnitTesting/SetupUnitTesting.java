@@ -1,4 +1,4 @@
-package system;
+package system.UnitTesting;
 
 import datasource.CardType;
 import org.easymock.EasyMock;
@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import system.Setup;
+import system.User;
+import system.DrawDeck;
+import system.DiscardDeck;
+import system.Card;
 
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.isA;
