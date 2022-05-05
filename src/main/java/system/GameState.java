@@ -4,6 +4,7 @@ import datasource.Messages;
 import presentation.Gameboard;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameState {
@@ -43,6 +44,22 @@ public class GameState {
         User currentUser = getUserForCurrentTurn();
         drawDeck.drawFromBottomForUser(currentUser);
         transitionToNextTurn();
+    }
+
+    public void shuffleDeck() {
+        drawDeck.shuffle();
+    }
+
+    public void seeTheFuture() {
+        List<Card> futureCards = drawDeck.getTopOfDeck();
+        gameboard.displayFutureCards(futureCards);
+    }
+
+    public void returnFutureCards(List<Card> future) {
+        for (int i=2; i>=0; i--) {
+            Card replace = future.get(i);
+            drawDeck.prependCard(replace);
+        }
     }
 
     public User getUserForCurrentTurn() {

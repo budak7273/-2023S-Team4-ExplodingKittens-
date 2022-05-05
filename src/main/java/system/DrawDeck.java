@@ -21,6 +21,8 @@ public class DrawDeck {
         cards.add(card);
     }
 
+    public void prependCard(Card card) { cards.add(0, card); }
+
     public void drawCard(User drawingUser) {
         if (cards.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
@@ -71,5 +73,20 @@ public class DrawDeck {
         }
         Card drawnCard = cards.remove(cards.size() - 1);
         currentUser.addCard(drawnCard);
+    }
+
+    public List<Card> getTopOfDeck() {
+        if (cards.isEmpty()) {
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
+            throw new RuntimeException(msg);
+        }
+
+        ArrayList<Card> top = new ArrayList<>();
+
+        while (cards.size() > 0 && top.size() < 3) {
+            top.add(cards.remove(0));
+        }
+
+        return top;
     }
 }

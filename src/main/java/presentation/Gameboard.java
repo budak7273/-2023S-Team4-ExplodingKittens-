@@ -8,11 +8,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import datasource.Messages;
 import system.User;
@@ -41,6 +37,9 @@ public class Gameboard {
     public Gameboard() {
         this.gameFrame = new JFrame();
     }
+    public Gameboard(Queue<User> usersQueue){
+        this.users = usersQueue;
+    }
 
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
@@ -64,10 +63,17 @@ public class Gameboard {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         int tooManyPlayers = 11;
+        System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+        String languageSelection = scanner.next().toLowerCase();
+        boolean useGermanLanguage = (languageSelection.equals("g"));
 
+        if(useGermanLanguage){
+            Messages.switchLanguageToGerman();
+        }
         System.out.println(Messages
                 .getMessage(Messages.ENTER_PLAYER_1_NAME));
-        Scanner scanner = new Scanner(System.in, "UTF-8");
+
 
         while (scanner.hasNext()) {
             String username = scanner.next();
@@ -103,7 +109,7 @@ public class Gameboard {
         return userNameList;
     }
 
-    private void initializeGameState(List<String> usernames) {
+    public void initializeGameState(List<String> usernames) {
         Setup setup = new Setup(usernames.size());
         this.users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
@@ -118,6 +124,26 @@ public class Gameboard {
     public void initializeGameView() {
         this.gameFrame = new JFrame();
         buildGameView();
+    }
+
+    public void displayFutureCards(List<Card> future) {
+        JPanel popupPanel = new JPanel();
+        for (int i=0; i<future.size(); i++) {
+            Card topCard = future.get(i);
+            JButton futureCard = createCardImage(topCard.getName(), i + "");
+            popupPanel.add(futureCard);
+        }
+        JButton exit = new JButton("<html><center>Draw Deck <br> Done </center></html>");
+        exit.setBackground(Color.GRAY);
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameState.returnFutureCards(future);
+            }
+        });
+        popupPanel.add(exit, BorderLayout.CENTER);
+
+        gameFrame.add(popupPanel, BorderLayout.CENTER);
     }
 
     private void buildGameView() {
@@ -145,7 +171,7 @@ public class Gameboard {
         JPanel userDisplayPanel = new JPanel();
         for (User user: this.users) {
             if (user != this.gameState.getUserForCurrentTurn()) {
-                JPanel otherPlayer =
+                JButton otherPlayer =
                         createCardImage(user.getName(),
                                 user.getHand().size() + "");
                 userDisplayPanel.add(otherPlayer);
@@ -164,7 +190,7 @@ public class Gameboard {
                 gameState.transitionToNextTurn();
             }
         });
-        JPanel discardPile = createCardImage("Top Card",
+        JButton discardPile = createCardImage("Top Card",
                 this.discardDeck.getDeckSize() + "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
@@ -184,7 +210,21 @@ public class Gameboard {
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getUserForCurrentTurn().getHand()) {
-            JPanel cardLayout = createCardImage(card.getName(), "");
+            JButton cardLayout = createCardImage(card.getName(), "");
+            cardLayout.getPreferredSize();
+            cardLayout.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+
+                    if(cardLayout.getBackground()==Color.magenta){
+                        System.out.println(card.getName()+" is selected!");
+                        cardLayout.setBackground(Color.red);
+                    }else{
+                        System.out.println(card.getName()+" is deselected!");
+                        cardLayout.setBackground(Color.magenta);
+                    }
+                }
+            });
             handDisplayPanel.add(cardLayout);
         }
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
@@ -198,10 +238,10 @@ public class Gameboard {
         return deckImage;
     }
 
-    private JPanel createCardImage(String name, String desc) {
-        int cardWidth = 55;
+    private JButton createCardImage(String name, String desc) {
+        int cardWidth = 75;
         int cardHeight = 80;
-        JPanel cardImage = new JPanel();
+        JButton cardImage = new JButton();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.magenta);
@@ -217,5 +257,24 @@ public class Gameboard {
      */
     public void updateUI() {
         buildGameView();
+    }
+
+    /**
+     * These methods should only be used for Integration Testing
+     * @return
+     */
+    public GameState getGameState(){
+        return this.gameState;
+    }
+    public DrawDeck getDrawDeck(){ return this.drawDeck;}
+    public User getCurrentUser(){ return this.users.peek();}
+    public void initializeGameState() {
+        Setup setup = new Setup(users.size());
+        String path = "src/main/resources/cards.csv";
+        this.drawDeck = setup.createDrawDeck(new File(path));
+        this.discardDeck = setup.createDiscardDeck();
+
+        this.gameState = new GameState(this.users, this, this.drawDeck);
+        setup.dealHands(this.users, this.drawDeck);
     }
 }
