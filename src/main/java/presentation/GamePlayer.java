@@ -12,16 +12,12 @@ import java.awt.event.ActionListener;
 public class GamePlayer {
 
     /**This is the frame the game is made on.*/
-    private final JFrame gameFrame;
+    private final JFrame gameFrame = new JFrame();
 
     /**Local storage of the game's current state. */
     private GameState gameState;
 
-    public GamePlayer() {
-        this.gameFrame = new JFrame();
-    }
-
-    public void setGameState(final GameState currentGameState) {
+    public GamePlayer(final GameState currentGameState) {
         this.gameState = currentGameState;
     }
 

@@ -7,6 +7,8 @@ import java.util.*;
 
 public class GameDesigner {
 
+    private GamePlayer gamePlayer;
+
     /** createGame takes in no parameters.
      *  Is tasked with initializing the current game.*/
     public final void createGame() throws InvalidPlayerCountException {
@@ -65,13 +67,17 @@ public class GameDesigner {
         Setup setup = new Setup(usernames.size());
         final Queue<User> users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
-        final DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(users, drawDeck);
-        GamePlayer gamePlayer = new GamePlayer();
         final GameState gameState = new GameState(users,
-                gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
-        gamePlayer.updateUI();
+                this, drawDeck);
+        this.gamePlayer = new GamePlayer(gameState);
+//        gamePlayer.setGameState(gameState);
+        updatePlayerUI();
+    }
+
+    public void updatePlayerUI() {
+        this.gamePlayer.updateUI();
     }
 
 }
