@@ -1,11 +1,10 @@
 package presentation;
-
 public final class ExplodingKittens {
     private ExplodingKittens() { }
     public static void main(final String[] args) {
-        Gameboard g = new Gameboard();
+        GameDesigner gd = new GameDesigner();
         try {
-            g.createGame();
+            gd.createGame();
         } catch (InvalidPlayerCountException e) {
             System.out.println(e.getMessage());
         }

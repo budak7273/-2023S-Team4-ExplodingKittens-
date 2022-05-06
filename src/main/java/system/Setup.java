@@ -80,12 +80,10 @@ public class Setup {
         return cardList;
     }
 
+
     private DrawDeck generateDrawDeck(List<Card> cardList) {
-        DrawDeck drawDeck = new DrawDeck();
-        for (Card card : cardList) {
-            drawDeck.addCard(card);
-        }
-        return drawDeck;
+
+        return new DrawDeck(cardList);
     }
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
