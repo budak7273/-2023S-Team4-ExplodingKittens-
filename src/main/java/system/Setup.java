@@ -80,18 +80,14 @@ public class Setup {
         return cardList;
     }
 
-
     private DrawDeck generateDrawDeck(List<Card> cardList) {
-
         return new DrawDeck(cardList);
     }
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
-
         if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
             String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
             throw new IllegalArgumentException(msg);
-
         }
 
         for (User user : playerQueue) {
@@ -108,7 +104,7 @@ public class Setup {
 
     public void shuffleExplodingKittensInDeck(DrawDeck deck) {
         for (int i = 0; i < numOfPlayers - 1; i++) {
-            deck.addCard(new Card(CardType.EXPLODING_KITTEN));
+            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
         }
         deck.shuffle();
     }

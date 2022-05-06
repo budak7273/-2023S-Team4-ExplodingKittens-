@@ -85,7 +85,8 @@ public class DrawDeckUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
         deck.addCardToTop(bottomCard);
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        Card topCard = new Card(CardType.ATTACK);
+        deck.addCardToTop(topCard);
 
         User user = EasyMock.createMock(User.class);
         user.addCard(bottomCard);
@@ -94,6 +95,7 @@ public class DrawDeckUnitTesting {
         deck.drawFromBottomForUser(user);
 
         Assertions.assertFalse(deck.getCardsAsList().contains(bottomCard));
+        Assertions.assertTrue(deck.getCardsAsList().contains(topCard));
     }
 
     @Test

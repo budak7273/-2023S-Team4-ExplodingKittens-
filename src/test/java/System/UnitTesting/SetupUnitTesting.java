@@ -298,12 +298,12 @@ public class SetupUnitTesting {
 
     @Test
     public void testShuffleExplodingKittensInDeck() {
-        for (int i = 2; i <= 10; i++) {
+        for (int i = 2; i <= MAX_PLAYER_COUNT; i++) {
             int playerCount = i;
             Setup setup = new Setup(playerCount);
             DrawDeck deck = EasyMock.createMock(DrawDeck.class);
 
-            deck.addCard(eq(new Card(CardType.EXPLODING_KITTEN)));
+            deck.addCardToTop(eq(new Card(CardType.EXPLODING_KITTEN)));
             EasyMock.expectLastCall().times(playerCount - 1);
             deck.shuffle();
             EasyMock.expectLastCall();

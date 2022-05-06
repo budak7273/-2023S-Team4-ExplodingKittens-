@@ -48,7 +48,12 @@ public class CardTesting {
     @Test
     public void testHashCodeDifferentType() {
         Card card1 = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ALTER_THE_FUTURE);
-        Assertions.assertNotEquals(card1.hashCode(), card2.hashCode());
+        for (CardType type : CardType.values()) {
+            if (type == CardType.ATTACK) {
+                continue;
+            }
+            Card card2 = new Card(type);
+            Assertions.assertNotEquals(card1.hashCode(), card2.hashCode());
+        }
     }
 }
