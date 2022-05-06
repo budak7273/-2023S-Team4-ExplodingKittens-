@@ -92,6 +92,8 @@ public class GameDesigner {
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(users, drawDeck);
+        setup.shuffleExplodingKittensInDeck(drawDeck);
+
         gamePlayer = new GamePlayer();
         final GameState gameState = new GameState(users,
                 gamePlayer, drawDeck);

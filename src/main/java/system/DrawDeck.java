@@ -3,28 +3,15 @@ package system;
 import datasource.CardType;
 import datasource.Messages;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class DrawDeck {
-    private List<Card> cards;
+    private Deque<Card> cards;
 
-    public DrawDeck(final List<Card> cardList) {
-        List<Card> cardsCopy = new ArrayList<>();
+    public DrawDeck(List<Card> cardList) {
+        Deque<Card> cardsCopy = new LinkedList<>();
         cardsCopy.addAll(cardList);
         cards = cardsCopy;
-    }
-    public int getDeckSize() {
-        return cards.size();
-    }
-
-    public void addCard(Card card) {
-        cards.add(card);
-    }
-
-    public void prependCard(Card card) {
-        cards.add(0, card);
     }
 
     public void drawCard(User drawingUser) {
@@ -32,32 +19,45 @@ public class DrawDeck {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
-        Card drawnCard = cards.remove(0);
+        Card drawnCard = cards.pop();
         drawingUser.addCard(drawnCard);
     }
 
-    public List<Card> getCards() {
-        List<Card> toReturn = new ArrayList<>();
-        toReturn.addAll(this.cards);
-        return toReturn;
+    public void drawFromBottomForUser(User currentUser) {
+        if (cards.isEmpty()) {
+            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
+            throw new RuntimeException(msg);
+        }
+        Card drawnCard = cards.removeLast();
+        currentUser.addCard(drawnCard);
     }
 
-    public void drawInitialCard(User drawer) {
+    public List<Card> drawThreeCardsFromTop() {
         if (cards.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
 
-        Card drawnCard = cards.remove(0);
-        while (drawnCard.getType().equals(CardType.EXPLODING_KITTEN)) {
-            cards.add(cards.size(), drawnCard);
-            drawnCard = cards.remove(0);
+        ArrayList<Card> top = new ArrayList<>();
+        final int maxTop = 3;
+
+        while (cards.size() > 0 && top.size() < maxTop) {
+            top.add(cards.pop());
         }
-        drawer.addCard(drawnCard);
+
+        return top;
+    }
+
+    public void addCardToTop(Card card) {
+        cards.push(card);
     }
 
     public void shuffle() {
-        Collections.shuffle(this.cards);
+        Collections.shuffle((LinkedList<Card>) this.cards);
+    }
+
+    public int getDeckSize() {
+        return cards.size();
     }
 
     public int getDefuseCount() {
@@ -70,28 +70,9 @@ public class DrawDeck {
         return defuseCount;
     }
 
-    public void drawFromBottomForUser(User currentUser) {
-        if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
-        }
-        Card drawnCard = cards.remove(cards.size() - 1);
-        currentUser.addCard(drawnCard);
-    }
-
-    public List<Card> getTopOfDeck() {
-        if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
-        }
-
-        ArrayList<Card> top = new ArrayList<>();
-        final int maxTop = 3;
-
-        while (cards.size() > 0 && top.size() < maxTop) {
-            top.add(cards.remove(0));
-        }
-
-        return top;
+    public List<Card> getCardsAsList() {
+        List<Card> toReturn = new ArrayList<>();
+        toReturn.addAll(this.cards);
+        return toReturn;
     }
 }

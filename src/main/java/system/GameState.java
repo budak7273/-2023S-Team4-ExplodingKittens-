@@ -50,14 +50,14 @@ public class GameState {
     }
 
     public void seeTheFuture() {
-        List<Card> futureCards = drawDeck.getTopOfDeck();
+        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
         gamePlayer.displayFutureCards(futureCards);
     }
 
     public void returnFutureCards(List<Card> future) {
         for (int i = 2; i >= 0; i--) {
             Card replace = future.get(i);
-            drawDeck.prependCard(replace);
+            drawDeck.addCardToTop(replace);
         }
     }
 

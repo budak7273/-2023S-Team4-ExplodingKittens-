@@ -21,7 +21,7 @@ public class DrawDeckIntegrationTesting {
         ArrayList<Card> cards = new ArrayList<>();
 
         DrawDeck deck = new DrawDeck(cards);
-        assertTrue(deck.getCards().isEmpty());
+        assertTrue(deck.getCardsAsList().isEmpty());
     }
 
     @Test
@@ -43,45 +43,11 @@ public class DrawDeckIntegrationTesting {
 
         DrawDeck deck = new DrawDeck(cards);
 
-        deck.addCard(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK));
         deck.drawCard(user);
 
-        assertTrue(deck.getCards().isEmpty());
+        assertTrue(deck.getCardsAsList().isEmpty());
         assertTrue(!user.getHand().isEmpty());
-    }
-
-    @Test
-
-    public void testDrawInitialCardFromEmptyDrawDeckIntegrationTest() {
-        User player = new User("TestPlayer");
-        ArrayList<Card> cards = new ArrayList<>();
-
-
-        DrawDeck deck = new DrawDeck(cards);
-        Executable executable = () -> deck.drawInitialCard(player);
-
-        Assertions.assertThrows(RuntimeException.class, executable);
-
-    }
-
-    @Test
-
-    public void testDrawInitialCardFromNonEmptyDrawDeckIntegrationTest() {
-        User player = new User("TestPlayer");
-        Card drawnCard = new Card(CardType.ATTACK);
-        Card explodeCard = new Card(CardType.EXPLODING_KITTEN);
-        player.addCard(drawnCard);
-
-        ArrayList<Card> cards = new ArrayList<>();
-
-
-        DrawDeck deck = new DrawDeck(cards);
-        deck.addCard(explodeCard);
-        deck.addCard(drawnCard);
-
-        deck.drawInitialCard(player);
-        Assertions.assertEquals(1, deck.getDeckSize());
-
     }
 
     @Test
@@ -102,11 +68,11 @@ public class DrawDeckIntegrationTesting {
         DrawDeck deck = new DrawDeck(cards);
 
         Card card = new Card(CardType.ATTACK);
-        deck.addCard(card);
+        deck.addCardToTop(card);
         deck.shuffle();
 
         Assertions.assertEquals(1, deck.getDeckSize());
-        Assertions.assertEquals(card, deck.getCards().get(0));
+        Assertions.assertEquals(card, deck.getCardsAsList().get(0));
     }
 
     @Test
@@ -118,13 +84,13 @@ public class DrawDeckIntegrationTesting {
 
         Card card1 = new Card(CardType.ATTACK);
         Card card2 = new Card(CardType.ATTACK);
-        deck.addCard(card1);
-        deck.addCard(card2);
+        deck.addCardToTop(card1);
+        deck.addCardToTop(card2);
         deck.shuffle();
 
         Assertions.assertEquals(2, deck.getDeckSize());
-        Assertions.assertTrue(deck.getCards().contains(card1));
-        Assertions.assertTrue(deck.getCards().contains(card2));
+        Assertions.assertTrue(deck.getCardsAsList().contains(card1));
+        Assertions.assertTrue(deck.getCardsAsList().contains(card2));
     }
 
     @Test
@@ -145,9 +111,9 @@ public class DrawDeckIntegrationTesting {
     public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        deck.addCard(new Card(CardType.ATTACK));
         Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
-        deck.addCard(bottomCard);
+        deck.addCardToTop(bottomCard);
+        deck.addCardToTop(new Card(CardType.ATTACK));
 
 
         User user = new User("TestPlayer");
@@ -156,6 +122,6 @@ public class DrawDeckIntegrationTesting {
 
         deck.drawFromBottomForUser(user);
 
-        Assertions.assertFalse(deck.getCards().contains(bottomCard));
+        Assertions.assertFalse(deck.getCardsAsList().contains(bottomCard));
     }
 }
