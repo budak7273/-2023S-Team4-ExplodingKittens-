@@ -13,8 +13,8 @@ public class GameState {
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final GamePlayer gp,
-                     final DrawDeck deck) {
+    public GameState(Queue<User> pq, GamePlayer gp,
+                     DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
