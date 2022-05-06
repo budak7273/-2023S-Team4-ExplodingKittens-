@@ -31,7 +31,7 @@ public enum Messages {
         this.messageName = displayNameStr;
     }
 
-    public static String getMessage(Messages message) {
+    public static String getMessage(final Messages message) {
         return getMessage(message.toString());
     }
 

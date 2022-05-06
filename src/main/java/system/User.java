@@ -76,7 +76,8 @@ public class User {
         } else if (otherCount < 2) {
             return false;
         } else {
-            for (String cname : list.keySet()) {
+            for (Map.Entry<String, Integer> entry : list.entrySet()) {
+                String cname = entry.getKey();
                 if (list.get(cname) > 1) {
                     return true;
                 }

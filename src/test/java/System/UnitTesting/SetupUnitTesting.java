@@ -10,14 +10,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import system.Setup;
-import system.User;
-import system.DrawDeck;
-import system.DiscardDeck;
-import system.Card;
+import system.*;
+
 
 import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.isA;
 
 public class SetupUnitTesting {
     private static final int FULL_SIZE = 101;
@@ -226,7 +222,8 @@ public class SetupUnitTesting {
     public void testDistributeCards1User() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
-        DrawDeck drawDeck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck drawDeck = new DrawDeck(cards);
 
         Setup setup = new Setup(1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
@@ -291,7 +288,8 @@ public class SetupUnitTesting {
         for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
-        DrawDeck drawDeck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck drawDeck = new DrawDeck(cards);
 
         Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
