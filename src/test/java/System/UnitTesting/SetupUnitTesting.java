@@ -303,7 +303,7 @@ public class SetupUnitTesting {
             Setup setup = new Setup(playerCount);
             DrawDeck deck = EasyMock.createMock(DrawDeck.class);
 
-            deck.addCard(eq(new Card(CardType.EXPLODING_KITTEN)));
+            deck.addCardToTop(eq(new Card(CardType.EXPLODING_KITTEN)));
             EasyMock.expectLastCall().times(playerCount - 1);
             deck.shuffle();
             EasyMock.expectLastCall();
