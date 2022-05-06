@@ -233,7 +233,8 @@ public class SetupIntegrationTesting {
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         final int firstDeckSize = 42;
-        Assertions.assertEquals(firstDeckSize, drawDeck.getCards().size());
+        Assertions.assertEquals(firstDeckSize,
+                drawDeck.getCardsAsList().size());
 
         Queue<User> users = new LinkedList<>();
         users.add(player1);
@@ -241,7 +242,8 @@ public class SetupIntegrationTesting {
 
         setup.dealHands(users, drawDeck);
         final int secondDeckSize = 28;
-        Assertions.assertEquals(secondDeckSize, drawDeck.getCards().size());
+        Assertions.assertEquals(secondDeckSize,
+                drawDeck.getCardsAsList().size());
 
 
     }
@@ -255,10 +257,12 @@ public class SetupIntegrationTesting {
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         final int firstDeckSize = 101;
-        Assertions.assertEquals(firstDeckSize, drawDeck.getCards().size());
+        Assertions.assertEquals(firstDeckSize,
+                drawDeck.getCardsAsList().size());
         setup.dealHands(users, drawDeck);
         final int secondDeckSize = 31;
-        Assertions.assertEquals(secondDeckSize, drawDeck.getCards().size());
+        Assertions.assertEquals(secondDeckSize,
+                drawDeck.getCardsAsList().size());
 
     }
 

@@ -281,7 +281,7 @@ public class GameStateUnitTesting {
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
         List<Card> future = EasyMock.createMock(List.class);
-        EasyMock.expect(drawDeck.getTopOfDeck()).andReturn(future);
+        EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(future);
 
         gameboard.displayFutureCards(future);
         EasyMock.replay(gameboard, drawDeck, future);
@@ -309,9 +309,9 @@ public class GameStateUnitTesting {
 
         GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
         DrawDeck drawDeck = EasyMock.createStrictMock(DrawDeck.class);
-        drawDeck.prependCard(first);
-        drawDeck.prependCard(second);
-        drawDeck.prependCard(third);
+        drawDeck.addCardToTop(first);
+        drawDeck.addCardToTop(second);
+        drawDeck.addCardToTop(third);
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
         EasyMock.replay(first, second, third, gameboard, drawDeck);

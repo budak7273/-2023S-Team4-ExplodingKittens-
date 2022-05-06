@@ -236,8 +236,8 @@ public class SetupUnitTesting {
         User player2 = EasyMock.createMock(User.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            drawDeck.drawInitialCard(player1);
-            drawDeck.drawInitialCard(player2);
+            drawDeck.drawCard(player1);
+            drawDeck.drawCard(player2);
         }
         player1.addCard(eq(new Card(CardType.DEFUSE)));
         player2.addCard(eq(new Card(CardType.DEFUSE)));
@@ -263,7 +263,7 @@ public class SetupUnitTesting {
 
         for (User user : users) {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-                drawDeck.drawInitialCard(user);
+                drawDeck.drawCard(user);
             }
             user.addCard(eq(new Card(CardType.DEFUSE)));
         }
