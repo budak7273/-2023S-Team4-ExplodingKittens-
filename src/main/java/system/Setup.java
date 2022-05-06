@@ -96,7 +96,7 @@ public class Setup {
 
         for (User user : playerQueue) {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-                deck.drawInitialCard(user);
+                deck.drawCard(user);
             }
             user.addCard(new Card(CardType.DEFUSE));
         }

@@ -16,7 +16,7 @@ public class DrawDeckUnitTesting {
     @Test
     public void testGetCards() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        assertTrue(deck.getCards().isEmpty());
+        assertTrue(deck.getCardsAsList().isEmpty());
     }
 
     @Test
@@ -31,46 +31,11 @@ public class DrawDeckUnitTesting {
         User user = new User();
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCard(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK));
         deck.drawCard(user);
 
-        assertTrue(deck.getCards().isEmpty());
+        assertTrue(deck.getCardsAsList().isEmpty());
         assertTrue(!user.getHand().isEmpty());
-    }
-
-    @Test
-    public void testDrawInitialCardFromEmptyDrawDeck() {
-        User player = EasyMock.createMock(User.class);
-        EasyMock.replay(player);
-
-        DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Executable executable = () -> deck.drawInitialCard(player);
-
-        Assertions.assertThrows(RuntimeException.class, executable);
-        EasyMock.verify(player);
-    }
-
-    @Test
-    public void testDrawInitialCardFromNonEmptyDrawDeck() {
-        User player = EasyMock.createMock(User.class);
-        Card drawnCard = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.class)
-                .withArgs(CardType.ATTACK)
-                .createMock();
-        Card explodeCard = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.class)
-                .withArgs(CardType.EXPLODING_KITTEN)
-                .createMock();
-        player.addCard(drawnCard);
-        EasyMock.replay(player, drawnCard, explodeCard);
-
-        DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCard(explodeCard);
-        deck.addCard(drawnCard);
-
-        deck.drawInitialCard(player);
-        Assertions.assertEquals(1, deck.getDeckSize());
-        EasyMock.verify(player, drawnCard, explodeCard);
     }
 
     @Test
@@ -84,11 +49,11 @@ public class DrawDeckUnitTesting {
     public void testShuffleOnDeckOfOneCard() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         Card card = new Card(CardType.ATTACK);
-        deck.addCard(card);
+        deck.addCardToTop(card);
         deck.shuffle();
 
         Assertions.assertEquals(1, deck.getDeckSize());
-        Assertions.assertEquals(card, deck.getCards().get(0));
+        Assertions.assertEquals(card, deck.getCardsAsList().get(0));
     }
 
     @Test
@@ -96,13 +61,13 @@ public class DrawDeckUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         Card card1 = new Card(CardType.ATTACK);
         Card card2 = new Card(CardType.ATTACK);
-        deck.addCard(card1);
-        deck.addCard(card2);
+        deck.addCardToTop(card1);
+        deck.addCardToTop(card2);
         deck.shuffle();
 
         Assertions.assertEquals(2, deck.getDeckSize());
-        Assertions.assertTrue(deck.getCards().contains(card1));
-        Assertions.assertTrue(deck.getCards().contains(card2));
+        Assertions.assertTrue(deck.getCardsAsList().contains(card1));
+        Assertions.assertTrue(deck.getCardsAsList().contains(card2));
     }
 
     @Test
@@ -118,9 +83,9 @@ public class DrawDeckUnitTesting {
     @Test
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCard(new Card(CardType.ATTACK));
         Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
-        deck.addCard(bottomCard);
+        deck.addCardToTop(bottomCard);
+        deck.addCardToTop(new Card(CardType.ATTACK));
 
         User user = EasyMock.createMock(User.class);
         user.addCard(bottomCard);
@@ -128,14 +93,14 @@ public class DrawDeckUnitTesting {
 
         deck.drawFromBottomForUser(user);
 
-        Assertions.assertFalse(deck.getCards().contains(bottomCard));
+        Assertions.assertFalse(deck.getCardsAsList().contains(bottomCard));
     }
 
     @Test
     public void testGetTopOfDeckWithEmptyDeck() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
-        Executable executable = deck::getTopOfDeck;
+        Executable executable = deck::drawThreeCardsFromTop;
 
         Assertions.assertThrows(RuntimeException.class, executable);
     }
@@ -144,10 +109,10 @@ public class DrawDeckUnitTesting {
     public void testGetTopOfDeckWithOneCard() {
         Card topCard = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCard(topCard);
+        deck.addCardToTop(topCard);
         EasyMock.replay(topCard);
 
-        List<Card> future = deck.getTopOfDeck();
+        List<Card> future = deck.drawThreeCardsFromTop();
 
         Assertions.assertEquals(1, future.size());
         Assertions.assertEquals(topCard, future.get(0));
@@ -160,13 +125,13 @@ public class DrawDeckUnitTesting {
         Card second = EasyMock.createMock(Card.class);
         Card third = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCard(first);
-        deck.addCard(second);
-        deck.addCard(third);
+        deck.addCardToTop(third);
+        deck.addCardToTop(second);
+        deck.addCardToTop(first);
 
         EasyMock.replay(first, second, third);
 
-        List<Card> future = deck.getTopOfDeck();
+        List<Card> future = deck.drawThreeCardsFromTop();
 
         final int expectedFutureSize = 3;
         Assertions.assertEquals(expectedFutureSize, future.size());
@@ -182,14 +147,14 @@ public class DrawDeckUnitTesting {
         Card second = EasyMock.createMock(Card.class);
         Card third = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCard(first);
-        deck.addCard(second);
-        deck.addCard(third);
-        deck.addCard(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(third);
+        deck.addCardToTop(second);
+        deck.addCardToTop(first);
 
         EasyMock.replay(first, second, third);
 
-        List<Card> future = deck.getTopOfDeck();
+        List<Card> future = deck.drawThreeCardsFromTop();
 
         final int expectedFutureSize = 3;
         Assertions.assertEquals(expectedFutureSize, future.size());
@@ -200,17 +165,21 @@ public class DrawDeckUnitTesting {
     }
 
     @Test
-    public void testPrependCard() {
-        Card second = EasyMock.createMock(Card.class);
-        Card first = EasyMock.createMock(Card.class);
+    public void testAddCardToTop() {
+        Card second = EasyMock.createMockBuilder(Card.class)
+                .withConstructor(CardType.class)
+                .withArgs(CardType.ATTACK).createMock();
+        Card first = EasyMock.createMockBuilder(Card.class)
+                .withConstructor(CardType.class)
+                .withArgs(CardType.ALTER_THE_FUTURE).createMock();
         EasyMock.replay(second, first);
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
-        deck.prependCard(second);
-        deck.prependCard(first);
+        deck.addCardToTop(second);
+        deck.addCardToTop(first);
 
-        List<Card> orderedCards = deck.getCards();
+        List<Card> orderedCards = deck.getCardsAsList();
 
         Assertions.assertEquals(2, orderedCards.size());
         Assertions.assertEquals(first, orderedCards.get(0));
