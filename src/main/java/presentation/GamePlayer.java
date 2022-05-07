@@ -50,14 +50,38 @@ public class GamePlayer {
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
+        JPanel playerSelectionPanel = generateUserSelectionPanel();
 
         gameFrame.setLayout(new BorderLayout());
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gameFrame.add(playerSelectionPanel, BorderLayout.EAST);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+
+        gameFrame.add(playerSelectionPanel, BorderLayout.SOUTH);
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.setVisible(true);
+    }
+
+    private JPanel generateUserSelectionPanel() {
+        JPanel userSelectionPanel = new JPanel();
+        JButton modeButton = createButtonImage(
+                "Switch To Cat Mode");
+        JButton confirmButton = createButtonImage(
+                "Confirm");
+        JButton endButton = createButtonImage(
+                "End My Turn");
+        modeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+
+            }
+        });
+        userSelectionPanel.add(modeButton);
+        userSelectionPanel.add(confirmButton);
+        userSelectionPanel.add(endButton);
+        return userSelectionPanel;
     }
 
     private JPanel generateUserDisplayPanel() {
@@ -122,6 +146,13 @@ public class GamePlayer {
         }
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
+    }
+
+    private JButton createButtonImage(String btnName) {
+        JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
+                + "</center></html>");
+        btnImage.setBackground(Color.GRAY);
+        return btnImage;
     }
 
     private JButton createDeckImage(String desc) {
