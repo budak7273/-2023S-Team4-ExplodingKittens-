@@ -51,17 +51,27 @@ public class GamePlayer {
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
 
+
         gameFrame.setLayout(new BorderLayout());
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+
+
 
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.setVisible(true);
     }
 
-    private void generateUserSelectionPanel(JPanel p) {
+    private JPanel generatePlayerSelectionPanel() {
+        JPanel playerPanel = new JPanel();
+        this.generateUserSelectionPanel(playerPanel, BorderLayout.WEST);
+
+        return  playerPanel;
+    }
+
+    private void generateUserSelectionPanel(JPanel p, String layout) {
         JPanel userSelectionPanel = new JPanel();
         JButton modeButton = createButtonImage(
                 "Switch To Cat Mode");
@@ -78,7 +88,7 @@ public class GamePlayer {
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(endButton, BorderLayout.EAST);
-        p.add(userSelectionPanel,BorderLayout.NORTH);
+        p.add(userSelectionPanel,layout);
     }
 
     private JPanel generateUserDisplayPanel() {
@@ -91,11 +101,13 @@ public class GamePlayer {
                 userDisplayPanel.add(otherPlayer);
             }
         }
+
         return userDisplayPanel;
     }
 
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
+        tableAreaDisplayPanel.setLayout(new BorderLayout());
         JButton deckButton = createDeckImage(
                 this.gameState.getDeckSizeForCurrentTurn() + "");
         deckButton.addActionListener(new ActionListener() {
@@ -106,12 +118,16 @@ public class GamePlayer {
         });
         JButton discardPile = createCardImage("Top Card",
                  "");
-        tableAreaDisplayPanel.add(discardPile, BorderLayout.SOUTH);
-        tableAreaDisplayPanel.add(deckButton, BorderLayout.NORTH);
+        tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
+        tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
+
+        JPanel playerSelectionPanel = generatePlayerSelectionPanel();
+        tableAreaDisplayPanel.add(playerSelectionPanel,BorderLayout.SOUTH);
+
         return tableAreaDisplayPanel;
     }
 
-    private void generatePlayerDeckCardsPanel(JPanel p) {
+    private void generatePlayerDeckCardsPanel(JPanel p, String layout) {
         JPanel playerDeckCardsPanel = new JPanel();
         playerDeckCardsPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
@@ -142,14 +158,13 @@ public class GamePlayer {
             handDisplayPanel.add(cardLayout);
         }
         playerDeckCardsPanel.add(handDisplayPanel, BorderLayout.CENTER);
-        p.add(playerDeckCardsPanel,BorderLayout.CENTER);
+        p.add(playerDeckCardsPanel,layout);
     }
 
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
 
-        this.generateUserSelectionPanel(playerDeckDisplayPanel);
-        this.generatePlayerDeckCardsPanel(playerDeckDisplayPanel);
+        this.generatePlayerDeckCardsPanel(playerDeckDisplayPanel, BorderLayout.CENTER);
 
         return playerDeckDisplayPanel;
     }
