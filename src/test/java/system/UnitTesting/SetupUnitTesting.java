@@ -298,7 +298,7 @@ public class SetupUnitTesting {
 
     @Test
     public void testShuffleExplodingKittensInDeck() {
-        for (int i = 2; i <= 10; i++) {
+        for (int i = 2; i <= MAX_PLAYER_COUNT; i++) {
             int playerCount = i;
             Setup setup = new Setup(playerCount);
             DrawDeck deck = EasyMock.createMock(DrawDeck.class);
