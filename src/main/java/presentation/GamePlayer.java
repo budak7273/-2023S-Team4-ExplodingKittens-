@@ -50,22 +50,18 @@ public class GamePlayer {
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
-        JPanel playerSelectionPanel = generateUserSelectionPanel();
 
         gameFrame.setLayout(new BorderLayout());
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
-        gameFrame.add(playerSelectionPanel, BorderLayout.EAST);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
 
-        gameFrame.add(playerSelectionPanel, BorderLayout.SOUTH);
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.setVisible(true);
     }
 
-    private JPanel generateUserSelectionPanel() {
-        JPanel userSelectionPanel = new JPanel();
+    private void generateUserSelectionButtons(JPanel p) {
         JButton modeButton = createButtonImage(
                 "Switch To Cat Mode");
         JButton confirmButton = createButtonImage(
@@ -78,10 +74,9 @@ public class GamePlayer {
 
             }
         });
-        userSelectionPanel.add(modeButton);
-        userSelectionPanel.add(confirmButton);
-        userSelectionPanel.add(endButton);
-        return userSelectionPanel;
+        p.add(modeButton, BorderLayout.EAST);
+        p.add(confirmButton, BorderLayout.EAST);
+        p.add(endButton, BorderLayout.EAST);
     }
 
     private JPanel generateUserDisplayPanel() {
@@ -144,6 +139,8 @@ public class GamePlayer {
             });
             handDisplayPanel.add(cardLayout);
         }
+
+        this.generateUserSelectionButtons(playerDeckDisplayPanel);
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
         return playerDeckDisplayPanel;
     }
