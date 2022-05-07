@@ -75,10 +75,10 @@ public class GamePlayer {
 
             }
         });
-        userSelectionPanel.add(modeButton, BorderLayout.NORTH);
+        userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
-        userSelectionPanel.add(endButton, BorderLayout.SOUTH);
-        p.add(userSelectionPanel,BorderLayout.EAST);
+        userSelectionPanel.add(endButton, BorderLayout.EAST);
+        p.add(userSelectionPanel,BorderLayout.NORTH);
     }
 
     private JPanel generateUserDisplayPanel() {
@@ -112,33 +112,13 @@ public class GamePlayer {
     }
 
     private void generatePlayerDeckCardsPanel(JPanel p) {
-        JPanel userSelectionPanel = new JPanel();
-        JButton modeButton = createButtonImage(
-                "Switch To Cat Mode");
-        JButton confirmButton = createButtonImage(
-                "Confirm");
-        JButton endButton = createButtonImage(
-                "End My Turn");
-        modeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-
-            }
-        });
-        userSelectionPanel.add(modeButton, BorderLayout.NORTH);
-        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
-        userSelectionPanel.add(endButton, BorderLayout.SOUTH);
-        p.add(userSelectionPanel,BorderLayout.EAST);
-    }
-
-    private JPanel generatePlayerDeckDisplayPanel() {
-        JPanel playerDeckDisplayPanel = new JPanel();
-        playerDeckDisplayPanel.setLayout(new BorderLayout());
+        JPanel playerDeckCardsPanel = new JPanel();
+        playerDeckCardsPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
                 new JLabel(Messages.getMessage(Messages.YOUR_TURN)
                         + gameState.getUserForCurrentTurn().getName());
 
-        playerDeckDisplayPanel.add(playerNameLabel, BorderLayout.NORTH);
+        playerDeckCardsPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
         handDisplayPanel.setComponentOrientation(
@@ -161,9 +141,15 @@ public class GamePlayer {
             });
             handDisplayPanel.add(cardLayout);
         }
-        playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
+        playerDeckCardsPanel.add(handDisplayPanel, BorderLayout.CENTER);
+        p.add(playerDeckCardsPanel,BorderLayout.CENTER);
+    }
+
+    private JPanel generatePlayerDeckDisplayPanel() {
+        JPanel playerDeckDisplayPanel = new JPanel();
 
         this.generateUserSelectionPanel(playerDeckDisplayPanel);
+        this.generatePlayerDeckCardsPanel(playerDeckDisplayPanel);
 
         return playerDeckDisplayPanel;
     }
