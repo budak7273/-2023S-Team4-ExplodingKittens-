@@ -61,7 +61,8 @@ public class GamePlayer {
         gameFrame.setVisible(true);
     }
 
-    private void generateUserSelectionButtons(JPanel p) {
+    private void generateUserSelectionPanel(JPanel p) {
+        JPanel userSelectionPanel = new JPanel();
         JButton modeButton = createButtonImage(
                 "Switch To Cat Mode");
         JButton confirmButton = createButtonImage(
@@ -74,9 +75,10 @@ public class GamePlayer {
 
             }
         });
-        p.add(modeButton, BorderLayout.EAST);
-        p.add(confirmButton, BorderLayout.EAST);
-        p.add(endButton, BorderLayout.EAST);
+        userSelectionPanel.add(modeButton, BorderLayout.NORTH);
+        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
+        userSelectionPanel.add(endButton, BorderLayout.SOUTH);
+        p.add(userSelectionPanel,BorderLayout.EAST);
     }
 
     private JPanel generateUserDisplayPanel() {
@@ -109,6 +111,26 @@ public class GamePlayer {
         return tableAreaDisplayPanel;
     }
 
+    private void generatePlayerDeckCardsPanel(JPanel p) {
+        JPanel userSelectionPanel = new JPanel();
+        JButton modeButton = createButtonImage(
+                "Switch To Cat Mode");
+        JButton confirmButton = createButtonImage(
+                "Confirm");
+        JButton endButton = createButtonImage(
+                "End My Turn");
+        modeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+
+            }
+        });
+        userSelectionPanel.add(modeButton, BorderLayout.NORTH);
+        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
+        userSelectionPanel.add(endButton, BorderLayout.SOUTH);
+        p.add(userSelectionPanel,BorderLayout.EAST);
+    }
+
     private JPanel generatePlayerDeckDisplayPanel() {
         JPanel playerDeckDisplayPanel = new JPanel();
         playerDeckDisplayPanel.setLayout(new BorderLayout());
@@ -139,9 +161,10 @@ public class GamePlayer {
             });
             handDisplayPanel.add(cardLayout);
         }
-
-        this.generateUserSelectionButtons(playerDeckDisplayPanel);
         playerDeckDisplayPanel.add(handDisplayPanel, BorderLayout.CENTER);
+
+        this.generateUserSelectionPanel(playerDeckDisplayPanel);
+
         return playerDeckDisplayPanel;
     }
 
