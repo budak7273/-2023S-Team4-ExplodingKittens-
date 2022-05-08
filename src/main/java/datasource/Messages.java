@@ -20,12 +20,14 @@ public enum Messages {
     COULD_NOT_CREATE("CouldNotCreateMessage"),
     ILLEGAL_PLAYERS("IllegalPlayersMessage"),
     EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
-    EMPTY_HAND("EmptyHandMessage");
+    EMPTY_HAND("EmptyHandMessage"),
+    BAD_CARD_SELECTION("BadCardSelectionMessage"),
+    CHOOSE_LANGUAGE("ChooseLanguageMessage");
 
-    private static Locale currentLocation = Locale.GERMAN;
-    private final String messageName;
+    private static Locale currentLocation = Locale.ENGLISH;
+    private String messageName;
 
-    Messages(final String displayNameStr) {
+    Messages(String displayNameStr) {
         this.messageName = displayNameStr;
     }
 
@@ -33,12 +35,16 @@ public enum Messages {
         return getMessage(message.toString());
     }
 
+    public static void switchLanguageToGerman() {
+        currentLocation = Locale.GERMAN;
+    }
+
     @Override
     public String toString() {
         return this.messageName;
     }
 
-    public static String getMessage(final String key) {
+    private static String getMessage(String key) {
 
         ResourceBundle messages =
                 ResourceBundle.getBundle("message", currentLocation);

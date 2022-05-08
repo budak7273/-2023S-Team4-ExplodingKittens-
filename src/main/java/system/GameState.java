@@ -1,24 +1,24 @@
 package system;
 
 import datasource.Messages;
-import presentation.Gameboard;
-
+import presentation.GamePlayer;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class GameState {
     private final Queue<User> playerQueue;
-    private final Gameboard gameboard;
+    private final GamePlayer gamePlayer;
     private final DrawDeck drawDeck;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameState(final Queue<User> pq, final Gameboard g,
-                     final DrawDeck deck) {
+    public GameState(Queue<User> pq, GamePlayer gp,
+                     DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
-        this.gameboard = g;
+        this.gamePlayer = gp;
         this.drawDeck = deck;
     }
 
@@ -36,7 +36,7 @@ public class GameState {
             playerQueue.poll();
         }
 
-        gameboard.updateUI();
+        gamePlayer.updateUI();
     }
 
     public void drawFromBottom() {
@@ -45,14 +45,43 @@ public class GameState {
         transitionToNextTurn();
     }
 
+    public void shuffleDeck() {
+        drawDeck.shuffle();
+    }
+
+    public void seeTheFuture() {
+        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
+        gamePlayer.displayFutureCards(futureCards);
+    }
+
+    public void returnFutureCards(List<Card> future) {
+        for (int i = 2; i >= 0; i--) {
+            Card replace = future.get(i);
+            drawDeck.addCardToTop(replace);
+        }
+    }
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
+    }
+
+    public int getDeckSizeForCurrentTurn() {
+        return drawDeck.getDeckSize();
+    }
+
+    public void drawCardForCurrentTurn() {
+        drawDeck.drawCard(getUserForCurrentTurn());
+        transitionToNextTurn();
     }
 
     public Queue<User> getPlayerQueue() {
         Queue<User> toReturn = new LinkedList<>();
         toReturn.addAll(this.playerQueue);
         return toReturn;
+    }
+
+    public DrawDeck getDrawDeck() {
+        return this.drawDeck;
     }
 
 }

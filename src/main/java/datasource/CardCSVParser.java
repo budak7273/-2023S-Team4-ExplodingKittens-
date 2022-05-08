@@ -14,12 +14,12 @@ public class CardCSVParser {
     private File csvFile;
     private static final int MAX_CARD_COUNT = 101;
 
-    public CardCSVParser(final File csv) {
+    public CardCSVParser(File csv) {
         this.csvFile = csv;
     }
 
-    public List<Card> generateListOfCards(final boolean includePaw,
-                                          final boolean includeNoPaw) {
+    public List<Card> generateListOfCards(boolean includePaw,
+                                          boolean includeNoPaw) {
         verifyCSVFormat();
 
         List<Card> cardList = new ArrayList<Card>();
@@ -31,7 +31,7 @@ public class CardCSVParser {
             String cardTypeName = cardProperties[0];
 
             CardType cardType = CardType.valueOf(cardTypeName);
-            Card card = CardFactory.createCardOfType(cardType);
+            Card card = new Card(cardType);
 
             if (includePaw
                     && Boolean.parseBoolean(cardProperties[1])) {

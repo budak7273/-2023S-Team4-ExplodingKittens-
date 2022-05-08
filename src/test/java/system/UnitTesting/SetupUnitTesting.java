@@ -1,20 +1,21 @@
-package system;
+package system.UnitTesting;
 
+import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import system.cards.DefuseCard;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import system.*;
 
-import static org.easymock.EasyMock.isA;
 
-public class SetupTesting {
+import static org.easymock.EasyMock.eq;
+
+public class SetupUnitTesting {
     private static final int FULL_SIZE = 101;
     private static final int PAW_ONLY_SIZE = 41;
 
@@ -221,7 +222,8 @@ public class SetupTesting {
     public void testDistributeCards1User() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
-        DrawDeck drawDeck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck drawDeck = new DrawDeck(cards);
 
         Setup setup = new Setup(1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
@@ -234,11 +236,11 @@ public class SetupTesting {
         User player2 = EasyMock.createMock(User.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            drawDeck.drawInitialCard(player1);
-            drawDeck.drawInitialCard(player2);
+            drawDeck.drawCard(player1);
+            drawDeck.drawCard(player2);
         }
-        player1.addCard(isA(DefuseCard.class));
-        player2.addCard(isA(DefuseCard.class));
+        player1.addCard(eq(new Card(CardType.DEFUSE)));
+        player2.addCard(eq(new Card(CardType.DEFUSE)));
         EasyMock.replay(player1, player2, drawDeck);
 
         Queue<User> users = new LinkedList<>();
@@ -261,9 +263,9 @@ public class SetupTesting {
 
         for (User user : users) {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-                drawDeck.drawInitialCard(user);
+                drawDeck.drawCard(user);
             }
-            user.addCard(isA(DefuseCard.class));
+            user.addCard(eq(new Card(CardType.DEFUSE)));
         }
 
         for (User user : users) {
@@ -286,11 +288,31 @@ public class SetupTesting {
         for (int i = 0; i < MAX_PLAYER_COUNT + 1; i++) {
             users.add(new User());
         }
-        DrawDeck drawDeck = new DrawDeck();
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck drawDeck = new DrawDeck(cards);
 
         Setup setup = new Setup(MAX_PLAYER_COUNT + 1);
         Executable executable = () -> setup.dealHands(users, drawDeck);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testShuffleExplodingKittensInDeck() {
+        for (int i = 2; i <= MAX_PLAYER_COUNT; i++) {
+            int playerCount = i;
+            Setup setup = new Setup(playerCount);
+            DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+
+            deck.addCardToTop(eq(new Card(CardType.EXPLODING_KITTEN)));
+            EasyMock.expectLastCall().times(playerCount - 1);
+            deck.shuffle();
+            EasyMock.expectLastCall();
+            EasyMock.replay(deck);
+
+            setup.shuffleExplodingKittensInDeck(deck);
+
+            EasyMock.verify(deck);
+        }
     }
 
 }
