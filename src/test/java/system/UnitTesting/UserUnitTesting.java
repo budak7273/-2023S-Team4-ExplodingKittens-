@@ -384,14 +384,14 @@ public class UserUnitTesting {
     }
 
     @Test
-    public void testPlayerDiesNoDefuse(){
+    public void testPlayerDiesNoDefuse() {
         User user = new User("test", false, new ArrayList<>());
         user.attemptToDie();
         Assertions.assertFalse(user.isAlive());
     }
 
     @Test
-    public void testPlayerDiesWithDefuse(){
+    public void testPlayerDiesWithDefuse() {
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new Card(CardType.DEFUSE));
 

@@ -218,7 +218,8 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser)).andReturn(false);
+        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
+                .andReturn(false);
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -239,7 +240,8 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser)).andReturn(true);
+        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
+                .andReturn(true);
         currentUser.attemptToDie();
         gameboard.updateUI();
         EasyMock.expectLastCall();

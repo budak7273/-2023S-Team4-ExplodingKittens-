@@ -190,7 +190,7 @@ public class DrawDeckUnitTesting {
     }
 
     @Test
-    public void testDrawCard_explodingKitten() {
+    public void testDrawCardWithExplodingKitten() {
         Card kitten = new Card(CardType.EXPLODING_KITTEN);
 
         User user = EasyMock.createMock(User.class);
@@ -206,7 +206,7 @@ public class DrawDeckUnitTesting {
     }
 
     @Test
-    public void testDrawBottomCard_explodingKitten() {
+    public void testDrawBottomCardWithExplodingKitten() {
         Card kitten = new Card(CardType.EXPLODING_KITTEN);
 
         User user = EasyMock.createMock(User.class);

@@ -51,7 +51,7 @@ public class User {
 
     public void attemptToDie() {
         this.alive = false;
-        for (int i=0; i<hand.size(); i++) {
+        for (int i = 0; i < hand.size(); i++) {
             if (hand.get(i).getType() == CardType.DEFUSE) {
                 this.alive = true;
                 hand.remove(i);
