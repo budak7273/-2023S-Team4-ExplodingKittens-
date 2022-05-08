@@ -1,7 +1,7 @@
 package system;
 
 import datasource.CardType;
-import system.cardEffects.EffectPattern;
+import system.cardEffects.*;
 
 public class Card {
     private CardType cardType;
@@ -13,16 +13,20 @@ public class Card {
         switch (type) {
 
             case ATTACK -> {
+                this.effectPattern = new AttackEffect();
             }
             case EXPLODING_KITTEN -> {
             }
             case DEFUSE -> {
+                this.effectPattern = new DefuseBombEffect();
             }
             case SKIP -> {
+                this.effectPattern = new SkipEffect();
             }
             case FAVOR -> {
             }
             case SHUFFLE -> {
+                this.effectPattern = new ShuffleEffect();
             }
             case BEARD_CAT -> {
             }
@@ -37,14 +41,17 @@ public class Card {
             case FERAL_CAT -> {
             }
             case DRAW_FROM_THE_BOTTOM -> {
+                this.effectPattern = new DrawFromBottomEffect();
             }
             case NOPE -> {
             }
+
             case ALTER_THE_FUTURE -> {
             }
             case TARGETED_ATTACK -> {
             }
             case SEE_THE_FUTURE -> {
+                this.effectPattern = new SeeTheFutureEffect();
             }
         }
     }
@@ -55,6 +62,10 @@ public class Card {
 
     public CardType getType() {
         return this.cardType;
+    }
+
+    public EffectPattern getEffectPattern() {
+        return effectPattern;
     }
 
     @Override

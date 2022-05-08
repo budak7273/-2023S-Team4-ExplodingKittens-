@@ -122,11 +122,18 @@ public class GamePlayer {
                             String infoMessage = "You cannot select a single cat card in normal mode.";
                             String titleBar = "Warning";
                             JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+                        }else {
+                            if(card.getEffectPattern()!=null){
+                                card.getEffectPattern().useEffect(gameState);
+                                selectedCards.clear();
+
+                            }
                         }
 
 
                     }
                 }
+
             }
         });
 
@@ -164,6 +171,7 @@ public class GamePlayer {
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                selectedCards.clear();
                 gameState.drawCardForCurrentTurn();
             }
         });
