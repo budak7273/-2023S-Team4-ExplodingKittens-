@@ -85,5 +85,7 @@ public class GameState {
     }
 
     public void tryToEndGame() {
+        String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
+        throw new IllegalArgumentException(msg);
     }
 }
