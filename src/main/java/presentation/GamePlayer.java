@@ -7,15 +7,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GamePlayer {
 
-    /**This is the frame the game is made on.*/
+    /**
+     * This is the frame the game is made on.
+     */
     private final JFrame gameFrame = new JFrame();
 
-    /**Local storage of the game's current state. */
+    /**
+     * Local storage of the game's current state.
+     */
     private GameState gameState;
+
+    private JPanel playerDeckDisplayPanel;
+
+    private boolean catMode;
+
+    private ArrayList<Card> selectedCards;
+
+    public GamePlayer() {
+        selectedCards = new ArrayList<>();
+    }
 
     public void setGameState(final GameState currentGameState) {
         this.gameState = currentGameState;
@@ -49,14 +64,13 @@ public class GamePlayer {
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
-        JPanel playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
+        playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
 
 
         gameFrame.setLayout(new BorderLayout());
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
-
 
 
         gameFrame.pack();
@@ -68,7 +82,7 @@ public class GamePlayer {
         JPanel playerPanel = new JPanel();
         this.generateUserSelectionPanel(playerPanel, BorderLayout.WEST);
 
-        return  playerPanel;
+        return playerPanel;
     }
 
     private void generateUserSelectionPanel(JPanel p, String layout) {
@@ -82,18 +96,91 @@ public class GamePlayer {
         modeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                if (catMode) {
+                    modeButton.setText("Switch To Cat Mode");
+                } else {
+                    modeButton.setText("Switch To Normal Mode");
+                }
+                catMode = !catMode;
+            }
+        });
 
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (catMode) {
+
+                } else {
+                    if (selectedCards.size() != 1) {
+                        String infoMessage = "You cannot select multiple or no cards at the time.";
+                        String titleBar = "Warning";
+                        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        Card card = selectedCards.get(0);
+
+                        if (card.isCatCard()) {
+                            String infoMessage = "You cannot select a single cat card in normal mode.";
+                            String titleBar = "Warning";
+                            JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        switch (card.getType()) {
+
+                            case ATTACK -> {
+                            }
+                            case EXPLODING_KITTEN -> {
+                            }
+                            case DEFUSE -> {
+                            }
+                            case SKIP -> {
+                            }
+                            case FAVOR -> {
+                            }
+                            case SHUFFLE -> {
+                            }
+                            case BEARD_CAT -> {
+                            }
+                            case TACO_CAT -> {
+                            }
+                            case HAIRY_POTATO_CAT -> {
+                            }
+                            case RAINBOW_RALPHING_CAT -> {
+                            }
+                            case CATTERMELON -> {
+                            }
+                            case FERAL_CAT -> {
+                            }
+                            case DRAW_FROM_THE_BOTTOM -> {
+                            }
+                            case NOPE -> {
+                            }
+                            case ALTER_THE_FUTURE -> {
+                            }
+                            case TARGETED_ATTACK -> {
+                            }
+                            case SEE_THE_FUTURE -> {
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        endButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (playerDeckDisplayPanel != null) playerDeckDisplayPanel.setVisible(false);
             }
         });
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(endButton, BorderLayout.EAST);
-        p.add(userSelectionPanel,layout);
+        p.add(userSelectionPanel, layout);
     }
 
     private JPanel generateUserDisplayPanel() {
         JPanel userDisplayPanel = new JPanel();
-        for (User user: this.gameState.getPlayerQueue()) {
+        for (User user : this.gameState.getPlayerQueue()) {
             if (user != this.gameState.getUserForCurrentTurn()) {
                 JButton otherPlayer =
                         createCardImage(user.getName(),
@@ -117,12 +204,12 @@ public class GamePlayer {
             }
         });
         JButton discardPile = createCardImage("Top Card",
-                 "");
+                "");
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
 
         JPanel playerSelectionPanel = generatePlayerSelectionPanel();
-        tableAreaDisplayPanel.add(playerSelectionPanel,BorderLayout.SOUTH);
+        tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
 
         return tableAreaDisplayPanel;
     }
@@ -148,9 +235,11 @@ public class GamePlayer {
 
                     if (cardLayout.getBackground() == Color.magenta) {
                         System.out.println(card.getName() + " is selected!");
+                        selectedCards.add(card);
                         cardLayout.setBackground(Color.red);
                     } else {
                         System.out.println(card.getName() + " is deselected!");
+                        selectedCards.remove(card);
                         cardLayout.setBackground(Color.magenta);
                     }
                 }
@@ -158,7 +247,7 @@ public class GamePlayer {
             handDisplayPanel.add(cardLayout);
         }
         playerDeckCardsPanel.add(handDisplayPanel, BorderLayout.CENTER);
-        p.add(playerDeckCardsPanel,layout);
+        p.add(playerDeckCardsPanel, layout);
     }
 
     private JPanel generatePlayerDeckDisplayPanel() {
@@ -206,6 +295,7 @@ public class GamePlayer {
 
     /**
      * These methods should only be used for Integration Testing
+     *
      * @return
      */
     public GameState getGameState() {
