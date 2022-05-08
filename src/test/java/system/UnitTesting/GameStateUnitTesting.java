@@ -330,4 +330,20 @@ public class GameStateUnitTesting {
         Executable executable = gameState::tryToEndGame;
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
+    @Test
+    public void testTryToEndGameWith1UserRemaining() {
+        User user = EasyMock.createMock(User.class);
+        Queue<User> queue = new LinkedList<>();
+        queue.add(user);
+        GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+        GameState gameState = new GameState(queue, gamePlayer, deck);
+
+        gamePlayer.endGame();
+        EasyMock.expectLastCall();
+
+        boolean gameIsOver = gameState.tryToEndGame();
+        Assertions.assertTrue(gameIsOver);
+    }
 }

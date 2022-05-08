@@ -84,7 +84,7 @@ public class GameState {
         return this.drawDeck;
     }
 
-    public void tryToEndGame() {
+    public boolean tryToEndGame() {
         String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
         throw new IllegalArgumentException(msg);
     }
