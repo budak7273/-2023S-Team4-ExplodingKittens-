@@ -65,3 +65,14 @@ task codeCoverageInfo (dependsOn: jacocoTestReport) {
     }
 }
 jacocoTestReport.finalizedBy(codeCoverageInfo)
+
+[spotbugsMain, spotbugsTest].each { task ->
+    task.configure {
+        reports {
+            html {
+                enabled = true
+                stylesheet = 'fancy-hist.xsl'
+            }
+        }
+    }
+}
