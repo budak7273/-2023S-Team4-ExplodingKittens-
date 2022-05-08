@@ -84,4 +84,6 @@ public class GameState {
         return this.drawDeck;
     }
 
+    public void tryToEndGame() {
+    }
 }

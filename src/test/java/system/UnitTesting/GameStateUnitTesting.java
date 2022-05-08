@@ -319,4 +319,15 @@ public class GameStateUnitTesting {
         gameState.returnFutureCards(futures);
         EasyMock.verify(first, second, third, gameboard, drawDeck);
     }
+
+    @Test
+    public void testTryToEndGameWithEmptyQueue() {
+        Queue<User> queue = new LinkedList<>();
+        GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+        GameState gameState = new GameState(queue, gamePlayer, deck);
+
+        Executable executable = gameState::tryToEndGame;
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
 }
