@@ -1,12 +1,52 @@
 package system;
 
 import datasource.CardType;
+import system.cardEffects.EffectPattern;
 
 public class Card {
     private CardType cardType;
+    private EffectPattern effectPattern;
 
     public Card(CardType type) {
         this.cardType = type;
+
+        switch (type) {
+
+            case ATTACK -> {
+            }
+            case EXPLODING_KITTEN -> {
+            }
+            case DEFUSE -> {
+            }
+            case SKIP -> {
+            }
+            case FAVOR -> {
+            }
+            case SHUFFLE -> {
+            }
+            case BEARD_CAT -> {
+            }
+            case TACO_CAT -> {
+            }
+            case HAIRY_POTATO_CAT -> {
+            }
+            case RAINBOW_RALPHING_CAT -> {
+            }
+            case CATTERMELON -> {
+            }
+            case FERAL_CAT -> {
+            }
+            case DRAW_FROM_THE_BOTTOM -> {
+            }
+            case NOPE -> {
+            }
+            case ALTER_THE_FUTURE -> {
+            }
+            case TARGETED_ATTACK -> {
+            }
+            case SEE_THE_FUTURE -> {
+            }
+        }
     }
 
     public String getName() {

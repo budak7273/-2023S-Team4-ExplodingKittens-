@@ -124,43 +124,7 @@ public class GamePlayer {
                             JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
                         }
 
-                        switch (card.getType()) {
 
-                            case ATTACK -> {
-                            }
-                            case EXPLODING_KITTEN -> {
-                            }
-                            case DEFUSE -> {
-                            }
-                            case SKIP -> {
-                            }
-                            case FAVOR -> {
-                            }
-                            case SHUFFLE -> {
-                            }
-                            case BEARD_CAT -> {
-                            }
-                            case TACO_CAT -> {
-                            }
-                            case HAIRY_POTATO_CAT -> {
-                            }
-                            case RAINBOW_RALPHING_CAT -> {
-                            }
-                            case CATTERMELON -> {
-                            }
-                            case FERAL_CAT -> {
-                            }
-                            case DRAW_FROM_THE_BOTTOM -> {
-                            }
-                            case NOPE -> {
-                            }
-                            case ALTER_THE_FUTURE -> {
-                            }
-                            case TARGETED_ATTACK -> {
-                            }
-                            case SEE_THE_FUTURE -> {
-                            }
-                        }
                     }
                 }
             }
