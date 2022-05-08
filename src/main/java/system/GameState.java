@@ -70,7 +70,11 @@ public class GameState {
     }
 
     public void drawCardForCurrentTurn() {
-        drawDeck.drawCard(getUserForCurrentTurn());
+        User currentPlayer = getUserForCurrentTurn();
+        boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
+        if (drawnExplodingKitten) {
+            currentPlayer.attemptToDie();
+        }
         transitionToNextTurn();
     }
 

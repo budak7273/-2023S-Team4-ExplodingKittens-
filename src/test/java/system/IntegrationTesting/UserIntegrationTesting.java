@@ -248,9 +248,7 @@ public class UserIntegrationTesting {
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
         list.add(new Card(CardType.ATTACK));
         selected.add(1);
-        Executable executable =
-                () -> user.verifyEffectForCardsSelected(selected);
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
+        Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
     @Test

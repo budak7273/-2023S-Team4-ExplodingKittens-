@@ -8,6 +8,7 @@ import org.junit.jupiter.api.function.Executable;
 import system.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -187,4 +188,37 @@ public class DrawDeckUnitTesting {
         Assertions.assertEquals(first, orderedCards.get(0));
         Assertions.assertEquals(second, orderedCards.get(1));
     }
+
+    @Test
+    public void testDrawCardWithExplodingKitten() {
+        Card kitten = new Card(CardType.EXPLODING_KITTEN);
+
+        User user = EasyMock.createMock(User.class);
+        EasyMock.replay(user);
+
+        LinkedList<Card> initialDeck = new LinkedList<>();
+        initialDeck.add(kitten);
+
+        DrawDeck deck = new DrawDeck(initialDeck);
+        assertTrue(deck.drawCard(user));
+        assertTrue(deck.getCardsAsList().isEmpty());
+        EasyMock.verify(user);
+    }
+
+    @Test
+    public void testDrawBottomCardWithExplodingKitten() {
+        Card kitten = new Card(CardType.EXPLODING_KITTEN);
+
+        User user = EasyMock.createMock(User.class);
+        EasyMock.replay(user);
+
+        LinkedList<Card> initialDeck = new LinkedList<>();
+        initialDeck.add(kitten);
+
+        DrawDeck deck = new DrawDeck(initialDeck);
+        assertTrue(deck.drawFromBottomForUser(user));
+        assertTrue(deck.getCardsAsList().isEmpty());
+        EasyMock.verify(user);
+    }
+
 }

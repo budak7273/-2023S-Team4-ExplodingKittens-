@@ -129,7 +129,7 @@ public class GameStateUnitTesting {
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
-        user1.die();
+        user1.attemptToDie();
         User user2 = new User();
         User user3 = new User();
         pq.add(user1);
@@ -157,9 +157,9 @@ public class GameStateUnitTesting {
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
-        user1.die();
+        user1.attemptToDie();
         User user2 = new User();
-        user2.die();
+        user2.attemptToDie();
         User user3 = new User();
         pq.add(user1);
         pq.add(user2);
@@ -189,7 +189,7 @@ public class GameStateUnitTesting {
         for (int i = 0; i < MAX_USER_COUNT; i++) {
             User user = new User();
             if (i == 0 || i == 1 || i == ARBITRARY_USER_ID_TO_KILL) {
-                user.die();
+                user.attemptToDie();
             }
             pq.add(user);
             if (i != 0 && i != 1) {
@@ -207,7 +207,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testDrawFromBottom() {
+    public void testDrawFromBottomNoKitten() {
         Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
@@ -218,8 +218,8 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        drawDeck.drawFromBottomForUser(currentUser);
-        EasyMock.expectLastCall();
+        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
+                .andReturn(false);
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -229,7 +229,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testDrawCard() {
+    public void testDrawFromBottomWithKitten() {
         Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
@@ -240,8 +240,51 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        drawDeck.drawCard(currentUser);
+        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
+                .andReturn(true);
+        currentUser.attemptToDie();
+        gameboard.updateUI();
         EasyMock.expectLastCall();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.drawFromBottom();
+
+    }
+
+    @Test
+    public void testDrawCardNoKitten() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(false);
+        gameboard.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.drawCardForCurrentTurn();
+    }
+
+    @Test
+    public void testDrawCardWithKitten() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(true);
+        currentUser.attemptToDie();
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
