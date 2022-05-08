@@ -360,7 +360,8 @@ public class GameStateUnitTesting {
         GameState gameState = new GameState(queue, gamePlayer, deck);
 
         gamePlayer.endGame();
-        EasyMock.expectLastCall().andThrow(new AssertionFailedError()).anyTimes();
+        EasyMock.expectLastCall()
+                .andThrow(new AssertionFailedError()).anyTimes();
 
         boolean gameIsOver = gameState.tryToEndGame();
         Assertions.assertFalse(gameIsOver);
