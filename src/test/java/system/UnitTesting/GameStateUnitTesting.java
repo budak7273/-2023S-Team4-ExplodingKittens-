@@ -1,6 +1,7 @@
 
 package system.UnitTesting;
 
+import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
@@ -318,5 +319,51 @@ public class GameStateUnitTesting {
 
         gameState.returnFutureCards(futures);
         EasyMock.verify(first, second, third, gameboard, drawDeck);
+    }
+
+    @Test
+    public void testTryToEndGameWithEmptyQueue() {
+        Queue<User> queue = new LinkedList<>();
+        GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+        GameState gameState = new GameState(queue, gamePlayer, deck);
+
+        Executable executable = gameState::tryToEndGame;
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
+    public void testTryToEndGameWith1UserRemaining() {
+        User user = EasyMock.createMock(User.class);
+        Queue<User> queue = new LinkedList<>();
+        queue.add(user);
+        GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+        GameState gameState = new GameState(queue, gamePlayer, deck);
+
+        gamePlayer.endGame();
+        EasyMock.expectLastCall();
+
+        boolean gameIsOver = gameState.tryToEndGame();
+        Assertions.assertTrue(gameIsOver);
+    }
+
+    @Test
+    public void testTryToEndGameWithAllUserRemaining() {
+        User user = EasyMock.createMock(User.class);
+        Queue<User> queue = new LinkedList<>();
+        for (int i = 0; i < MAX_USER_COUNT; i++) {
+            queue.add(user);
+        }
+        GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+        GameState gameState = new GameState(queue, gamePlayer, deck);
+
+        gamePlayer.endGame();
+        EasyMock.expectLastCall()
+                .andThrow(new AssertionFailedError()).anyTimes();
+
+        boolean gameIsOver = gameState.tryToEndGame();
+        Assertions.assertFalse(gameIsOver);
     }
 }
