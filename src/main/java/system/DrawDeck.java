@@ -22,7 +22,6 @@ public class DrawDeck {
         Card drawnCard = cards.pop();
 
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
-            drawingUser.attemptToDie();
             return true;
         } else {
             drawingUser.addCard(drawnCard);
@@ -30,13 +29,19 @@ public class DrawDeck {
         }
     }
 
-    public void drawFromBottomForUser(User currentUser) {
+    public boolean drawFromBottomForUser(User currentUser) {
         if (cards.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
         }
         Card drawnCard = cards.removeLast();
-        currentUser.addCard(drawnCard);
+
+        if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+            return true;
+        } else {
+            currentUser.addCard(drawnCard);
+            return false;
+        }
     }
 
     public List<Card> drawThreeCardsFromTop() {

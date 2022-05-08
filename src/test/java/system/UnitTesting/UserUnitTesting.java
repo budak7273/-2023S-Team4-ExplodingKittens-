@@ -233,9 +233,7 @@ public class UserUnitTesting {
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
         list.add(new Card(CardType.ATTACK));
         selected.add(1);
-        Executable executable =
-                () -> user.verifyEffectForCardsSelected(selected);
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
+        Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
     @Test
@@ -383,6 +381,24 @@ public class UserUnitTesting {
         selected.add(2);
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
+    }
+
+    @Test
+    public void testPlayerDiesNoDefuse(){
+        User user = new User("test", false, new ArrayList<>());
+        user.attemptToDie();
+        Assertions.assertFalse(user.isAlive());
+    }
+
+    @Test
+    public void testPlayerDiesWithDefuse(){
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new Card(CardType.DEFUSE));
+
+        User user = new User("test", false, hand);
+        user.attemptToDie();
+        Assertions.assertTrue(user.isAlive());
+        Assertions.assertTrue(hand.isEmpty());
     }
 
 }

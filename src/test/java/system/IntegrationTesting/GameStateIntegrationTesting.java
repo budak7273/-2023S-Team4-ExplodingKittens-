@@ -115,7 +115,7 @@ public class GameStateIntegrationTesting {
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
-        user1.die();
+        user1.attemptToDie();
         User user2 = new User();
         User user3 = new User();
         pq.add(user1);
@@ -142,9 +142,9 @@ public class GameStateIntegrationTesting {
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
-        user1.die();
+        user1.attemptToDie();
         User user2 = new User();
-        user2.die();
+        user2.attemptToDie();
         User user3 = new User();
         pq.add(user1);
         pq.add(user2);
@@ -173,7 +173,7 @@ public class GameStateIntegrationTesting {
         for (int i = 0; i < MAX_USER_COUNT; i++) {
             User user = new User();
             if (i == 0 || i == 1 || i == ARBITRARY_USER_ID_TO_KILL) {
-                user.die();
+                user.attemptToDie();
             }
             pq.add(user);
             if (i != 0 && i != 1) {

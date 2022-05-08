@@ -206,7 +206,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testDrawFromBottom() {
+    public void testDrawFromBottomNoKitten() {
         Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
@@ -217,8 +217,7 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        drawDeck.drawFromBottomForUser(currentUser);
-        EasyMock.expectLastCall();
+        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser)).andReturn(false);
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -228,7 +227,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testDrawCard() {
+    public void testDrawFromBottomWithKitten() {
         Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
         userQueue.add(currentUser);
@@ -239,8 +238,50 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        drawDeck.drawCard(currentUser);
+        EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser)).andReturn(true);
+        currentUser.attemptToDie();
+        gameboard.updateUI();
         EasyMock.expectLastCall();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.drawFromBottom();
+
+    }
+
+    @Test
+    public void testDrawCardNoKitten() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(false);
+        gameboard.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(gameboard, drawDeck);
+
+        gameState.drawCardForCurrentTurn();
+    }
+
+    @Test
+    public void testDrawCardWithKitten() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(true);
+        currentUser.attemptToDie();
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
