@@ -22,7 +22,24 @@ public enum Messages {
     EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
     EMPTY_HAND("EmptyHandMessage"),
     BAD_CARD_SELECTION("BadCardSelectionMessage"),
-    CHOOSE_LANGUAGE("ChooseLanguageMessage");
+    CHOOSE_LANGUAGE("ChooseLanguageMessage"),
+    ATTACK_CARD("AttackCard"),
+    EXPLODING_KITTEN_CARD("ExplodingKitten"),
+    DEFUSE_CARD("Defuse"),
+    SKIP_CARD("Skip"),
+    FAVOR_CARD("Favor"),
+    SHUFFLE_CARD("Shuffle"),
+    BEARD_CAT_CARD("BeardCat"),
+    TACO_CAT_CARD("TacoCat"),
+    HAIRY_POTATO_CAT("HairyPotatoCat"),
+    RAINBOW_RALPHING_CAT("RainbowRalphingCat"),
+    CATTERMELON("Cattermelon"),
+    FERAL_CAT("FeralCat"),
+    DRAW_FROM_THE_BOTTOM("DrawFromTheBottom"),
+    NOPE("Nope"),
+    ALTER_THE_FUTURE("AlterTheFuture"),
+    TARGETED_ATTACK("Targeted Attack"),
+    SEE_THE_FUTURE("SeeTheFuture");
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
