@@ -93,18 +93,26 @@ public class GamePlayer {
                 "Confirm");
         JButton endButton = createButtonImage(
                 "End My Turn");
-        modeButton.addActionListener(new ActionListener() {
+        this.setModeButtonListener(modeButton);
+        this.setConfirmButtonListener(confirmButton, endButton);
+        this.setEndButtonListener(endButton);
+
+        userSelectionPanel.add(modeButton, BorderLayout.WEST);
+        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
+        userSelectionPanel.add(endButton, BorderLayout.EAST);
+        p.add(userSelectionPanel, layout);
+    }
+
+    private void setEndButtonListener(JButton endButton) {
+        endButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (catMode) {
-                    modeButton.setText("Switch To Cat Mode");
-                } else {
-                    modeButton.setText("Switch To Normal Mode");
-                }
-                catMode = !catMode;
+                if (playerDeckDisplayPanel != null) playerDeckDisplayPanel.setVisible(false);
             }
         });
+    }
 
+    private void setConfirmButtonListener(JButton confirmButton, JButton endButton) {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -123,30 +131,34 @@ public class GamePlayer {
                             String titleBar = "Warning";
                             JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
                         }else {
-                            if(card.getEffectPattern()!=null){
-                                card.getEffectPattern().useEffect(gameState);
+                            if(card.getType().getEffectPattern()!=null){
+                                card.getType().getEffectPattern().useEffect(gameState);
+                                gameState.getUserForCurrentTurn().removeCard(card);
+                                System.out.println(selectedCards.get(0).getName()+" is removed from hand after use.");
                                 selectedCards.clear();
-
                             }
                         }
 
 
                     }
                 }
-
             }
-        });
 
-        endButton.addActionListener(new ActionListener() {
+        });
+    }
+
+    private void setModeButtonListener(JButton modeButton) {
+        modeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (playerDeckDisplayPanel != null) playerDeckDisplayPanel.setVisible(false);
+                if (catMode) {
+                    modeButton.setText("Switch To Cat Mode");
+                } else {
+                    modeButton.setText("Switch To Normal Mode");
+                }
+                catMode = !catMode;
             }
         });
-        userSelectionPanel.add(modeButton, BorderLayout.WEST);
-        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
-        userSelectionPanel.add(endButton, BorderLayout.EAST);
-        p.add(userSelectionPanel, layout);
     }
 
     private JPanel generateUserDisplayPanel() {

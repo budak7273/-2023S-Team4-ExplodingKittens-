@@ -1,5 +1,7 @@
 package datasource;
 
+import system.cardEffects.*;
+
 public enum CardType {
 
     ATTACK("Attack"),
@@ -21,9 +23,59 @@ public enum CardType {
     SEE_THE_FUTURE("See The Future");
 
     private String displayName;
+    private EffectPattern effectPattern;
 
     CardType(String displayNameStr) {
         this.displayName = displayNameStr;
+
+    }
+
+    public EffectPattern getEffectPattern() {
+        switch (this) {
+
+            case ATTACK -> {
+                this.effectPattern = new AttackEffect();
+            }
+            case EXPLODING_KITTEN -> {
+            }
+            case DEFUSE -> {
+                this.effectPattern = new DefuseBombEffect();
+            }
+            case SKIP -> {
+                this.effectPattern = new SkipEffect();
+            }
+            case FAVOR -> {
+            }
+            case SHUFFLE -> {
+                this.effectPattern = new ShuffleEffect();
+            }
+            case BEARD_CAT -> {
+            }
+            case TACO_CAT -> {
+            }
+            case HAIRY_POTATO_CAT -> {
+            }
+            case RAINBOW_RALPHING_CAT -> {
+            }
+            case CATTERMELON -> {
+            }
+            case FERAL_CAT -> {
+            }
+            case DRAW_FROM_THE_BOTTOM -> {
+                this.effectPattern = new DrawFromBottomEffect();
+            }
+            case NOPE -> {
+            }
+
+            case ALTER_THE_FUTURE -> {
+            }
+            case TARGETED_ATTACK -> {
+            }
+            case SEE_THE_FUTURE -> {
+                this.effectPattern = new SeeTheFutureEffect();
+            }
+        }
+        return this.effectPattern;
     }
 
     @Override

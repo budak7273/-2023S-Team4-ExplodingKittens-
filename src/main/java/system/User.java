@@ -45,6 +45,16 @@ public class User {
         this.hand.add(drawnCard);
     }
 
+    public void removeCard(Card drawnCard) {
+
+        this.hand.remove(drawnCard);
+    }
+
+    public void removeAll(Collections cards) {
+
+        this.hand.removeAll((Collection<?>) cards);
+    }
+
     public boolean isAlive() {
         return this.alive;
     }
