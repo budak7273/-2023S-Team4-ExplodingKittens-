@@ -70,7 +70,11 @@ public class GameState {
     }
 
     public void drawCardForCurrentTurn() {
-        drawDeck.drawCard(getUserForCurrentTurn());
+        User currentPlayer = getUserForCurrentTurn();
+        boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
+        if (drawnExplodingKitten) {
+            currentPlayer.attemptToDie();
+        }
         transitionToNextTurn();
     }
 
@@ -84,4 +88,15 @@ public class GameState {
         return this.drawDeck;
     }
 
+    public boolean tryToEndGame() {
+        if (playerQueue.size() < 1) {
+            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
+            throw new IllegalArgumentException(msg);
+        }
+        if (playerQueue.size() == 1) {
+            gamePlayer.endGame();
+            return true;
+        }
+        return false;
+    }
 }

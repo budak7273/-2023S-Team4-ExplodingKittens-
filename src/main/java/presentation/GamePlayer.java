@@ -273,4 +273,7 @@ public class GamePlayer {
     public GameState getGameState() {
         return this.gameState;
     }
+
+    public void endGame() {
+    }
 }
