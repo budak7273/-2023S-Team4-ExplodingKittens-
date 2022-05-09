@@ -430,6 +430,7 @@ public class GameStateUnitTesting {
 
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
         Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
+        Assertions.assertEquals(0, gameState.getExtraTurnCountForCurrentUser());
 
         EasyMock.verify(boardMock);
     }

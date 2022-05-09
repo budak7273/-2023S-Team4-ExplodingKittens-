@@ -12,6 +12,7 @@ public class GameState {
     private final DrawDeck drawDeck;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
+    private int extraTurnsForCurrentUser = 0;
 
     public GameState(Queue<User> pq, GamePlayer gp,
                      DrawDeck deck) {
@@ -28,12 +29,17 @@ public class GameState {
             throw new IllegalArgumentException(
                     Messages.getMessage(Messages.ILLEGAL_PLAYERS));
         }
-        User userForCurrentTurn = playerQueue.poll();
-        if (userForCurrentTurn.isAlive()) {
-            playerQueue.add(userForCurrentTurn);
-        }
-        while (!getUserForCurrentTurn().isAlive()) {
-            playerQueue.poll();
+
+        if (extraTurnsForCurrentUser != 0) {
+            extraTurnsForCurrentUser--;
+        } else {
+            User userForCurrentTurn = playerQueue.poll();
+            if (userForCurrentTurn.isAlive()) {
+                playerQueue.add(userForCurrentTurn);
+            }
+            while (!getUserForCurrentTurn().isAlive()) {
+                playerQueue.poll();
+            }
         }
 
         gamePlayer.updateUI();
@@ -101,5 +107,10 @@ public class GameState {
     }
 
     public void addExtraTurn() {
+        extraTurnsForCurrentUser++;
+    }
+
+    public int getExtraTurnCountForCurrentUser() {
+        return extraTurnsForCurrentUser;
     }
 }
