@@ -409,4 +409,28 @@ public class GameStateUnitTesting {
         boolean gameIsOver = gameState.tryToEndGame();
         Assertions.assertFalse(gameIsOver);
     }
+
+    @Test
+    public void testTransitionToNextTurnWithMinPlayersAndExtraTurn() {
+        GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
+
+        Queue<User> pq = new LinkedList<User>();
+        User userStartingAtTopOfQueue = new User();
+        User userNextInQueue = new User();
+        pq.add(userStartingAtTopOfQueue);
+        pq.add(userNextInQueue);
+        DrawDeck deck = new DrawDeck(new ArrayList<>());
+
+        GameState gameState = new GameState(pq, boardMock, deck);
+        gameState.addExtraTurn();
+        gameState.transitionToNextTurn();
+
+        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
+
+        EasyMock.verify(boardMock);
+    }
 }

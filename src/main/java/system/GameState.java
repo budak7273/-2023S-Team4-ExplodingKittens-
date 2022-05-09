@@ -99,4 +99,7 @@ public class GameState {
         }
         return false;
     }
+
+    public void addExtraTurn() {
+    }
 }
