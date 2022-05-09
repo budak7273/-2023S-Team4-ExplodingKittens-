@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GamePlayer {
@@ -26,10 +27,12 @@ public class GamePlayer {
 
     private boolean catMode;
 
+    private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
 
     public GamePlayer() {
         selectedCards = new ArrayList<>();
+        displayCards = new HashMap<>();
     }
 
     public void setGameState(final GameState currentGameState) {
@@ -107,35 +110,47 @@ public class GamePlayer {
         endButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (playerDeckDisplayPanel != null) playerDeckDisplayPanel.setVisible(false);
+                if (playerDeckDisplayPanel != null) {
+                    playerDeckDisplayPanel.setVisible(false);
+                }
             }
         });
     }
 
-    private void setConfirmButtonListener(JButton confirmButton, JButton endButton) {
+    private void setConfirmButtonListener(JButton confirmButton,
+                                          JButton endButton) {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-
+                    System.out.println("CatMode.");
                 } else {
                     if (selectedCards.size() != 1) {
                         String infoMessage = "You cannot select multiple or no cards at the time.";
                         String titleBar = "Warning";
-                        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, infoMessage,
+                                "InfoBox: " + titleBar,
+                                JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         Card card = selectedCards.get(0);
 
                         if (card.isCatCard()) {
                             String infoMessage = "You cannot select a single cat card in normal mode.";
                             String titleBar = "Warning";
-                            JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
-                        }else {
-                            if(card.getType().getEffectPattern()!=null){
+                            JOptionPane.showMessageDialog(null,
+                                    infoMessage,
+                                    "InfoBox: " + titleBar,
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            if (card.getType().getEffectPattern() != null) {
                                 card.getType().getEffectPattern().useEffect(gameState);
                                 gameState.getUserForCurrentTurn().removeCard(card);
-                                System.out.println(selectedCards.get(0).getName()+" is removed from hand after use.");
+                                System.out.println(selectedCards.get(0).getName() + " is removed from hand after use.");
+                                generatePlayerDeckCardsPanel(playerDeckDisplayPanel, BorderLayout.CENTER);
+                                displayCards.get(card).setVisible(false);
                                 selectedCards.clear();
+                                gameFrame.validate();
+                                gameFrame.repaint();
                             }
                         }
 
@@ -229,13 +244,14 @@ public class GamePlayer {
                 }
             });
             handDisplayPanel.add(cardLayout);
+            displayCards.put(card, cardLayout);
         }
         playerDeckCardsPanel.add(handDisplayPanel, BorderLayout.CENTER);
         p.add(playerDeckCardsPanel, layout);
     }
 
     private JPanel generatePlayerDeckDisplayPanel() {
-        JPanel playerDeckDisplayPanel = new JPanel();
+        playerDeckDisplayPanel = new JPanel();
 
         this.generatePlayerDeckCardsPanel(playerDeckDisplayPanel, BorderLayout.CENTER);
 

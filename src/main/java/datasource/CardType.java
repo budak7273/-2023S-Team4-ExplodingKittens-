@@ -32,49 +32,36 @@ public enum CardType {
 
     public EffectPattern getEffectPattern() {
         switch (this) {
+            case ATTACK:
+            case EXPLODING_KITTEN:
 
-            case ATTACK -> {
-                this.effectPattern = new AttackEffect();
-            }
-            case EXPLODING_KITTEN -> {
-            }
-            case DEFUSE -> {
+            case DEFUSE:
                 this.effectPattern = new DefuseBombEffect();
-            }
-            case SKIP -> {
+                break;
+            case SKIP:
                 this.effectPattern = new SkipEffect();
-            }
-            case FAVOR -> {
-            }
-            case SHUFFLE -> {
+                break;
+            case FAVOR:
+            case SHUFFLE:
                 this.effectPattern = new ShuffleEffect();
-            }
-            case BEARD_CAT -> {
-            }
-            case TACO_CAT -> {
-            }
-            case HAIRY_POTATO_CAT -> {
-            }
-            case RAINBOW_RALPHING_CAT -> {
-            }
-            case CATTERMELON -> {
-            }
-            case FERAL_CAT -> {
-            }
-            case DRAW_FROM_THE_BOTTOM -> {
+                break;
+            case BEARD_CAT:
+            case TACO_CAT:
+            case HAIRY_POTATO_CAT:
+            case RAINBOW_RALPHING_CAT:
+            case CATTERMELON:
+            case FERAL_CAT:
+            case DRAW_FROM_THE_BOTTOM:
                 this.effectPattern = new DrawFromBottomEffect();
-            }
-            case NOPE -> {
-            }
-
-            case ALTER_THE_FUTURE -> {
-            }
-            case TARGETED_ATTACK -> {
-            }
-            case SEE_THE_FUTURE -> {
+                break;
+            case NOPE:
+            case ALTER_THE_FUTURE:
+            case TARGETED_ATTACK:
+            case SEE_THE_FUTURE:
                 this.effectPattern = new SeeTheFutureEffect();
-            }
+            default:
         }
+
         return this.effectPattern;
     }
 

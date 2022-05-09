@@ -26,7 +26,7 @@ public class GameStateUnitTesting {
         pq.add(new User());
         GamePlayer board = new GamePlayer();
         GameState gameState = new GameState(pq, board, deck);
-        Executable executable = () -> gameState.transitionToNextTurn();
+        Executable executable = gameState::transitionToNextTurn;
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
