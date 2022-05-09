@@ -58,10 +58,11 @@ public class CardEffectIntegrationTesting {
         playerQueue.add(player3);
         playerQueue.add(player4);
         playerQueue.add(player5);
-        GamePlayer gameBoard = new GamePlayer();
+        GamePlayer gamePlayer = new GamePlayer();
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
-        GameState gameState = new GameState(playerQueue, gameBoard, drawDeck);
+        GameState gameState = new GameState(playerQueue, gamePlayer, drawDeck);
+        gamePlayer.setGameState(gameState);
 
         Executable executable = () -> bombEffectPattern.useEffect(gameState);
         Assertions.assertDoesNotThrow(executable);
