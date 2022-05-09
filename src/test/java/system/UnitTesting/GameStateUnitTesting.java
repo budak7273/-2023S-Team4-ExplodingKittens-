@@ -88,7 +88,7 @@ public class GameStateUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(pq, board, deck);
-        Executable executable = () -> gameState.transitionToNextTurn();
+        Executable executable = gameState::transitionToNextTurn;
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
@@ -324,7 +324,7 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
-        List<Card> future = EasyMock.createMock(List.class);
+        List<Card> future = EasyMock.createMock(ArrayList.class);
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(future);
 
         gameboard.displayFutureCards(future);

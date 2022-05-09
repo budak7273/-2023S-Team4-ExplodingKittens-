@@ -50,11 +50,6 @@ public class User {
         this.hand.remove(drawnCard);
     }
 
-    public void removeAll(Collections cards) {
-
-        this.hand.removeAll((Collection<?>) cards);
-    }
-
     public boolean isAlive() {
         return this.alive;
     }
