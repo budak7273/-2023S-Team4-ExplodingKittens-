@@ -50,7 +50,7 @@ public class CardEffectUnitTesting {
         EffectPattern skipEffect = new SkipEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         gameState.transitionToNextTurn();
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall();
         EasyMock.replay(gameState);
 
         skipEffect.useEffect(gameState);
@@ -78,6 +78,19 @@ public class CardEffectUnitTesting {
         EasyMock.replay(gameState);
 
         futureEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
+
+    @Test
+    public void testAttack() {
+        EffectPattern attackEffect = new AttackEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.transitionToNextTurn();
+        gameState.addExtraTurn();
+        EasyMock.replay(gameState);
+
+        attackEffect.useEffect(gameState);
 
         EasyMock.verify(gameState);
     }
