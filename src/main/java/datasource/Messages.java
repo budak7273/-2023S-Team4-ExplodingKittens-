@@ -74,6 +74,7 @@ public enum Messages {
         currentLocation = Locale.GERMAN;
     }
 
+
     @Override
     public String toString() {
         return this.messageName;

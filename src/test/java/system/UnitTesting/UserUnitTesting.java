@@ -1,6 +1,7 @@
 package system.UnitTesting;
 
 import datasource.CardType;
+import datasource.Messages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -54,8 +55,8 @@ public class UserUnitTesting {
     @Test
     public void testUserConstructorHandWithMultipleCard() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card2 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -76,7 +77,7 @@ public class UserUnitTesting {
     @Test
     public void testCheckForSpecialEffectPotentialOneCard() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
@@ -85,8 +86,8 @@ public class UserUnitTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoCardsDifferentType() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ALTER_THE_FUTURE);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card2 = new Card(CardType.ALTER_THE_FUTURE, Messages.ALTER_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -96,8 +97,8 @@ public class UserUnitTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoMatchingCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.FERAL_CAT);
-        Card card2 = new Card(CardType.CATTERMELON);
+        Card card = new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC);
+        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -107,8 +108,8 @@ public class UserUnitTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoMatchingCatCards2() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.CATTERMELON);
-        Card card2 = new Card(CardType.CATTERMELON);
+        Card card = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
+        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -119,7 +120,7 @@ public class UserUnitTesting {
     public void testCheckForSpecialEffectPotentialTwoCatCardsNotMatching() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.HAIRY_POTATO_CAT);
-        Card card2 = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -129,8 +130,8 @@ public class UserUnitTesting {
     @Test
     public void testCheckForSpecialEffectPotentialThreeMatchingCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.CATTERMELON);
-        Card card2 = new Card(CardType.CATTERMELON);
+        Card card = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
+        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
         Card card3 = new Card(CardType.FERAL_CAT);
         list.add(card);
         list.add(card2);
@@ -156,9 +157,9 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == minCattermelonCount || i == maxCattermelonCount) {
-                list.add(new Card(CardType.CATTERMELON));
+                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK));
+                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
             }
         }
         User user = new User("test1", false, list);
@@ -180,9 +181,9 @@ public class UserUnitTesting {
                 list.add(new Card(CardType.HAIRY_POTATO_CAT));
             }
             if (i == tacoCatFirstNumber || i == tacoCatSecondNumber) {
-                list.add(new Card(CardType.TACO_CAT));
+                list.add(new Card(CardType.TACO_CAT, Messages.TACO_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK));
+                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
             }
         }
         User user = new User("test1", false, list);
@@ -194,7 +195,7 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i % 2 == 0) {
-                list.add(new Card(CardType.CATTERMELON));
+                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
             } else {
                 list.add(new Card(CardType.FERAL_CAT));
             }
@@ -226,12 +227,12 @@ public class UserUnitTesting {
     @Test
     public void testVerifyEffectForCardsSelectedHandWithNoCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
+        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
-        list.add(new Card(CardType.ATTACK));
+        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
         selected.add(1);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
@@ -239,7 +240,7 @@ public class UserUnitTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize1HandWithMultipleIndex() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
+        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -252,8 +253,8 @@ public class UserUnitTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandWithIndexDuplicated() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
-        list.add(new Card(CardType.NOPE));
+        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        list.add(new Card(CardType.NOPE, Messages.NOPE_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(0);
@@ -268,7 +269,7 @@ public class UserUnitTesting {
     testVerifyEffectForCardsSelectedSize2HandSelectNonMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
-        list.add(new Card(CardType.CATTERMELON));
+        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -280,7 +281,7 @@ public class UserUnitTesting {
     public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.FERAL_CAT));
-        list.add(new Card(CardType.CATTERMELON));
+        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -291,8 +292,8 @@ public class UserUnitTesting {
     @Test
     public void testVerifyEffectForCardsSelectedSize2HandSelectMatchingCat2() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.CATTERMELON));
-        list.add(new Card(CardType.CATTERMELON));
+        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -306,7 +307,7 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON));
+                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
             } else if (i == 1) {
                 list.add(new Card(CardType.FERAL_CAT));
             } else {
@@ -326,7 +327,7 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON));
+                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
             } else if (i == 1) {
                 list.add(new Card(CardType.FERAL_CAT));
             } else {
@@ -393,7 +394,7 @@ public class UserUnitTesting {
     @Test
     public void testPlayerDiesWithDefuse() {
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new Card(CardType.DEFUSE));
+        hand.add(new Card(CardType.DEFUSE, Messages.DEFUSE_DESC));
 
         User user = new User("test", false, hand);
         user.attemptToDie();

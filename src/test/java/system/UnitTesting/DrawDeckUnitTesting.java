@@ -1,6 +1,7 @@
 package system.UnitTesting;
 
 import datasource.CardType;
+import datasource.Messages;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class DrawDeckUnitTesting {
         User user = new User();
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
         deck.drawCard(user);
 
         assertTrue(deck.getCardsAsList().isEmpty());
@@ -84,9 +85,9 @@ public class DrawDeckUnitTesting {
     @Test
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE, Messages.ALTER_DESC);
         deck.addCardToTop(bottomCard);
-        Card topCard = new Card(CardType.ATTACK);
+        Card topCard = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         deck.addCardToTop(topCard);
 
         User user = EasyMock.createMock(User.class);
@@ -191,7 +192,7 @@ public class DrawDeckUnitTesting {
 
     @Test
     public void testDrawCardWithExplodingKitten() {
-        Card kitten = new Card(CardType.EXPLODING_KITTEN);
+        Card kitten = new Card(CardType.EXPLODING_KITTEN, Messages.EXPLODING_DESC);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);
@@ -207,7 +208,7 @@ public class DrawDeckUnitTesting {
 
     @Test
     public void testDrawBottomCardWithExplodingKitten() {
-        Card kitten = new Card(CardType.EXPLODING_KITTEN);
+        Card kitten = new Card(CardType.EXPLODING_KITTEN, Messages.EXPLODING_DESC);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);
