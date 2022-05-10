@@ -167,9 +167,9 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-                    modeButton.setText("Switch To Cat Mode");
+                    modeButton.setText(Messages.getMessage(Messages.SWITCH_TO_CAT_MODE));
                 } else {
-                    modeButton.setText("Switch To Normal Mode");
+                    modeButton.setText(Messages.getMessage(Messages.SWITCH_TO_NORMAL_MODE));
                 }
                 catMode = !catMode;
             }

@@ -22,7 +22,10 @@ public enum Messages {
     EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
     EMPTY_HAND("EmptyHandMessage"),
     BAD_CARD_SELECTION("BadCardSelectionMessage"),
-    CHOOSE_LANGUAGE("ChooseLanguageMessage");
+    CHOOSE_LANGUAGE("ChooseLanguageMessage"),
+    SWITCH_TO_CAT_MODE("SwitchToCatModeMessage"),
+    SWITCH_TO_NORMAL_MODE("SwitchToNormalModeMessage"),
+
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
