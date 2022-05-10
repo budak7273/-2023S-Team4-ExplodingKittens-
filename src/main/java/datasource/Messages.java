@@ -38,7 +38,7 @@ public enum Messages {
     DRAW_FROM_THE_BOTTOM("DrawFromTheBottom"),
     NOPE("Nope"),
     ALTER_THE_FUTURE("AlterTheFuture"),
-    TARGETED_ATTACK("Targeted Attack"),
+    TARGETED_ATTACK("TargetedAttack"),
     SEE_THE_FUTURE("SeeTheFuture");
 
     private static Locale currentLocation = Locale.ENGLISH;
