@@ -39,7 +39,25 @@ public enum Messages {
     NOPE("Nope"),
     ALTER_THE_FUTURE("AlterTheFuture"),
     TARGETED_ATTACK("TargetedAttack"),
-    SEE_THE_FUTURE("SeeTheFuture");
+    SEE_THE_FUTURE("SeeTheFuture"),
+    ATTACK_DESC("AttackDesc"),
+    EXPLODING_DESC("ExplodingDesc"),
+    DEFUSE_DESC("DefuseDesc"),
+    SKIP_DESC("SkipDesc"),
+    FAVOR_DESC("FavorDesc"),
+    SHUFFLE_DESC("ShuffleDesc"),
+    BEARD_CAT_DESC("BeardCatDesc"),
+    TACO_CAT_DESC("TacoCatDesc"),
+    HAIRY_POTATO_CAT_DESC("HairyPotatoDesc"),
+    RAINBOW_CAT_DESC("RainbowDesc"),
+    CATTERMELON_DESC("CattermelonDesc"),
+    FERAL_CAT_DESC("FeralCatDesc"),
+    DRAW_FROM_BOTTOM_DESC("DrawFromBottomDesc"),
+    NOPE_DESC("NopeDesc"),
+    ALTER_DESC("AlterDesc"),
+    TARGETED_ATTACK_DESC("TargetedAttackDesc"),
+    SEE_DESC("SeeTheFutureDesc");
+
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
