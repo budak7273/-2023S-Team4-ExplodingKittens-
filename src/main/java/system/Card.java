@@ -2,6 +2,7 @@ package system;
 
 import datasource.CardType;
 import datasource.Messages;
+import system.cardEffects.*;
 
 public class Card {
     private CardType cardType;
@@ -19,7 +20,6 @@ public class Card {
     public CardType getType() {
         return this.cardType;
     }
-
 
     @Override
     public boolean equals(Object o) {
