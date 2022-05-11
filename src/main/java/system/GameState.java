@@ -61,7 +61,8 @@ public class GameState {
     }
 
     public void alterTheFuture() {
-
+        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
+        gamePlayer.editFutureCards(futureCards);
     }
 
     public void returnFutureCards(List<Card> future) {

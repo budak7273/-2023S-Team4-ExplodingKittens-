@@ -83,6 +83,10 @@ public class GamePlayer {
         gameFrame.repaint();
     }
 
+    public void editFutureCards(List<Card> future) {
+
+    }
+
     public void buildGameView() {
         final int frameWidth = 1000;
         final int frameHeight = 500;
