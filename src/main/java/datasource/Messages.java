@@ -56,8 +56,8 @@ public enum Messages {
     NOPE_DESC("NopeDesc"),
     ALTER_DESC("AlterDesc"),
     TARGETED_ATTACK_DESC("TargetedAttackDesc"),
-    SEE_DESC("SeeTheFutureDesc");
-
+    SEE_DESC("SeeTheFutureDesc"),
+    EMPTY_DESC("Empty");
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;

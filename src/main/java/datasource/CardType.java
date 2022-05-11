@@ -26,7 +26,7 @@ public enum CardType {
         this.displayName = displayNameStr;
     }
     public static Messages getDescription(CardType type) {
-        switch(type){
+        switch (type){
             case ALTER_THE_FUTURE:
                 return Messages.ALTER_DESC;
             case TARGETED_ATTACK:
@@ -61,8 +61,9 @@ public enum CardType {
                 return Messages.DRAW_FROM_BOTTOM_DESC;
             case RAINBOW_RALPHING_CAT:
                 return Messages.RAINBOW_CAT_DESC;
+            default:
+                return Messages.EMPTY_DESC;
         }
-        return Messages.COULD_NOT_CREATE;
     }
 
     @Override

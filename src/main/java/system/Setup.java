@@ -81,6 +81,7 @@ public class Setup {
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {
+
         return new DrawDeck(cardList);
     }
 
@@ -104,7 +105,8 @@ public class Setup {
 
     public void shuffleExplodingKittensInDeck(DrawDeck deck) {
         for (int i = 0; i < numOfPlayers - 1; i++) {
-            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN, Messages.EXPLODING_DESC));
+            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN,
+                    Messages.EXPLODING_DESC));
         }
         deck.shuffle();
     }

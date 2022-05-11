@@ -45,7 +45,7 @@ public class UserIntegrationTesting {
     @Test
     public void testUserConstructorHandWithOneCardIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertEquals(list, user.getHand());
@@ -56,8 +56,8 @@ public class UserIntegrationTesting {
     @Test
     public void testUserConstructorHandWithMultipleCardIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card2 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -78,7 +78,7 @@ public class UserIntegrationTesting {
     @Test
     public void testCheckForSpecialEffectPotentialOneCardIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
@@ -374,7 +374,7 @@ public class UserIntegrationTesting {
             } else if (i < hairPotatoNumber) {
                 list.add(new Card(CardType.HAIRY_POTATO_CAT, Messages.HAIRY_POTATO_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK));
+                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
             }
         }
         final int falseAdd = 3;
@@ -392,9 +392,9 @@ public class UserIntegrationTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT, Messages.RAINBOW_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK));
+                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();

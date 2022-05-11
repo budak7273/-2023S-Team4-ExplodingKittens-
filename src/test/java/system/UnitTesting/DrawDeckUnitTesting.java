@@ -50,7 +50,7 @@ public class DrawDeckUnitTesting {
     @Test
     public void testShuffleOnDeckOfOneCard() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card card = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         deck.addCardToTop(card);
         deck.shuffle();
 
@@ -61,8 +61,8 @@ public class DrawDeckUnitTesting {
     @Test
     public void testShuffleOnDeckOfMultipleCards() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card card1 = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ATTACK);
+        Card card1 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card2 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
         deck.addCardToTop(card1);
         deck.addCardToTop(card2);
         deck.shuffle();
@@ -151,7 +151,7 @@ public class DrawDeckUnitTesting {
         Card second = EasyMock.createMock(Card.class);
         Card third = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
         deck.addCardToTop(third);
         deck.addCardToTop(second);
         deck.addCardToTop(first);

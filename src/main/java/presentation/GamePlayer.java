@@ -80,6 +80,7 @@ public class GamePlayer {
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+
                 gameState.drawCardForCurrentTurn();
             }
         });
@@ -132,8 +133,8 @@ public class GamePlayer {
     }
 
     private JButton createCardImage(String name, String desc) {
-        final int cardWidth = 75;
-        final int cardHeight = 80;
+        final int cardWidth = 150;
+        final int cardHeight = 160;
         JButton cardImage = new JButton();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));

@@ -32,7 +32,7 @@ public class CardCSVParser {
 
             CardType cardType = CardType.valueOf(cardTypeName);
             Messages description = CardType.getDescription(cardType);
-            Card card = new Card(cardType, description );
+            Card card = new Card(cardType, description);
 
             if (includePaw
                     && Boolean.parseBoolean(cardProperties[1])) {
