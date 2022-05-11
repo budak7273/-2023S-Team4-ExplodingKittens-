@@ -74,13 +74,14 @@ public class Setup {
             numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
-            cardList.add(new Card(CardType.DEFUSE));
+            cardList.add(new Card(CardType.DEFUSE, Messages.DEFUSE_DESC));
         }
 
         return cardList;
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {
+
         return new DrawDeck(cardList);
     }
 
@@ -94,7 +95,7 @@ public class Setup {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawCard(user);
             }
-            user.addCard(new Card(CardType.DEFUSE));
+            user.addCard(new Card(CardType.DEFUSE, Messages.DEFUSE_DESC));
         }
     }
 
@@ -104,7 +105,8 @@ public class Setup {
 
     public void shuffleExplodingKittensInDeck(DrawDeck deck) {
         for (int i = 0; i < numOfPlayers - 1; i++) {
-            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
+            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN,
+                    Messages.EXPLODING_DESC));
         }
         deck.shuffle();
     }
