@@ -1,6 +1,7 @@
 package system;
 
 import datasource.CardType;
+import system.cardEffects.*;
 
 public class Card {
     private CardType cardType;
