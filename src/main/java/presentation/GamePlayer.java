@@ -19,7 +19,7 @@ public class GamePlayer {
     private final JFrame gameFrame = new JFrame();
 
     /**Panel that displays cards to be viewed, selected and edited.*/
-    private JPanel selectionPanel = new JPanel();
+    private NotificationPanel notificationPanel = new NotificationPanel(this);
 
     /**
      * Local storage of the game's current state.
@@ -43,43 +43,7 @@ public class GamePlayer {
     }
 
     public void displayFutureCards(List<Card> future) {
-        final int button_width = 150;
-        final int button_height = 50;
-
-        JPanel futurePanel = new JPanel();
-        futurePanel.setLayout(new GridLayout(2, 1));
-        JPanel futureCardPanel = new JPanel();
-        futureCardPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        JPanel futureClose = new JPanel();
-        futureClose.setLayout(new FlowLayout());
-
-        for (int i = 0; i < future.size(); i++) {
-            Card topCard = future.get(i);
-            JButton futureCard = createCardImage(
-                    topCard.getName(), i + "");
-            futureCardPanel.add(futureCard);
-        }
-        JButton exit = new JButton(
-                "<html><center>Done</center></html>");
-        exit.setPreferredSize(new Dimension(button_width, button_height));
-        exit.setBackground(Color.GRAY);
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (futurePanel.getParent().equals(selectionPanel)) {
-                    selectionPanel.remove(futurePanel);
-                    gameFrame.repaint();
-                }
-
-                gameState.returnFutureCards(future);
-            }
-        });
-        futureClose.add(exit);
-
-        futurePanel.add(futureCardPanel);
-        futurePanel.add(futureClose);
-
-        selectionPanel.add(futurePanel);
+        notificationPanel.seeTheFuture(future);
         gameFrame.repaint();
     }
 
@@ -87,9 +51,15 @@ public class GamePlayer {
 
     }
 
+    public void returnFutureCards(List<Card> future) {
+        gameState.returnFutureCards(future);
+        gameFrame.repaint();
+    }
+
     public void buildGameView() {
         final int frameWidth = 1000;
         final int frameHeight = 500;
+
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
@@ -233,27 +203,28 @@ public class GamePlayer {
     }
 
     private JPanel generateTableAreaDisplayPanel() {
-        selectionPanel = new JPanel();
-        selectionPanel.setLayout(new BorderLayout());
+        JPanel tableAreaDisplayPanel = new JPanel();
+        tableAreaDisplayPanel.setLayout(new BorderLayout());
         JButton deckButton = createDeckImage(
                 this.gameState.getDeckSizeForCurrentTurn() + "");
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 selectedCards.clear();
-
+                notificationPanel.removeAll();
                 gameState.drawCardForCurrentTurn();
             }
         });
         JButton discardPile = createCardImage("Top Card",
                 "");
-        selectionPanel.add(discardPile, BorderLayout.WEST);
-        selectionPanel.add(deckButton, BorderLayout.EAST);
+        tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
+        tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
 
         JPanel playerSelectionPanel = generatePlayerSelectionPanel();
-        selectionPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
+        tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
+        tableAreaDisplayPanel.add(notificationPanel);
 
-        return selectionPanel;
+        return tableAreaDisplayPanel;
     }
 
     private void generatePlayerDeckCardsPanel(JPanel p, String layout) {
@@ -317,7 +288,7 @@ public class GamePlayer {
         return deckImage;
     }
 
-    private JButton createCardImage(String name, String desc) {
+    protected JButton createCardImage(String name, String desc) {
         final int cardWidth = 150;
         final int cardHeight = 160;
         JButton cardImage = new JButton();
