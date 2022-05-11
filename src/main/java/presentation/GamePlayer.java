@@ -18,6 +18,9 @@ public class GamePlayer {
      */
     private final JFrame gameFrame = new JFrame();
 
+    /**Panel that displays cards to be viewed, selected and edited.*/
+    private JPanel selectionPanel = new JPanel();
+
     /**
      * Local storage of the game's current state.
      */
@@ -40,25 +43,44 @@ public class GamePlayer {
     }
 
     public void displayFutureCards(List<Card> future) {
-        JPanel popupPanel = new JPanel();
+        final int button_width = 150;
+        final int button_height = 50;
+
+        JPanel futurePanel = new JPanel();
+        futurePanel.setLayout(new GridLayout(2, 1));
+        JPanel futureCardPanel = new JPanel();
+        futureCardPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        JPanel futureClose = new JPanel();
+        futureClose.setLayout(new FlowLayout());
+
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
             JButton futureCard = createCardImage(
                     topCard.getName(), i + "");
-            popupPanel.add(futureCard);
+            futureCardPanel.add(futureCard);
         }
         JButton exit = new JButton(
-                "<html><center>Draw Deck <br> Done </center></html>");
+                "<html><center>Done</center></html>");
+        exit.setPreferredSize(new Dimension(button_width, button_height));
         exit.setBackground(Color.GRAY);
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (futurePanel.getParent().equals(selectionPanel)) {
+                    selectionPanel.remove(futurePanel);
+                    gameFrame.repaint();
+                }
+
                 gameState.returnFutureCards(future);
             }
         });
-        popupPanel.add(exit, BorderLayout.CENTER);
+        futureClose.add(exit);
 
-        gameFrame.add(popupPanel, BorderLayout.CENTER);
+        futurePanel.add(futureCardPanel);
+        futurePanel.add(futureClose);
+
+        selectionPanel.add(futurePanel);
+        gameFrame.repaint();
     }
 
     public void buildGameView() {
@@ -79,6 +101,7 @@ public class GamePlayer {
         gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.setVisible(true);
+        gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private JPanel generatePlayerSelectionPanel() {
@@ -206,8 +229,8 @@ public class GamePlayer {
     }
 
     private JPanel generateTableAreaDisplayPanel() {
-        JPanel tableAreaDisplayPanel = new JPanel();
-        tableAreaDisplayPanel.setLayout(new BorderLayout());
+        selectionPanel = new JPanel();
+        selectionPanel.setLayout(new BorderLayout());
         JButton deckButton = createDeckImage(
                 this.gameState.getDeckSizeForCurrentTurn() + "");
         deckButton.addActionListener(new ActionListener() {
@@ -220,13 +243,13 @@ public class GamePlayer {
         });
         JButton discardPile = createCardImage("Top Card",
                 "");
-        tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
-        tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
+        selectionPanel.add(discardPile, BorderLayout.WEST);
+        selectionPanel.add(deckButton, BorderLayout.EAST);
 
         JPanel playerSelectionPanel = generatePlayerSelectionPanel();
-        tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
+        selectionPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
 
-        return tableAreaDisplayPanel;
+        return selectionPanel;
     }
 
     private void generatePlayerDeckCardsPanel(JPanel p, String layout) {
