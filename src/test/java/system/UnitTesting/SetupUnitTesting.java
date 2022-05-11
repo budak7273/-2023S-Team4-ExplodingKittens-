@@ -1,6 +1,7 @@
 package system.UnitTesting;
 
 import datasource.CardType;
+import datasource.Messages;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -243,8 +244,8 @@ public class SetupUnitTesting {
                 .andReturn(false)
                 .times(INITIAL_HAND_SIZE);
 
-        player1.addCard(eq(new Card(CardType.DEFUSE)));
-        player2.addCard(eq(new Card(CardType.DEFUSE)));
+        player1.addCard(eq(new Card(CardType.DEFUSE, Messages.DEFUSE_DESC)));
+        player2.addCard(eq(new Card(CardType.DEFUSE, Messages.DEFUSE_DESC)));
         EasyMock.replay(player1, player2, drawDeck);
 
         Queue<User> users = new LinkedList<>();
@@ -269,7 +270,7 @@ public class SetupUnitTesting {
             EasyMock.expect(drawDeck.drawCard(user))
                     .andReturn(false)
                     .times(INITIAL_HAND_SIZE);
-            user.addCard(eq(new Card(CardType.DEFUSE)));
+            user.addCard(eq(new Card(CardType.DEFUSE, Messages.DEFUSE_DESC)));
         }
 
         for (User user : users) {
@@ -307,7 +308,7 @@ public class SetupUnitTesting {
             Setup setup = new Setup(playerCount);
             DrawDeck deck = EasyMock.createMock(DrawDeck.class);
 
-            deck.addCardToTop(eq(new Card(CardType.EXPLODING_KITTEN)));
+            deck.addCardToTop(eq(new Card(CardType.EXPLODING_KITTEN, Messages.EXPLODING_DESC)));
             EasyMock.expectLastCall().times(playerCount - 1);
             deck.shuffle();
             EasyMock.expectLastCall();

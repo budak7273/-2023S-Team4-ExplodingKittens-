@@ -214,6 +214,7 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 selectedCards.clear();
+
                 gameState.drawCardForCurrentTurn();
             }
         });
@@ -241,7 +242,7 @@ public class GamePlayer {
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getUserForCurrentTurn().getHand()) {
-            JButton cardLayout = createCardImage(card.getName(), "");
+            JButton cardLayout = createCardImage(card.getName(), card.getDesc());
             cardLayout.getPreferredSize();
             cardLayout.addActionListener(new ActionListener() {
                 @Override
@@ -290,8 +291,8 @@ public class GamePlayer {
     }
 
     private JButton createCardImage(String name, String desc) {
-        final int cardWidth = 75;
-        final int cardHeight = 80;
+        final int cardWidth = 150;
+        final int cardHeight = 160;
         JButton cardImage = new JButton();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
