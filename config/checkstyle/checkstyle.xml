@@ -59,7 +59,6 @@
     <!-- See https://checkstyle.org/config_sizes.html -->
     <module name="FileLength"/>
     <module name="LineLength">
-        <property name="max" value="120"/>
         <property name="fileExtensions" value="java"/>
     </module>
 

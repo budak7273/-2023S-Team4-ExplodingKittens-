@@ -25,6 +25,9 @@ public enum Messages {
     CHOOSE_LANGUAGE("ChooseLanguageMessage"),
     SWITCH_TO_CAT_MODE("SwitchToCatModeMessage"),
     SWITCH_TO_NORMAL_MODE("SwitchToNormalModeMessage"),
+    WRONG_SELECTION_NORMAL_MODE("WrongSelectionNormalModeMessage"),
+    CAT_SELECTION_NORMAL_MODE("CatSelectionNormalModeMessage");
+
 
 
     private static Locale currentLocation = Locale.ENGLISH;

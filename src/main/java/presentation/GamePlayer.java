@@ -125,36 +125,47 @@ public class GamePlayer {
                 if (catMode) {
                     System.out.println("CatMode.");
                 } else {
-                    if (selectedCards.size() != 1) {
-                        String infoMessage = "You cannot select multiple or no cards at the time.";
+                    handleSelectedCardsInNormalMode();
+                }
+
+            }
+
+            private void handleSelectedCardsInNormalMode() {
+                if (selectedCards.size() != 1) {
+                    String infoMessage = Messages.getMessage(
+                            Messages.WRONG_SELECTION_NORMAL_MODE);
+                    String titleBar = "Warning";
+                    JOptionPane.showMessageDialog(null, infoMessage,
+                            "InfoBox: " + titleBar,
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    Card card = selectedCards.get(0);
+
+                    if (card.isCatCard()) {
+                        String infoMessage = Messages.getMessage(
+                                Messages.CAT_SELECTION_NORMAL_MODE);
                         String titleBar = "Warning";
-                        JOptionPane.showMessageDialog(null, infoMessage,
+                        JOptionPane.showMessageDialog(null,
+                                infoMessage,
                                 "InfoBox: " + titleBar,
                                 JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        Card card = selectedCards.get(0);
-
-                        if (card.isCatCard()) {
-                            String infoMessage = "You cannot select a single cat card in normal mode.";
-                            String titleBar = "Warning";
-                            JOptionPane.showMessageDialog(null,
-                                    infoMessage,
-                                    "InfoBox: " + titleBar,
-                                    JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            if (card.getType().getEffectPattern() != null) {
-                                card.getType().getEffectPattern().useEffect(gameState);
-                                gameState.getUserForCurrentTurn().removeCard(card);
-                                System.out.println(selectedCards.get(0).getName() + " is removed from hand after use.");
-                                generatePlayerDeckCardsPanel(playerDeckDisplayPanel, BorderLayout.CENTER);
-                                displayCards.get(card).setVisible(false);
-                                selectedCards.clear();
-                                gameFrame.validate();
-                                gameFrame.repaint();
-                            }
+                        if (card.getType().getEffectPattern() != null) {
+                            card.getType().getEffectPattern()
+                                    .useEffect(gameState);
+                            gameState.getUserForCurrentTurn()
+                                    .removeCard(card);
+                            System.out.println(selectedCards
+                                    .get(0).getName()
+                                    + " is removed from hand after use.");
+                            generatePlayerDeckCardsPanel(
+                                    playerDeckDisplayPanel,
+                                    BorderLayout.CENTER);
+                            displayCards.get(card).setVisible(false);
+                            selectedCards.clear();
+                            gameFrame.validate();
+                            gameFrame.repaint();
                         }
-
-
                     }
                 }
             }
@@ -167,9 +178,13 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-                    modeButton.setText(Messages.getMessage(Messages.SWITCH_TO_CAT_MODE));
+                    modeButton.setText(
+                            Messages.getMessage(
+                                    Messages.SWITCH_TO_CAT_MODE));
                 } else {
-                    modeButton.setText(Messages.getMessage(Messages.SWITCH_TO_NORMAL_MODE));
+                    modeButton.setText(
+                            Messages.getMessage(
+                                    Messages.SWITCH_TO_NORMAL_MODE));
                 }
                 catMode = !catMode;
             }
@@ -253,7 +268,9 @@ public class GamePlayer {
     private JPanel generatePlayerDeckDisplayPanel() {
         playerDeckDisplayPanel = new JPanel();
 
-        this.generatePlayerDeckCardsPanel(playerDeckDisplayPanel, BorderLayout.CENTER);
+        this.generatePlayerDeckCardsPanel(
+                playerDeckDisplayPanel,
+                BorderLayout.CENTER);
 
         return playerDeckDisplayPanel;
     }
