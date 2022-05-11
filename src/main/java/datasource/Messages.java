@@ -26,9 +26,24 @@ public enum Messages {
     SWITCH_TO_CAT_MODE("SwitchToCatModeMessage"),
     SWITCH_TO_NORMAL_MODE("SwitchToNormalModeMessage"),
     WRONG_SELECTION_NORMAL_MODE("WrongSelectionNormalModeMessage"),
-    CAT_SELECTION_NORMAL_MODE("CatSelectionNormalModeMessage");
-
-
+    CAT_SELECTION_NORMAL_MODE("CatSelectionNormalModeMessage"),
+    ATTACK_CARD("AttackCard"),
+    EXPLODING_KITTEN_CARD("ExplodingKitten"),
+    DEFUSE_CARD("Defuse"),
+    SKIP_CARD("Skip"),
+    FAVOR_CARD("Favor"),
+    SHUFFLE_CARD("Shuffle"),
+    BEARD_CAT_CARD("BeardCat"),
+    TACO_CAT_CARD("TacoCat"),
+    HAIRY_POTATO_CAT("HairyPotatoCat"),
+    RAINBOW_RALPHING_CAT("RainbowRalphingCat"),
+    CATTERMELON("Cattermelon"),
+    FERAL_CAT("FeralCat"),
+    DRAW_FROM_THE_BOTTOM("DrawFromTheBottom"),
+    NOPE("Nope"),
+    ALTER_THE_FUTURE("AlterTheFuture"),
+    TARGETED_ATTACK("TargetedAttack"),
+    SEE_THE_FUTURE("SeeTheFuture");
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
