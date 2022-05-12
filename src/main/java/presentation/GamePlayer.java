@@ -44,11 +44,10 @@ public class GamePlayer {
 
     public void displayFutureCards(List<Card> future) {
         notificationPanel.seeTheFuture(future);
-        gameFrame.repaint();
     }
 
     public void editFutureCards(List<Card> future) {
-
+        notificationPanel.alterTheFuture(future);
     }
 
     public void returnFutureCards(List<Card> future) {
@@ -56,9 +55,13 @@ public class GamePlayer {
         gameFrame.repaint();
     }
 
+    public void updateDisplay() {
+        gameFrame.revalidate();
+    }
+
     public void buildGameView() {
-        final int frameWidth = 1000;
-        final int frameHeight = 500;
+        final int frameWidth = 1300;
+        final int frameHeight = 800;
 
         gameFrame.getContentPane().removeAll();
         JPanel userDisplayPanel = generateUserDisplayPanel();
