@@ -85,9 +85,11 @@ public class DrawDeckUnitTesting {
     @Test
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE, Messages.ALTER_DESC);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE,
+                Messages.ALTER_DESC);
         deck.addCardToTop(bottomCard);
-        Card topCard = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card topCard = new Card(CardType.ATTACK,
+                Messages.ATTACK_DESC);
         deck.addCardToTop(topCard);
 
         User user = EasyMock.createMock(User.class);
@@ -171,11 +173,12 @@ public class DrawDeckUnitTesting {
     @Test
     public void testAddCardToTop() {
         Card second = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.class)
-                .withArgs(CardType.ATTACK).createMock();
+                .withConstructor(CardType.class, Messages.class)
+                .withArgs(CardType.ATTACK, Messages.ATTACK_DESC).createMock();
         Card first = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.class)
-                .withArgs(CardType.ALTER_THE_FUTURE).createMock();
+                .withConstructor(CardType.class, Messages.class)
+                .withArgs(CardType.ALTER_THE_FUTURE,
+                        Messages.ALTER_THE_FUTURE).createMock();
         EasyMock.replay(second, first);
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
@@ -192,7 +195,8 @@ public class DrawDeckUnitTesting {
 
     @Test
     public void testDrawCardWithExplodingKitten() {
-        Card kitten = new Card(CardType.EXPLODING_KITTEN, Messages.EXPLODING_DESC);
+        Card kitten = new Card(CardType.EXPLODING_KITTEN,
+                Messages.EXPLODING_DESC);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);
@@ -208,7 +212,8 @@ public class DrawDeckUnitTesting {
 
     @Test
     public void testDrawBottomCardWithExplodingKitten() {
-        Card kitten = new Card(CardType.EXPLODING_KITTEN, Messages.EXPLODING_DESC);
+        Card kitten = new Card(CardType.EXPLODING_KITTEN,
+                Messages.EXPLODING_DESC);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);

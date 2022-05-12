@@ -82,4 +82,16 @@ public class CardEffectUnitTesting {
 
         EasyMock.verify(gameState);
     }
+
+    @Test
+    public void testAlterTheFuture() {
+        EffectPattern alterEffect = new AlterTheFutureEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.alterTheFuture();
+        EasyMock.replay(gameState);
+
+        alterEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
 }

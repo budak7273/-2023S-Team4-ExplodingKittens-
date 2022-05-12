@@ -60,6 +60,11 @@ public class GameState {
         gamePlayer.displayFutureCards(futureCards);
     }
 
+    public void alterTheFuture() {
+        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
+        gamePlayer.editFutureCards(futureCards);
+    }
+
     public void returnFutureCards(List<Card> future) {
         for (int i = 2; i >= 0; i--) {
             Card replace = future.get(i);

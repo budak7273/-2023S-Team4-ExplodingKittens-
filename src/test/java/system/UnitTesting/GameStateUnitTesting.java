@@ -337,6 +337,30 @@ public class GameStateUnitTesting {
     }
 
     @Test
+    public void testAlterTheFuture() {
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User();
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+
+        List<Card> future = EasyMock.createMock(ArrayList.class);
+        EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(future);
+
+        gameboard.editFutureCards(future);
+        EasyMock.replay(gameboard, drawDeck, future);
+
+        gameState.alterTheFuture();
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
+
+        EasyMock.verify(gameboard, drawDeck, future);
+    }
+
+    @Test
     public void testReturnFutureCards() {
         Queue<User> userQueue = new LinkedList<User>();
         User currentUser = new User();
