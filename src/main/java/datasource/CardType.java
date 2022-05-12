@@ -32,7 +32,10 @@ public enum CardType {
 
     public EffectPattern getEffectPattern() {
         switch (this) {
+            case TARGETED_ATTACK:
             case ATTACK:
+                this.effectPattern = new AttackEffect();
+                break;
             case EXPLODING_KITTEN:
 
             case DEFUSE:
@@ -57,9 +60,10 @@ public enum CardType {
             case NOPE:
             case ALTER_THE_FUTURE:
                 this.effectPattern = new AlterTheFutureEffect();
-            case TARGETED_ATTACK:
+                break;
             case SEE_THE_FUTURE:
                 this.effectPattern = new SeeTheFutureEffect();
+                break;
             default:
         }
 
