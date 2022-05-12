@@ -119,8 +119,10 @@ public class UserUnitTesting {
     @Test
     public void testCheckForSpecialEffectPotentialTwoCatCardsNotMatching() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.HAIRY_POTATO_CAT, Messages.HAIRY_POTATO_CAT_DESC);
-        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
+        Card card = new Card(CardType.HAIRY_POTATO_CAT,
+                Messages.HAIRY_POTATO_CAT_DESC);
+        Card card2 = new Card(CardType.CATTERMELON,
+                Messages.CATTERMELON_DESC);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -157,9 +159,11 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == minCattermelonCount || i == maxCattermelonCount) {
-                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON,
+                        Messages.CATTERMELON_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK,
+                        Messages.ATTACK_DESC));
             }
         }
         User user = new User("test1", false, list);
@@ -175,10 +179,12 @@ public class UserUnitTesting {
         final int tacoCatSecondNumber = 118;
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == feralCatNumber) {
-                list.add(new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT,
+                        Messages.FERAL_CAT_DESC));
             }
             if (i == hairyPotatoNumber) {
-                list.add(new Card(CardType.HAIRY_POTATO_CAT, Messages.HAIRY_POTATO_CAT_DESC));
+                list.add(new Card(CardType.HAIRY_POTATO_CAT,
+                        Messages.HAIRY_POTATO_CAT_DESC));
             }
             if (i == tacoCatFirstNumber || i == tacoCatSecondNumber) {
                 list.add(new Card(CardType.TACO_CAT, Messages.TACO_CAT_DESC));
@@ -195,9 +201,11 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i % 2 == 0) {
-                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON,
+                        Messages.CATTERMELON_DESC));
             } else {
-                list.add(new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT,
+                        Messages.FERAL_CAT_DESC));
             }
         }
         User user = new User("test1", false, list);
@@ -268,8 +276,10 @@ public class UserUnitTesting {
     public void
     testVerifyEffectForCardsSelectedSize2HandSelectNonMatchingCat() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.RAINBOW_RALPHING_CAT, Messages.RAINBOW_CAT_DESC));
-        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+        list.add(new Card(CardType.RAINBOW_RALPHING_CAT,
+                Messages.RAINBOW_CAT_DESC));
+        list.add(new Card(CardType.CATTERMELON,
+                Messages.CATTERMELON_DESC));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -307,11 +317,14 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON,
+                        Messages.CATTERMELON_DESC));
             } else if (i == 1) {
-                list.add(new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT,
+                        Messages.FERAL_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK,
+                        Messages.ATTACK_DESC));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();
@@ -327,11 +340,14 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON,
+                        Messages.CATTERMELON_DESC));
             } else if (i == 1) {
-                list.add(new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT,
+                        Messages.FERAL_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK,
+                        Messages.ATTACK_DESC));
             }
         }
         final int falseAdd = 3;
@@ -350,11 +366,14 @@ public class UserUnitTesting {
         final int hairPotatoNumber = 6;
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT, Messages.RAINBOW_CAT_DESC));
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT,
+                        Messages.RAINBOW_CAT_DESC));
             } else if (i < hairPotatoNumber) {
-                list.add(new Card(CardType.HAIRY_POTATO_CAT, Messages.HAIRY_POTATO_CAT_DESC));
+                list.add(new Card(CardType.HAIRY_POTATO_CAT,
+                        Messages.HAIRY_POTATO_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK,
+                        Messages.ATTACK_DESC));
             }
         }
         final int falseAdd = 3;
@@ -371,9 +390,11 @@ public class UserUnitTesting {
         final int rainbowRaphNumber = 3;
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT, Messages.RAINBOW_CAT_DESC));
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT,
+                        Messages.RAINBOW_CAT_DESC));
             } else {
-                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK,
+                        Messages.ATTACK_DESC));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();

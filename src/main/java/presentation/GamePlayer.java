@@ -243,7 +243,8 @@ public class GamePlayer {
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getUserForCurrentTurn().getHand()) {
-            JButton cardLayout = createCardImage(card.getName(), card.getDesc());
+            JButton cardLayout = createCardImage(card.getName(),
+                                                 card.getDesc());
             cardLayout.getPreferredSize();
             cardLayout.addActionListener(new ActionListener() {
                 @Override

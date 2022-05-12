@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class NotificationPanel extends JPanel {
@@ -16,8 +15,8 @@ public class NotificationPanel extends JPanel {
     private JButton exit;
     private GamePlayer gamePlayer;
     private JPanel cardPanel;
-    final int button_width = 150;
-    final int button_height = 50;
+    private static final int BUTTON_WIDTH = 150;
+    private static final int BUTTON_HEIGHT = 50;
 
     public NotificationPanel(GamePlayer board) {
         super();
@@ -29,7 +28,7 @@ public class NotificationPanel extends JPanel {
 
     public void seeTheFuture(List<Card> future) {
         cardPanel.removeAll();
-        if (cardPanel != null && !this.isAncestorOf(cardPanel)) {
+        if (!this.isAncestorOf(cardPanel)) {
             this.add(cardPanel);
         }
 
@@ -51,7 +50,7 @@ public class NotificationPanel extends JPanel {
 
     public void alterTheFuture(List<Card> future) {
         cardPanel.removeAll();
-        if (cardPanel != null && !this.isAncestorOf(cardPanel)) {
+        if (!this.isAncestorOf(cardPanel)) {
             this.add(cardPanel);
         }
         cardOrder.clear();
@@ -62,7 +61,7 @@ public class NotificationPanel extends JPanel {
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
-                Card card = topCard;
+                private Card card = topCard;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (selected != null) {
@@ -89,7 +88,7 @@ public class NotificationPanel extends JPanel {
     private void generateExitButton(String message) {
         exit = new JButton(
                 "<html><center>" + message + "</center></html>");
-        exit.setPreferredSize(new Dimension(button_width, button_height));
+        exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         exit.setBackground(Color.GRAY);
         exit.addActionListener(new ActionListener() {
             @Override

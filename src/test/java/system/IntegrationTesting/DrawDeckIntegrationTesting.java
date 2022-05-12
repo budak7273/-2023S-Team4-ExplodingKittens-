@@ -112,9 +112,11 @@ public class DrawDeckIntegrationTesting {
     public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE, Messages.ALTER_DESC);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE,
+                Messages.ALTER_DESC);
         deck.addCardToTop(bottomCard);
-        deck.addCardToTop(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        deck.addCardToTop(new Card(CardType.ATTACK,
+                Messages.ATTACK_DESC));
 
 
         User user = new User("TestPlayer");

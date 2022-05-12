@@ -16,7 +16,8 @@ public class CardTesting {
     @Test
     public void testEqualsDifferentType() {
         Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
-        Object otherObj = new Card(CardType.ALTER_THE_FUTURE, Messages.ALTER_DESC);
+        Object otherObj = new Card(CardType.ALTER_THE_FUTURE,
+                Messages.ALTER_DESC);
         Assertions.assertFalse(card.equals(otherObj));
     }
 

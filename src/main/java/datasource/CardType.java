@@ -70,7 +70,7 @@ public enum CardType {
         return this.effectPattern;
     }
     public static Messages getDescription(CardType type) {
-        switch (type){
+        switch (type) {
             case ALTER_THE_FUTURE:
                 return Messages.ALTER_DESC;
             case TARGETED_ATTACK:
