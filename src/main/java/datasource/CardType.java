@@ -56,6 +56,7 @@ public enum CardType {
                 break;
             case NOPE:
             case ALTER_THE_FUTURE:
+                this.effectPattern = new AlterTheFutureEffect();
             case TARGETED_ATTACK:
             case SEE_THE_FUTURE:
                 this.effectPattern = new SeeTheFutureEffect();
