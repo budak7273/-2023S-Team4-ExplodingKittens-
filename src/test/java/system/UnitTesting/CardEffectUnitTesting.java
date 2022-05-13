@@ -1,5 +1,6 @@
 package system.UnitTesting;
 
+import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,8 @@ public class CardEffectUnitTesting {
     public void testSkip() {
         EffectPattern skipEffect = new SkipEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.removeCardFromCurrentUser(CardType.SKIP);
+        EasyMock.expectLastCall();
         gameState.transitionToNextTurn();
         EasyMock.expectLastCall();
         EasyMock.replay(gameState);

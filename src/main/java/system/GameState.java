@@ -122,4 +122,7 @@ public class GameState {
     public int getExtraTurnCountForCurrentUser() {
         return extraTurnsForCurrentUser;
     }
+
+    public void removeCardFromCurrentUser(CardType type) {
+    }
 }
