@@ -39,8 +39,9 @@ public class GamePlayer {
         this.gameState = currentGameState;
     }
 
-    public void revalidateFrame() {
+    public void updateDisplay() {
         gameFrame.revalidate();
+        gameFrame.repaint();
     }
 
     public void buildGameView() {
@@ -285,7 +286,18 @@ public class GamePlayer {
 
     public void returnFutureCards(List<Card> future) {
         gameState.returnFutureCards(future);
-        gameFrame.repaint();
+    }
+
+    public void explosionNotification(boolean victimState) {
+        String deathMessage;
+
+        if (victimState) {
+            deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+        } else {
+            deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
+        }
+
+        notificationPanel.notifyPlayers(deathMessage, "rip");
     }
 
     /**
