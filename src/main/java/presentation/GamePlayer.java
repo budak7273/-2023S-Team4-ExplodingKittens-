@@ -199,7 +199,7 @@ public class GamePlayer {
                     return;
                 }
 
-                card.getType().getEffectPattern().useEffect(gameState);
+                card.activateEffect(gameState);
                 playerDeckDisplayPanel =
                         generatePlayerDeckCardsPanel(BorderLayout.CENTER);
                 displayCards.get(card).setVisible(false);

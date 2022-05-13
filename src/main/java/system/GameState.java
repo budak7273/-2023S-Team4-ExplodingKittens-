@@ -48,9 +48,6 @@ public class GameState {
 
     public void drawFromBottom() {
         User currentUser = getUserForCurrentTurn();
-        CardType type = CardType.DRAW_FROM_THE_BOTTOM;
-        Messages desc = Messages.DRAW_FROM_BOTTOM_DESC;
-        currentUser.removeCard(new Card(type, desc));
         drawDeck.drawFromBottomForUser(currentUser);
         transitionToNextTurn();
     }
