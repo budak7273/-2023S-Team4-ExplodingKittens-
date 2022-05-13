@@ -165,52 +165,47 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-                    System.out.println("CatMode.");
+                    String msg = "TODO: Implement handleSelectedCardsInCatMode";
+                    System.out.println(msg);
                 } else {
                     handleSelectedCardsInNormalMode();
                 }
-
             }
 
             private void handleSelectedCardsInNormalMode() {
                 if (selectedCards.size() != 1) {
                     String infoMessage = Messages.getMessage(
                             Messages.WRONG_SELECTION_NORMAL_MODE);
-                    String titleBar = "Warning";
-                    JOptionPane.showMessageDialog(null, infoMessage,
-                            "InfoBox: " + titleBar,
+                    String titleBar = "InfoBox: Warning";
+                    JOptionPane.showMessageDialog(null,
+                            infoMessage, titleBar,
                             JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    Card card = selectedCards.get(0);
-
-                    if (card.isCatCard()) {
-                        String infoMessage = Messages.getMessage(
-                                Messages.CAT_SELECTION_NORMAL_MODE);
-                        String titleBar = "Warning";
-                        JOptionPane.showMessageDialog(null,
-                                infoMessage,
-                                "InfoBox: " + titleBar,
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        if (card.getType().getEffectPattern() != null) {
-                            card.getType().getEffectPattern()
-                                    .useEffect(gameState);
-                            gameState.getUserForCurrentTurn()
-                                    .removeCard(card);
-                            System.out.println(selectedCards
-                                    .get(0).getName()
-                                    + " is removed from hand after use.");
-                            playerDeckDisplayPanel = generatePlayerDeckCardsPanel(
-                                    BorderLayout.CENTER);
-                            displayCards.get(card).setVisible(false);
-                            selectedCards.clear();
-                            gameFrame.validate();
-                            gameFrame.repaint();
-                        }
-                    }
+                    return;
                 }
-            }
 
+                Card card = selectedCards.get(0);
+                if (card.isCatCard()) {
+                    String infoMessage = Messages.getMessage(
+                            Messages.CAT_SELECTION_NORMAL_MODE);
+                    String titleBar = "InfoBox: Warning";
+                    JOptionPane.showMessageDialog(null,
+                            infoMessage, titleBar,
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+                if (card.getType().getEffectPattern() == null) {
+                    return;
+                }
+
+                card.getType().getEffectPattern().useEffect(gameState);
+                playerDeckDisplayPanel =
+                        generatePlayerDeckCardsPanel(BorderLayout.CENTER);
+                displayCards.get(card).setVisible(false);
+                selectedCards.clear();
+                gameFrame.validate();
+                gameFrame.repaint();
+            }
         });
     }
 

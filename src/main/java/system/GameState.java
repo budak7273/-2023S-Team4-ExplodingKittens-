@@ -1,5 +1,6 @@
 package system;
 
+import datasource.CardType;
 import datasource.Messages;
 import presentation.GamePlayer;
 import java.util.LinkedList;
@@ -47,6 +48,7 @@ public class GameState {
 
     public void drawFromBottom() {
         User currentUser = getUserForCurrentTurn();
+        currentUser.removeCard(new Card(CardType.DRAW_FROM_THE_BOTTOM, Messages.DRAW_FROM_BOTTOM_DESC));
         drawDeck.drawFromBottomForUser(currentUser);
         transitionToNextTurn();
     }
