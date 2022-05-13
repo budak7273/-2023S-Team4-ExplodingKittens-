@@ -15,38 +15,55 @@ public class Card {
         switch (this.cardType) {
             case ALTER_THE_FUTURE:
                 this.description =  Messages.ALTER_DESC;
+                break;
             case TARGETED_ATTACK:
                 this.description =  Messages.TARGETED_ATTACK;
+                break;
             case SEE_THE_FUTURE:
                 this.description =  Messages.SEE_DESC;
+                break;
             case NOPE:
                 this.description =  Messages.NOPE_DESC;
+                break;
             case SKIP:
                 this.description =  Messages.SKIP_DESC;
+                break;
             case FAVOR:
                 this.description =  Messages.FAVOR_DESC;
+                break;
             case ATTACK:
                 this.description =  Messages.ATTACK_DESC;
+                break;
             case DEFUSE:
                 this.description =  Messages.DEFUSE_DESC;
+                break;
             case SHUFFLE:
                 this.description =  Messages.SHUFFLE_DESC;
+                break;
             case TACO_CAT:
                 this.description =  Messages.TACO_CAT_DESC;
+                break;
             case BEARD_CAT:
                 this.description =  Messages.BEARD_CAT_DESC;
+                break;
             case FERAL_CAT:
                 this.description =  Messages.FERAL_CAT_DESC;
+                break;
             case CATTERMELON:
                 this.description =  Messages.CATTERMELON_DESC;
+                break;
             case EXPLODING_KITTEN:
                 this.description =  Messages.EXPLODING_DESC;
+                break;
             case HAIRY_POTATO_CAT:
                 this.description =  Messages.HAIRY_POTATO_CAT_DESC;
+                break;
             case DRAW_FROM_THE_BOTTOM:
                 this.description =  Messages.DRAW_FROM_BOTTOM_DESC;
+                break;
             case RAINBOW_RALPHING_CAT:
                 this.description =  Messages.RAINBOW_CAT_DESC;
+                break;
             default:
                 this.description =  Messages.EMPTY_DESC;
         }
