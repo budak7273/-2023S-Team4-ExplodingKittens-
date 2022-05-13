@@ -83,7 +83,7 @@ public class Setup {
     private DrawDeck generateDrawDeck(List<Card> cardList) {
         List<Card> testCards = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            testCards.add(new Card(CardType.SKIP, Messages.SKIP_DESC));
+            testCards.add(new Card(CardType.SHUFFLE, Messages.SHUFFLE_DESC));
         }
         return new DrawDeck(testCards);
     }
