@@ -45,7 +45,7 @@ public class UserIntegrationTesting {
     @Test
     public void testUserConstructorHandWithOneCardIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertEquals(list, user.getHand());
@@ -56,8 +56,8 @@ public class UserIntegrationTesting {
     @Test
     public void testUserConstructorHandWithMultipleCardIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
-        Card card2 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -78,7 +78,7 @@ public class UserIntegrationTesting {
     @Test
     public void testCheckForSpecialEffectPotentialOneCardIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
@@ -88,8 +88,8 @@ public class UserIntegrationTesting {
     public void
     testCheckForSpecialEffectPotentialTwoCardsDifferentTypeIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
-        Card card2 = new Card(CardType.ALTER_THE_FUTURE, Messages.ALTER_DESC);
+        Card card = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ALTER_THE_FUTURE);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -100,8 +100,8 @@ public class UserIntegrationTesting {
     public void
     testCheckForSpecialEffectPotentialTwoMatchingCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC);
-        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
+        Card card = new Card(CardType.FERAL_CAT);
+        Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -112,8 +112,8 @@ public class UserIntegrationTesting {
     public void
     testCheckForSpecialEffectPotentialTwoMatchingCatCards2IntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
-        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
+        Card card = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -124,11 +124,9 @@ public class UserIntegrationTesting {
     public void
     testCheckForSpecialEffectPotentialTwoCatCardsNotMatchingIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.HAIRY_POTATO_CAT,
-                Messages.HAIRY_POTATO_CAT_DESC);
+        Card card = new Card(CardType.HAIRY_POTATO_CAT);
 
-        Card card2 = new Card(CardType.CATTERMELON,
-                Messages.CATTERMELON_DESC);
+        Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
@@ -139,9 +137,9 @@ public class UserIntegrationTesting {
     public void
     testCheckForSpecialEffectPotentialThreeMatchingCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        Card card = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
-        Card card2 = new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC);
-        Card card3 = new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC);
+        Card card = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.CATTERMELON);
+        Card card3 = new Card(CardType.FERAL_CAT);
         list.add(card);
         list.add(card2);
         list.add(card3);
@@ -154,7 +152,7 @@ public class UserIntegrationTesting {
     testCheckForSpecialEffectPotentialMaxCardsNoPairIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
-            list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+            list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.checkForSpecialEffectPotential());
@@ -168,11 +166,9 @@ public class UserIntegrationTesting {
         final int maxCattermelonCount = 97;
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == minCattermelonCount || i == maxCattermelonCount) {
-                list.add(new Card(CardType.CATTERMELON,
-                        Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON));
             } else {
-                list.add(new Card(CardType.ATTACK,
-                        Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK));
             }
         }
         User user = new User("test1", false, list);
@@ -189,21 +185,17 @@ public class UserIntegrationTesting {
         final int tacoCatSecondNumber = 118;
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == feralCatNumber) {
-                list.add(new Card(CardType.FERAL_CAT,
-                        Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT));
             }
 
             if (i == hairyPotatoNumber) {
-                list.add(new Card(CardType.HAIRY_POTATO_CAT,
-                        Messages.HAIRY_POTATO_CAT_DESC));
+                list.add(new Card(CardType.HAIRY_POTATO_CAT));
             }
 
             if (i == tacoCatFirstNumber || i == tacoCatSecondNumber) {
-                list.add(new Card(CardType.TACO_CAT,
-                        Messages.TACO_CAT_DESC));
+                list.add(new Card(CardType.TACO_CAT));
             } else {
-                list.add(new Card(CardType.ATTACK,
-                        Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK));
             }
         }
         User user = new User("test1", false, list);
@@ -216,11 +208,9 @@ public class UserIntegrationTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i % 2 == 0) {
-                list.add(new Card(CardType.CATTERMELON,
-                        Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON));
             } else {
-                list.add(new Card(CardType.FERAL_CAT,
-                        Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT));
             }
         }
         User user = new User("test1", false, list);
@@ -253,12 +243,12 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectedHandWithNoCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        list.add(new Card(CardType.ATTACK));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
-        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        list.add(new Card(CardType.ATTACK));
         selected.add(1);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
@@ -267,7 +257,7 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize1HandWMultIndexIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        list.add(new Card(CardType.ATTACK));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -281,8 +271,8 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandWIndexDupIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
-        list.add(new Card(CardType.NOPE, Messages.NOPE_DESC));
+        list.add(new Card(CardType.ATTACK));
+        list.add(new Card(CardType.NOPE));
 
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
@@ -297,10 +287,8 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandSelectNonMatchCatIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.RAINBOW_RALPHING_CAT,
-                Messages.RAINBOW_CAT_DESC));
-        list.add(new Card(CardType.CATTERMELON,
-                Messages.CATTERMELON_DESC));
+        list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
+        list.add(new Card(CardType.CATTERMELON));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -312,8 +300,8 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandSelectMatchCatIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.FERAL_CAT, Messages.FERAL_CAT_DESC));
-        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+        list.add(new Card(CardType.FERAL_CAT));
+        list.add(new Card(CardType.CATTERMELON));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -325,8 +313,8 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandSelectMatchCat2IntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
-        list.add(new Card(CardType.CATTERMELON, Messages.CATTERMELON_DESC));
+        list.add(new Card(CardType.CATTERMELON));
+        list.add(new Card(CardType.CATTERMELON));
         ArrayList<Integer> selected = new ArrayList<>();
         selected.add(0);
         selected.add(1);
@@ -340,14 +328,11 @@ public class UserIntegrationTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON,
-                        Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON));
             } else if (i == 1) {
-                list.add(new Card(CardType.FERAL_CAT,
-                        Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT));
             } else {
-                list.add(new Card(CardType.ATTACK,
-                        Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();
@@ -363,14 +348,11 @@ public class UserIntegrationTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON,
-                        Messages.CATTERMELON_DESC));
+                list.add(new Card(CardType.CATTERMELON));
             } else if (i == 1) {
-                list.add(new Card(CardType.FERAL_CAT,
-                        Messages.FERAL_CAT_DESC));
+                list.add(new Card(CardType.FERAL_CAT));
             } else {
-                list.add(new Card(CardType.ATTACK,
-                        Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK));
             }
         }
         final int falseAdd = 3;
@@ -389,14 +371,11 @@ public class UserIntegrationTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT,
-                        Messages.RAINBOW_CAT_DESC));
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
             } else if (i < hairPotatoNumber) {
-                list.add(new Card(CardType.HAIRY_POTATO_CAT,
-                        Messages.HAIRY_POTATO_CAT_DESC));
+                list.add(new Card(CardType.HAIRY_POTATO_CAT));
             } else {
-                list.add(new Card(CardType.ATTACK,
-                        Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK));
             }
         }
         final int falseAdd = 3;
@@ -414,10 +393,9 @@ public class UserIntegrationTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT,
-                        Messages.RAINBOW_CAT_DESC));
+                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
             } else {
-                list.add(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+                list.add(new Card(CardType.ATTACK));
             }
         }
         ArrayList<Integer> selected = new ArrayList<>();

@@ -33,7 +33,7 @@ public class DrawDeckUnitTesting {
         User user = new User();
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCardToTop(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        deck.addCardToTop(new Card(CardType.ATTACK));
         deck.drawCard(user);
 
         assertTrue(deck.getCardsAsList().isEmpty());
@@ -50,7 +50,7 @@ public class DrawDeckUnitTesting {
     @Test
     public void testShuffleOnDeckOfOneCard() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card card = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card = new Card(CardType.ATTACK);
         deck.addCardToTop(card);
         deck.shuffle();
 
@@ -61,8 +61,8 @@ public class DrawDeckUnitTesting {
     @Test
     public void testShuffleOnDeckOfMultipleCards() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card card1 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
-        Card card2 = new Card(CardType.ATTACK, Messages.ATTACK_DESC);
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
         deck.addCardToTop(card1);
         deck.addCardToTop(card2);
         deck.shuffle();
@@ -85,11 +85,9 @@ public class DrawDeckUnitTesting {
     @Test
     public void testDrawFromBottomForUserWithNonEmptyDeck() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE,
-                Messages.ALTER_DESC);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
         deck.addCardToTop(bottomCard);
-        Card topCard = new Card(CardType.ATTACK,
-                Messages.ATTACK_DESC);
+        Card topCard = new Card(CardType.ATTACK);
         deck.addCardToTop(topCard);
 
         User user = EasyMock.createMock(User.class);
@@ -153,7 +151,7 @@ public class DrawDeckUnitTesting {
         Card second = EasyMock.createMock(Card.class);
         Card third = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.addCardToTop(new Card(CardType.ATTACK, Messages.ATTACK_DESC));
+        deck.addCardToTop(new Card(CardType.ATTACK));
         deck.addCardToTop(third);
         deck.addCardToTop(second);
         deck.addCardToTop(first);
@@ -173,12 +171,11 @@ public class DrawDeckUnitTesting {
     @Test
     public void testAddCardToTop() {
         Card second = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.class, Messages.class)
-                .withArgs(CardType.ATTACK, Messages.ATTACK_DESC).createMock();
+                .withConstructor(CardType.class)
+                .withArgs(CardType.ATTACK).createMock();
         Card first = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.class, Messages.class)
-                .withArgs(CardType.ALTER_THE_FUTURE,
-                        Messages.ALTER_THE_FUTURE).createMock();
+                .withConstructor(CardType.class)
+                .withArgs(CardType.ALTER_THE_FUTURE).createMock();
         EasyMock.replay(second, first);
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
@@ -195,8 +192,7 @@ public class DrawDeckUnitTesting {
 
     @Test
     public void testDrawCardWithExplodingKitten() {
-        Card kitten = new Card(CardType.EXPLODING_KITTEN,
-                Messages.EXPLODING_DESC);
+        Card kitten = new Card(CardType.EXPLODING_KITTEN);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);
@@ -212,8 +208,7 @@ public class DrawDeckUnitTesting {
 
     @Test
     public void testDrawBottomCardWithExplodingKitten() {
-        Card kitten = new Card(CardType.EXPLODING_KITTEN,
-                Messages.EXPLODING_DESC);
+        Card kitten = new Card(CardType.EXPLODING_KITTEN);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);
