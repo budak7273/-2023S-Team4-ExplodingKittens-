@@ -10,50 +10,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationPanel extends JPanel {
-    private ArrayList<Card> cardOrder = new ArrayList<>();;
-    private Card selected = null;
-    private JButton exit;
-    private GamePlayer gamePlayer;
-    private JPanel cardPanel;
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
+    private final ArrayList<Card> cardOrder = new ArrayList<>();
+    private final GamePlayer gamePlayer;
+    private final JPanel contentPanel;
+    private final JPanel buttonPanel;
+    private Card selected = null;
+    private JButton exit = new JButton();
 
     public NotificationPanel(GamePlayer board) {
         super();
         this.gamePlayer = board;
         this.setLayout(new GridLayout(2, 1));
-        cardPanel = new JPanel();
-        cardPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+        contentPanel = new JPanel();
+        ComponentOrientation orientation = ComponentOrientation.LEFT_TO_RIGHT;
+        contentPanel.setComponentOrientation(orientation);
+
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+
+        exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        exit.setBackground(Color.GRAY);
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeAll();
+            }
+        });
+
+        buttonPanel.add(exit);
     }
 
     public void seeTheFuture(List<Card> future) {
-        cardPanel.removeAll();
-        if (!this.isAncestorOf(cardPanel)) {
-            this.add(cardPanel);
-        }
-
-        cardOrder.clear();
+        initializePane();
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
             JButton futureCard = gamePlayer.createCardImage(
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
-            cardPanel.add(futureCard);
+            contentPanel.add(futureCard);
         }
-
-        if (!this.isAncestorOf(exit)) {
-            this.generateExitButton("Done");
-        }
-        gamePlayer.revalidateFrame();
+        exit.setText("Done");
+        gamePlayer.updateDisplay();
     }
 
     public void alterTheFuture(List<Card> future) {
-        cardPanel.removeAll();
-        if (!this.isAncestorOf(cardPanel)) {
-            this.add(cardPanel);
-        }
-        cardOrder.clear();
+        initializePane();
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -76,35 +81,42 @@ public class NotificationPanel extends JPanel {
                     }
                 }
             });
-            cardPanel.add(futureCard);
+            contentPanel.add(futureCard);
         }
 
-        if (!this.isAncestorOf(exit)) {
-            this.generateExitButton("Done");
-        }
-        gamePlayer.revalidateFrame();
+        exit.setText("Done");
+        gamePlayer.updateDisplay();
     }
 
-    private void generateExitButton(String message) {
-        exit = new JButton(
-                "<html><center>" + message + "</center></html>");
-        exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        exit.setBackground(Color.GRAY);
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeAll();
-            }
-        });
-        JPanel close = new JPanel();
-        close.setLayout(new FlowLayout());
-        close.add(exit);
-        this.add(close);
+    public void notifyPlayers(String contentMessage, String doneMessage) {
+        initializePane();
+
+        JLabel content = new JLabel("<html><center><br>"
+                + contentMessage + "<br><br></center></html>");
+
+        contentPanel.add(content);
+        content.setOpaque(true);
+        content.setBackground(Color.CYAN);
+
+        exit.setText(doneMessage);
+        gamePlayer.updateDisplay();
+    }
+
+    private void initializePane() {
+        contentPanel.removeAll();
+        if (!this.isAncestorOf(contentPanel)) {
+            this.add(contentPanel);
+        }
+        if (!this.isAncestorOf(buttonPanel)) {
+            this.add(buttonPanel);
+        }
+        cardOrder.clear();
     }
 
     @Override
     public void removeAll() {
         super.removeAll();
+        gamePlayer.updateDisplay();
         if (cardOrder.size() > 0) {
             gamePlayer.returnFutureCards(cardOrder);
             cardOrder.clear();
