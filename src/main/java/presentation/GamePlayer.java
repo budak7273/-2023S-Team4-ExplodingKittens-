@@ -18,9 +18,6 @@ public class GamePlayer {
      */
     private final JFrame gameFrame = new JFrame();
 
-    /**
-     * Panel that displays cards to be viewed, selected and edited.
-     */
     private NotificationPanel notificationPanel = new NotificationPanel(this);
 
     /**
@@ -33,7 +30,7 @@ public class GamePlayer {
     private ArrayList<Card> selectedCards;
 
     public GamePlayer() {
-        selectedCards = new ArrayList<>();
+        setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
     }
 
@@ -88,8 +85,8 @@ public class GamePlayer {
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                selectedCards.clear();
-                notificationPanel.removeAll();
+                getSelectedCards().clear();
+                getNotificationPanel().removeAll();
                 gameState.drawCardForCurrentTurn();
             }
         });
@@ -100,7 +97,7 @@ public class GamePlayer {
 
         JPanel playerSelectionPanel = generateUserSelectionPanel();
         tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
-        tableAreaDisplayPanel.add(notificationPanel);
+        tableAreaDisplayPanel.add(getNotificationPanel());
 
         return tableAreaDisplayPanel;
     }
@@ -127,7 +124,7 @@ public class GamePlayer {
                 "Confirm");
         JButton hideButton = createButtonImage(
                 Messages.getMessage(
-                        Messages.SWITCH_TO_HIDE_MODE));
+                        Messages.SWITCH_TO_SHOW_MODE));
         this.setModeButtonListener(modeButton);
         this.setConfirmButtonListener(confirmButton, hideButton);
         this.setEndButtonListener(hideButton);
@@ -178,7 +175,7 @@ public class GamePlayer {
             }
 
             private void handleSelectedCardsInNormalMode() {
-                if (selectedCards.size() != 1) {
+                if (getSelectedCards().size() != 1) {
                     String infoMessage = Messages.getMessage(
                             Messages.WRONG_SELECTION_NORMAL_MODE);
                     String titleBar = "InfoBox: Warning";
@@ -188,7 +185,7 @@ public class GamePlayer {
                     return;
                 }
 
-                Card card = selectedCards.get(0);
+                Card card = getSelectedCards().get(0);
                 if (card.isCatCard()) {
                     String infoMessage = Messages.getMessage(
                             Messages.CAT_SELECTION_NORMAL_MODE);
@@ -204,10 +201,9 @@ public class GamePlayer {
                 }
 
                 card.activateEffect(gameState);
-                playerDeckDisplayPanel =
-                        generatePlayerDeckCardsPanel(BorderLayout.CENTER);
-                displayCards.get(card).setVisible(false);
-                selectedCards.clear();
+                updateUI();
+
+                getSelectedCards().clear();
                 gameFrame.validate();
                 gameFrame.repaint();
             }
@@ -224,12 +220,14 @@ public class GamePlayer {
                         hideButton.setText(
                                 Messages.getMessage(
                                         Messages.SWITCH_TO_SHOW_MODE));
+                        updateDisplay();
                     } else {
 
                         playerDeckDisplayPanel.setVisible(true);
                         hideButton.setText(
                                 Messages.getMessage(
                                         Messages.SWITCH_TO_HIDE_MODE));
+                        updateDisplay();
                     }
                 }
             }
@@ -258,11 +256,11 @@ public class GamePlayer {
 
                     if (cardLayout.getBackground() == Color.magenta) {
                         System.out.println(card.getName() + " is selected!");
-                        selectedCards.add(card);
+                        getSelectedCards().add(card);
                         cardLayout.setBackground(Color.red);
                     } else {
                         System.out.println(card.getName() + " is deselected!");
-                        selectedCards.remove(card);
+                        getSelectedCards().remove(card);
                         cardLayout.setBackground(Color.magenta);
                     }
                 }
@@ -292,11 +290,11 @@ public class GamePlayer {
     }
 
     public void displayFutureCards(List<Card> future) {
-        notificationPanel.seeTheFuture(future);
+        getNotificationPanel().seeTheFuture(future);
     }
 
     public void editFutureCards(List<Card> future) {
-        notificationPanel.alterTheFuture(future);
+        getNotificationPanel().alterTheFuture(future);
     }
 
     public void returnFutureCards(List<Card> future) {
@@ -312,7 +310,7 @@ public class GamePlayer {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
         }
 
-        notificationPanel.notifyPlayers(deathMessage, "rip");
+        getNotificationPanel().notifyPlayers(deathMessage, "rip");
     }
 
     /**
@@ -332,5 +330,24 @@ public class GamePlayer {
     }
 
     public void endGame() {
+    }
+
+    /**
+     * Panel that displays cards to be viewed, selected and edited.
+     */
+    public NotificationPanel getNotificationPanel() {
+        return notificationPanel;
+    }
+
+    public void setNotificationPanel(NotificationPanel notificationPanel) {
+        this.notificationPanel = notificationPanel;
+    }
+
+    public ArrayList<Card> getSelectedCards() {
+        return selectedCards;
+    }
+
+    public void setSelectedCards(ArrayList<Card> selectedCards) {
+        this.selectedCards = selectedCards;
     }
 }
