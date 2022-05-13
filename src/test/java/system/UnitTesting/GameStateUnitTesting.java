@@ -243,6 +243,7 @@ public class GameStateUnitTesting {
         EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
                 .andReturn(true);
         currentUser.attemptToDie();
+        gameboard.explosionNotification(currentUser.isAlive());
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -285,6 +286,7 @@ public class GameStateUnitTesting {
 
         EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(true);
         currentUser.attemptToDie();
+        gameboard.explosionNotification(currentUser.isAlive());
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
