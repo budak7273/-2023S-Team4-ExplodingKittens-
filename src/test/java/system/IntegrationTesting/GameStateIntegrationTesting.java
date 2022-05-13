@@ -226,12 +226,10 @@ public class GameStateIntegrationTesting {
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        GamePlayer gameboard = new GamePlayer();
+        GamePlayer gamePlayer = new GamePlayer();
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
-
-        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
-
-        drawDeck.shuffle();
+        GameState gameState = new GameState(userQueue, gamePlayer, drawDeck);
+        gamePlayer.setGameState(gameState);
 
         gameState.shuffleDeck();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
