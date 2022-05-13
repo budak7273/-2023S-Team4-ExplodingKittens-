@@ -25,11 +25,8 @@ public class GamePlayer {
      * Local storage of the game's current state.
      */
     private GameState gameState;
-
     private JPanel playerDeckDisplayPanel;
-
     private boolean catMode;
-
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
 
@@ -42,53 +39,83 @@ public class GamePlayer {
         this.gameState = currentGameState;
     }
 
-    public void displayFutureCards(List<Card> future) {
-        notificationPanel.seeTheFuture(future);
-    }
-
-    public void editFutureCards(List<Card> future) {
-        notificationPanel.alterTheFuture(future);
-    }
-
-    public void returnFutureCards(List<Card> future) {
-        gameState.returnFutureCards(future);
-        gameFrame.repaint();
-    }
-
-    public void updateDisplay() {
+    public void revalidateFrame() {
         gameFrame.revalidate();
     }
 
     public void buildGameView() {
         final int frameWidth = 1300;
         final int frameHeight = 800;
-
         gameFrame.getContentPane().removeAll();
+
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
-
 
         gameFrame.setLayout(new BorderLayout());
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
 
-
-        gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
+        gameFrame.pack();
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    private JPanel generatePlayerSelectionPanel() {
-        JPanel playerPanel = new JPanel();
-        this.generateUserSelectionPanel(playerPanel, BorderLayout.WEST);
+    private JPanel generateUserDisplayPanel() {
+        JPanel userDisplayPanel = new JPanel();
+        for (User user : this.gameState.getPlayerQueue()) {
+            if (user != this.gameState.getUserForCurrentTurn()) {
+                JButton otherPlayer =
+                        createCardImage(user.getName(),
+                                user.getHand().size() + "");
+                userDisplayPanel.add(otherPlayer);
+            }
+        }
 
-        return playerPanel;
+        return userDisplayPanel;
     }
 
-    private void generateUserSelectionPanel(JPanel p, String layout) {
+    private JPanel generateTableAreaDisplayPanel() {
+        JPanel tableAreaDisplayPanel = new JPanel();
+        tableAreaDisplayPanel.setLayout(new BorderLayout());
+        JButton deckButton = createDeckImage(
+                this.gameState.getDeckSizeForCurrentTurn() + "");
+        deckButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                selectedCards.clear();
+                notificationPanel.removeAll();
+                gameState.drawCardForCurrentTurn();
+            }
+        });
+        JButton discardPile = createCardImage("Top Card",
+                "");
+        tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
+        tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
+
+        JPanel playerSelectionPanel = generateUserSelectionPanel();
+        tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
+        tableAreaDisplayPanel.add(notificationPanel);
+
+        return tableAreaDisplayPanel;
+    }
+
+    private JPanel generatePlayerDeckDisplayPanel() {
+        return generatePlayerDeckCardsPanel(
+                BorderLayout.CENTER);
+    }
+
+    private JButton createDeckImage(String desc) {
+        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+                + desc + "</center></html>");
+        deckImage.setBackground(Color.GREEN);
+        return deckImage;
+    }
+
+    private JPanel generateUserSelectionPanel() {
+        JPanel p = new JPanel();
         JPanel userSelectionPanel = new JPanel();
         JButton modeButton = createButtonImage(
                 "Switch To Cat Mode");
@@ -103,16 +130,31 @@ public class GamePlayer {
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(endButton, BorderLayout.EAST);
-        p.add(userSelectionPanel, layout);
+        p.add(userSelectionPanel, BorderLayout.WEST);
+        return p;
     }
 
-    private void setEndButtonListener(JButton endButton) {
-        endButton.addActionListener(new ActionListener() {
+    private JButton createButtonImage(String btnName) {
+        JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
+                + "</center></html>");
+        btnImage.setBackground(Color.GRAY);
+        return btnImage;
+    }
+
+    private void setModeButtonListener(JButton modeButton) {
+        modeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (playerDeckDisplayPanel != null) {
-                    playerDeckDisplayPanel.setVisible(false);
+                if (catMode) {
+                    modeButton.setText(
+                            Messages.getMessage(
+                                    Messages.SWITCH_TO_CAT_MODE));
+                } else {
+                    modeButton.setText(
+                            Messages.getMessage(
+                                    Messages.SWITCH_TO_NORMAL_MODE));
                 }
+                catMode = !catMode;
             }
         });
     }
@@ -158,8 +200,7 @@ public class GamePlayer {
                             System.out.println(selectedCards
                                     .get(0).getName()
                                     + " is removed from hand after use.");
-                            generatePlayerDeckCardsPanel(
-                                    playerDeckDisplayPanel,
+                            playerDeckDisplayPanel = generatePlayerDeckCardsPanel(
                                     BorderLayout.CENTER);
                             displayCards.get(card).setVisible(false);
                             selectedCards.clear();
@@ -173,64 +214,18 @@ public class GamePlayer {
         });
     }
 
-    private void setModeButtonListener(JButton modeButton) {
-        modeButton.addActionListener(new ActionListener() {
+    private void setEndButtonListener(JButton endButton) {
+        endButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (catMode) {
-                    modeButton.setText(
-                            Messages.getMessage(
-                                    Messages.SWITCH_TO_CAT_MODE));
-                } else {
-                    modeButton.setText(
-                            Messages.getMessage(
-                                    Messages.SWITCH_TO_NORMAL_MODE));
+                if (playerDeckDisplayPanel != null) {
+                    playerDeckDisplayPanel.setVisible(false);
                 }
-                catMode = !catMode;
             }
         });
     }
 
-    private JPanel generateUserDisplayPanel() {
-        JPanel userDisplayPanel = new JPanel();
-        for (User user : this.gameState.getPlayerQueue()) {
-            if (user != this.gameState.getUserForCurrentTurn()) {
-                JButton otherPlayer =
-                        createCardImage(user.getName(),
-                                user.getHand().size() + "");
-                userDisplayPanel.add(otherPlayer);
-            }
-        }
-
-        return userDisplayPanel;
-    }
-
-    private JPanel generateTableAreaDisplayPanel() {
-        JPanel tableAreaDisplayPanel = new JPanel();
-        tableAreaDisplayPanel.setLayout(new BorderLayout());
-        JButton deckButton = createDeckImage(
-                this.gameState.getDeckSizeForCurrentTurn() + "");
-        deckButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                selectedCards.clear();
-                notificationPanel.removeAll();
-                gameState.drawCardForCurrentTurn();
-            }
-        });
-        JButton discardPile = createCardImage("Top Card",
-                "");
-        tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
-        tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
-
-        JPanel playerSelectionPanel = generatePlayerSelectionPanel();
-        tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
-        tableAreaDisplayPanel.add(notificationPanel);
-
-        return tableAreaDisplayPanel;
-    }
-
-    private void generatePlayerDeckCardsPanel(JPanel p, String layout) {
+    private JPanel generatePlayerDeckCardsPanel(String layout) {
         JPanel playerDeckCardsPanel = new JPanel();
         playerDeckCardsPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
@@ -265,31 +260,10 @@ public class GamePlayer {
             displayCards.put(card, cardLayout);
         }
         playerDeckCardsPanel.add(handDisplayPanel, BorderLayout.CENTER);
+
+        JPanel p = new JPanel();
         p.add(playerDeckCardsPanel, layout);
-    }
-
-    private JPanel generatePlayerDeckDisplayPanel() {
-        playerDeckDisplayPanel = new JPanel();
-
-        this.generatePlayerDeckCardsPanel(
-                playerDeckDisplayPanel,
-                BorderLayout.CENTER);
-
-        return playerDeckDisplayPanel;
-    }
-
-    private JButton createButtonImage(String btnName) {
-        JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
-                + "</center></html>");
-        btnImage.setBackground(Color.GRAY);
-        return btnImage;
-    }
-
-    private JButton createDeckImage(String desc) {
-        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
-                + desc + "</center></html>");
-        deckImage.setBackground(Color.GREEN);
-        return deckImage;
+        return p;
     }
 
     protected JButton createCardImage(String name, String desc) {
@@ -304,6 +278,19 @@ public class GamePlayer {
                 + name + "<br>" + desc + "</html>");
         cardImage.add(cardDetails);
         return cardImage;
+    }
+
+    public void displayFutureCards(List<Card> future) {
+        notificationPanel.seeTheFuture(future);
+    }
+
+    public void editFutureCards(List<Card> future) {
+        notificationPanel.alterTheFuture(future);
+    }
+
+    public void returnFutureCards(List<Card> future) {
+        gameState.returnFutureCards(future);
+        gameFrame.repaint();
     }
 
     /**

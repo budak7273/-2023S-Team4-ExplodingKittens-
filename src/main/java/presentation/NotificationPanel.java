@@ -45,7 +45,7 @@ public class NotificationPanel extends JPanel {
         if (!this.isAncestorOf(exit)) {
             this.generateExitButton("Done");
         }
-        gamePlayer.updateDisplay();
+        gamePlayer.revalidateFrame();
     }
 
     public void alterTheFuture(List<Card> future) {
@@ -82,7 +82,7 @@ public class NotificationPanel extends JPanel {
         if (!this.isAncestorOf(exit)) {
             this.generateExitButton("Done");
         }
-        gamePlayer.updateDisplay();
+        gamePlayer.revalidateFrame();
     }
 
     private void generateExitButton(String message) {

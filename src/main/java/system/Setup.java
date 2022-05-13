@@ -81,8 +81,13 @@ public class Setup {
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {
-
-        return new DrawDeck(cardList);
+        // TODO: remove for prod
+        List<Card> testCards = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            testCards.add(new Card(CardType.DRAW_FROM_THE_BOTTOM,
+                    Messages.DRAW_FROM_BOTTOM_DESC));
+        }
+        return new DrawDeck(testCards);
     }
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
