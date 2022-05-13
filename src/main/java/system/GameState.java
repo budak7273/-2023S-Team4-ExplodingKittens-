@@ -48,6 +48,8 @@ public class GameState {
     public void drawFromBottom() {
         User currentUser = getUserForCurrentTurn();
         drawDeck.drawFromBottomForUser(currentUser);
+        gamePlayer.getSelectedCards().clear();
+        gamePlayer.getNotificationPanel().removeAll();
         transitionToNextTurn();
     }
 
@@ -125,4 +127,5 @@ public class GameState {
         User currentUser = getUserForCurrentTurn();
         currentUser.removeCard(card);
     }
+
 }
