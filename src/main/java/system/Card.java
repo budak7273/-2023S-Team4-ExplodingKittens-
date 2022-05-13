@@ -2,15 +2,54 @@ package system;
 
 import datasource.CardType;
 import datasource.Messages;
-import system.cardEffects.*;
 
 public class Card {
     private CardType cardType;
     private Messages description;
 
-    public Card(CardType type, Messages desc) {
+    public Card(CardType type) {
         this.cardType = type;
-        this.description = desc;
+        this.setDescription();
+    }
+    public void setDescription() {
+        switch (this.cardType) {
+            case ALTER_THE_FUTURE:
+                this.description =  Messages.ALTER_DESC;
+            case TARGETED_ATTACK:
+                this.description =  Messages.TARGETED_ATTACK;
+            case SEE_THE_FUTURE:
+                this.description =  Messages.SEE_DESC;
+            case NOPE:
+                this.description =  Messages.NOPE_DESC;
+            case SKIP:
+                this.description =  Messages.SKIP_DESC;
+            case FAVOR:
+                this.description =  Messages.FAVOR_DESC;
+            case ATTACK:
+                this.description =  Messages.ATTACK_DESC;
+            case DEFUSE:
+                this.description =  Messages.DEFUSE_DESC;
+            case SHUFFLE:
+                this.description =  Messages.SHUFFLE_DESC;
+            case TACO_CAT:
+                this.description =  Messages.TACO_CAT_DESC;
+            case BEARD_CAT:
+                this.description =  Messages.BEARD_CAT_DESC;
+            case FERAL_CAT:
+                this.description =  Messages.FERAL_CAT_DESC;
+            case CATTERMELON:
+                this.description =  Messages.CATTERMELON_DESC;
+            case EXPLODING_KITTEN:
+                this.description =  Messages.EXPLODING_DESC;
+            case HAIRY_POTATO_CAT:
+                this.description =  Messages.HAIRY_POTATO_CAT_DESC;
+            case DRAW_FROM_THE_BOTTOM:
+                this.description =  Messages.DRAW_FROM_BOTTOM_DESC;
+            case RAINBOW_RALPHING_CAT:
+                this.description =  Messages.RAINBOW_CAT_DESC;
+            default:
+                this.description =  Messages.EMPTY_DESC;
+        }
     }
 
     public String getName() {
@@ -22,7 +61,7 @@ public class Card {
     }
 
     public void activateEffect(GameState gameState) {
-        gameState.removeCardFromCurrentUser(new Card(cardType, description));
+        gameState.removeCardFromCurrentUser(new Card(cardType));
         cardType.getEffectPattern().useEffect(gameState);
     }
 

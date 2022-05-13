@@ -69,46 +69,6 @@ public enum CardType {
 
         return this.effectPattern;
     }
-    public static Messages getDescription(CardType type) {
-        switch (type) {
-            case ALTER_THE_FUTURE:
-                return Messages.ALTER_DESC;
-            case TARGETED_ATTACK:
-                return Messages.TARGETED_ATTACK;
-            case SEE_THE_FUTURE:
-                return Messages.SEE_DESC;
-            case NOPE:
-                return Messages.NOPE_DESC;
-            case SKIP:
-                return Messages.SKIP_DESC;
-            case FAVOR:
-                return Messages.FAVOR_DESC;
-            case ATTACK:
-                return Messages.ATTACK_DESC;
-            case DEFUSE:
-                return Messages.DEFUSE_DESC;
-            case SHUFFLE:
-                return Messages.SHUFFLE_DESC;
-            case TACO_CAT:
-                return Messages.TACO_CAT_DESC;
-            case BEARD_CAT:
-                return Messages.BEARD_CAT_DESC;
-            case FERAL_CAT:
-                return Messages.FERAL_CAT_DESC;
-            case CATTERMELON:
-                return Messages.CATTERMELON_DESC;
-            case EXPLODING_KITTEN:
-                return Messages.EXPLODING_DESC;
-            case HAIRY_POTATO_CAT:
-                return Messages.HAIRY_POTATO_CAT_DESC;
-            case DRAW_FROM_THE_BOTTOM:
-                return Messages.DRAW_FROM_BOTTOM_DESC;
-            case RAINBOW_RALPHING_CAT:
-                return Messages.RAINBOW_CAT_DESC;
-            default:
-                return Messages.EMPTY_DESC;
-        }
-    }
 
     @Override
     public String toString() {
