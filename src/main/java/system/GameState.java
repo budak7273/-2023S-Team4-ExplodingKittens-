@@ -48,8 +48,6 @@ public class GameState {
     public void drawFromBottom() {
         User currentUser = getUserForCurrentTurn();
         drawDeck.drawFromBottomForUser(currentUser);
-        gamePlayer.getSelectedCards().clear();
-        gamePlayer.getNotificationPanel().removeAll();
         transitionToNextTurn();
     }
 

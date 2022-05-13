@@ -4,70 +4,74 @@ import system.cardEffects.*;
 
 public enum CardType {
 
-    ATTACK(Messages.getMessage(Messages.ATTACK_CARD)),
-    EXPLODING_KITTEN(Messages.getMessage(Messages.EXPLODING_KITTEN_CARD)),
-    DEFUSE(Messages.getMessage(Messages.DEFUSE_CARD)),
-    SKIP(Messages.getMessage(Messages.SKIP_CARD)),
-    FAVOR(Messages.getMessage(Messages.FAVOR_CARD)),
-    SHUFFLE(Messages.getMessage(Messages.SHUFFLE_CARD)),
-    BEARD_CAT(Messages.getMessage(Messages.BEARD_CAT_CARD)),
-    TACO_CAT(Messages.getMessage(Messages.TACO_CAT_CARD)),
-    HAIRY_POTATO_CAT(Messages.getMessage(Messages.HAIRY_POTATO_CAT)),
-    RAINBOW_RALPHING_CAT(Messages.getMessage(Messages.RAINBOW_RALPHING_CAT)),
-    CATTERMELON(Messages.getMessage(Messages.CATTERMELON)),
-    FERAL_CAT(Messages.getMessage(Messages.FERAL_CAT)),
-    DRAW_FROM_THE_BOTTOM(Messages.getMessage(Messages.DRAW_FROM_THE_BOTTOM)),
-    NOPE(Messages.getMessage(Messages.NOPE)),
-    ALTER_THE_FUTURE(Messages.getMessage(Messages.ALTER_THE_FUTURE)),
-    TARGETED_ATTACK(Messages.getMessage(Messages.TARGETED_ATTACK)),
-    SEE_THE_FUTURE(Messages.getMessage(Messages.SEE_THE_FUTURE));
+    ATTACK(Messages.getMessage(Messages.ATTACK_CARD),
+            new AttackEffect(),
+            Messages.ATTACK_DESC),
+    EXPLODING_KITTEN(Messages.getMessage(Messages.EXPLODING_KITTEN_CARD),
+            null,
+            Messages.EXPLODING_DESC),
+    DEFUSE(Messages.getMessage(Messages.DEFUSE_CARD),
+            null,
+            Messages.DEFUSE_DESC),
+    SKIP(Messages.getMessage(Messages.SKIP_CARD),
+            new SkipEffect(),
+            Messages.SKIP_DESC),
+    FAVOR(Messages.getMessage(Messages.FAVOR_CARD),
+            null,
+            Messages.FAVOR_DESC),
+    SHUFFLE(Messages.getMessage(Messages.SHUFFLE_CARD),
+            new ShuffleEffect(),
+            Messages.SHUFFLE_DESC),
+    BEARD_CAT(Messages.getMessage(Messages.BEARD_CAT_CARD),
+            null,
+            Messages.BEARD_CAT_DESC),
+    TACO_CAT(Messages.getMessage(Messages.TACO_CAT_CARD),
+            null,
+            Messages.TACO_CAT_DESC),
+    HAIRY_POTATO_CAT(Messages.getMessage(Messages.HAIRY_POTATO_CAT),
+            null,
+            Messages.HAIRY_POTATO_CAT_DESC),
+    RAINBOW_RALPHING_CAT(Messages.getMessage(Messages.RAINBOW_RALPHING_CAT),
+            null,
+            Messages.RAINBOW_CAT_DESC),
+    CATTERMELON(Messages.getMessage(Messages.CATTERMELON),
+            null,
+            Messages.CATTERMELON_DESC),
+    FERAL_CAT(Messages.getMessage(Messages.FERAL_CAT),
+            null,
+            Messages.FERAL_CAT_DESC),
+    DRAW_FROM_THE_BOTTOM(Messages.getMessage(Messages.DRAW_FROM_THE_BOTTOM),
+            new DrawFromBottomEffect(),
+            Messages.DRAW_FROM_BOTTOM_DESC),
+    NOPE(Messages.getMessage(Messages.NOPE),
+            null,
+            Messages.NOPE_DESC),
+    ALTER_THE_FUTURE(Messages.getMessage(Messages.ALTER_THE_FUTURE),
+            new AlterTheFutureEffect(),
+            Messages.ALTER_DESC),
+    TARGETED_ATTACK(Messages.getMessage(Messages.TARGETED_ATTACK),
+            null,
+            Messages.TARGETED_ATTACK_DESC),
+    SEE_THE_FUTURE(Messages.getMessage(Messages.SEE_THE_FUTURE),
+            new SeeTheFutureEffect(),
+            Messages.SEE_DESC);
 
     private String displayName;
     private EffectPattern effectPattern;
+    private Messages description;
 
-    CardType(String displayNameStr) {
+    CardType(String displayNameStr, EffectPattern pattern, Messages desc) {
         this.displayName = displayNameStr;
-
+        this.effectPattern = pattern;
+        this.description = desc;
     }
 
     public EffectPattern getEffectPattern() {
-        switch (this) {
-            case TARGETED_ATTACK:
-            case ATTACK:
-                this.effectPattern = new AttackEffect();
-                break;
-            case EXPLODING_KITTEN:
-
-            case DEFUSE:
-                this.effectPattern = new DefuseBombEffect();
-                break;
-            case SKIP:
-                this.effectPattern = new SkipEffect();
-                break;
-            case FAVOR:
-            case SHUFFLE:
-                this.effectPattern = new ShuffleEffect();
-                break;
-            case BEARD_CAT:
-            case TACO_CAT:
-            case HAIRY_POTATO_CAT:
-            case RAINBOW_RALPHING_CAT:
-            case CATTERMELON:
-            case FERAL_CAT:
-            case DRAW_FROM_THE_BOTTOM:
-                this.effectPattern = new DrawFromBottomEffect();
-                break;
-            case NOPE:
-            case ALTER_THE_FUTURE:
-                this.effectPattern = new AlterTheFutureEffect();
-                break;
-            case SEE_THE_FUTURE:
-                this.effectPattern = new SeeTheFutureEffect();
-                break;
-            default:
-        }
-
         return this.effectPattern;
+    }
+
+    public String getDescription() {
+        return Messages.getMessage(description);
     }
 
     @Override

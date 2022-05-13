@@ -117,9 +117,8 @@ public class GamePlayer {
     }
 
     private JPanel generateUserSelectionPanel() {
-        JPanel p = new JPanel(new GridLayout(2,1));
+        JPanel p = new JPanel(new GridLayout(2, 1));
         JPanel userSelectionPanel = new JPanel();
-
 
         JButton modeButton = createButtonImage(
                 Messages.getMessage(
@@ -344,15 +343,15 @@ public class GamePlayer {
         return notificationPanel;
     }
 
-    public void setNotificationPanel(NotificationPanel notificationPanel) {
-        this.notificationPanel = notificationPanel;
+    public void setNotificationPanel(NotificationPanel panel) {
+        this.notificationPanel = panel;
     }
 
     public ArrayList<Card> getSelectedCards() {
         return selectedCards;
     }
 
-    public void setSelectedCards(ArrayList<Card> selectedCards) {
-        this.selectedCards = selectedCards;
+    public void setSelectedCards(ArrayList<Card> cards) {
+        this.selectedCards = cards;
     }
 }
