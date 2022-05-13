@@ -63,7 +63,9 @@ public enum Messages {
     SEE_DESC("SeeTheFutureDesc"),
     PLAYER_LOST_DEFUSE("PlayerLostDefuse"),
     PLAYER_DIED("PlayerDied"),
-    EMPTY_DESC("Empty");
+    EMPTY_DESC("Empty"),
+    SWITCH_TO_SHOW_MODE("SwitchToShowModeMessage"),
+    SWITCH_TO_HIDE_MODE("SwitchToHideModeMessage");
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;

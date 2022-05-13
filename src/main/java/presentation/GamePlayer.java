@@ -18,7 +18,9 @@ public class GamePlayer {
      */
     private final JFrame gameFrame = new JFrame();
 
-    /**Panel that displays cards to be viewed, selected and edited.*/
+    /**
+     * Panel that displays cards to be viewed, selected and edited.
+     */
     private NotificationPanel notificationPanel = new NotificationPanel(this);
 
     /**
@@ -119,18 +121,20 @@ public class GamePlayer {
         JPanel p = new JPanel();
         JPanel userSelectionPanel = new JPanel();
         JButton modeButton = createButtonImage(
-                "Switch To Cat Mode");
+                Messages.getMessage(
+                        Messages.SWITCH_TO_CAT_MODE));
         JButton confirmButton = createButtonImage(
                 "Confirm");
-        JButton endButton = createButtonImage(
-                "End My Turn");
+        JButton hideButton = createButtonImage(
+                Messages.getMessage(
+                        Messages.SWITCH_TO_HIDE_MODE));
         this.setModeButtonListener(modeButton);
-        this.setConfirmButtonListener(confirmButton, endButton);
-        this.setEndButtonListener(endButton);
+        this.setConfirmButtonListener(confirmButton, hideButton);
+        this.setEndButtonListener(hideButton);
 
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
-        userSelectionPanel.add(endButton, BorderLayout.EAST);
+        userSelectionPanel.add(hideButton, BorderLayout.EAST);
         p.add(userSelectionPanel, BorderLayout.WEST);
         return p;
     }
@@ -210,12 +214,23 @@ public class GamePlayer {
         });
     }
 
-    private void setEndButtonListener(JButton endButton) {
-        endButton.addActionListener(new ActionListener() {
+    private void setEndButtonListener(JButton hideButton) {
+        hideButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (playerDeckDisplayPanel != null) {
-                    playerDeckDisplayPanel.setVisible(false);
+                    if (playerDeckDisplayPanel.isVisible()) {
+                        playerDeckDisplayPanel.setVisible(false);
+                        hideButton.setText(
+                                Messages.getMessage(
+                                        Messages.SWITCH_TO_SHOW_MODE));
+                    } else {
+
+                        playerDeckDisplayPanel.setVisible(true);
+                        hideButton.setText(
+                                Messages.getMessage(
+                                        Messages.SWITCH_TO_HIDE_MODE));
+                    }
                 }
             }
         });
@@ -235,7 +250,7 @@ public class GamePlayer {
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameState.getUserForCurrentTurn().getHand()) {
             JButton cardLayout = createCardImage(card.getName(),
-                                                 card.getDesc());
+                    card.getDesc());
             cardLayout.getPreferredSize();
             cardLayout.addActionListener(new ActionListener() {
                 @Override
