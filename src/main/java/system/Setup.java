@@ -81,7 +81,6 @@ public class Setup {
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {
-
         return new DrawDeck(cardList);
     }
 

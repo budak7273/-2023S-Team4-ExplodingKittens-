@@ -25,11 +25,8 @@ public class GamePlayer {
      * Local storage of the game's current state.
      */
     private GameState gameState;
-
     private JPanel playerDeckDisplayPanel;
-
     private boolean catMode;
-
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
 
@@ -42,30 +39,6 @@ public class GamePlayer {
         this.gameState = currentGameState;
     }
 
-    public void displayFutureCards(List<Card> future) {
-        notificationPanel.seeTheFuture(future);
-    }
-
-    public void editFutureCards(List<Card> future) {
-        notificationPanel.alterTheFuture(future);
-    }
-
-    public void explosionNotification(boolean victimState) {
-        String deathMessage;
-
-        if (victimState) {
-            deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
-        } else {
-            deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
-        }
-
-        notificationPanel.notifyPlayers(deathMessage, "rip");
-    }
-
-    public void returnFutureCards(List<Card> future) {
-        gameState.returnFutureCards(future);
-    }
-
     public void updateDisplay() {
         gameFrame.revalidate();
         gameFrame.repaint();
@@ -74,133 +47,21 @@ public class GamePlayer {
     public void buildGameView() {
         final int frameWidth = 1300;
         final int frameHeight = 800;
-
         gameFrame.getContentPane().removeAll();
+
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
-
 
         gameFrame.setLayout(new BorderLayout());
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
 
-
-        gameFrame.pack();
         gameFrame.setSize(frameWidth, frameHeight);
+        gameFrame.pack();
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-
-    private JPanel generatePlayerSelectionPanel() {
-        JPanel playerPanel = new JPanel();
-        this.generateUserSelectionPanel(playerPanel, BorderLayout.WEST);
-
-        return playerPanel;
-    }
-
-    private void generateUserSelectionPanel(JPanel p, String layout) {
-        JPanel userSelectionPanel = new JPanel();
-        JButton modeButton = createButtonImage(
-                "Switch To Cat Mode");
-        JButton confirmButton = createButtonImage(
-                "Confirm");
-        JButton endButton = createButtonImage(
-                "End My Turn");
-        this.setModeButtonListener(modeButton);
-        this.setConfirmButtonListener(confirmButton, endButton);
-        this.setEndButtonListener(endButton);
-
-        userSelectionPanel.add(modeButton, BorderLayout.WEST);
-        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
-        userSelectionPanel.add(endButton, BorderLayout.EAST);
-        p.add(userSelectionPanel, layout);
-    }
-
-    private void setEndButtonListener(JButton endButton) {
-        endButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if (playerDeckDisplayPanel != null) {
-                    playerDeckDisplayPanel.setVisible(false);
-                }
-            }
-        });
-    }
-
-    private void setConfirmButtonListener(JButton confirmButton,
-                                          JButton endButton) {
-        confirmButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if (catMode) {
-                    System.out.println("CatMode.");
-                } else {
-                    handleSelectedCardsInNormalMode();
-                }
-
-            }
-
-            private void handleSelectedCardsInNormalMode() {
-                if (selectedCards.size() != 1) {
-                    String infoMessage = Messages.getMessage(
-                            Messages.WRONG_SELECTION_NORMAL_MODE);
-                    String titleBar = "Warning";
-                    JOptionPane.showMessageDialog(null, infoMessage,
-                            "InfoBox: " + titleBar,
-                            JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    Card card = selectedCards.get(0);
-
-                    if (card.isCatCard()) {
-                        String infoMessage = Messages.getMessage(
-                                Messages.CAT_SELECTION_NORMAL_MODE);
-                        String titleBar = "Warning";
-                        JOptionPane.showMessageDialog(null,
-                                infoMessage,
-                                "InfoBox: " + titleBar,
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        if (card.getType().getEffectPattern() != null) {
-                            card.getType().getEffectPattern()
-                                    .useEffect(gameState);
-                            gameState.getUserForCurrentTurn()
-                                    .removeCard(card);
-                            System.out.println(selectedCards
-                                    .get(0).getName()
-                                    + " is removed from hand after use.");
-                            generatePlayerDeckCardsPanel(
-                                    playerDeckDisplayPanel,
-                                    BorderLayout.CENTER);
-                            displayCards.get(card).setVisible(false);
-                            selectedCards.clear();
-                            gameFrame.validate();
-                            gameFrame.repaint();
-                        }
-                    }
-                }
-            }
-
-        });
-    }
-
-    private void setModeButtonListener(JButton modeButton) {
-        modeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if (catMode) {
-                    modeButton.setText(
-                            Messages.getMessage(
-                                    Messages.SWITCH_TO_CAT_MODE));
-                } else {
-                    modeButton.setText(
-                            Messages.getMessage(
-                                    Messages.SWITCH_TO_NORMAL_MODE));
-                }
-                catMode = !catMode;
-            }
-        });
     }
 
     private JPanel generateUserDisplayPanel() {
@@ -235,14 +96,132 @@ public class GamePlayer {
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
 
-        JPanel playerSelectionPanel = generatePlayerSelectionPanel();
+        JPanel playerSelectionPanel = generateUserSelectionPanel();
         tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
         tableAreaDisplayPanel.add(notificationPanel);
 
         return tableAreaDisplayPanel;
     }
 
-    private void generatePlayerDeckCardsPanel(JPanel p, String layout) {
+    private JPanel generatePlayerDeckDisplayPanel() {
+        return generatePlayerDeckCardsPanel(
+                BorderLayout.CENTER);
+    }
+
+    private JButton createDeckImage(String desc) {
+        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+                + desc + "</center></html>");
+        deckImage.setBackground(Color.GREEN);
+        return deckImage;
+    }
+
+    private JPanel generateUserSelectionPanel() {
+        JPanel p = new JPanel();
+        JPanel userSelectionPanel = new JPanel();
+        JButton modeButton = createButtonImage(
+                "Switch To Cat Mode");
+        JButton confirmButton = createButtonImage(
+                "Confirm");
+        JButton endButton = createButtonImage(
+                "End My Turn");
+        this.setModeButtonListener(modeButton);
+        this.setConfirmButtonListener(confirmButton, endButton);
+        this.setEndButtonListener(endButton);
+
+        userSelectionPanel.add(modeButton, BorderLayout.WEST);
+        userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
+        userSelectionPanel.add(endButton, BorderLayout.EAST);
+        p.add(userSelectionPanel, BorderLayout.WEST);
+        return p;
+    }
+
+    private JButton createButtonImage(String btnName) {
+        JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
+                + "</center></html>");
+        btnImage.setBackground(Color.GRAY);
+        return btnImage;
+    }
+
+    private void setModeButtonListener(JButton modeButton) {
+        modeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (catMode) {
+                    modeButton.setText(
+                            Messages.getMessage(
+                                    Messages.SWITCH_TO_CAT_MODE));
+                } else {
+                    modeButton.setText(
+                            Messages.getMessage(
+                                    Messages.SWITCH_TO_NORMAL_MODE));
+                }
+                catMode = !catMode;
+            }
+        });
+    }
+
+    private void setConfirmButtonListener(JButton confirmButton,
+                                          JButton endButton) {
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (catMode) {
+                    String msg = "TODO: Implement handleSelectedCardsInCatMode";
+                    System.out.println(msg);
+                } else {
+                    handleSelectedCardsInNormalMode();
+                }
+            }
+
+            private void handleSelectedCardsInNormalMode() {
+                if (selectedCards.size() != 1) {
+                    String infoMessage = Messages.getMessage(
+                            Messages.WRONG_SELECTION_NORMAL_MODE);
+                    String titleBar = "InfoBox: Warning";
+                    JOptionPane.showMessageDialog(null,
+                            infoMessage, titleBar,
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+                Card card = selectedCards.get(0);
+                if (card.isCatCard()) {
+                    String infoMessage = Messages.getMessage(
+                            Messages.CAT_SELECTION_NORMAL_MODE);
+                    String titleBar = "InfoBox: Warning";
+                    JOptionPane.showMessageDialog(null,
+                            infoMessage, titleBar,
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+                if (card.getType().getEffectPattern() == null) {
+                    return;
+                }
+
+                card.getType().getEffectPattern().useEffect(gameState);
+                playerDeckDisplayPanel =
+                        generatePlayerDeckCardsPanel(BorderLayout.CENTER);
+                displayCards.get(card).setVisible(false);
+                selectedCards.clear();
+                gameFrame.validate();
+                gameFrame.repaint();
+            }
+        });
+    }
+
+    private void setEndButtonListener(JButton endButton) {
+        endButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (playerDeckDisplayPanel != null) {
+                    playerDeckDisplayPanel.setVisible(false);
+                }
+            }
+        });
+    }
+
+    private JPanel generatePlayerDeckCardsPanel(String layout) {
         JPanel playerDeckCardsPanel = new JPanel();
         playerDeckCardsPanel.setLayout(new BorderLayout());
         JLabel playerNameLabel =
@@ -277,31 +256,10 @@ public class GamePlayer {
             displayCards.put(card, cardLayout);
         }
         playerDeckCardsPanel.add(handDisplayPanel, BorderLayout.CENTER);
+
+        JPanel p = new JPanel();
         p.add(playerDeckCardsPanel, layout);
-    }
-
-    private JPanel generatePlayerDeckDisplayPanel() {
-        playerDeckDisplayPanel = new JPanel();
-
-        this.generatePlayerDeckCardsPanel(
-                playerDeckDisplayPanel,
-                BorderLayout.CENTER);
-
-        return playerDeckDisplayPanel;
-    }
-
-    private JButton createButtonImage(String btnName) {
-        JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
-                + "</center></html>");
-        btnImage.setBackground(Color.GRAY);
-        return btnImage;
-    }
-
-    private JButton createDeckImage(String desc) {
-        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
-                + desc + "</center></html>");
-        deckImage.setBackground(Color.GREEN);
-        return deckImage;
+        return p;
     }
 
     protected JButton createCardImage(String name, String desc) {
@@ -316,6 +274,30 @@ public class GamePlayer {
                 + name + "<br>" + desc + "</html>");
         cardImage.add(cardDetails);
         return cardImage;
+    }
+
+    public void displayFutureCards(List<Card> future) {
+        notificationPanel.seeTheFuture(future);
+    }
+
+    public void editFutureCards(List<Card> future) {
+        notificationPanel.alterTheFuture(future);
+    }
+
+    public void returnFutureCards(List<Card> future) {
+        gameState.returnFutureCards(future);
+    }
+
+    public void explosionNotification(boolean victimState) {
+        String deathMessage;
+
+        if (victimState) {
+            deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+        } else {
+            deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
+        }
+
+        notificationPanel.notifyPlayers(deathMessage, "rip");
     }
 
     /**

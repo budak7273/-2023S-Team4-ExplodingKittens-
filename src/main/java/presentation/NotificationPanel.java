@@ -25,7 +25,8 @@ public class NotificationPanel extends JPanel {
         this.setLayout(new GridLayout(2, 1));
 
         contentPanel = new JPanel();
-        contentPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        ComponentOrientation orientation = ComponentOrientation.LEFT_TO_RIGHT;
+        contentPanel.setComponentOrientation(orientation);
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
@@ -87,11 +88,11 @@ public class NotificationPanel extends JPanel {
         gamePlayer.updateDisplay();
     }
 
-    public void notifyPlayers(String ContentMessage, String doneMessage) {
+    public void notifyPlayers(String contentMessage, String doneMessage) {
         initializePane();
 
-        JLabel content = new JLabel("<html><center><br>" +
-                ContentMessage + "<br><br></center></html>");
+        JLabel content = new JLabel("<html><center><br>"
+                + contentMessage + "<br><br></center></html>");
 
         contentPanel.add(content);
         content.setOpaque(true);
