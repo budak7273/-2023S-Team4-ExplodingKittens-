@@ -123,6 +123,8 @@ public class GameState {
         return extraTurnsForCurrentUser;
     }
 
-    public void removeCardFromCurrentUser(CardType type) {
+    public void removeCardFromCurrentUser(Card card) {
+        User currentUser = getUserForCurrentTurn();
+        currentUser.removeCard(card);
     }
 }
