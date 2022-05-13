@@ -85,6 +85,7 @@ public class GameState {
         boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
         if (drawnExplodingKitten) {
             currentPlayer.attemptToDie();
+            gamePlayer.explosionNotification(currentPlayer.isAlive());
         }
         transitionToNextTurn();
     }

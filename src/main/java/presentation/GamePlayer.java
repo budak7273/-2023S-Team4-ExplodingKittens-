@@ -50,13 +50,25 @@ public class GamePlayer {
         notificationPanel.alterTheFuture(future);
     }
 
+    public void explosionNotification(boolean victimState) {
+        String deathMessage;
+
+        if (victimState) {
+            deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+        } else {
+            deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
+        }
+
+        notificationPanel.notifyPlayers(deathMessage, "rip");
+    }
+
     public void returnFutureCards(List<Card> future) {
         gameState.returnFutureCards(future);
-        gameFrame.repaint();
     }
 
     public void updateDisplay() {
         gameFrame.revalidate();
+        gameFrame.repaint();
     }
 
     public void buildGameView() {

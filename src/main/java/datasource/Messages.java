@@ -61,6 +61,8 @@ public enum Messages {
     ALTER_DESC("AlterDesc"),
     TARGETED_ATTACK_DESC("TargetedAttackDesc"),
     SEE_DESC("SeeTheFutureDesc"),
+    PLAYER_LOST_DEFUSE("PlayerLostDefuse"),
+    PLAYER_DIED("PlayerDied"),
     EMPTY_DESC("Empty");
 
     private static Locale currentLocation = Locale.ENGLISH;
