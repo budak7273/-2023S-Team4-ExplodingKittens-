@@ -1,6 +1,5 @@
 package system;
 
-import datasource.CardType;
 import datasource.Messages;
 import presentation.GamePlayer;
 import java.util.LinkedList;
