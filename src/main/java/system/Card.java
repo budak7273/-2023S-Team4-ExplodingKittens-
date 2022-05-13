@@ -6,11 +6,11 @@ import system.cardEffects.*;
 
 public class Card {
     private CardType cardType;
-    private String description;
+    private Messages description;
 
     public Card(CardType type, Messages desc) {
         this.cardType = type;
-        this.description = Messages.getMessage(desc);
+        this.description = desc;
     }
 
     public String getName() {
@@ -19,6 +19,11 @@ public class Card {
 
     public CardType getType() {
         return this.cardType;
+    }
+
+    public void activateEffect(GameState gameState) {
+        gameState.removeCardFromCurrentUser(new Card(cardType, description));
+        cardType.getEffectPattern().useEffect(gameState);
     }
 
     @Override
@@ -47,6 +52,6 @@ public class Card {
     }
 
     public String getDesc() {
-        return this.description;
+        return Messages.getMessage(this.description);
     }
 }

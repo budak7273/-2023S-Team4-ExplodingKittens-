@@ -1,6 +1,5 @@
 package system;
 
-import datasource.CardType;
 import datasource.Messages;
 import presentation.GamePlayer;
 import java.util.LinkedList;
@@ -48,15 +47,13 @@ public class GameState {
 
     public void drawFromBottom() {
         User currentUser = getUserForCurrentTurn();
-        CardType type = CardType.DRAW_FROM_THE_BOTTOM;
-        Messages desc = Messages.DRAW_FROM_BOTTOM_DESC;
-        currentUser.removeCard(new Card(type, desc));
         drawDeck.drawFromBottomForUser(currentUser);
         transitionToNextTurn();
     }
 
     public void shuffleDeck() {
         drawDeck.shuffle();
+        gamePlayer.updateUI();
     }
 
     public void seeTheFuture() {
@@ -122,5 +119,10 @@ public class GameState {
 
     public int getExtraTurnCountForCurrentUser() {
         return extraTurnsForCurrentUser;
+    }
+
+    public void removeCardFromCurrentUser(Card card) {
+        User currentUser = getUserForCurrentTurn();
+        currentUser.removeCard(card);
     }
 }

@@ -51,6 +51,7 @@ public class CardEffectUnitTesting {
         EffectPattern shuffleEffect = new ShuffleEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         gameState.shuffleDeck();
+        EasyMock.expectLastCall();
         EasyMock.replay(gameState);
 
         shuffleEffect.useEffect(gameState);

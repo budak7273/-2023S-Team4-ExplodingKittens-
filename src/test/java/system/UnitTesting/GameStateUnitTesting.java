@@ -302,13 +302,14 @@ public class GameStateUnitTesting {
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        GamePlayer gameboard = EasyMock.createMock(GamePlayer.class);
+        GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
-        GameState gameState = new GameState(userQueue, gameboard, drawDeck);
+        GameState gameState = new GameState(userQueue, gamePlayer, drawDeck);
 
         drawDeck.shuffle();
-        EasyMock.replay(gameboard, drawDeck);
+        gamePlayer.updateUI();
+        EasyMock.replay(gamePlayer, drawDeck);
 
         gameState.shuffleDeck();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
