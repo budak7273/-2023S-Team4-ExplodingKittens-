@@ -59,6 +59,8 @@ public class GamePlayer {
 
         gameFrame.setSize(frameWidth, frameHeight);
         gameFrame.pack();
+
+        playerDeckDisplayPanel.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -115,8 +117,10 @@ public class GamePlayer {
     }
 
     private JPanel generateUserSelectionPanel() {
-        JPanel p = new JPanel();
+        JPanel p = new JPanel(new GridLayout(2,1));
         JPanel userSelectionPanel = new JPanel();
+
+
         JButton modeButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
@@ -133,6 +137,12 @@ public class GamePlayer {
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(hideButton, BorderLayout.EAST);
         p.add(userSelectionPanel, BorderLayout.WEST);
+
+        JLabel playerNameLabel =
+                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
+                        + gameState.getUserForCurrentTurn().getName());
+
+        p.add(playerNameLabel, BorderLayout.SOUTH);
         return p;
     }
 
@@ -237,11 +247,6 @@ public class GamePlayer {
     private JPanel generatePlayerDeckCardsPanel(String layout) {
         JPanel playerDeckCardsPanel = new JPanel();
         playerDeckCardsPanel.setLayout(new BorderLayout());
-        JLabel playerNameLabel =
-                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
-                        + gameState.getUserForCurrentTurn().getName());
-
-        playerDeckCardsPanel.add(playerNameLabel, BorderLayout.NORTH);
 
         JPanel handDisplayPanel = new JPanel();
         handDisplayPanel.setComponentOrientation(
