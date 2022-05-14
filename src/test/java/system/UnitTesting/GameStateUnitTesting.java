@@ -24,7 +24,7 @@ public class GameStateUnitTesting {
         Queue<User> pq = new LinkedList<User>();
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         pq.add(new User());
-        GamePlayer board = new GamePlayer();
+        GamePlayer board = EasyMock.createMock(GamePlayer.class);
         GameState gameState = new GameState(pq, board, deck);
         Executable executable = gameState::transitionToNextTurn;
         Assertions.assertThrows(IllegalArgumentException.class, executable);
@@ -84,8 +84,8 @@ public class GameStateUnitTesting {
         for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
             pq.add(new User());
         }
-        GamePlayer board = new GamePlayer();
-        DrawDeck deck = new DrawDeck(new ArrayList<>());
+        GamePlayer board = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deck = EasyMock.createMock(DrawDeck.class);
 
         GameState gameState = new GameState(pq, board, deck);
         Executable executable = gameState::transitionToNextTurn;
@@ -304,13 +304,15 @@ public class GameStateUnitTesting {
 
         GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+        EasyMock.expect(drawDeck.shuffle()).andReturn(true);
+        EasyMock.expect(drawDeck.shuffle()).andReturn(true);
+        EasyMock.replay(drawDeck);
 
         GameState gameState = new GameState(userQueue, gamePlayer, drawDeck);
 
         drawDeck.shuffle();
         gamePlayer.updateUI();
-        EasyMock.replay(gamePlayer, drawDeck);
-
+        EasyMock.replay(gamePlayer);
         gameState.shuffleDeck();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
     }

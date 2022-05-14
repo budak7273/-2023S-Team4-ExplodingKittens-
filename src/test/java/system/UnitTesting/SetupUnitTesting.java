@@ -306,16 +306,20 @@ public class SetupUnitTesting {
             int playerCount = i;
             Setup setup = new Setup(playerCount);
             DrawDeck deck = EasyMock.createMock(DrawDeck.class);
+            Card explodingCard = EasyMock.createMockBuilder(Card.class)
+                    .withConstructor(CardType.EXPLODING_KITTEN).createMock();
+            EasyMock.expect(deck.shuffle()).andReturn(true);
 
-            deck.addCardToTop(eq(new Card(CardType.EXPLODING_KITTEN)));
+
+
+
+            deck.addCardToTop(explodingCard);
             EasyMock.expectLastCall().times(playerCount - 1);
-            deck.shuffle();
-            EasyMock.expectLastCall();
-            EasyMock.replay(deck);
+            EasyMock.replay(deck, explodingCard);
 
             setup.shuffleExplodingKittensInDeck(deck);
 
-            EasyMock.verify(deck);
+            EasyMock.verify(deck, explodingCard);
         }
     }
 

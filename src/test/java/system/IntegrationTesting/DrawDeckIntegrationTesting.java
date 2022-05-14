@@ -49,6 +49,30 @@ public class DrawDeckIntegrationTesting {
         assertTrue(!user.getHand().isEmpty());
     }
 
+    public void testDrawBottomCardFromEmptyDrawDeckIntegrationTest() {
+
+        ArrayList<Card> cards = new ArrayList<>();
+        DrawDeck deck = new DrawDeck(cards);
+        Executable executable = () -> deck.drawFromBottomForUser(new User());
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
+
+    public void testDrawBottomCardFromNonEmptyDrawDeckIntegrationTest() {
+        User user = new User();
+        ArrayList<Card> cards = new ArrayList<>();
+
+
+        DrawDeck deck = new DrawDeck(cards);
+
+        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.drawFromBottomForUser(user);
+
+        assertTrue(deck.getCardsAsList().isEmpty());
+        assertTrue(!user.getHand().isEmpty());
+    }
+
     @Test
 
     public void testShuffleOnEmptyDeckIntegrationTest() {

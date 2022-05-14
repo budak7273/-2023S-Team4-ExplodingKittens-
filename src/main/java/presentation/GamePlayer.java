@@ -16,7 +16,7 @@ public class GamePlayer {
     /**
      * This is the frame the game is made on.
      */
-    private final JFrame gameFrame = new JFrame();
+    private JFrame gameFrame;
 
     private NotificationPanel notificationPanel = new NotificationPanel(this);
 
@@ -29,7 +29,8 @@ public class GamePlayer {
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
 
-    public GamePlayer() {
+    public GamePlayer(JFrame frame) {
+        this.gameFrame = frame;
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
     }

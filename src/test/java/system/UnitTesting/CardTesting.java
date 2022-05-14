@@ -1,8 +1,10 @@
-package system;
+package system.UnitTesting;
 
 import datasource.CardType;
+import datasource.Messages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import system.Card;
 
 public class CardTesting {
     @Test
@@ -10,6 +12,8 @@ public class CardTesting {
         Card card = new Card(CardType.ATTACK);
         Object otherObj = 1;
         Assertions.assertFalse(card.equals(otherObj));
+        Assertions.assertEquals(Messages.getMessage(Messages.ATTACK_CARD), card.getName());
+        Assertions.assertEquals(Messages.getMessage(Messages.ATTACK_DESC), card.getDesc());
     }
 
     @Test

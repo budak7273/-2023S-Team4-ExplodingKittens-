@@ -33,7 +33,8 @@ public class DrawDeckUnitTesting {
 
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         deck.addCardToTop(new Card(CardType.ATTACK));
-        deck.drawCard(user);
+        boolean drewCard = deck.drawCard(user);
+        Assertions.assertFalse(drewCard);
 
         assertTrue(deck.getCardsAsList().isEmpty());
         assertTrue(!user.getHand().isEmpty());
@@ -42,8 +43,9 @@ public class DrawDeckUnitTesting {
     @Test
     public void testShuffleOnEmptyDeck() {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        deck.shuffle();
+        boolean shuffled = deck.shuffle();
         Assertions.assertEquals(0, deck.getDeckSize());
+        Assertions.assertTrue(shuffled);
     }
 
     @Test
@@ -51,10 +53,11 @@ public class DrawDeckUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         Card card = new Card(CardType.ATTACK);
         deck.addCardToTop(card);
-        deck.shuffle();
+        boolean shuffled = deck.shuffle();
 
         Assertions.assertEquals(1, deck.getDeckSize());
         Assertions.assertEquals(card, deck.getCardsAsList().get(0));
+        Assertions.assertTrue(shuffled);
     }
 
     @Test
@@ -93,7 +96,8 @@ public class DrawDeckUnitTesting {
         user.addCard(bottomCard);
         EasyMock.expectLastCall();
 
-        deck.drawFromBottomForUser(user);
+        boolean wasDrawn = deck.drawFromBottomForUser(user);
+        Assertions.assertFalse(wasDrawn);
 
         Assertions.assertFalse(deck.getCardsAsList().contains(bottomCard));
         Assertions.assertTrue(deck.getCardsAsList().contains(topCard));
