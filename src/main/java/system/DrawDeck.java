@@ -29,7 +29,7 @@ public class DrawDeck {
         }
     }
 
-    public boolean drawFromBottomForUser(User currentUser) {
+    public boolean drawFromBottomForUser(final User currentUser) {
         if (cards.isEmpty()) {
             String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
             throw new RuntimeException(msg);
@@ -64,8 +64,9 @@ public class DrawDeck {
         cards.push(card);
     }
 
-    public void shuffle() {
+    public boolean shuffle() {
         Collections.shuffle((LinkedList<Card>) this.cards);
+        return true;
     }
 
     public int getDeckSize() {

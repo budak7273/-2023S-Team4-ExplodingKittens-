@@ -1,5 +1,6 @@
 package system.IntegrationTesting;
 
+import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -10,6 +11,7 @@ import java.util.Queue;
 
 import presentation.GameDesigner;
 import presentation.GamePlayer;
+import system.Card;
 import system.User;
 import system.DrawDeck;
 import system.GameState;
@@ -197,6 +199,24 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
+    public void testRemoveCardWithKitten() {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        Card attackCard = new Card(CardType.ATTACK);
+        cards.add(attackCard);
+        Queue<User> userQueue = new LinkedList<User>();
+        User currentUser = new User("testUser1", false, cards);
+        userQueue.add(currentUser);
+        userQueue.add(new User());
+
+        GameDesigner gameboard = new GameDesigner(userQueue, new JFrame());
+        gameboard.initializeGameState();
+        GamePlayer gamePlayer = gameboard.getGamePlayer();
+        GameState gameState = gamePlayer.getGameState();
+
+        gameState.removeCardFromCurrentUser(attackCard);
+    }
+
+    @Test
     public void testDrawFromBottomIntegrationTest() {
         List<String> playerUsernames = new ArrayList<>();
         playerUsernames.add("Player1ForIntegrationTest");
@@ -239,4 +259,51 @@ public class GameStateIntegrationTesting {
         gameState.shuffleDeck();
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
     }
+
+    @Test
+    public void
+    testTransitionToNextTurnWithMaxPlayersAndExtraTurnIntegrationTesting() {
+        Queue<User> pq = new LinkedList<User>();
+        User userStartingAtTopOfQueue = new User();
+        pq.add(userStartingAtTopOfQueue);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            pq.add(new User());
+        }
+
+        GameDesigner boardMock = new GameDesigner(pq, new JFrame());
+        boardMock.initializeGameState();
+        GamePlayer gamePlayer = boardMock.getGamePlayer();
+        GameState gameState = gamePlayer.getGameState();
+        gameState.addExtraTurn();
+        gameState.transitionToNextTurn();
+
+        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
+        Assertions.assertEquals(0, gameState.getExtraTurnCountForCurrentUser());
+    }
+
+    @Test
+    public void
+    testTransitionToNextTurnWithMaxPlayersAndTwoExtraTurnsIntegrationTesting() {
+        Queue<User> pq = new LinkedList<User>();
+        User userStartingAtTopOfQueue = new User();
+        pq.add(userStartingAtTopOfQueue);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            pq.add(new User());
+        }
+
+        GameDesigner boardMock = new GameDesigner(pq, new JFrame());
+        boardMock.initializeGameState();
+        GamePlayer gamePlayer = boardMock.getGamePlayer();
+        GameState gameState = gamePlayer.getGameState();
+        gameState.addExtraTurn();
+        gameState.addExtraTurn();
+        gameState.transitionToNextTurn();
+
+        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
+        Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
+    }
+
+
 }

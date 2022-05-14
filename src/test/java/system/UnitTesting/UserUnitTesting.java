@@ -52,6 +52,18 @@ public class UserUnitTesting {
     }
 
     @Test
+    public void testUserConstructorHandWithOneCardRemoveOne(){
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new Card(CardType.ATTACK);
+        list.add(card);
+        User user = new User("test1", false, list);
+        user.removeCard(card);
+        list.remove(card);
+        Assertions.assertEquals(list, user.getHand());
+        Assertions.assertEquals(0, user.getHand().size());
+    }
+
+    @Test
     public void testUserConstructorHandWithMultipleCard() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.ATTACK);
@@ -201,6 +213,14 @@ public class UserUnitTesting {
         }
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
+    }
+
+    @Test
+    public void testVerifyEffectForCardsSelectedEmptyHandWithEmptyList() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        ArrayList<Integer> selected = new ArrayList<>();
+        User user = new User("test1", false, list);
+        user.verifyCardsSelected(selected);
     }
 
     @Test

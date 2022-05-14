@@ -10,6 +10,8 @@ public class CardTesting {
         Card card = new Card(CardType.ATTACK);
         Object otherObj = 1;
         Assertions.assertFalse(card.equals(otherObj));
+        Assertions.assertEquals("Attack", card.getName());
+        Assertions.assertEquals("Do not draw any cards. Force the next player to take two turns.", card.getDesc());
     }
 
     @Test

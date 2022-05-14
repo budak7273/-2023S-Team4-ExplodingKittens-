@@ -124,7 +124,6 @@ public class UserIntegrationTesting {
     testCheckForSpecialEffectPotentialTwoCatCardsNotMatchingIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.HAIRY_POTATO_CAT);
-
         Card card2 = new Card(CardType.CATTERMELON);
         list.add(card);
         list.add(card2);
@@ -142,6 +141,18 @@ public class UserIntegrationTesting {
         list.add(card);
         list.add(card2);
         list.add(card3);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+    }
+
+    @Test
+    public void
+    testCheckForSpecialEffectPotentialFeralMatchingCatCardsIntegrationTest() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new Card(CardType.FERAL_CAT);
+        Card card2 = new Card(CardType.FERAL_CAT);
+        list.add(card);
+        list.add(card2);
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.checkForSpecialEffectPotential());
     }

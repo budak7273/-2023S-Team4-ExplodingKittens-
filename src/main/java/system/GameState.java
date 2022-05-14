@@ -52,8 +52,9 @@ public class GameState {
     }
 
     public void shuffleDeck() {
-        drawDeck.shuffle();
-        gamePlayer.updateUI();
+        if (drawDeck.shuffle()) {
+            gamePlayer.updateUI();
+        }
     }
 
     public void seeTheFuture() {
