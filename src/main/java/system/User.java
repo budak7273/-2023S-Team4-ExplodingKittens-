@@ -122,7 +122,6 @@ public class User {
             msg = Messages.getMessage(Messages.MISSING_DATA);
             throw new IllegalArgumentException(msg);
         }
-        //In verifyCardsSelected, having the second if, if both fail, we don't handle it.
         if (this.hand.isEmpty() && !selected.isEmpty()) {
             msg = Messages.getMessage(Messages.EMPTY_HAND);
             throw new IllegalArgumentException(msg);
