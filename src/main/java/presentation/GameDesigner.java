@@ -2,6 +2,8 @@ package presentation;
 
 import datasource.Messages;
 import system.*;
+
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -11,11 +13,15 @@ public class GameDesigner {
 
     private GamePlayer gamePlayer;
 
-    public GameDesigner() {
+    private JFrame gameFrame;
+
+    public GameDesigner(JFrame frame) {
+        this.gameFrame = frame;
         this.users = new ArrayDeque<>();
     }
 
-    public GameDesigner(Queue<User> usersQueue) {
+    public GameDesigner(Queue<User> usersQueue, JFrame frame) {
+        this.gameFrame = frame;
         this.users = usersQueue;
     }
 
@@ -94,7 +100,7 @@ public class GameDesigner {
         setup.dealHands(users, drawDeck);
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
-        gamePlayer = new GamePlayer();
+        gamePlayer = new GamePlayer(gameFrame);
         final GameState gameState = new GameState(users,
                 gamePlayer, drawDeck);
         gamePlayer.setGameState(gameState);
@@ -110,7 +116,7 @@ public class GameDesigner {
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);
-        gamePlayer = new GamePlayer();
+        gamePlayer = new GamePlayer(gameFrame);
         GameState gameState = new GameState(this.users, gamePlayer, drawDeck);
         gamePlayer.setGameState(gameState);
         gamePlayer.updateUI();

@@ -16,14 +16,18 @@ import system.User;
 import system.DrawDeck;
 import system.GameState;
 
+import javax.swing.*;
 
 
 public class CardEffectIntegrationTesting {
 
-    @Test
-    public void testDefuseBombEffectUseIntegrationTest() {
-        EffectPattern bombEffectPattern = new DefuseBombEffect();
-        Queue<User> playerQueue = new ArrayDeque<User>();
+    private Queue<User> playerQueue;
+
+    private List<String> playerUsernames;
+
+    public CardEffectIntegrationTesting() {
+        System.setProperty("java.awt.headless", "false");
+        playerQueue = new ArrayDeque<User>();
         User player1 = new User("Player1ForIntegrationTest");
         User player2 = new User("Player2ForIntegrationTest");
         User player3 = new User("Player3ForIntegrationTest");
@@ -34,7 +38,18 @@ public class CardEffectIntegrationTesting {
         playerQueue.add(player3);
         playerQueue.add(player4);
         playerQueue.add(player5);
-        GamePlayer gameBoard = new GamePlayer();
+        playerUsernames = new ArrayList<>();
+        playerUsernames.add("Player1ForIntegrationTest");
+        playerUsernames.add("Player2ForIntegrationTest");
+        playerUsernames.add("Player3ForIntegrationTest");
+        playerUsernames.add("Player4ForIntegrationTest");
+        playerUsernames.add("Player5ForIntegrationTest");
+    }
+
+    @Test
+    public void testDefuseBombEffectUseIntegrationTest() {
+        EffectPattern bombEffectPattern = new DefuseBombEffect();
+        GamePlayer gameBoard = new GamePlayer(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, gameBoard, drawDeck);
@@ -47,18 +62,7 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testAttackEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new AttackEffect();
-        Queue<User> playerQueue = new ArrayDeque<User>();
-        User player1 = new User("Player1ForIntegrationTest");
-        User player2 = new User("Player2ForIntegrationTest");
-        User player3 = new User("Player3ForIntegrationTest");
-        User player4 = new User("Player4ForIntegrationTest");
-        User player5 = new User("Player5ForIntegrationTest");
-        playerQueue.add(player1);
-        playerQueue.add(player2);
-        playerQueue.add(player3);
-        playerQueue.add(player4);
-        playerQueue.add(player5);
-        GamePlayer gamePlayer = new GamePlayer();
+        GamePlayer gamePlayer = new GamePlayer(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, gamePlayer, drawDeck);
@@ -72,13 +76,7 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testDrawFromBottomIntegrationTest() {
         EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
-        GameDesigner gameDesigner = new GameDesigner();
-        List<String> playerUsernames = new ArrayList<>();
-        playerUsernames.add("Player1ForIntegrationTest");
-        playerUsernames.add("Player2ForIntegrationTest");
-        playerUsernames.add("Player3ForIntegrationTest");
-        playerUsernames.add("Player4ForIntegrationTest");
-        playerUsernames.add("Player5ForIntegrationTest");
+        GameDesigner gameDesigner = new GameDesigner(new JFrame());
 
         gameDesigner.initializeGameState(playerUsernames);
         GamePlayer gameBoard = gameDesigner.getGamePlayer();
@@ -97,13 +95,7 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testSkipIntegrationTest() {
         EffectPattern skipEffect = new SkipEffect();
-        GameDesigner gameDesigner = new GameDesigner();
-        List<String> playerUsernames = new ArrayList<>();
-        playerUsernames.add("Player1ForIntegrationTest");
-        playerUsernames.add("Player2ForIntegrationTest");
-        playerUsernames.add("Player3ForIntegrationTest");
-        playerUsernames.add("Player4ForIntegrationTest");
-        playerUsernames.add("Player5ForIntegrationTest");
+        GameDesigner gameDesigner = new GameDesigner(new JFrame());
 
         gameDesigner.initializeGameState(playerUsernames);
         GamePlayer gameBoard = gameDesigner.getGamePlayer();
