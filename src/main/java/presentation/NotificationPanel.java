@@ -37,18 +37,18 @@ public class NotificationPanel extends JPanel {
         this.add(buttonPanel);
     }
 
-    private void addExitButtonToLayout(String msg) {
+    private void addExitButtonToLayout(String msg, ActionListener eventFn) {
         JButton exit = new JButton();
         exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         exit.setBackground(Color.GRAY);
-        exit.addActionListener(e -> removeAll());
+        exit.addActionListener(eventFn);
         exit.setText(msg);
         buttonPanel.add(exit);
     }
 
     public void seeTheFuture(List<Card> future) {
         initializePane();
-        addExitButtonToLayout("Done");
+        addExitButtonToLayout("Done", e -> removeAll());
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -62,9 +62,16 @@ public class NotificationPanel extends JPanel {
 
     public void alterTheFuture(List<Card> future) {
         initializePane();
-        addExitButtonToLayout("Done");
-        final Card[] selectedCard = {null};
+        ActionListener eventFn = e -> {
+            removeAll();
+            if (cardOrder.size() > 0) {
+                gamePlayer.returnFutureCards(cardOrder);
+                cardOrder.clear();
+            }
+        };
+        addExitButtonToLayout("Done", eventFn);
 
+        final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
             JButton futureCard = gamePlayer.createCardImage(
@@ -94,7 +101,7 @@ public class NotificationPanel extends JPanel {
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
         initializePane();
-        addExitButtonToLayout(doneMessage);
+        addExitButtonToLayout(doneMessage, e -> removeAll());
 
         JLabel content = new JLabel("<html><center><br>"
                 + contentMessage + "<br><br></center></html>");
@@ -115,9 +122,5 @@ public class NotificationPanel extends JPanel {
     public void removeAll() {
         super.removeAll();
         gamePlayer.updateDisplay();
-        if (cardOrder.size() > 0) {
-            gamePlayer.returnFutureCards(cardOrder);
-            cardOrder.clear();
-        }
     }
 }
