@@ -65,7 +65,8 @@ public enum Messages {
     PLAYER_DIED("PlayerDied"),
     EMPTY_DESC("Empty"),
     SWITCH_TO_SHOW_MODE("SwitchToShowModeMessage"),
-    SWITCH_TO_HIDE_MODE("SwitchToHideModeMessage");
+    SWITCH_TO_HIDE_MODE("SwitchToHideModeMessage"),
+    DUPLICATED_USERNAME("DuplicatedUserName");
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;

@@ -60,27 +60,33 @@ public class GameDesigner {
 
         while (scanner.hasNext()) {
             String username = scanner.next();
-            userNameList.add(username);
-            System.out.println(username + Messages
-                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
+            if(!userNameList.contains(username)) {
 
-            if (nextPlayerCount < tooManyPlayers) {
-                System.out.println(Messages
-                        .getMessage(Messages.ADD_ANOTHER_PLAYER));
-            } else {
-                break;
-            }
 
-            String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y")
-                    || response.equals("j"));
-            if (addAnotherPlayer) {
-                System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
-                        + nextPlayerCount + Messages
-                        .getMessage(Messages.PLAYER_USERNAME));
-                nextPlayerCount++;
-            } else {
-                break;
+                userNameList.add(username);
+                System.out.println(username + Messages
+                        .getMessage(Messages.PLAYER_ADDED_TO_GAME));
+
+                if (nextPlayerCount < tooManyPlayers) {
+                    System.out.println(Messages
+                            .getMessage(Messages.ADD_ANOTHER_PLAYER));
+                } else {
+                    break;
+                }
+
+                String response = scanner.next().toLowerCase();
+                boolean addAnotherPlayer = (response.equals("y")
+                        || response.equals("j"));
+                if (addAnotherPlayer) {
+                    System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
+                            + nextPlayerCount + Messages
+                            .getMessage(Messages.PLAYER_USERNAME));
+                    nextPlayerCount++;
+                } else {
+                    break;
+                }
+            } else{
+                System.out.println(Messages.getMessage(Messages.DUPLICATED_USERNAME));
             }
         }
 
