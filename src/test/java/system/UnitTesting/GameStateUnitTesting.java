@@ -1,6 +1,7 @@
 
 package system.UnitTesting;
 
+import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
 import org.easymock.EasyMock;
@@ -493,13 +494,15 @@ public class GameStateUnitTesting {
     @Test
     public void testBeginTargetedAttack() {
         Queue<User> pq = new LinkedList<User>();
-        for (int i = 0; i < MAX_USER_COUNT; i++) {
+        User currentUser = EasyMock.createMock(User.class);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
             User user = EasyMock.createMock(User.class);
             pq.add(user);
         }
 
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
-        gpMock.displayTargetedAttackPrompt(pq);
+        gpMock.displayTargetedAttackPrompt(validTargetListForCurrentUser(currentUser));
         EasyMock.expectLastCall();
         EasyMock.replay(gpMock);
 
@@ -509,5 +512,21 @@ public class GameStateUnitTesting {
         gameState.beginTargetedAttack();
 
         EasyMock.verify(gpMock);
+    }
+
+    private static List<User> validTargetListForCurrentUser(User user){
+        EasyMock.reportMatcher(new IArgumentMatcher() {
+            @Override
+            public boolean matches(Object argument) {
+                return argument instanceof List
+                        && ((List) argument).size() == MAX_USER_COUNT - 1
+                        && !((List) argument).contains(user);
+            }
+
+            @Override
+            public void appendTo(StringBuffer buffer) {
+            }
+        });
+        return null;
     }
 }

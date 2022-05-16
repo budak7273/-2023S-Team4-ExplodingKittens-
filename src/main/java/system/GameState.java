@@ -2,6 +2,8 @@ package system;
 
 import datasource.Messages;
 import presentation.GamePlayer;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -128,5 +130,9 @@ public class GameState {
     }
 
     public void beginTargetedAttack() {
+        List<User> users = new ArrayList<>();
+        users.addAll(playerQueue);
+        users.remove(getUserForCurrentTurn());
+        gamePlayer.displayTargetedAttackPrompt(users);
     }
 }

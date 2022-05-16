@@ -357,6 +357,6 @@ public class GamePlayer {
         this.selectedCards = cards;
     }
 
-    public void displayTargetedAttackPrompt(Queue<User> pq) {
+    public void displayTargetedAttackPrompt(List<User> users) {
     }
 }
