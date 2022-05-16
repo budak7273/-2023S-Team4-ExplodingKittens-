@@ -109,6 +109,7 @@ public class GameDesigner {
         final GameState gameState = new GameState(users,
                 gamePlayer, drawDeck);
         gamePlayer.setGameState(gameState);
+        gamePlayer.playMusic();
         gamePlayer.updateUI();
     }
 

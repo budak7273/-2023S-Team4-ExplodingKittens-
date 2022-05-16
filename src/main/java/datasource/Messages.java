@@ -17,7 +17,7 @@ public enum Messages {
     FOUND_IN_FILE("FoundInFileMessage"),
     BAD_NUMBER_OF_CARDS("BadNumberOfCardsMessage"),
     COULD_NOT_GENERATE("CouldNotGenerateMessage"),
-    COULD_NOT_CREATE("CouldNotCreateMessage"),
+    COULD_NOT_CREATE("CouldNotCreateCardMessage"),
     ILLEGAL_PLAYERS("IllegalPlayersMessage"),
     EMPTY_DRAW_DECK("EmptyDrawDeckMessage"),
     EMPTY_HAND("EmptyHandMessage"),
@@ -66,7 +66,9 @@ public enum Messages {
     EMPTY_DESC("Empty"),
     SWITCH_TO_SHOW_MODE("SwitchToShowModeMessage"),
     SWITCH_TO_HIDE_MODE("SwitchToHideModeMessage"),
-    DUPLICATED_USERNAME("DuplicatedUserName");
+    DUPLICATED_USERNAME("DuplicatedUserName"),
+    NO_MUSIC("CouldntPlayMusic");
+
 
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;

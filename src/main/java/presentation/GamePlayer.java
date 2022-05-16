@@ -1,14 +1,18 @@
 package presentation;
 
 import datasource.Messages;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import system.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class GamePlayer {
 
@@ -363,5 +367,23 @@ public class GamePlayer {
     public void triggerTargetedAttackOn(User user) {
         System.out.println("TODO: triggerTargetedAttackOn user");
         gameState.executeTargetedAttackOn(user);
+
+    public void playMusic() {
+        Runnable runnablePlay = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    File explosion = new File("src/main/resources/explosion.mp3");
+                    FileInputStream fileInputStream = new FileInputStream(explosion);
+                    BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+                    Player player = new Player(bufferedInputStream);
+                    player.play();
+                } catch (JavaLayerException | IOException e) {
+                    System.err.println(Messages.getMessage(Messages.NO_MUSIC));
+                }
+            }
+        };
+        Thread playThread = new Thread(runnablePlay);
+        playThread.start();
     }
 }
