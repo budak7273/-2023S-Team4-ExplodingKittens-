@@ -50,7 +50,7 @@ public enum CardType {
             new AlterTheFutureEffect(),
             Messages.ALTER_DESC),
     TARGETED_ATTACK(Messages.getMessage(Messages.TARGETED_ATTACK),
-            null,
+            new TargetedAttackEffect(),
             Messages.TARGETED_ATTACK_DESC),
     SEE_THE_FUTURE(Messages.getMessage(Messages.SEE_THE_FUTURE),
             new SeeTheFutureEffect(),

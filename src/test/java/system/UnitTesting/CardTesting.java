@@ -12,10 +12,11 @@ public class CardTesting {
         Card card = new Card(CardType.ATTACK);
         Object otherObj = 1;
         Assertions.assertFalse(card.equals(otherObj));
-        Assertions.assertEquals(Messages.getMessage(Messages.ATTACK_CARD),
-                card.getName());
-        Assertions.assertEquals(Messages.getMessage(Messages.ATTACK_DESC),
-                card.getDesc());
+
+        String expectedName = Messages.getMessage(Messages.ATTACK_CARD);
+        String expectedDesc = Messages.getMessage(Messages.ATTACK_DESC);
+        Assertions.assertEquals(expectedName, card.getName());
+        Assertions.assertEquals(expectedDesc, card.getDesc());
     }
 
     @Test

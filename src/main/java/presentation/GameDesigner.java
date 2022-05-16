@@ -63,35 +63,33 @@ public class GameDesigner {
 
         while (scanner.hasNext()) {
             String username = scanner.next();
-            if (!userNameList.contains(username)) {
-
-                userNameList.add(username);
-                System.out.println(username + Messages
-                        .getMessage(Messages.PLAYER_ADDED_TO_GAME));
-
-                if (nextPlayerCount < tooManyPlayers) {
-                    System.out.println(Messages
-                            .getMessage(Messages.ADD_ANOTHER_PLAYER));
-                } else {
-                    break;
-                }
-
-                String response = scanner.next().toLowerCase();
-                boolean addAnotherPlayer = (response.equals("y")
-                        || response.equals("j"));
-                if (addAnotherPlayer) {
-                    System.out.println(Messages.
-                            getMessage(Messages.ENTER_PLAYER)
-                            + nextPlayerCount + Messages
-                            .getMessage(Messages.PLAYER_USERNAME));
-                    nextPlayerCount++;
-                } else {
-                    break;
-                }
-            } else {
-                System.out.println(Messages.
-                        getMessage(Messages.DUPLICATED_USERNAME));
+            if (userNameList.contains(username)) {
+                System.out.println(Messages.getMessage(
+                        Messages.DUPLICATED_USERNAME));
+                continue;
             }
+
+            userNameList.add(username);
+            System.out.println(username + Messages
+                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
+
+            if (nextPlayerCount >= tooManyPlayers) {
+                break;
+            }
+            System.out.println(Messages.getMessage(
+                    Messages.ADD_ANOTHER_PLAYER));
+
+            String response = scanner.next().toLowerCase();
+            boolean addAnotherPlayer = (response.equals("y")
+                    || response.equals("j"));
+            if (!addAnotherPlayer) {
+                break;
+            }
+
+            System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
+                    + nextPlayerCount + Messages
+                    .getMessage(Messages.PLAYER_USERNAME));
+            nextPlayerCount++;
         }
 
         System.out.println(Messages.getMessage(Messages.START_GAME));
@@ -114,6 +112,7 @@ public class GameDesigner {
         final GameState gameState = new GameState(users,
                 gamePlayer, drawDeck);
         gamePlayer.setGameState(gameState);
+        gamePlayer.playMusic();
         gamePlayer.updateUI();
     }
 
