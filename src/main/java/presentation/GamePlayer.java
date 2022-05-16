@@ -28,11 +28,22 @@ public class GamePlayer {
     private boolean catMode;
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
+    private static final int NOPE_DELAY_MILLIS = 2000;
+    private Timer nopeTimer;
+    private Card executingCard;
 
     public GamePlayer(JFrame frame) {
         this.gameFrame = frame;
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
+        ActionListener nopeListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tryTriggerCardExecution();
+            }
+        };
+        nopeTimer = new Timer(NOPE_DELAY_MILLIS, nopeListener);
+        nopeTimer.setRepeats(false);
     }
 
     public void setGameState(final GameState currentGameState) {
@@ -210,7 +221,12 @@ public class GamePlayer {
                     return;
                 }
 
-                card.activateEffect(gameState);
+                executingCard = card;
+                notificationPanel.lock();
+                notificationPanel.notifyPlayers("Waiting for NOPEs...", "");
+                gameState.setCardExecutionState(1);
+                nopeTimer.start();
+
                 updateUI();
 
                 getSelectedCards().clear();
@@ -316,6 +332,16 @@ public class GamePlayer {
         }
 
         getNotificationPanel().notifyPlayers(deathMessage, "rip");
+    }
+
+    public void tryTriggerCardExecution() {
+        notificationPanel.removeAll();
+        notificationPanel.unlock();
+        if (gameState.getCardExecutionState() == 1) {
+            executingCard.activateEffect(gameState);
+        }
+        executingCard = null;
+        gameState.setCardExecutionState(-1);
     }
 
     /**

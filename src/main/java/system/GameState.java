@@ -14,6 +14,8 @@ public class GameState {
     private static final int MAX_PLAYERS = 10;
     private int extraTurnsForCurrentUser = 0;
 
+    private int cardExecutionState = -1;
+
     public GameState(Queue<User> pq, GamePlayer gp,
                      DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
@@ -102,6 +104,14 @@ public class GameState {
 
     public DrawDeck getDrawDeck() {
         return this.drawDeck;
+    }
+
+    public void setCardExecutionState(int state) {
+        this.cardExecutionState = state;
+    }
+
+    public int getCardExecutionState() {
+        return this.cardExecutionState;
     }
 
     public boolean tryToEndGame() {

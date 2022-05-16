@@ -102,6 +102,14 @@ public class NotificationPanel extends JPanel {
         gamePlayer.updateDisplay();
     }
 
+    public void lock() {
+        exit.setVisible(false);
+    }
+
+    public void unlock() {
+        exit.setVisible(true);
+    }
+
     private void initializePane() {
         contentPanel.removeAll();
         if (!this.isAncestorOf(contentPanel)) {
