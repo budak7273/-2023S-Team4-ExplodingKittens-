@@ -12,39 +12,43 @@ import java.util.List;
 public class NotificationPanel extends JPanel {
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
-    private final ArrayList<Card> cardOrder = new ArrayList<>();
-    private final GamePlayer gamePlayer;
-    private final JPanel contentPanel;
-    private final JPanel buttonPanel;
-    private Card selected = null;
-    private JButton exit = new JButton();
+    private ArrayList<Card> cardOrder = new ArrayList<>();
+    private GamePlayer gamePlayer;
+    private JPanel contentPanel;
+    private JPanel buttonPanel;
 
-    public NotificationPanel(GamePlayer board) {
+    public NotificationPanel(GamePlayer player) {
         super();
-        this.gamePlayer = board;
+        this.gamePlayer = player;
+        constructBaseLayout();
+    }
+
+    private void constructBaseLayout() {
+        this.removeAll();
         this.setLayout(new GridLayout(2, 1));
 
         contentPanel = new JPanel();
         ComponentOrientation orientation = ComponentOrientation.LEFT_TO_RIGHT;
         contentPanel.setComponentOrientation(orientation);
+        this.add(contentPanel);
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
+        this.add(buttonPanel);
+    }
 
+    private void addExitButtonToLayout(String msg, ActionListener eventFn) {
+        JButton exit = new JButton();
         exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         exit.setBackground(Color.GRAY);
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeAll();
-            }
-        });
-
+        exit.addActionListener(eventFn);
+        exit.setText(msg);
         buttonPanel.add(exit);
     }
 
     public void seeTheFuture(List<Card> future) {
         initializePane();
+        addExitButtonToLayout("Done", e -> removeAll());
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -53,13 +57,21 @@ public class NotificationPanel extends JPanel {
             cardOrder.add(topCard);
             contentPanel.add(futureCard);
         }
-        exit.setText("Done");
         gamePlayer.updateDisplay();
     }
 
     public void alterTheFuture(List<Card> future) {
         initializePane();
+        ActionListener eventFn = e -> {
+            removeAll();
+            if (cardOrder.size() > 0) {
+                gamePlayer.returnFutureCards(cardOrder);
+                cardOrder.clear();
+            }
+        };
+        addExitButtonToLayout("Done", eventFn);
 
+        final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
             JButton futureCard = gamePlayer.createCardImage(
@@ -69,27 +81,27 @@ public class NotificationPanel extends JPanel {
                 private Card card = topCard;
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (selected != null) {
+                    if (selectedCard[0] != null) {
                         int current = cardOrder.indexOf(card);
-                        int swap = cardOrder.indexOf(selected);
+                        int swap = cardOrder.indexOf(selectedCard[0]);
                         cardOrder.set(swap, card);
-                        cardOrder.set(current, selected);
-                        selected = null;
+                        cardOrder.set(current, selectedCard[0]);
+                        selectedCard[0] = null;
                         alterTheFuture(new ArrayList<>(cardOrder));
                     } else {
-                        selected = card;
+                        selectedCard[0] = card;
                     }
                 }
             });
             contentPanel.add(futureCard);
         }
 
-        exit.setText("Done");
         gamePlayer.updateDisplay();
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
         initializePane();
+        addExitButtonToLayout(doneMessage, e -> removeAll());
 
         JLabel content = new JLabel("<html><center><br>"
                 + contentMessage + "<br><br></center></html>");
@@ -98,7 +110,6 @@ public class NotificationPanel extends JPanel {
         content.setOpaque(true);
         content.setBackground(Color.CYAN);
 
-        exit.setText(doneMessage);
         gamePlayer.updateDisplay();
     }
 
@@ -111,13 +122,7 @@ public class NotificationPanel extends JPanel {
     }
 
     private void initializePane() {
-        contentPanel.removeAll();
-        if (!this.isAncestorOf(contentPanel)) {
-            this.add(contentPanel);
-        }
-        if (!this.isAncestorOf(buttonPanel)) {
-            this.add(buttonPanel);
-        }
+        constructBaseLayout();
         cardOrder.clear();
     }
 
@@ -125,10 +130,5 @@ public class NotificationPanel extends JPanel {
     public void removeAll() {
         super.removeAll();
         gamePlayer.updateDisplay();
-        if (cardOrder.size() > 0) {
-            gamePlayer.returnFutureCards(cardOrder);
-            cardOrder.clear();
-        }
-        selected = null;
     }
 }
