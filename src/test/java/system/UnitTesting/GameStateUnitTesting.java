@@ -489,4 +489,25 @@ public class GameStateUnitTesting {
 
         EasyMock.verify(boardMock);
     }
+
+    @Test
+    public void testBeginTargetedAttack() {
+        Queue<User> pq = new LinkedList<User>();
+        for (int i = 0; i < MAX_USER_COUNT; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.displayTargetedAttackPrompt(pq);
+        EasyMock.expectLastCall();
+        EasyMock.replay(gpMock);
+
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.beginTargetedAttack();
+
+        EasyMock.verify(gpMock);
+    }
 }

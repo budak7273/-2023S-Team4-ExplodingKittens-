@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Queue;
 
 public class GamePlayer {
 
@@ -354,5 +355,8 @@ public class GamePlayer {
 
     public void setSelectedCards(ArrayList<Card> cards) {
         this.selectedCards = cards;
+    }
+
+    public void displayTargetedAttackPrompt(Queue<User> pq) {
     }
 }
