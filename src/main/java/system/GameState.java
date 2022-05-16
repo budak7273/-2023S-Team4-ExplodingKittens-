@@ -129,10 +129,18 @@ public class GameState {
         currentUser.removeCard(card);
     }
 
-    public void beginTargetedAttack() {
-        List<User> users = new ArrayList<>();
-        users.addAll(playerQueue);
-        users.remove(getUserForCurrentTurn());
-        gamePlayer.displayTargetedAttackPrompt(users);
+    public void triggerDisplayOfTargetedAttackPrompt() {
+        List<User> targets = getTargetsForCardEffects();
+        gamePlayer.displayTargetedAttackPrompt(targets);
+    }
+
+    private List<User> getTargetsForCardEffects() {
+        List<User> targets = new ArrayList<>();
+        targets.addAll(playerQueue);
+        targets.remove(getUserForCurrentTurn());
+        return targets;
+    }
+
+    public void executeTargetedAttackOn(User user) {
     }
 }

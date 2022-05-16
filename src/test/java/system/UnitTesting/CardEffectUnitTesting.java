@@ -100,7 +100,7 @@ public class CardEffectUnitTesting {
     public void testTargetedAttack() {
         EffectPattern targetedAtkEffect = new TargetedAttackEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
-        gameState.beginTargetedAttack();
+        gameState.triggerDisplayOfTargetedAttackPrompt();
         EasyMock.replay(gameState);
 
         targetedAtkEffect.useEffect(gameState);

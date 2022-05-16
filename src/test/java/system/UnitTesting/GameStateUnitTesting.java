@@ -492,7 +492,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testBeginTargetedAttack() {
+    public void testTriggerDisplayOfTargetedAttackPrompt() {
         Queue<User> pq = new LinkedList<User>();
         User currentUser = EasyMock.createMock(User.class);
         pq.add(currentUser);
@@ -509,7 +509,7 @@ public class GameStateUnitTesting {
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
 
         GameState gameState = new GameState(pq, gpMock, deckMock);
-        gameState.beginTargetedAttack();
+        gameState.triggerDisplayOfTargetedAttackPrompt();
 
         EasyMock.verify(gpMock);
     }
@@ -528,5 +528,10 @@ public class GameStateUnitTesting {
             }
         });
         return null;
+    }
+
+    @Test
+    public void testExecuteTargetedAttackOn() {
+
     }
 }
