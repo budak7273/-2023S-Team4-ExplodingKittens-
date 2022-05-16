@@ -26,11 +26,7 @@ public class GameState {
     }
 
     public void transitionToNextTurn() {
-        if (playerQueue.size() < MIN_PLAYERS
-                || playerQueue.size() > MAX_PLAYERS) {
-            throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
-        }
+        throwIfQueueSizeIsInvalid();
 
         if (extraTurnsForCurrentUser != 0) {
             extraTurnsForCurrentUser--;
@@ -45,6 +41,28 @@ public class GameState {
         }
 
         gamePlayer.updateUI();
+    }
+
+    private void transitionToTurnOfUser(User targetUser) {
+        throwIfQueueSizeIsInvalid();
+
+        User userAtTopOfQueue = playerQueue.peek();
+        while (userAtTopOfQueue != targetUser) {
+            userAtTopOfQueue = playerQueue.poll();
+            playerQueue.add(userAtTopOfQueue);
+            userAtTopOfQueue = playerQueue.peek();
+        }
+
+        gamePlayer.updateUI();
+
+    }
+
+    private void throwIfQueueSizeIsInvalid() {
+        if (playerQueue.size() < MIN_PLAYERS
+                || playerQueue.size() > MAX_PLAYERS) {
+            throw new IllegalArgumentException(
+                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
+        }
     }
 
     public void drawFromBottom() {
@@ -142,5 +160,7 @@ public class GameState {
     }
 
     public void executeTargetedAttackOn(User user) {
+        transitionToTurnOfUser(user);
+        addExtraTurn();
     }
 }

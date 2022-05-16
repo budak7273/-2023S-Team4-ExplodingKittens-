@@ -548,7 +548,5 @@ public class GameStateUnitTesting {
 
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
-
-        EasyMock.verify(gameState);
     }
 }
