@@ -117,15 +117,12 @@ public class GamePlayer {
                 BorderLayout.CENTER);
     }
     public void disableButtons(){
-        System.out.println("inside disabled");
     this.enabled = false;
-        System.out.println("enabled in method " + enabled);
     this.updateUI();
     this.updateDisplay();
     }
     public void enableButtons() {
         this.enabled = true;
-        System.out.println("called enable is true");
         this.updateUI();
         this.updateDisplay();
     }
