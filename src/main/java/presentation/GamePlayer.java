@@ -178,11 +178,7 @@ public class GamePlayer {
         JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
                 + "</center></html>");
         btnImage.setBackground(Color.GREEN);
-        btnImage.setEnabled(enabled);
-        if(!enabled){
-
-            btnImage.setBackground(Color.GRAY);
-        }
+        this.setEnabledButton(btnImage);
         return btnImage;
     }
 
