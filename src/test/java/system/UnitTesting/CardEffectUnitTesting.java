@@ -95,4 +95,16 @@ public class CardEffectUnitTesting {
 
         EasyMock.verify(gameState);
     }
+
+    @Test
+    public void testTargetedAttack() {
+        EffectPattern targetedAtkEffect = new TargetedAttackEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.beginTargetedAttack();
+        EasyMock.replay(gameState);
+
+        targetedAtkEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
 }

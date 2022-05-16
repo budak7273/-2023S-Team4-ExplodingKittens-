@@ -127,4 +127,6 @@ public class GameState {
         currentUser.removeCard(card);
     }
 
+    public void beginTargetedAttack() {
+    }
 }
