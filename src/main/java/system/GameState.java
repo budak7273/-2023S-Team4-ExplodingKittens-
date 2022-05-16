@@ -80,6 +80,7 @@ public class GameState {
     public void seeTheFuture() {
         List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
         gamePlayer.displayFutureCards(futureCards);
+
     }
 
     public void alterTheFuture() {

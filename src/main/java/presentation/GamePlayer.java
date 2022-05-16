@@ -29,11 +29,13 @@ public class GamePlayer {
     private GameState gameState;
     private JPanel playerDeckDisplayPanel;
     private boolean catMode;
+    private boolean enabled;
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
 
     public GamePlayer(JFrame frame) {
         this.gameFrame = frame;
+        this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
@@ -99,6 +101,7 @@ public class GamePlayer {
         });
         JButton discardPile = createCardImage("Top Card",
                 "");
+        this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
 
@@ -113,12 +116,25 @@ public class GamePlayer {
         return generatePlayerDeckCardsPanel(
                 BorderLayout.CENTER);
     }
-
+    public void disableButtons(){
+        System.out.println("inside disabled");
+    this.enabled = false;
+        System.out.println("enabled in method " + enabled);
+    this.updateUI();
+    this.updateDisplay();
+    }
+    public void enableButtons() {
+        this.enabled = true;
+        System.out.println("called enable is true");
+        this.updateUI();
+        this.updateDisplay();
+    }
     private JButton createDeckImage(String desc) {
-        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
-                + desc + "</center></html>");
-        deckImage.setBackground(Color.GREEN);
-        return deckImage;
+            JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+                    + desc + "</center></html>");
+            deckImage.setBackground(Color.GREEN);
+            this.setEnabledButton(deckImage);
+            return deckImage;
     }
 
     private JPanel generateUserSelectionPanel() {
@@ -133,6 +149,11 @@ public class GamePlayer {
         JButton hideButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_SHOW_MODE));
+
+        this.setEnabledButton(modeButton);
+        this.setEnabledButton(confirmButton);
+        this.setEnabledButton(hideButton);
+
         this.setModeButtonListener(modeButton);
         this.setConfirmButtonListener(confirmButton, hideButton);
         this.setEndButtonListener(hideButton);
@@ -149,11 +170,22 @@ public class GamePlayer {
         p.add(playerNameLabel, BorderLayout.SOUTH);
         return p;
     }
+    private void setEnabledButton(JButton button){
+        button.setEnabled(enabled);
+        if(!enabled){
 
+            button.setBackground(Color.GRAY);
+        }
+    }
     private JButton createButtonImage(String btnName) {
         JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
                 + "</center></html>");
-        btnImage.setBackground(Color.GRAY);
+        btnImage.setBackground(Color.GREEN);
+        btnImage.setEnabled(enabled);
+        if(!enabled){
+
+            btnImage.setBackground(Color.GRAY);
+        }
         return btnImage;
     }
 
@@ -263,14 +295,14 @@ public class GamePlayer {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
 
-                    if (cardLayout.getBackground() == Color.magenta) {
+                    if (cardLayout.getBackground() == Color.CYAN) {
                         System.out.println(card.getName() + " is selected!");
                         getSelectedCards().add(card);
-                        cardLayout.setBackground(Color.red);
+                        cardLayout.setBackground(Color.MAGENTA);
                     } else {
                         System.out.println(card.getName() + " is deselected!");
                         getSelectedCards().remove(card);
-                        cardLayout.setBackground(Color.magenta);
+                        cardLayout.setBackground(Color.CYAN);
                     }
                 }
             });
@@ -290,7 +322,7 @@ public class GamePlayer {
         JButton cardImage = new JButton();
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
-        cardImage.setBackground(Color.magenta);
+        cardImage.setBackground(Color.CYAN);
         JLabel cardDetails = new JLabel();
         cardDetails.setText("<html><overflow='hidden'>"
                 + name + "<br>" + desc + "</html>");
