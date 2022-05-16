@@ -95,4 +95,16 @@ public class CardEffectUnitTesting {
 
         EasyMock.verify(gameState);
     }
+
+    @Test
+    public void testNope() {
+        EffectPattern nopeEffect = new NopeEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.nope();
+        EasyMock.replay(gameState);
+
+        nopeEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
 }

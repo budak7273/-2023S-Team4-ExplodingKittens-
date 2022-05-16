@@ -74,6 +74,8 @@ public class GameState {
         }
     }
 
+    public void nope() {}
+
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
     }
