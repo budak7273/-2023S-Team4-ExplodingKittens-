@@ -502,7 +502,8 @@ public class GameStateUnitTesting {
         }
 
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
-        gpMock.displayTargetedAttackPrompt(validTargetListForCurrentUser(currentUser));
+        gpMock.displayTargetedAttackPrompt(
+                validTargetListForCurrentUser(currentUser));
         EasyMock.expectLastCall();
         EasyMock.replay(gpMock);
 
@@ -514,7 +515,7 @@ public class GameStateUnitTesting {
         EasyMock.verify(gpMock);
     }
 
-    private static List<User> validTargetListForCurrentUser(User user){
+    private static List<User> validTargetListForCurrentUser(User user) {
         EasyMock.reportMatcher(new IArgumentMatcher() {
             @Override
             public boolean matches(Object argument) {

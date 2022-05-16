@@ -81,12 +81,7 @@ public class Setup {
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {
-        // TODO: remove this
-        List<Card> testCards = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            testCards.add(new Card(CardType.TARGETED_ATTACK));
-        }
-        return new DrawDeck(testCards);
+        return new DrawDeck(cardList);
     }
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
