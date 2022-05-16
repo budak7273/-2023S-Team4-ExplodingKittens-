@@ -14,15 +14,18 @@ public class GameDesigner {
     private GamePlayer gamePlayer;
 
     private JFrame gameFrame;
+    private AudioPlayer audioPlayer;
 
     public GameDesigner(JFrame frame) {
         this.gameFrame = frame;
         this.users = new ArrayDeque<>();
+        this.audioPlayer = new AudioPlayer();
     }
 
     public GameDesigner(Queue<User> usersQueue, JFrame frame) {
         this.gameFrame = frame;
         this.users = usersQueue;
+        this.audioPlayer = new AudioPlayer();
     }
 
     /** createGame takes in no parameters.
@@ -109,7 +112,7 @@ public class GameDesigner {
         final GameState gameState = new GameState(users,
                 gamePlayer, drawDeck);
         gamePlayer.setGameState(gameState);
-        gamePlayer.playMusic();
+        audioPlayer.playMusicOnStartup();
         gamePlayer.updateUI();
     }
 
