@@ -3,7 +3,6 @@ package presentation;
 import datasource.Messages;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import org.omg.Messaging.SyncScopeHelper;
 import system.*;
 
 import javax.swing.*;
@@ -371,12 +370,8 @@ public class GamePlayer {
                     BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
                     Player player = new Player(bufferedInputStream);
                     player.play();
-                } catch (FileNotFoundException e) {
-                    System.err.println("Couldn't find file");
-                } catch (JavaLayerException e) {
-                    System.err.println("Java layer exception");
-                } catch (IOException e) {
-                    System.err.println("IO error");
+                } catch (JavaLayerException | IOException e) {
+                    System.err.println(Messages.getMessage(Messages.NO_MUSIC));
                 }
             }
         };
