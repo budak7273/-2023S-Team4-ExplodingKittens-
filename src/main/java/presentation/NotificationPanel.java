@@ -1,6 +1,7 @@
 package presentation;
 
 import system.Card;
+import system.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -94,6 +95,38 @@ public class NotificationPanel extends JPanel {
                 }
             });
             contentPanel.add(futureCard);
+        }
+
+        gamePlayer.updateDisplay();
+    }
+
+    public void displayTargetedAttackPrompt(List<User> victims) {
+        initializePane();
+
+        final User[] selectedVictim = {null};
+        final JButton[] selectedVictimBtn = {null};
+        ActionListener eventFn = e -> {
+            if (selectedVictim[0] == null) {
+                return;
+            }
+            removeAll();
+            gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
+        };
+        addExitButtonToLayout("Confirm", eventFn);
+
+        for (User victim : victims) {
+            JButton victimBtn = gamePlayer.createCardImage(
+                    victim.getName(), "");
+
+            victimBtn.addActionListener(e -> {
+                if (selectedVictim[0] != null) {
+                    selectedVictimBtn[0].setBackground(Color.magenta);
+                }
+                selectedVictim[0] = victim;
+                selectedVictimBtn[0] = victimBtn;
+                victimBtn.setBackground(Color.red);
+            });
+            contentPanel.add(victimBtn);
         }
 
         gamePlayer.updateDisplay();
