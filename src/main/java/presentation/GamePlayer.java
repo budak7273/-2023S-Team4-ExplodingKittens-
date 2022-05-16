@@ -315,8 +315,10 @@ public class GamePlayer {
 
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+            AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
+            AudioPlayer.playExplosion();
         }
 
         getNotificationPanel().notifyPlayers(deathMessage, "rip");
