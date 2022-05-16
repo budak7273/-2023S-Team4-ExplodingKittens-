@@ -315,8 +315,10 @@ public class GamePlayer {
 
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+            AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
+            AudioPlayer.playExplosion();
         }
 
         getNotificationPanel().notifyPlayers(deathMessage, "rip");
@@ -369,22 +371,5 @@ public class GamePlayer {
         gameState.executeTargetedAttackOn(user);
     }
 
-    public void playMusic() {
-        Runnable runnablePlay = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    File explosion = new File("src/main/resources/explosion.mp3");
-                    FileInputStream fileInputStream = new FileInputStream(explosion);
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-                    Player player = new Player(bufferedInputStream);
-                    player.play();
-                } catch (JavaLayerException | IOException e) {
-                    System.err.println(Messages.getMessage(Messages.NO_MUSIC));
-                }
-            }
-        };
-        Thread playThread = new Thread(runnablePlay);
-        playThread.start();
-    }
+
 }
