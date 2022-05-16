@@ -4,7 +4,6 @@ import datasource.Messages;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 import system.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +21,7 @@ public class GamePlayer {
      */
     private JFrame gameFrame;
 
-    private NotificationPanel notificationPanel = new NotificationPanel(this);
+    private NotificationPanel notificationPanel;
 
     /**
      * Local storage of the game's current state.
@@ -35,6 +34,7 @@ public class GamePlayer {
 
     public GamePlayer(JFrame frame) {
         this.gameFrame = frame;
+        this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
     }
@@ -360,6 +360,14 @@ public class GamePlayer {
         this.selectedCards = cards;
     }
 
+    public void displayTargetedAttackPrompt(List<User> users) {
+        this.notificationPanel.displayTargetedAttackPrompt(users);
+    }
+
+    public void triggerTargetedAttackOn(User user) {
+        System.out.println("TODO: triggerTargetedAttackOn user");
+        gameState.executeTargetedAttackOn(user);
+
     public void playMusic() {
         Runnable runnablePlay = new Runnable() {
             @Override
@@ -377,6 +385,5 @@ public class GamePlayer {
         };
         Thread playThread = new Thread(runnablePlay);
         playThread.start();
-
     }
 }

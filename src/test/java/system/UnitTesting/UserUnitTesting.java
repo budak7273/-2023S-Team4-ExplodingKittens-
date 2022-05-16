@@ -52,7 +52,7 @@ public class UserUnitTesting {
     }
 
     @Test
-    public void testUserConstructorHandWithOneCardRemoveOne(){
+    public void testUserConstructorHandWithOneCardRemoveOne() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.ATTACK);
         list.add(card);

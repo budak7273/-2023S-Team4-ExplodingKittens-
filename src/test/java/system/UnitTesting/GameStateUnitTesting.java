@@ -1,6 +1,7 @@
 
 package system.UnitTesting;
 
+import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
 import org.easymock.EasyMock;
@@ -488,5 +489,65 @@ public class GameStateUnitTesting {
         Assertions.assertEquals(0, gameState.getExtraTurnCountForCurrentUser());
 
         EasyMock.verify(boardMock);
+    }
+
+    @Test
+    public void testTriggerDisplayOfTargetedAttackPrompt() {
+        Queue<User> pq = new LinkedList<User>();
+        User currentUser = EasyMock.createMock(User.class);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.displayTargetedAttackPrompt(
+                validTargetListForCurrentUser(currentUser));
+        EasyMock.expectLastCall();
+        EasyMock.replay(gpMock);
+
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.triggerDisplayOfTargetedAttackPrompt();
+
+        EasyMock.verify(gpMock);
+    }
+
+    private static List<User> validTargetListForCurrentUser(User user) {
+        EasyMock.reportMatcher(new IArgumentMatcher() {
+            @Override
+            public boolean matches(Object argument) {
+                return argument instanceof List
+                        && ((List) argument).size() == MAX_USER_COUNT - 1
+                        && !((List) argument).contains(user);
+            }
+
+            @Override
+            public void appendTo(StringBuffer buffer) {
+            }
+        });
+        return null;
+    }
+
+    @Test
+    public void testExecuteTargetedAttackOnUserLastInQueue() {
+        Queue<User> pq = new LinkedList<>();
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+        User targetUser = EasyMock.createMock(User.class);
+        pq.add(targetUser);
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.executeTargetedAttackOn(targetUser);
+
+        Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
+        Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
     }
 }
