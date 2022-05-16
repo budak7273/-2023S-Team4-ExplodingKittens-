@@ -97,6 +97,18 @@ public class CardEffectUnitTesting {
     }
 
     @Test
+    public void testTargetedAttack() {
+        EffectPattern targetedAtkEffect = new TargetedAttackEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.triggerDisplayOfTargetedAttackPrompt();
+        EasyMock.replay(gameState);
+
+        targetedAtkEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
+
+    @Test
     public void testNope() {
         EffectPattern nopeEffect = new NopeEffect();
         GameState gameState = EasyMock.createMock(GameState.class);

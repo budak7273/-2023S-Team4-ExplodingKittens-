@@ -2,6 +2,8 @@ package system;
 
 import datasource.Messages;
 import presentation.GamePlayer;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -26,11 +28,7 @@ public class GameState {
     }
 
     public void transitionToNextTurn() {
-        if (playerQueue.size() < MIN_PLAYERS
-                || playerQueue.size() > MAX_PLAYERS) {
-            throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
-        }
+        throwIfQueueSizeIsInvalid();
 
         if (extraTurnsForCurrentUser != 0) {
             extraTurnsForCurrentUser--;
@@ -45,6 +43,28 @@ public class GameState {
         }
 
         gamePlayer.updateUI();
+    }
+
+    private void transitionToTurnOfUser(User targetUser) {
+        throwIfQueueSizeIsInvalid();
+
+        User userAtTopOfQueue = playerQueue.peek();
+        while (userAtTopOfQueue != targetUser) {
+            userAtTopOfQueue = playerQueue.poll();
+            playerQueue.add(userAtTopOfQueue);
+            userAtTopOfQueue = playerQueue.peek();
+        }
+
+        gamePlayer.updateUI();
+
+    }
+
+    private void throwIfQueueSizeIsInvalid() {
+        if (playerQueue.size() < MIN_PLAYERS
+                || playerQueue.size() > MAX_PLAYERS) {
+            throw new IllegalArgumentException(
+                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
+        }
     }
 
     public void drawFromBottom() {
@@ -139,4 +159,20 @@ public class GameState {
         currentUser.removeCard(card);
     }
 
+    public void triggerDisplayOfTargetedAttackPrompt() {
+        List<User> targets = getTargetsForCardEffects();
+        gamePlayer.displayTargetedAttackPrompt(targets);
+    }
+
+    private List<User> getTargetsForCardEffects() {
+        List<User> targets = new ArrayList<>();
+        targets.addAll(playerQueue);
+        targets.remove(getUserForCurrentTurn());
+        return targets;
+    }
+
+    public void executeTargetedAttackOn(User user) {
+        transitionToTurnOfUser(user);
+        addExtraTurn();
+    }
 }

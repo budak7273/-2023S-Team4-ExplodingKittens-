@@ -32,7 +32,7 @@ jacocoTestReport {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
+    implementation 'javazoom:jlayer:1.0.1'
     // https://mvnrepository.com/artifact/org.easymock/easymock
     testImplementation 'org.easymock:easymock:3.1'
 }
