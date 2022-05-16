@@ -5,12 +5,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
+
 import java.util.ArrayList;
 
 public class UserUnitTesting {
 
     static final int ARBITRARY_COUNT_OF_SELECTED = 3;
     static final int MAX_HAND_SIZE = 120;
+
     @Test
     public void testUserConstructorDefault() {
         User user = new User();
@@ -52,7 +54,7 @@ public class UserUnitTesting {
     }
 
     @Test
-    public void testUserConstructorHandWithOneCardRemoveOne(){
+    public void testUserConstructorHandWithOneCardRemoveOne() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.ATTACK);
         list.add(card);

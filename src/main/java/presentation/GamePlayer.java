@@ -18,7 +18,7 @@ public class GamePlayer {
      */
     private JFrame gameFrame;
 
-    private NotificationPanel notificationPanel = new NotificationPanel(this);
+    private NotificationPanel notificationPanel;
 
     /**
      * Local storage of the game's current state.
@@ -31,6 +31,7 @@ public class GamePlayer {
 
     public GamePlayer(JFrame frame) {
         this.gameFrame = frame;
+        this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
     }
