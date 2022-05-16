@@ -367,6 +367,7 @@ public class GamePlayer {
     public void triggerTargetedAttackOn(User user) {
         System.out.println("TODO: triggerTargetedAttackOn user");
         gameState.executeTargetedAttackOn(user);
+    }
 
     public void playMusic() {
         Runnable runnablePlay = new Runnable() {
