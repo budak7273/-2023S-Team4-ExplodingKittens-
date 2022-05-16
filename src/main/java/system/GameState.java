@@ -82,10 +82,6 @@ public class GameState {
         gamePlayer.displayFutureCards(futureCards);
     }
 
-    public void stealTheFavor() {
-        gamePlayer.notify();
-    }
-
     public void alterTheFuture() {
         List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
         gamePlayer.editFutureCards(futureCards);
@@ -166,5 +162,8 @@ public class GameState {
     public void executeTargetedAttackOn(User user) {
         transitionToTurnOfUser(user);
         addExtraTurn();
+    }
+
+    public void triggerDisplayOfFavorPrompt() {
     }
 }
