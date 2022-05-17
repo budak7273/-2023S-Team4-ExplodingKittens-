@@ -340,7 +340,10 @@ public class GamePlayer {
 
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
-            gameState.addExplodingKittenBackIntoDeck();
+            DrawDeck deck = gameState.getDrawDeck();
+            int location =  getNotificationPanel().addExplodingKittenBackIntoDeck(deck);
+
+            gameState.addExplodingKittenBackIntoDeck(location);
             AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
@@ -349,6 +352,7 @@ public class GamePlayer {
 
         getNotificationPanel().notifyPlayers(deathMessage, "rip");
     }
+
 
     /**
      * updateUI changes the GUI of the current game when it is called.

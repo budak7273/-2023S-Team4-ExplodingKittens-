@@ -1,6 +1,7 @@
 package presentation;
 
 import system.Card;
+import system.DrawDeck;
 import system.User;
 
 import javax.swing.*;
@@ -137,6 +138,21 @@ public class NotificationPanel extends JPanel {
         }
 
         gamePlayer.updateDisplay();
+    }
+
+    public int addExplodingKittenBackIntoDeck(DrawDeck deck){
+        gamePlayer.disableButtons();
+        initializePane();
+        addExitButtonToLayout("Done", e -> {
+            removeAll();
+            gamePlayer.enableButtons();});
+        int size = deck.getDeckSize();
+        String[] options = new String[size];
+        for(int i = 0; i < size; i++){
+            options[i] = i + "";
+        }
+        String getLocation = (String) JOptionPane.showInputDialog(options);
+        return Integer.parseInt(getLocation);
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
