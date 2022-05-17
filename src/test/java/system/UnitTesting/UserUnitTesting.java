@@ -421,4 +421,12 @@ public class UserUnitTesting {
         Assertions.assertTrue(hand.isEmpty());
     }
 
+    @Test
+    public void testPlayerNopesNoNope() {
+        User user = new User("test", false, new ArrayList<>());
+        boolean result = user.attemptToNope();
+
+        Assertions.assertFalse(result);
+    }
+
 }

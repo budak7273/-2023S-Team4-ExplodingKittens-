@@ -65,6 +65,10 @@ public class User {
         }
     }
 
+    public boolean attemptToNope() {
+        return false;
+    }
+
     public boolean checkForSpecialEffectPotential() {
         int feralCount = 0;
         int otherCount = 0;
