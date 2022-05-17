@@ -167,7 +167,8 @@ public class GameState {
     }
 
     public void triggerDisplayOfFavorPrompt() {
-
+        List<User> targets = getTargetsForCardEffects();
+        gamePlayer.displayFavorPrompt(targets);
     }
     
     public void addExplodingKittenBackIntoDeck() {

@@ -594,4 +594,20 @@ public class GameStateUnitTesting {
 
         EasyMock.verify(gpMock);
     }
+
+    private List<User> validFavorListForCurrentUser(User user) {
+        EasyMock.reportMatcher(new IArgumentMatcher() {
+            @Override
+            public boolean matches(Object argument) {
+                return argument instanceof List
+                        && ((List) argument).size() == MAX_USER_COUNT - 1
+                        && !((List) argument).contains(user);
+            }
+
+            @Override
+            public void appendTo(StringBuffer buffer) {
+            }
+        });
+        return null;
+    }
 }

@@ -397,4 +397,6 @@ public class GamePlayer {
     }
 
 
+    public void displayFavorPrompt(List<User> targets) {
+    }
 }
