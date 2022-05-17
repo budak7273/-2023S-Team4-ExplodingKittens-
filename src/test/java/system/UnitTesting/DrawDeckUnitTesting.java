@@ -224,5 +224,21 @@ public class DrawDeckUnitTesting {
         assertTrue(deck.getCardsAsList().isEmpty());
         EasyMock.verify(user);
     }
+    @Test
+    public void testAddExplodingKitten() {
+        Card kitten = new Card(CardType.EXPLODING_KITTEN);
+
+        User user = EasyMock.createMock(User.class);
+        EasyMock.replay(user);
+
+        LinkedList<Card> initialDeck = new LinkedList<>();
+        initialDeck.add(kitten);
+
+        DrawDeck deck = new DrawDeck(initialDeck);
+        assertTrue(deck.drawCard(user));
+        deck.addExplodingKittenAtLocation(0);
+        assertTrue(deck.getCardsAsList().size() == 1);
+        EasyMock.verify(user);
+    }
 
 }
