@@ -559,15 +559,11 @@ public class GameStateUnitTesting {
         Queue<User> pq = new LinkedList<>();
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-        Card cardMock = EasyMock.createMockBuilder(Card.class).withConstructor(CardType.EXPLODING_KITTEN).createMock();
-        deckMock.addCardToTop(cardMock);
-        EasyMock.expect(deckMock.shuffle()).andReturn(true);
+        deckMock.addExplodingKittenAtLocation(0);
         GameState gameState = new GameState(pq, gpMock, deckMock);
         EasyMock.replay(gpMock, deckMock);
-        gameState.addExplodingKittenBackIntoDeck();
-
+        gameState.addExplodingKittenBackIntoDeck(0);
+        Assertions.assertEquals(deckMock, gameState.getDrawDeck());
         EasyMock.verify(gpMock,deckMock);
-
-
     }
 }
