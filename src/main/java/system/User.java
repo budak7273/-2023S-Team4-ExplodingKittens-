@@ -66,6 +66,12 @@ public class User {
     }
 
     public boolean attemptToNope() {
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).getType() == CardType.NOPE) {
+                hand.remove(i);
+                return true;
+            }
+        }
         return false;
     }
 

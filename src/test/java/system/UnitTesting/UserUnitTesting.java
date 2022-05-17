@@ -429,4 +429,15 @@ public class UserUnitTesting {
         Assertions.assertFalse(result);
     }
 
+    @Test
+    public void testPlayerNopesWithNope() {
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new Card(CardType.NOPE));
+
+        User user = new User("test", false, hand);
+        boolean result = user.attemptToNope();
+
+        Assertions.assertTrue(result);
+        Assertions.assertTrue(hand.isEmpty());
+    }
 }
