@@ -447,7 +447,7 @@ public class UserUnitTesting {
 
         EasyMock.replay(gp);
         EasyMock.replay(deckMock);
-        GameState gameState = new GameState(pq,gp,deckMock);
+        GameState gameState = new GameState(pq, gp, deckMock);
         gameState.executeFavorOn(targetUser);
 
         Assertions.assertFalse(targetUser.getHand().contains(c));

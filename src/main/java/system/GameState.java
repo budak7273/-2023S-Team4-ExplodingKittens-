@@ -170,7 +170,7 @@ public class GameState {
         List<User> targets = getTargetsForCardEffects();
         gamePlayer.displayFavorPrompt(targets);
     }
-    
+
     public void addExplodingKittenBackIntoDeck() {
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
         drawDeck.shuffle();
@@ -178,7 +178,7 @@ public class GameState {
 
     public void executeFavorOn(User user) {
         int i = gamePlayer.inputForStealCard(user);
-        while(i==-1){
+        while (i == -1) {
             i = gamePlayer.inputForStealCard(user);
         }
         Card stealCard = user.removeHand(i);

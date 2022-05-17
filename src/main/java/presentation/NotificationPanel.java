@@ -52,8 +52,9 @@ public class NotificationPanel extends JPanel {
         gamePlayer.disableButtons();
         initializePane();
         addExitButtonToLayout("Done", e -> {
-        removeAll();
-        gamePlayer.enableButtons();});
+            removeAll();
+            gamePlayer.enableButtons();
+        });
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -86,6 +87,7 @@ public class NotificationPanel extends JPanel {
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
                 private Card card = topCard;
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (selectedCard[0] != null) {
@@ -107,7 +109,7 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayTargetedAttackPrompt(List<User> victims) {
-        diaplaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK);
+        displaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK);
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
@@ -136,11 +138,12 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayFavorPrompt(List<User> victims) {
-        diaplaySingleSelectionPrompt(victims, CardType.FAVOR);
+        displaySingleSelectionPrompt(victims, CardType.FAVOR);
 
     }
 
-    private void diaplaySingleSelectionPrompt(List<User> victims, CardType type) {
+    private void displaySingleSelectionPrompt(
+            List<User> victims, CardType type) {
         gamePlayer.disableButtons();
         initializePane();
 
@@ -151,9 +154,9 @@ public class NotificationPanel extends JPanel {
                 return;
             }
             removeAll();
-            if(type==CardType.FAVOR) {
+            if (type == CardType.FAVOR) {
                 gamePlayer.triggerFavorOn(selectedVictim[0]);
-            }else {
+            } else {
                 gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
             }
             gamePlayer.enableButtons();

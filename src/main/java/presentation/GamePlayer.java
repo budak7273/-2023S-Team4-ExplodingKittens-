@@ -2,6 +2,7 @@ package presentation;
 
 import datasource.Messages;
 import system.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -112,22 +113,25 @@ public class GamePlayer {
         return generatePlayerDeckCardsPanel(
                 BorderLayout.CENTER);
     }
-    public void disableButtons(){
-    this.enabled = false;
-    this.updateUI();
-    this.updateDisplay();
+
+    public void disableButtons() {
+        this.enabled = false;
+        this.updateUI();
+        this.updateDisplay();
     }
+
     public void enableButtons() {
         this.enabled = true;
         this.updateUI();
         this.updateDisplay();
     }
+
     private JButton createDeckImage(String desc) {
-            JButton deckImage = new JButton("<html><center>Draw Deck<br>"
-                    + desc + "</center></html>");
-            deckImage.setBackground(Color.GREEN);
-            this.setEnabledButton(deckImage);
-            return deckImage;
+        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+                + desc + "</center></html>");
+        deckImage.setBackground(Color.GREEN);
+        this.setEnabledButton(deckImage);
+        return deckImage;
     }
 
     private JPanel generateUserSelectionPanel() {
@@ -163,13 +167,15 @@ public class GamePlayer {
         p.add(playerNameLabel, BorderLayout.SOUTH);
         return p;
     }
-    private void setEnabledButton(JButton button){
+
+    private void setEnabledButton(JButton button) {
         button.setEnabled(enabled);
-        if(!enabled){
+        if (!enabled) {
 
             button.setBackground(Color.GRAY);
         }
     }
+
     private JButton createButtonImage(String btnName) {
         JButton btnImage = new JButton("<html><center>" + btnName + "<br>"
                 + "</center></html>");
@@ -404,34 +410,34 @@ public class GamePlayer {
 
     public int inputForStealCard(User user) {
         int result = 0;
-        try{
-        String inputs = (String)JOptionPane.showInputDialog(
-                gameFrame,
-                "Type a valid index",
-                "Stealing a card",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                0
-        );
-        result = Integer.parseInt(inputs);
+        try {
+            String inputs = (String) JOptionPane.showInputDialog(
+                    gameFrame,
+                    "Type a valid index",
+                    "Stealing a card",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    0
+            );
+            result = Integer.parseInt(inputs);
 
-        if(result<0||result>=user.getHand().size()){
-            String infoMessage = Messages.getMessage(
-                    Messages.WRONG_INDEX_ENTERED);
-            String titleBar = "InfoBox: Warning";
-            JOptionPane.showMessageDialog(null,
-                    infoMessage, titleBar,
-                    JOptionPane.INFORMATION_MESSAGE);
-            result = -1;
-        }
+            if (result < 0 || result >= user.getHand().size()) {
+                String infoMessage = Messages.getMessage(
+                        Messages.WRONG_INDEX_ENTERED);
+                String titleBar = "InfoBox: Warning";
+                JOptionPane.showMessageDialog(null,
+                        infoMessage, titleBar,
+                        JOptionPane.INFORMATION_MESSAGE);
+                result = -1;
+            }
 
         } catch (HeadlessException e) {
 
         } catch (NumberFormatException e) {
             result = -1;
         }
-        
+
         return result;
     }
 }
