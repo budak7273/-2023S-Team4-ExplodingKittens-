@@ -1,6 +1,7 @@
 
 package system.UnitTesting;
 
+import datasource.CardType;
 import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
@@ -387,6 +388,9 @@ public class GameStateUnitTesting {
         drawDeck.addCardToTop(second);
         drawDeck.addCardToTop(third);
 
+
+
+
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
         EasyMock.replay(first, second, third, gameboard, drawDeck);
 
@@ -553,17 +557,17 @@ public class GameStateUnitTesting {
     @Test
     public void testAddExplodingKittenIntoDeck(){
         Queue<User> pq = new LinkedList<>();
-        for (int i = 0; i < MAX_USER_COUNT ; i++) {
-            User user = EasyMock.createMock(User.class);
-            pq.add(user);
-        }
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-
+        Card cardMock = EasyMock.createMockBuilder(Card.class).withConstructor(CardType.EXPLODING_KITTEN).createMock();
+        deckMock.addCardToTop(cardMock);
+        EasyMock.expect(deckMock.shuffle()).andReturn(true);
         GameState gameState = new GameState(pq, gpMock, deckMock);
-        Assertions.assertEquals(0, deckMock.getDeckSize());
+        EasyMock.replay(gpMock, deckMock);
         gameState.addExplodingKittenBackIntoDeck();
-        Assertions.assertEquals(1, deckMock.getDeckSize());
+
+        EasyMock.verify(gpMock,deckMock);
+
 
     }
 }
