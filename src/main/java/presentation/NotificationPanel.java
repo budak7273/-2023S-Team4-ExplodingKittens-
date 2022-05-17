@@ -13,8 +13,8 @@ import java.util.List;
 public class NotificationPanel extends JPanel {
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
-    private ArrayList<Card> cardOrder = new ArrayList<>();
-    private GamePlayer gamePlayer;
+    private final ArrayList<Card> cardOrder = new ArrayList<>();
+    private final GamePlayer gamePlayer;
     private JPanel contentPanel;
     private JPanel buttonPanel;
 
@@ -89,7 +89,7 @@ public class NotificationPanel extends JPanel {
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
-                private Card card = topCard;
+                private final Card card = topCard;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (selectedCard[0] != null) {
@@ -146,7 +146,7 @@ public class NotificationPanel extends JPanel {
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
         initializePane();
-        if (buttonPanel.isVisible()) {
+        if (!doneMessage.isEmpty()) {
             addExitButtonToLayout(doneMessage, e -> removeAll());
         }
 
@@ -158,14 +158,6 @@ public class NotificationPanel extends JPanel {
         content.setBackground(Color.CYAN);
 
         gamePlayer.updateDisplay();
-    }
-
-    public void lock() {
-        buttonPanel.setVisible(false);
-    }
-
-    public void unlock() {
-        buttonPanel.setVisible(true);
     }
 
     private void initializePane() {

@@ -260,7 +260,6 @@ public class GamePlayer {
 
                 executingCard = card;
                 notificationPanel.notifyPlayers("Waiting for NOPEs...", "");
-                notificationPanel.lock();
                 synchronized (mutex) {
                     gameState.setCardExecutionState(1);
                 }
@@ -378,7 +377,6 @@ public class GamePlayer {
 
     public void tryTriggerCardExecution() {
         notificationPanel.removeAll();
-        notificationPanel.unlock();
         synchronized (mutex) {
             if (gameState.getCardExecutionState() == 1) {
                 executingCard.activateEffect(gameState);
