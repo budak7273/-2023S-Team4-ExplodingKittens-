@@ -396,7 +396,12 @@ public class GamePlayer {
         gameState.executeTargetedAttackOn(user);
     }
 
+    public void triggerFavorOn(User user) {
+        System.out.println("TODO: triggerFavorOn user");
+    }
 
-    public void displayFavorPrompt(List<User> targets) {
+
+    public void displayFavorPrompt(List<User> users) {
+        this.notificationPanel.displayFavorPrompt(users);
     }
 }

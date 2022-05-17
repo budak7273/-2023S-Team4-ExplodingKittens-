@@ -1,5 +1,6 @@
 package presentation;
 
+import datasource.CardType;
 import system.Card;
 import system.User;
 
@@ -106,37 +107,7 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayTargetedAttackPrompt(List<User> victims) {
-        gamePlayer.disableButtons();
-        initializePane();
-
-        final User[] selectedVictim = {null};
-        final JButton[] selectedVictimBtn = {null};
-        ActionListener eventFn = e -> {
-            if (selectedVictim[0] == null) {
-                return;
-            }
-            removeAll();
-            gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
-            gamePlayer.enableButtons();
-        };
-        addExitButtonToLayout("Confirm", eventFn);
-
-        for (User victim : victims) {
-            JButton victimBtn = gamePlayer.createCardImage(
-                    victim.getName(), "");
-
-            victimBtn.addActionListener(e -> {
-                if (selectedVictim[0] != null) {
-                    selectedVictimBtn[0].setBackground(Color.magenta);
-                }
-                selectedVictim[0] = victim;
-                selectedVictimBtn[0] = victimBtn;
-                victimBtn.setBackground(Color.red);
-            });
-            contentPanel.add(victimBtn);
-        }
-
-        gamePlayer.updateDisplay();
+        diaplaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK);
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
@@ -161,6 +132,49 @@ public class NotificationPanel extends JPanel {
     @Override
     public void removeAll() {
         super.removeAll();
+        gamePlayer.updateDisplay();
+    }
+
+    public void displayFavorPrompt(List<User> victims) {
+        diaplaySingleSelectionPrompt(victims, CardType.FAVOR);
+
+    }
+
+    private void diaplaySingleSelectionPrompt(List<User> victims, CardType type) {
+        gamePlayer.disableButtons();
+        initializePane();
+
+        final User[] selectedVictim = {null};
+        final JButton[] selectedVictimBtn = {null};
+        ActionListener eventFn = e -> {
+            if (selectedVictim[0] == null) {
+                return;
+            }
+            removeAll();
+            if(type==CardType.FAVOR) {
+                gamePlayer.triggerFavorOn(selectedVictim[0]);
+            }else {
+                gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
+            }
+            gamePlayer.enableButtons();
+        };
+        addExitButtonToLayout("Confirm", eventFn);
+
+        for (User victim : victims) {
+            JButton victimBtn = gamePlayer.createCardImage(
+                    victim.getName(), "");
+
+            victimBtn.addActionListener(e -> {
+                if (selectedVictim[0] != null) {
+                    selectedVictimBtn[0].setBackground(Color.CYAN);
+                }
+                selectedVictim[0] = victim;
+                selectedVictimBtn[0] = victimBtn;
+                victimBtn.setBackground(Color.red);
+            });
+            contentPanel.add(victimBtn);
+        }
+
         gamePlayer.updateDisplay();
     }
 }
