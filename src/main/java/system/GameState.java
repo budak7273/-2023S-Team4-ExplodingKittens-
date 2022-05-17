@@ -167,7 +167,6 @@ public class GameState {
 
     public void addExplodingKittenBackIntoDeck() {
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
-        System.out.println("Exploding kitten added to top");
         drawDeck.shuffle();
     }
 }
