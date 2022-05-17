@@ -1,18 +1,14 @@
 package presentation;
 
 import datasource.Messages;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
 import system.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GamePlayer {
 
@@ -116,7 +112,7 @@ public class GamePlayer {
         return generatePlayerDeckCardsPanel(
                 BorderLayout.CENTER);
     }
-    public void disableButtons(){
+    public void disableButtons() {
     this.enabled = false;
     this.updateUI();
     this.updateDisplay();
@@ -167,9 +163,9 @@ public class GamePlayer {
         p.add(playerNameLabel, BorderLayout.SOUTH);
         return p;
     }
-    private void setEnabledButton(JButton button){
+    private void setEnabledButton(JButton button) {
         button.setEnabled(enabled);
-        if(!enabled){
+        if (!enabled) {
 
             button.setBackground(Color.GRAY);
         }

@@ -52,7 +52,7 @@ public class NotificationPanel extends JPanel {
         initializePane();
         addExitButtonToLayout("Done", e -> {
         removeAll();
-        gamePlayer.enableButtons();});
+        gamePlayer.enableButtons(); });
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
