@@ -35,6 +35,7 @@ public class GamePlayer {
     private static final int NOPE_DELAY_MILLIS = 2000;
     private Timer nopeTimer;
     private Card executingCard;
+    private Object mutex = new Object();
 
     public GamePlayer(JFrame frame) {
         this.gameFrame = frame;
@@ -90,6 +91,13 @@ public class GamePlayer {
                 JButton otherPlayer =
                         createCardImage(user.getName(),
                                 user.getHand().size() + "");
+                otherPlayer.addActionListener(new ActionListener() {
+                    private User innerUser = user;
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tryNope(innerUser);
+                    }
+                });
                 userDisplayPanel.add(otherPlayer);
             }
         }
@@ -251,9 +259,11 @@ public class GamePlayer {
                 }
 
                 executingCard = card;
-                notificationPanel.lock();
                 notificationPanel.notifyPlayers("Waiting for NOPEs...", "");
-                gameState.setCardExecutionState(1);
+                notificationPanel.lock();
+                synchronized (mutex) {
+                    gameState.setCardExecutionState(1);
+                }
                 nopeTimer.start();
 
                 updateUI();
@@ -369,11 +379,31 @@ public class GamePlayer {
     public void tryTriggerCardExecution() {
         notificationPanel.removeAll();
         notificationPanel.unlock();
-        if (gameState.getCardExecutionState() == 1) {
-            executingCard.activateEffect(gameState);
+        synchronized (mutex) {
+            if (gameState.getCardExecutionState() == 1) {
+                executingCard.activateEffect(gameState);
+            } else {
+                gameState.removeCardFromCurrentUser(executingCard);
+            }
+            executingCard = null;
+            gameState.setCardExecutionState(-1);
         }
-        executingCard = null;
-        gameState.setCardExecutionState(-1);
+        updateUI();
+    }
+
+    public void tryNope(User executingUser) {
+        synchronized (mutex) {
+            int execution = gameState.getCardExecutionState();
+            if (execution == 0) {
+                if (executingUser.attemptToNope()) {
+                    gameState.setCardExecutionState(1);
+                }
+            } else if (execution == 1) {
+                if (executingUser.attemptToNope()) {
+                    gameState.setCardExecutionState(0);
+                }
+            }
+        }
     }
 
     /**

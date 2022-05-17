@@ -51,8 +51,13 @@ public class NotificationPanel extends JPanel {
         gamePlayer.disableButtons();
         initializePane();
         addExitButtonToLayout("Done", e -> {
-        removeAll();
-        gamePlayer.enableButtons();});
+            removeAll();
+
+            if (cardOrder.size() > 0) {
+                gamePlayer.returnFutureCards(cardOrder);
+                cardOrder.clear();
+            }
+            gamePlayer.enableButtons();});
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -141,7 +146,9 @@ public class NotificationPanel extends JPanel {
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
         initializePane();
-        addExitButtonToLayout(doneMessage, e -> removeAll());
+        if (buttonPanel.isVisible()) {
+            addExitButtonToLayout(doneMessage, e -> removeAll());
+        }
 
         JLabel content = new JLabel("<html><center><br>"
                 + contentMessage + "<br><br></center></html>");
@@ -154,11 +161,11 @@ public class NotificationPanel extends JPanel {
     }
 
     public void lock() {
-        exit.setVisible(false);
+        buttonPanel.setVisible(false);
     }
 
     public void unlock() {
-        exit.setVisible(true);
+        buttonPanel.setVisible(true);
     }
 
     private void initializePane() {
