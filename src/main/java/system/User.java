@@ -46,8 +46,11 @@ public class User {
     }
 
     public void removeCard(Card drawnCard) {
-
         this.hand.remove(drawnCard);
+    }
+
+    public Card removeHand(int index) {
+        return this.hand.remove(index);
     }
 
     public boolean isAlive() {

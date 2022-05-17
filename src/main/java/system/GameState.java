@@ -175,4 +175,10 @@ public class GameState {
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
         drawDeck.shuffle();
     }
+
+    public void executeFavorOn(User user) {
+        int i = gamePlayer.inputForStealCard(user);
+        Card stealCard = user.removeHand(i);
+        getUserForCurrentTurn().getHand().add(stealCard);
+    }
 }

@@ -1,18 +1,14 @@
 package presentation;
 
 import datasource.Messages;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
 import system.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GamePlayer {
 
@@ -398,10 +394,33 @@ public class GamePlayer {
 
     public void triggerFavorOn(User user) {
         System.out.println("TODO: triggerFavorOn user");
+        gameState.executeFavorOn(user);
     }
 
 
     public void displayFavorPrompt(List<User> users) {
         this.notificationPanel.displayFavorPrompt(users);
+    }
+
+    public int inputForStealCard(User user) {
+        int result = (int)JOptionPane.showInputDialog(
+                gameFrame,
+                "Type a valid index",
+                "Stealing a card",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                0
+        );
+
+        if(result<0||result>=user.getHand().size()){
+            String infoMessage = Messages.getMessage(
+                    Messages.WRONG_INDEX_ENTERED);
+            String titleBar = "InfoBox: Warning";
+            JOptionPane.showMessageDialog(null,
+                    infoMessage, titleBar,
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        return result;
     }
 }

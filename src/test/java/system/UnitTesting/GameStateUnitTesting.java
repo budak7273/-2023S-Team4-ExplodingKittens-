@@ -610,4 +610,27 @@ public class GameStateUnitTesting {
         });
         return null;
     }
+
+    @Test
+    public void testExecuteFavorOnUserLastInQueue() {
+        Queue<User> pq = new LinkedList<>();
+        Card c = new Card(CardType.ATTACK);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            user.addCard(c);
+            pq.add(user);
+        }
+        User targetUser = EasyMock.createMock(User.class);
+        pq.add(targetUser);
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        User currentUser = gameState.getUserForCurrentTurn();
+        gameState.executeFavorOn(targetUser);
+
+        Assertions.assertNotEquals(targetUser, gameState.getUserForCurrentTurn());
+        Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
+    }
 }

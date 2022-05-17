@@ -1,12 +1,18 @@
 package system.UnitTesting;
 
 import datasource.CardType;
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import presentation.GamePlayer;
 import system.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import static system.UnitTesting.GameStateUnitTesting.MAX_USER_COUNT;
 
 public class UserUnitTesting {
 
@@ -421,6 +427,27 @@ public class UserUnitTesting {
         user.attemptToDie();
         Assertions.assertTrue(user.isAlive());
         Assertions.assertTrue(hand.isEmpty());
+    }
+
+    @Test
+    public void testExecuteFavorOnUserLastInQueue() {
+        Queue<User> pq = new LinkedList<>();
+        Card c = new Card(CardType.ATTACK);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = new User();
+            pq.add(user);
+        }
+        User targetUser = new User();
+        targetUser.addCard(c);
+        pq.add(targetUser);
+
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.executeFavorOn(targetUser);
+
+        Assertions.assertFalse(targetUser.getHand().contains(c));
+        Assertions.assertEquals(0, targetUser.getHand().size());
+
+        EasyMock.verify(gameState);
     }
 
 }
