@@ -441,13 +441,20 @@ public class UserUnitTesting {
         targetUser.addCard(c);
         pq.add(targetUser);
 
-        GameState gameState = EasyMock.createMock(GameState.class);
+        GamePlayer gp = EasyMock.createMock(GamePlayer.class);
+        EasyMock.expect(gp.inputForStealCard(targetUser)).andReturn(0);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        EasyMock.replay(gp);
+        EasyMock.replay(deckMock);
+        GameState gameState = new GameState(pq,gp,deckMock);
         gameState.executeFavorOn(targetUser);
 
         Assertions.assertFalse(targetUser.getHand().contains(c));
         Assertions.assertEquals(0, targetUser.getHand().size());
 
-        EasyMock.verify(gameState);
+        EasyMock.verify(gp);
+        EasyMock.verify(deckMock);
     }
 
 }
