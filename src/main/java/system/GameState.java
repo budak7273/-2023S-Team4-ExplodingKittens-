@@ -1,5 +1,6 @@
 package system;
 
+import datasource.CardType;
 import datasource.Messages;
 import presentation.GamePlayer;
 
@@ -80,6 +81,7 @@ public class GameState {
     public void seeTheFuture() {
         List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
         gamePlayer.displayFutureCards(futureCards);
+
     }
 
     public void alterTheFuture() {
@@ -165,5 +167,11 @@ public class GameState {
     }
 
     public void triggerDisplayOfFavorPrompt() {
+
+    }
+    
+    public void addExplodingKittenBackIntoDeck() {
+        drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
+        drawDeck.shuffle();
     }
 }

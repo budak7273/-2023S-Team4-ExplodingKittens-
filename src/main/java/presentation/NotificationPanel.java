@@ -41,15 +41,18 @@ public class NotificationPanel extends JPanel {
     private void addExitButtonToLayout(String msg, ActionListener eventFn) {
         JButton exit = new JButton();
         exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        exit.setBackground(Color.GRAY);
+        exit.setBackground(Color.GREEN);
         exit.addActionListener(eventFn);
         exit.setText(msg);
         buttonPanel.add(exit);
     }
 
     public void seeTheFuture(List<Card> future) {
+        gamePlayer.disableButtons();
         initializePane();
-        addExitButtonToLayout("Done", e -> removeAll());
+        addExitButtonToLayout("Done", e -> {
+        removeAll();
+        gamePlayer.enableButtons();});
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -58,17 +61,19 @@ public class NotificationPanel extends JPanel {
             cardOrder.add(topCard);
             contentPanel.add(futureCard);
         }
-        gamePlayer.updateDisplay();
     }
 
     public void alterTheFuture(List<Card> future) {
+        gamePlayer.disableButtons();
         initializePane();
         ActionListener eventFn = e -> {
             removeAll();
+
             if (cardOrder.size() > 0) {
                 gamePlayer.returnFutureCards(cardOrder);
                 cardOrder.clear();
             }
+            gamePlayer.enableButtons();
         };
         addExitButtonToLayout("Done", eventFn);
 
@@ -101,6 +106,7 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayTargetedAttackPrompt(List<User> victims) {
+        gamePlayer.disableButtons();
         initializePane();
 
         final User[] selectedVictim = {null};
@@ -111,6 +117,7 @@ public class NotificationPanel extends JPanel {
             }
             removeAll();
             gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
+            gamePlayer.enableButtons();
         };
         addExitButtonToLayout("Confirm", eventFn);
 
