@@ -403,7 +403,9 @@ public class GamePlayer {
     }
 
     public int inputForStealCard(User user) {
-        int result = (int)JOptionPane.showInputDialog(
+        int result = 0;
+        try{
+        String inputs = (String)JOptionPane.showInputDialog(
                 gameFrame,
                 "Type a valid index",
                 "Stealing a card",
@@ -412,6 +414,7 @@ public class GamePlayer {
                 null,
                 0
         );
+        result = Integer.parseInt(inputs);
 
         if(result<0||result>=user.getHand().size()){
             String infoMessage = Messages.getMessage(
@@ -420,7 +423,15 @@ public class GamePlayer {
             JOptionPane.showMessageDialog(null,
                     infoMessage, titleBar,
                     JOptionPane.INFORMATION_MESSAGE);
+            result = -1;
         }
+
+        } catch (HeadlessException e) {
+
+        } catch (NumberFormatException e) {
+            result = -1;
+        }
+        
         return result;
     }
 }

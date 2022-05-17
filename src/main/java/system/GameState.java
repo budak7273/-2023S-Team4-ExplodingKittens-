@@ -178,7 +178,10 @@ public class GameState {
 
     public void executeFavorOn(User user) {
         int i = gamePlayer.inputForStealCard(user);
+        while(i==-1){
+            i = gamePlayer.inputForStealCard(user);
+        }
         Card stealCard = user.removeHand(i);
-        getUserForCurrentTurn().getHand().add(stealCard);
+        getUserForCurrentTurn().addCard(stealCard);
     }
 }
