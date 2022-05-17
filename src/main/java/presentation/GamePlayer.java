@@ -341,16 +341,20 @@ public class GamePlayer {
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
             DrawDeck deck = gameState.getDrawDeck();
-            int location =  getNotificationPanel().addExplodingKittenBackIntoDeck(deck);
-
-            gameState.addExplodingKittenBackIntoDeck(location);
+            getNotificationPanel().addExplodingKittenBackIntoDeck(deathMessage, deck);
             AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
             AudioPlayer.playExplosion();
+            gameState.transitionToNextTurn();
+            getNotificationPanel().notifyPlayers(deathMessage, "rip");
         }
 
-        getNotificationPanel().notifyPlayers(deathMessage, "rip");
+
+    }
+    public void addExplodingKittenIntoDeck(Integer location){
+        gameState.addExplodingKittenBackIntoDeck(location);
+
     }
 
 

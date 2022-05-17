@@ -140,19 +140,38 @@ public class NotificationPanel extends JPanel {
         gamePlayer.updateDisplay();
     }
 
-    public int addExplodingKittenBackIntoDeck(DrawDeck deck){
+    public void addExplodingKittenBackIntoDeck(String contentMessage, DrawDeck deck){
         gamePlayer.disableButtons();
         initializePane();
-        addExitButtonToLayout("Done", e -> {
-            removeAll();
-            gamePlayer.enableButtons();});
+
         int size = deck.getDeckSize();
         String[] options = new String[size];
+        options[0] = "" +0 ;
         for(int i = 0; i < size; i++){
             options[i] = i + "";
         }
-        String getLocation = (String) JOptionPane.showInputDialog(options);
-        return Integer.parseInt(getLocation);
+
+        JLabel content = new JLabel("<html><center><br>"
+                + contentMessage + "<br><br></center></html>");
+
+        contentPanel.add(content);
+        content.setOpaque(true);
+        content.setBackground(Color.CYAN);
+
+        gamePlayer.updateDisplay();
+        addExitButtonToLayout("Select Location for Exploding Kitten in Deck", e -> {
+            String getLocation = (String) JOptionPane.showInputDialog(null,
+                    "Where do you want to place the kitten?",
+                    "Place Exploding Kitten",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            removeAll();
+            gamePlayer.addExplodingKittenIntoDeck(Integer.parseInt(getLocation));
+            gamePlayer.enableButtons();});
+        gamePlayer.updateDisplay();
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
