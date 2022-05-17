@@ -1,6 +1,7 @@
 
 package system.UnitTesting;
 
+import datasource.CardType;
 import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
@@ -387,6 +388,9 @@ public class GameStateUnitTesting {
         drawDeck.addCardToTop(second);
         drawDeck.addCardToTop(third);
 
+
+
+
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
         EasyMock.replay(first, second, third, gameboard, drawDeck);
 
@@ -549,5 +553,21 @@ public class GameStateUnitTesting {
 
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
+    }
+    @Test
+    public void testAddExplodingKittenIntoDeck(){
+        Queue<User> pq = new LinkedList<>();
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+        Card cardMock = EasyMock.createMockBuilder(Card.class).withConstructor(CardType.EXPLODING_KITTEN).createMock();
+        deckMock.addCardToTop(cardMock);
+        EasyMock.expect(deckMock.shuffle()).andReturn(true);
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        EasyMock.replay(gpMock, deckMock);
+        gameState.addExplodingKittenBackIntoDeck();
+
+        EasyMock.verify(gpMock,deckMock);
+
+
     }
 }

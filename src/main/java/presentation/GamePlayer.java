@@ -340,6 +340,7 @@ public class GamePlayer {
 
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+            gameState.addExplodingKittenBackIntoDeck();
             AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);

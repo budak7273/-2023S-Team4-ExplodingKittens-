@@ -1,5 +1,6 @@
 package system;
 
+import datasource.CardType;
 import datasource.Messages;
 import presentation.GamePlayer;
 
@@ -163,5 +164,10 @@ public class GameState {
     public void executeTargetedAttackOn(User user) {
         transitionToTurnOfUser(user);
         addExtraTurn();
+    }
+
+    public void addExplodingKittenBackIntoDeck() {
+        drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
+        drawDeck.shuffle();
     }
 }
