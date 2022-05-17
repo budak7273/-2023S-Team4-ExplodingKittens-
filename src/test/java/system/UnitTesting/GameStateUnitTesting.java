@@ -570,4 +570,28 @@ public class GameStateUnitTesting {
 
 
     }
+
+    @Test
+    public void testTriggerDisplayOfFavorPrompt() {
+        Queue<User> pq = new LinkedList<User>();
+        User currentUser = EasyMock.createMock(User.class);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.displayFavorPrompt(
+                validFavorListForCurrentUser(currentUser));
+        EasyMock.expectLastCall();
+        EasyMock.replay(gpMock);
+
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.triggerDisplayOfFavorPrompt();
+
+        EasyMock.verify(gpMock);
+    }
 }
