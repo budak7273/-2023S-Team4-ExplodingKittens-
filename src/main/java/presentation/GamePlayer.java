@@ -259,7 +259,7 @@ public class GamePlayer {
                 }
 
                 executingCard = card;
-                notificationPanel.notifyPlayers("Waiting for NOPEs...", "");
+                nopeMessage(false);
                 synchronized (mutex) {
                     gameState.setCardExecutionState(1);
                 }
@@ -394,14 +394,30 @@ public class GamePlayer {
             int execution = gameState.getCardExecutionState();
             if (execution == 0) {
                 if (executingUser.attemptToNope()) {
+                    nopeMessage(false);
                     gameState.setCardExecutionState(1);
                 }
             } else if (execution == 1) {
                 if (executingUser.attemptToNope()) {
+                    nopeMessage(true);
                     gameState.setCardExecutionState(0);
                 }
             }
         }
+    }
+
+    public void nopeMessage(boolean currentNope) {
+        String whether;
+        if (currentNope) {
+            whether = "";
+        } else {
+            whether = "not";
+        }
+        notificationPanel.notifyPlayers("Waiting for NOPEs..." +
+                "<br>Currently " + whether + " noped", "");
+        notificationPanel.addExitButtonToLayout("Counter-nope",
+                e -> tryNope(gameState.getUserForCurrentTurn()));
+        updateDisplay();
     }
 
     /**

@@ -38,7 +38,7 @@ public class NotificationPanel extends JPanel {
         this.add(buttonPanel);
     }
 
-    private void addExitButtonToLayout(String msg, ActionListener eventFn) {
+    protected void addExitButtonToLayout(String msg, ActionListener eventFn) {
         JButton exit = new JButton();
         exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         exit.setBackground(Color.GREEN);
