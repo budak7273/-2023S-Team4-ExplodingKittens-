@@ -112,8 +112,10 @@ public class GameState {
         if (drawnExplodingKitten) {
             currentPlayer.attemptToDie();
             gamePlayer.explosionNotification(currentPlayer.isAlive());
+        } else {
+            transitionToNextTurn();
         }
-        transitionToNextTurn();
+
     }
 
     public Queue<User> getPlayerQueue() {
@@ -176,8 +178,8 @@ public class GameState {
         addExtraTurn();
     }
 
-    public void addExplodingKittenBackIntoDeck() {
-        drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
-        drawDeck.shuffle();
+    public void addExplodingKittenBackIntoDeck(Integer location) {
+        drawDeck.addExplodingKittenAtLocation(location);
+        transitionToNextTurn();
     }
 }

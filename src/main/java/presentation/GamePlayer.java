@@ -365,15 +365,23 @@ public class GamePlayer {
 
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
-            gameState.addExplodingKittenBackIntoDeck();
+            DrawDeck deck = gameState.getDrawDeck();
+            getNotificationPanel().addExplodingKittenBackIntoDeck(deathMessage, deck);
             AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
             AudioPlayer.playExplosion();
+            gameState.transitionToNextTurn();
+            getNotificationPanel().notifyPlayers(deathMessage, "rip");
         }
 
-        getNotificationPanel().notifyPlayers(deathMessage, "rip");
+
     }
+    public void addExplodingKittenIntoDeck(Integer location){
+        gameState.addExplodingKittenBackIntoDeck(location);
+
+    }
+
 
     public void tryTriggerCardExecution() {
         notificationPanel.removeAll();
