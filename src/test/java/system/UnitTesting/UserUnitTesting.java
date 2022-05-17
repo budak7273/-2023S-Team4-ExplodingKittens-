@@ -440,4 +440,17 @@ public class UserUnitTesting {
         Assertions.assertTrue(result);
         Assertions.assertTrue(hand.isEmpty());
     }
+
+    @Test
+    public void testPlayerNopesWithMultipleNopes() {
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new Card(CardType.NOPE));
+        hand.add(new Card(CardType.NOPE));
+
+        User user = new User("test", false, hand);
+        boolean result = user.attemptToNope();
+
+        Assertions.assertEquals(1, hand.size());
+        Assertions.assertTrue(result);
+    }
 }
