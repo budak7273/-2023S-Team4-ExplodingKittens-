@@ -550,4 +550,20 @@ public class GameStateUnitTesting {
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
     }
+    @Test
+    public void testAddExplodingKittenIntoDeck(){
+        Queue<User> pq = new LinkedList<>();
+        for (int i = 0; i < MAX_USER_COUNT ; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        Assertions.assertEquals(0, deckMock.getDeckSize());
+        gameState.addExplodingKittenBackIntoDeck();
+        Assertions.assertEquals(1, deckMock.getDeckSize());
+
+    }
 }

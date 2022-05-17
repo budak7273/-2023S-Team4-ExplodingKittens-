@@ -163,4 +163,7 @@ public class GameState {
         transitionToTurnOfUser(user);
         addExtraTurn();
     }
+
+    public void addExplodingKittenBackIntoDeck() {
+    }
 }
