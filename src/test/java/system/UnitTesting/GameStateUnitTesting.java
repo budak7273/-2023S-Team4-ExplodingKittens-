@@ -3,7 +3,6 @@ package system.UnitTesting;
 
 import datasource.CardType;
 import org.easymock.IArgumentMatcher;
-import org.omg.CORBA.portable.ApplicationException;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
 import org.easymock.EasyMock;
@@ -11,8 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
-
-import javax.security.auth.login.CredentialException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -511,9 +508,11 @@ public class GameStateUnitTesting {
 
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
         Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
-        Assertions.assertEquals(0, gameState.getExtraTurnCountForCurrentUser());
+        Assertions.assertEquals(0,
+                gameState.getExtraTurnCountForCurrentUser());
 
-        EasyMock.verify(boardMock, userStartingAtTopOfQueue, userNextInQueue, deck);
+        EasyMock.verify(boardMock, userStartingAtTopOfQueue,
+                userNextInQueue, deck);
     }
 
     @Test
@@ -663,7 +662,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testRemoveCardFromCurrentUser(){
+    public void testRemoveCardFromCurrentUser() {
         Queue<User> pq = new LinkedList<>();
 
         Card cardMock = EasyMock.createMockBuilder(Card.class)

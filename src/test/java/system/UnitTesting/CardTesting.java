@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import system.Card;
 import system.GameState;
-import system.User;
-import system.cardEffects.EffectPattern;
-
-import java.util.ArrayList;
 
 public class CardTesting {
     @Test
@@ -71,7 +67,7 @@ public class CardTesting {
     }
 
     @Test
-    public void testActivateEffectOnAttackCard(){
+    public void testActivateEffectOnAttackCard() {
         GameState gameState = EasyMock.createMock(GameState.class);
         Card cardToRemove = new Card(CardType.ATTACK);
 
