@@ -119,6 +119,10 @@ public class User {
         return true;
     }
 
+    public boolean isEmptyHand(){
+        return this.hand.isEmpty();
+    }
+
     public void verifyCardsSelected(final List<Integer> selected) {
         String msg;
         if (selected == null) {

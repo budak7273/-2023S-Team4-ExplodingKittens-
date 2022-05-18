@@ -167,6 +167,10 @@ public class NotificationPanel extends JPanel {
             JButton victimBtn = gamePlayer.createCardImage(
                     victim.getName(), "");
 
+            if(type == CardType.FAVOR && victim.isEmptyHand()) {
+                victimBtn.setEnabled(false);
+            }
+
             victimBtn.addActionListener(e -> {
                 if (selectedVictim[0] != null) {
                     selectedVictimBtn[0].setBackground(Color.CYAN);
