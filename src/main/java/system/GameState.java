@@ -68,7 +68,11 @@ public class GameState {
 
     public void drawFromBottom() {
         User currentUser = getUserForCurrentTurn();
-        drawDeck.drawFromBottomForUser(currentUser);
+        boolean drawnExplodingKitten = drawDeck.drawFromBottomForUser(currentUser);
+        if (drawnExplodingKitten) {
+            currentUser.attemptToDie();
+            gamePlayer.explosionNotification(currentUser.isAlive());
+        }
         transitionToNextTurn();
     }
 
