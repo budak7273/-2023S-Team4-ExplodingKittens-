@@ -41,7 +41,8 @@ public class AudioPlayer {
 					FileInputStream fileInputStream =
                             new FileInputStream(f);
                     BufferedInputStream bufferedInputStream =
-                            new BufferedInputStream(fileInputStream);                    Player player = new Player(bufferedInputStream);
+                            new BufferedInputStream(fileInputStream);
+                    Player player = new Player(bufferedInputStream);
                     player.play();
                 } catch (JavaLayerException | IOException e) {
                     System.err.println(Messages.getMessage(Messages.NO_MUSIC));
@@ -59,9 +60,10 @@ public class AudioPlayer {
                 try {
                     File f = new File("src/main/resources/defused.mp3");
                     FileInputStream fileInputStream =
- new FileInputStream(f);
+                            new FileInputStream(f);
                     BufferedInputStream bufferedInputStream =
- new BufferedInputStream(fileInputStream);                    Player player = new Player(bufferedInputStream);
+                            new BufferedInputStream(fileInputStream);
+                    Player player = new Player(bufferedInputStream);
                     player.play();
                 } catch (JavaLayerException | IOException e) {
                     System.err.println(Messages.getMessage(Messages.NO_MUSIC));

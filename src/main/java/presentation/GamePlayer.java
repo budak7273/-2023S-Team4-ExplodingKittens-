@@ -132,7 +132,8 @@ public class GamePlayer {
         return generatePlayerDeckCardsPanel(
                 BorderLayout.CENTER);
     }
-ublic void disableButtons() {
+
+    public void disableButtons() {
         this.enabled = false;
         this.updateUI();
         this.updateDisplay();    }

@@ -53,7 +53,7 @@ public class NotificationPanel extends JPanel {
         gamePlayer.disableButtons();
         initializePane();
         addExitButtonToLayout("Done", e -> {
-removeAll();
+        removeAll();
 
             if (cardOrder.size() > 0) {
                 gamePlayer.returnFutureCards(cardOrder);
