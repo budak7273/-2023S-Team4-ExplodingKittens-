@@ -167,7 +167,7 @@ public class NotificationPanel extends JPanel {
             JButton victimBtn = gamePlayer.createCardImage(
                     victim.getName(), "");
 
-            if(type == CardType.FAVOR && victim.isEmptyHand()) {
+            if (type == CardType.FAVOR && victim.isEmptyHand()) {
                 victimBtn.setEnabled(false);
             }
 

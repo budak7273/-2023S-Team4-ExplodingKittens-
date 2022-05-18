@@ -119,7 +119,7 @@ public class User {
         return true;
     }
 
-    public boolean isEmptyHand(){
+    public boolean isEmptyHand() {
         return this.hand.isEmpty();
     }
 
