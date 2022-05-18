@@ -1,6 +1,5 @@
 package system;
 
-import datasource.CardType;
 import datasource.Messages;
 import presentation.GamePlayer;
 
@@ -97,7 +96,7 @@ public class GameState {
     }
 
     public void returnFutureCards(List<Card> future) {
-        for (int i = future.size()-1; i >= 0; i--) {
+        for (int i = future.size() - 1; i >= 0; i--) {
             Card replace = future.get(i);
             drawDeck.addCardToTop(replace);
         }

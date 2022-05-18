@@ -244,14 +244,14 @@ public class DrawDeckUnitTesting {
     @Test
     public void testAddExplodingKittenWithTwoCards() {
         Card kitten = new Card(CardType.EXPLODING_KITTEN);
-        Card Attack = new Card(CardType.ATTACK);
+        Card attack = new Card(CardType.ATTACK);
 
         User user = EasyMock.createMock(User.class);
         EasyMock.replay(user);
 
         LinkedList<Card> initialDeck = new LinkedList<>();
         initialDeck.add(kitten);
-        initialDeck.add(Attack);
+        initialDeck.add(attack);
 
         DrawDeck deck = new DrawDeck(initialDeck);
         assertTrue(deck.drawCard(user));

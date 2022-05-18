@@ -91,7 +91,7 @@ public class DrawDeck {
 
     public void addExplodingKittenAtLocation(Integer location) {
         Deque<Card> newCards = new LinkedList<Card>();
-        for(int i = 0 ; i < location; i++){
+        for (int i = 0; i < location; i++) {
             newCards.addLast(cards.pop());
         }
         newCards.add(new Card(CardType.EXPLODING_KITTEN));

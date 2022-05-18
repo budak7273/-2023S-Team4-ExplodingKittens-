@@ -2,7 +2,6 @@
 package system.UnitTesting;
 
 import datasource.CardType;
-import jdk.nashorn.internal.ir.CallNode;
 import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
@@ -641,7 +640,7 @@ public class GameStateUnitTesting {
         gameState.addExplodingKittenBackIntoDeck(0);
 
         Assertions.assertEquals(deckMock, gameState.getDrawDeck());
-        EasyMock.verify(gpMock,deckMock, player);
+        EasyMock.verify(gpMock, deckMock, player);
     }
 
     @Test
@@ -666,16 +665,6 @@ public class GameStateUnitTesting {
         EasyMock.verify(targetUser, gpMock, user, deckMock);
     }
 
-@Test
-    public void testTriggerDisplayOfFavorPrompt() {
-        Queue<User> pq = new LinkedList<User>();
-        User currentUser = EasyMock.createMock(User.class);
-        pq.add(currentUser);
-        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
-            User user = EasyMock.createMock(User.class);
-            pq.add(user);
-        }
-}
 @Test
     public void testRemoveCardFromCurrentUser() {
         Queue<User> pq = new LinkedList<>();
@@ -780,7 +769,7 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testTriggeringDisplayOfFavorPrompt(){
+    public void testTriggeringDisplayOfFavorPrompt() {
         Queue<User> pq = new LinkedList<>();
         ArrayList<User> users = new ArrayList<>();
         Card c = new Card(CardType.ATTACK);
