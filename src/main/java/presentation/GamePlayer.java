@@ -29,6 +29,10 @@ public class GamePlayer {
     private boolean enabled;
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
+    private static final int NOPE_DELAY_MILLIS = 2000;
+    private Timer nopeTimer;
+    private Card executingCard;
+    private Object mutex = new Object();
 
     public GamePlayer(JFrame frame) {
         this.gameFrame = frame;
@@ -36,6 +40,14 @@ public class GamePlayer {
         this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
+        ActionListener nopeListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tryTriggerCardExecution();
+            }
+        };
+        nopeTimer = new Timer(NOPE_DELAY_MILLIS, nopeListener);
+        nopeTimer.setRepeats(false);
     }
 
     public void setGameState(final GameState currentGameState) {
@@ -76,6 +88,13 @@ public class GamePlayer {
                 JButton otherPlayer =
                         createCardImage(user.getName(),
                                 user.getHand().size() + "");
+                otherPlayer.addActionListener(new ActionListener() {
+                    private User innerUser = user;
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tryNope(innerUser);
+                    }
+                });
                 userDisplayPanel.add(otherPlayer);
             }
         }
@@ -238,7 +257,13 @@ ublic void disableButtons() {
                     return;
                 }
 
-                card.activateEffect(gameState);
+                executingCard = card;
+                nopeMessage(false);
+                synchronized (mutex) {
+                    gameState.setCardExecutionState(1);
+                }
+                nopeTimer.start();
+
                 updateUI();
 
                 getSelectedCards().clear();
@@ -356,6 +381,51 @@ ublic void disableButtons() {
 
     }
 
+
+    public void tryTriggerCardExecution() {
+        notificationPanel.removeAll();
+        synchronized (mutex) {
+            if (gameState.getCardExecutionState() == 1) {
+                executingCard.activateEffect(gameState);
+            } else {
+                gameState.removeCardFromCurrentUser(executingCard);
+            }
+            executingCard = null;
+            gameState.setCardExecutionState(-1);
+        }
+        updateUI();
+    }
+
+    public void tryNope(User executingUser) {
+        synchronized (mutex) {
+            int execution = gameState.getCardExecutionState();
+            if (execution == 0) {
+                if (executingUser.attemptToNope()) {
+                    nopeMessage(false);
+                    gameState.setCardExecutionState(1);
+                }
+            } else if (execution == 1) {
+                if (executingUser.attemptToNope()) {
+                    nopeMessage(true);
+                    gameState.setCardExecutionState(0);
+                }
+            }
+        }
+    }
+
+    public void nopeMessage(boolean currentNope) {
+        String whether;
+        if (currentNope) {
+            whether = "";
+        } else {
+            whether = "not";
+        }
+        notificationPanel.notifyPlayers("Waiting for NOPEs..." +
+                "<br>Currently " + whether + " noped", "");
+        notificationPanel.addExitButtonToLayout("Counter-nope",
+                e -> tryNope(gameState.getUserForCurrentTurn()));
+        updateDisplay();
+    }
 
     /**
      * updateUI changes the GUI of the current game when it is called.

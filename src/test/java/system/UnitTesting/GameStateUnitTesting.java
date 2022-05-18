@@ -647,17 +647,21 @@ EasyMock.replay(gpMock, user, deckMock);
     @Test
     public void testAddExplodingKittenIntoDeck() {
         Queue<User> pq = new LinkedList<>();
+        User player = EasyMock.createMock(User.class);
+        pq.add(player);
+        pq.add(player);
+        EasyMock.expect(player.isAlive()).andReturn(true).times(2);
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.updateUI();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         Card cardMock = EasyMock.createMockBuilder(Card.class)
                 .withConstructor(CardType.EXPLODING_KITTEN).createMock();
         deckMock.addCardToTop(cardMock);
         EasyMock.expect(deckMock.shuffle()).andReturn(true);        EasyMock.replay(gpMock, deckMock);
         GameState gameState = new GameState(pq, gpMock, deckMock);
-        gameState.addExplodingKittenBackIntoDeck(0);
+        EasyMock.replay(gpMock, deckMock);        gameState.addExplodingKittenBackIntoDeck(0);
         Assertions.assertEquals(deckMock, gameState.getDrawDeck());
-        EasyMock.verify(gpMock, deckMock);
-    }
+        EasyMock.verify(gpMock,deckMock);    }
     }
 
 @Test

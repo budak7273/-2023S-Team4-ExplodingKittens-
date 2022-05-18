@@ -430,6 +430,39 @@ public class UserUnitTesting {
     }
 
     @Test
+    public void testPlayerNopesNoNope() {
+        User user = new User("test", false, new ArrayList<>());
+        boolean result = user.attemptToNope();
+
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testPlayerNopesWithNope() {
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new Card(CardType.NOPE));
+
+        User user = new User("test", false, hand);
+        boolean result = user.attemptToNope();
+
+        Assertions.assertTrue(result);
+        Assertions.assertTrue(hand.isEmpty());
+    }
+
+    @Test
+    public void testPlayerNopesWithMultipleNopes() {
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new Card(CardType.NOPE));
+        hand.add(new Card(CardType.NOPE));
+
+        User user = new User("test", false, hand);
+        boolean result = user.attemptToNope();
+
+        Assertions.assertEquals(1, hand.size());
+        Assertions.assertTrue(result);
+    }
+
+    @Test
     public void testExecuteFavorOnUserLastInQueue() {
         Queue<User> pq = new LinkedList<>();
         Card c = new Card(CardType.ATTACK);
