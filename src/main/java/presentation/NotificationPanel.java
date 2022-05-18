@@ -15,8 +15,8 @@ import java.util.List;
 public class NotificationPanel extends JPanel {
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
-    private ArrayList<Card> cardOrder = new ArrayList<>();
-    private GamePlayer gamePlayer;
+    private final ArrayList<Card> cardOrder = new ArrayList<>();
+    private final GamePlayer gamePlayer;
     private JPanel contentPanel;
     private JPanel buttonPanel;
 
@@ -40,7 +40,7 @@ public class NotificationPanel extends JPanel {
         this.add(buttonPanel);
     }
 
-    private void addExitButtonToLayout(String msg, ActionListener eventFn) {
+    protected void addExitButtonToLayout(String msg, ActionListener eventFn) {
         JButton exit = new JButton();
         exit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         exit.setBackground(Color.GREEN);
@@ -54,6 +54,11 @@ public class NotificationPanel extends JPanel {
         initializePane();
         addExitButtonToLayout("Done", e -> {
             removeAll();
+
+            if (cardOrder.size() > 0) {
+                gamePlayer.returnFutureCards(cardOrder);
+                cardOrder.clear();
+            }
             gamePlayer.enableButtons();
         });
 
@@ -87,7 +92,7 @@ public class NotificationPanel extends JPanel {
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
-                private Card card = topCard;
+                private final Card card = topCard;
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -149,7 +154,9 @@ public class NotificationPanel extends JPanel {
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
         initializePane();
-        addExitButtonToLayout(doneMessage, e -> removeAll());
+        if (!doneMessage.isEmpty()) {
+            addExitButtonToLayout(doneMessage, e -> removeAll());
+        }
 
         JLabel content = new JLabel("<html><center><br>"
                 + contentMessage + "<br><br></center></html>");

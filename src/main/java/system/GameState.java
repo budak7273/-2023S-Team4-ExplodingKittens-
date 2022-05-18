@@ -17,6 +17,8 @@ public class GameState {
     private static final int MAX_PLAYERS = 10;
     private int extraTurnsForCurrentUser = 0;
 
+    private int cardExecutionState = -1;
+
     public GameState(Queue<User> pq, GamePlayer gp,
                      DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
@@ -90,7 +92,7 @@ public class GameState {
     }
 
     public void returnFutureCards(List<Card> future) {
-        for (int i = 2; i >= 0; i--) {
+        for (int i = future.size()-1; i >= 0; i--) {
             Card replace = future.get(i);
             drawDeck.addCardToTop(replace);
         }
@@ -124,6 +126,14 @@ public class GameState {
 
     public DrawDeck getDrawDeck() {
         return this.drawDeck;
+    }
+
+    public void setCardExecutionState(int state) {
+        this.cardExecutionState = state;
+    }
+
+    public int getCardExecutionState() {
+        return this.cardExecutionState;
     }
 
     public boolean tryToEndGame() {

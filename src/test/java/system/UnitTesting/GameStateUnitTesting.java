@@ -557,14 +557,19 @@ public class GameStateUnitTesting {
     @Test
     public void testAddExplodingKittenIntoDeck() {
         Queue<User> pq = new LinkedList<>();
+        User player = EasyMock.createMock(User.class);
+        pq.add(player);
+        pq.add(player);
+        EasyMock.expect(player.isAlive()).andReturn(true).times(2);
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.updateUI();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         deckMock.addExplodingKittenAtLocation(0);
         GameState gameState = new GameState(pq, gpMock, deckMock);
-        EasyMock.replay(gpMock, deckMock);
+        EasyMock.replay(gpMock, deckMock, player);
         gameState.addExplodingKittenBackIntoDeck(0);
         Assertions.assertEquals(deckMock, gameState.getDrawDeck());
-        EasyMock.verify(gpMock,deckMock);
+        EasyMock.verify(gpMock,deckMock,player);
     }
 
     @Test
