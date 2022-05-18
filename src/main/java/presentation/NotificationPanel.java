@@ -2,6 +2,7 @@ package presentation;
 
 import datasource.CardType;
 import system.Card;
+import system.DrawDeck;
 import system.User;
 
 import javax.swing.*;
@@ -110,6 +111,40 @@ public class NotificationPanel extends JPanel {
 
     public void displayTargetedAttackPrompt(List<User> victims) {
         displaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK);
+    }
+
+    public void addExplodingKittenBackIntoDeck(String contentMessage, DrawDeck deck){
+        gamePlayer.disableButtons();
+        initializePane();
+
+        int size = deck.getDeckSize();
+        String[] options = new String[size];
+        options[0] = "" +0 ;
+        for(int i = 0; i < size; i++){
+            options[i] = i + "";
+        }
+
+        JLabel content = new JLabel("<html><center><br>"
+                + contentMessage + "<br><br></center></html>");
+
+        contentPanel.add(content);
+        content.setOpaque(true);
+        content.setBackground(Color.CYAN);
+
+        gamePlayer.updateDisplay();
+        addExitButtonToLayout("Select Location for Exploding Kitten in Deck", e -> {
+            String getLocation = (String) JOptionPane.showInputDialog(null,
+                    "Where do you want to place the kitten?",
+                    "Place Exploding Kitten",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            removeAll();
+            gamePlayer.addExplodingKittenIntoDeck(Integer.parseInt(getLocation));
+            gamePlayer.enableButtons();});
+        gamePlayer.updateDisplay();
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
