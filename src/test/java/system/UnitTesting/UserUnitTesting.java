@@ -72,6 +72,26 @@ public class UserUnitTesting {
     }
 
     @Test
+    public void testUserConstructorHandWithOneCardRemoveByIndex() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card card = new Card(CardType.ATTACK);
+        list.add(card);
+        User user = new User("test1", false, list);
+        user.removeHand(0);
+        Assertions.assertEquals(new ArrayList<>(), user.getHand());
+        Assertions.assertTrue(user.isEmptyHand());
+    }
+
+    @Test
+    public void testUserConstructorHandWithNoCardRemoveByIndex() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        User user = new User("test1", false, list);
+        Executable executable =
+                () -> user.removeHand(0);
+        Assertions.assertThrows(IndexOutOfBoundsException.class, executable);
+    }
+
+    @Test
     public void testUserConstructorHandWithMultipleCard() {
         ArrayList<Card> list = new ArrayList<Card>();
         Card card = new Card(CardType.ATTACK);
