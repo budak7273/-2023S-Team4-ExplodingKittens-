@@ -2,6 +2,7 @@
 package system.UnitTesting;
 
 import datasource.CardType;
+import jdk.nashorn.internal.ir.CallNode;
 import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
 import presentation.GamePlayer;
@@ -717,24 +718,93 @@ public class GameStateUnitTesting {
     public void testExecuteFavorOnUserLastInQueue() {
         Queue<User> pq = new LinkedList<>();
         Card c = new Card(CardType.ATTACK);
+        Card cardToGive = new Card(CardType.ATTACK);
+        User currentUser = EasyMock.createMock(User.class);
+        currentUser.addCard(cardToGive);
+        currentUser.addCard(c);
+        EasyMock.expectLastCall();
+        EasyMock.replay(currentUser);
+        currentUser.addCard(c);
+        pq.add(currentUser);
         for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
             User user = EasyMock.createMock(User.class);
             user.addCard(c);
             pq.add(user);
         }
         User targetUser = EasyMock.createMock(User.class);
+        EasyMock.expect(targetUser.removeHand(0)).andReturn(cardToGive);
+        EasyMock.replay(targetUser);
         pq.add(targetUser);
 
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        EasyMock.expect(gpMock.inputForStealCard(targetUser)).andReturn(-1);
+        EasyMock.expect(gpMock.inputForStealCard(targetUser)).andReturn(0);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+        EasyMock.replay(gpMock, deckMock);
 
         GameState gameState = new GameState(pq, gpMock, deckMock);
-        User currentUser = gameState.getUserForCurrentTurn();
         gameState.executeFavorOn(targetUser);
 
         Assertions.assertNotEquals(targetUser,
                 gameState.getUserForCurrentTurn());
         Assertions.assertEquals(currentUser,
                 gameState.getUserForCurrentTurn());
+
+        EasyMock.verify(gpMock, deckMock, targetUser, currentUser);
+    }
+
+    @Test
+    public void testSettingCardExecutionState0() {
+        Queue<User> pq = new LinkedList<>();
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+        EasyMock.replay(gpMock, deckMock);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.setCardExecutionState(0);
+        Assertions.assertEquals(0, gameState.getCardExecutionState());
+        EasyMock.verify(gpMock, deckMock);
+    }
+
+    @Test
+    public void testSettingCardExecutionState1() {
+        Queue<User> pq = new LinkedList<>();
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+        EasyMock.replay(gpMock, deckMock);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.setCardExecutionState(1);
+        Assertions.assertEquals(1, gameState.getCardExecutionState());
+        EasyMock.verify(gpMock, deckMock);
+    }
+
+    @Test
+    public void testTriggeringDisplayOfFavorPrompt(){
+        Queue<User> pq = new LinkedList<>();
+        ArrayList<User> users = new ArrayList<>();
+        Card c = new Card(CardType.ATTACK);
+        User currentUser = EasyMock.createMock(User.class);
+        currentUser.addCard(c);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            user.addCard(c);
+            pq.add(user);
+        }
+        User targetUser = EasyMock.createMock(User.class);
+        EasyMock.replay(targetUser);
+        pq.add(targetUser);
+        users.addAll(pq);
+        users.remove(currentUser);
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.displayFavorPrompt(users);
+        EasyMock.expectLastCall();
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+        EasyMock.replay(gpMock, deckMock);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.triggerDisplayOfFavorPrompt();
+        EasyMock.verify(targetUser, deckMock, gpMock);
     }
 }
