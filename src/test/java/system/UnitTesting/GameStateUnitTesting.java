@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -389,8 +390,6 @@ public class GameStateUnitTesting {
         drawDeck.addCardToTop(third);
 
 
-
-
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
         EasyMock.replay(first, second, third, gameboard, drawDeck);
 
@@ -554,8 +553,9 @@ public class GameStateUnitTesting {
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
     }
+
     @Test
-    public void testAddExplodingKittenIntoDeck(){
+    public void testAddExplodingKittenIntoDeck() {
         Queue<User> pq = new LinkedList<>();
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
@@ -565,5 +565,70 @@ public class GameStateUnitTesting {
         gameState.addExplodingKittenBackIntoDeck(0);
         Assertions.assertEquals(deckMock, gameState.getDrawDeck());
         EasyMock.verify(gpMock,deckMock);
+    }
+
+    @Test
+    public void testTriggerDisplayOfFavorPrompt() {
+        Queue<User> pq = new LinkedList<User>();
+        User currentUser = EasyMock.createMock(User.class);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.displayFavorPrompt(
+                validFavorListForCurrentUser(currentUser));
+        EasyMock.expectLastCall();
+        EasyMock.replay(gpMock);
+
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.triggerDisplayOfFavorPrompt();
+
+        EasyMock.verify(gpMock);
+    }
+
+    private List<User> validFavorListForCurrentUser(User user) {
+        EasyMock.reportMatcher(new IArgumentMatcher() {
+            @Override
+            public boolean matches(Object argument) {
+                return argument instanceof List
+                        && ((List) argument).size() == MAX_USER_COUNT - 1
+                        && !((List) argument).contains(user);
+            }
+
+            @Override
+            public void appendTo(StringBuffer buffer) {
+            }
+        });
+        return null;
+    }
+
+    @Test
+    public void testExecuteFavorOnUserLastInQueue() {
+        Queue<User> pq = new LinkedList<>();
+        Card c = new Card(CardType.ATTACK);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            user.addCard(c);
+            pq.add(user);
+        }
+        User targetUser = EasyMock.createMock(User.class);
+        pq.add(targetUser);
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        User currentUser = gameState.getUserForCurrentTurn();
+        gameState.executeFavorOn(targetUser);
+
+        Assertions.assertNotEquals(targetUser,
+                gameState.getUserForCurrentTurn());
+        Assertions.assertEquals(currentUser,
+                gameState.getUserForCurrentTurn());
     }
 }

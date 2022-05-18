@@ -17,7 +17,7 @@ public enum CardType {
             new SkipEffect(),
             Messages.SKIP_DESC),
     FAVOR(Messages.getMessage(Messages.FAVOR_CARD),
-            null,
+            new FavorEffect(),
             Messages.FAVOR_DESC),
     SHUFFLE(Messages.getMessage(Messages.SHUFFLE_CARD),
             new ShuffleEffect(),

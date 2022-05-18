@@ -10,14 +10,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AudioPlayer {
+    private AudioPlayer() {
+    }
+
     public static void playMusicOnStartup() {
         Runnable runnablePlay = new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     File explosion = new File("src/main/resources/start.mp3");
-                    FileInputStream fileInputStream = new FileInputStream(explosion);
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+                    FileInputStream fileInputStream =
+                            new FileInputStream(explosion);
+                    BufferedInputStream bufferedInputStream =
+                            new BufferedInputStream(fileInputStream);
                     Player player = new Player(bufferedInputStream);
                     player.play();
                 } catch (JavaLayerException | IOException e) {
@@ -28,14 +33,16 @@ public class AudioPlayer {
         Thread playThread = new Thread(runnablePlay);
         playThread.start();
     }
+
     public static void playExplosion() {
         Runnable runnablePlay = new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     File f = new File("src/main/resources/explodingKitten.mp3");
                     FileInputStream fileInputStream = new FileInputStream(f);
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+                    BufferedInputStream bufferedInputStream =
+                            new BufferedInputStream(fileInputStream);
                     Player player = new Player(bufferedInputStream);
                     player.play();
                 } catch (JavaLayerException | IOException e) {
@@ -51,10 +58,11 @@ public class AudioPlayer {
         Runnable runnablePlay = new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     File f = new File("src/main/resources/defused.mp3");
                     FileInputStream fileInputStream = new FileInputStream(f);
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+                    BufferedInputStream bufferedInputStream =
+                            new BufferedInputStream(fileInputStream);
                     Player player = new Player(bufferedInputStream);
                     player.play();
                 } catch (JavaLayerException | IOException e) {
