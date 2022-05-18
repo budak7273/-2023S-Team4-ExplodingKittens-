@@ -115,8 +115,10 @@ public class GameState {
         if (drawnExplodingKitten) {
             currentPlayer.attemptToDie();
             gamePlayer.explosionNotification(currentPlayer.isAlive());
+        } else {
+            transitionToNextTurn();
         }
-        transitionToNextTurn();
+
     }
 
     public Queue<User> getPlayerQueue() {
@@ -171,8 +173,22 @@ public class GameState {
         addExtraTurn();
     }
 
-    public void addExplodingKittenBackIntoDeck() {
-        drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
-        drawDeck.shuffle();
+    public void triggerDisplayOfFavorPrompt() {
+        List<User> targets = getTargetsForCardEffects();
+        gamePlayer.displayFavorPrompt(targets);
+    }
+
+    public void addExplodingKittenBackIntoDeck(Integer location) {
+        drawDeck.addExplodingKittenAtLocation(location);
+        transitionToNextTurn();
+    }
+
+    public void executeFavorOn(User user) {
+        int i = gamePlayer.inputForStealCard(user);
+        while (i == -1) {
+            i = gamePlayer.inputForStealCard(user);
+        }
+        Card stealCard = user.removeHand(i);
+        getUserForCurrentTurn().addCard(stealCard);
     }
 }

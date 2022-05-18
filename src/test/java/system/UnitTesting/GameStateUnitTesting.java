@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -428,8 +429,6 @@ public class GameStateUnitTesting {
         drawDeck.addCardToTop(third);
 
 
-
-
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
         EasyMock.replay(first, second, third, gameboard, drawDeck);
 
@@ -607,14 +606,14 @@ public class GameStateUnitTesting {
     }
 
     @Test
-    public void testTransitionToTurnOfUserWithQueueOf1User() {
+public void testAddExplodingKittenIntoDeck() {
         Queue<User> pq = new LinkedList<>();
         User user = EasyMock.createMock(User.class);
         pq.add(user);
 
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-        EasyMock.replay(gpMock, user, deckMock);
+EasyMock.replay(gpMock, user, deckMock);
 
         GameState gameState = new GameState(pq, gpMock, deckMock);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -653,18 +652,27 @@ public class GameStateUnitTesting {
         Card cardMock = EasyMock.createMockBuilder(Card.class)
                 .withConstructor(CardType.EXPLODING_KITTEN).createMock();
         deckMock.addCardToTop(cardMock);
-        EasyMock.expect(deckMock.shuffle()).andReturn(true);
-        EasyMock.replay(gpMock, deckMock);
+        EasyMock.expect(deckMock.shuffle()).andReturn(true);        EasyMock.replay(gpMock, deckMock);
         GameState gameState = new GameState(pq, gpMock, deckMock);
-        gameState.addExplodingKittenBackIntoDeck();
-
+        gameState.addExplodingKittenBackIntoDeck(0);
+        Assertions.assertEquals(deckMock, gameState.getDrawDeck());
         EasyMock.verify(gpMock, deckMock);
     }
+    }
 
-    @Test
+@Test
+    public void testTriggerDisplayOfFavorPrompt() {
+        Queue<User> pq = new LinkedList<User>();
+        User currentUser = EasyMock.createMock(User.class);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            pq.add(user);
+        }
+}
+@Test
     public void testRemoveCardFromCurrentUser() {
         Queue<User> pq = new LinkedList<>();
-
         Card cardMock = EasyMock.createMockBuilder(Card.class)
                 .withConstructor(CardType.ATTACK).createMock();
         EasyMock.replay(cardMock);
@@ -682,5 +690,46 @@ public class GameStateUnitTesting {
         GameState gameState = new GameState(pq, gpMock, deckMock);
         gameState.removeCardFromCurrentUser(cardMock);
         EasyMock.verify(gpMock, deckMock, cardMock, currentUser);
+}
+
+    private List<User> validFavorListForCurrentUser(User user) {
+        EasyMock.reportMatcher(new IArgumentMatcher() {
+            @Override
+            public boolean matches(Object argument) {
+                return argument instanceof List
+                        && ((List) argument).size() == MAX_USER_COUNT - 1
+                        && !((List) argument).contains(user);
+            }
+
+            @Override
+            public void appendTo(StringBuffer buffer) {
+            }
+        });
+        return null;
+    }
+
+    @Test
+    public void testExecuteFavorOnUserLastInQueue() {
+        Queue<User> pq = new LinkedList<>();
+        Card c = new Card(CardType.ATTACK);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            user.addCard(c);
+            pq.add(user);
+        }
+        User targetUser = EasyMock.createMock(User.class);
+        pq.add(targetUser);
+
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        User currentUser = gameState.getUserForCurrentTurn();
+        gameState.executeFavorOn(targetUser);
+
+        Assertions.assertNotEquals(targetUser,
+                gameState.getUserForCurrentTurn());
+        Assertions.assertEquals(currentUser,
+                gameState.getUserForCurrentTurn());
     }
 }

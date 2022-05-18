@@ -46,8 +46,11 @@ public class User {
     }
 
     public void removeCard(Card drawnCard) {
-
         this.hand.remove(drawnCard);
+    }
+
+    public Card removeHand(int index) {
+        return this.hand.remove(index);
     }
 
     public boolean isAlive() {
@@ -114,6 +117,10 @@ public class User {
         }
 
         return true;
+    }
+
+    public boolean isEmptyHand() {
+        return this.hand.isEmpty();
     }
 
     public void verifyCardsSelected(final List<Integer> selected) {

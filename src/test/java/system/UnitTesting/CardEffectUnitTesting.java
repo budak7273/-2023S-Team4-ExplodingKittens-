@@ -107,4 +107,16 @@ public class CardEffectUnitTesting {
 
         EasyMock.verify(gameState);
     }
+
+    @Test
+    public void testFavor() {
+        EffectPattern favorEffect = new FavorEffect();
+        GameState gameState = EasyMock.createMock(GameState.class);
+        gameState.triggerDisplayOfFavorPrompt();
+        EasyMock.replay(gameState);
+
+        favorEffect.useEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
 }
