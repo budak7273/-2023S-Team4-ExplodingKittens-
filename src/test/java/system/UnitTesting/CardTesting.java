@@ -2,9 +2,11 @@ package system.UnitTesting;
 
 import datasource.CardType;
 import datasource.Messages;
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import system.Card;
+import system.GameState;
 
 public class CardTesting {
     @Test
@@ -63,4 +65,23 @@ public class CardTesting {
             Assertions.assertNotEquals(card1.hashCode(), card2.hashCode());
         }
     }
+
+    @Test
+    public void testActivateEffectOnAttackCard() {
+        GameState gameState = EasyMock.createMock(GameState.class);
+        Card cardToRemove = new Card(CardType.ATTACK);
+
+        gameState.removeCardFromCurrentUser(cardToRemove);
+        EasyMock.expectLastCall();
+        gameState.transitionToNextTurn();
+        EasyMock.expectLastCall();
+        gameState.addExtraTurn();
+        EasyMock.expectLastCall();
+        EasyMock.replay(gameState);
+
+        cardToRemove.activateEffect(gameState);
+
+        EasyMock.verify(gameState);
+    }
+
 }

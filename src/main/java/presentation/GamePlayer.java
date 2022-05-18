@@ -136,8 +136,7 @@ public class GamePlayer {
     public void disableButtons() {
         this.enabled = false;
         this.updateUI();
-        this.updateDisplay();
-    }
+        this.updateDisplay();    }
 
     public void enableButtons() {
         this.enabled = true;
@@ -368,7 +367,8 @@ public class GamePlayer {
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
             DrawDeck deck = gameState.getDrawDeck();
-            getNotificationPanel().addExplodingKittenBackIntoDeck(deathMessage, deck);
+            getNotificationPanel()
+                    .addExplodingKittenBackIntoDeck(deathMessage, deck);
             AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
@@ -379,7 +379,7 @@ public class GamePlayer {
 
 
     }
-    public void addExplodingKittenIntoDeck(Integer location){
+    public void addExplodingKittenIntoDeck(Integer location) {
         gameState.addExplodingKittenBackIntoDeck(location);
 
     }
@@ -423,8 +423,8 @@ public class GamePlayer {
         } else {
             whether = "not";
         }
-        notificationPanel.notifyPlayers("Waiting for NOPEs..." +
-                "<br>Currently " + whether + " noped", "");
+        notificationPanel.notifyPlayers("Waiting for NOPEs..."
+                + "<br>Currently " + whether + " noped", "");
         notificationPanel.addExitButtonToLayout("Counter-nope",
                 e -> tryNope(gameState.getUserForCurrentTurn()));
         updateDisplay();

@@ -10,8 +10,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AudioPlayer {
-    private AudioPlayer() {
-    }
+
+    private AudioPlayer() { }
 
     public static void playMusicOnStartup() {
         Runnable runnablePlay = new Runnable() {
@@ -36,19 +36,20 @@ public class AudioPlayer {
 
     public static void playExplosion() {
         Runnable runnablePlay = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    File f = new File("src/main/resources/explodingKitten.mp3");
-                    FileInputStream fileInputStream = new FileInputStream(f);
-                    BufferedInputStream bufferedInputStream =
-                            new BufferedInputStream(fileInputStream);
-                    Player player = new Player(bufferedInputStream);
-                    player.play();
-                } catch (JavaLayerException | IOException e) {
-                    System.err.println(Messages.getMessage(Messages.NO_MUSIC));
-                }
+        @Override
+        public void run() {
+            try {
+                File f = new File("src/main/resources/explodingKitten.mp3");
+                FileInputStream fileInputStream =
+                        new FileInputStream(f);
+                BufferedInputStream bufferedInputStream =
+                        new BufferedInputStream(fileInputStream);
+                Player player = new Player(bufferedInputStream);
+                player.play();
+            } catch (JavaLayerException | IOException e) {
+                System.err.println(Messages.getMessage(Messages.NO_MUSIC));
             }
+        }
         };
         Thread playThread = new Thread(runnablePlay);
         playThread.start();
@@ -60,7 +61,8 @@ public class AudioPlayer {
             public void run() {
                 try {
                     File f = new File("src/main/resources/defused.mp3");
-                    FileInputStream fileInputStream = new FileInputStream(f);
+                    FileInputStream fileInputStream =
+                            new FileInputStream(f);
                     BufferedInputStream bufferedInputStream =
                             new BufferedInputStream(fileInputStream);
                     Player player = new Player(bufferedInputStream);
