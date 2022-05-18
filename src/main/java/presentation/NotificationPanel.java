@@ -1,5 +1,6 @@
 package presentation;
 
+import datasource.CardType;
 import system.Card;
 import system.DrawDeck;
 import system.User;
@@ -58,7 +59,8 @@ public class NotificationPanel extends JPanel {
                 gamePlayer.returnFutureCards(cardOrder);
                 cardOrder.clear();
             }
-            gamePlayer.enableButtons();});
+            gamePlayer.enableButtons();
+        });
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -91,6 +93,7 @@ public class NotificationPanel extends JPanel {
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
                 private final Card card = topCard;
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (selectedCard[0] != null) {
@@ -112,37 +115,7 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayTargetedAttackPrompt(List<User> victims) {
-        gamePlayer.disableButtons();
-        initializePane();
-
-        final User[] selectedVictim = {null};
-        final JButton[] selectedVictimBtn = {null};
-        ActionListener eventFn = e -> {
-            if (selectedVictim[0] == null) {
-                return;
-            }
-            removeAll();
-            gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
-            gamePlayer.enableButtons();
-        };
-        addExitButtonToLayout("Confirm", eventFn);
-
-        for (User victim : victims) {
-            JButton victimBtn = gamePlayer.createCardImage(
-                    victim.getName(), "");
-
-            victimBtn.addActionListener(e -> {
-                if (selectedVictim[0] != null) {
-                    selectedVictimBtn[0].setBackground(Color.magenta);
-                }
-                selectedVictim[0] = victim;
-                selectedVictimBtn[0] = victimBtn;
-                victimBtn.setBackground(Color.red);
-            });
-            contentPanel.add(victimBtn);
-        }
-
-        gamePlayer.updateDisplay();
+        displaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK);
     }
 
     public void addExplodingKittenBackIntoDeck(String contentMessage, DrawDeck deck){
@@ -203,6 +176,54 @@ public class NotificationPanel extends JPanel {
     @Override
     public void removeAll() {
         super.removeAll();
+        gamePlayer.updateDisplay();
+    }
+
+    public void displayFavorPrompt(List<User> victims) {
+        displaySingleSelectionPrompt(victims, CardType.FAVOR);
+
+    }
+
+    private void displaySingleSelectionPrompt(
+            List<User> victims, CardType type) {
+        gamePlayer.disableButtons();
+        initializePane();
+
+        final User[] selectedVictim = {null};
+        final JButton[] selectedVictimBtn = {null};
+        ActionListener eventFn = e -> {
+            if (selectedVictim[0] == null) {
+                return;
+            }
+            removeAll();
+            if (type == CardType.FAVOR) {
+                gamePlayer.triggerFavorOn(selectedVictim[0]);
+            } else {
+                gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
+            }
+            gamePlayer.enableButtons();
+        };
+        addExitButtonToLayout("Confirm", eventFn);
+
+        for (User victim : victims) {
+            JButton victimBtn = gamePlayer.createCardImage(
+                    victim.getName(), "");
+
+            if (type == CardType.FAVOR && victim.isEmptyHand()) {
+                victimBtn.setEnabled(false);
+            }
+
+            victimBtn.addActionListener(e -> {
+                if (selectedVictim[0] != null) {
+                    selectedVictimBtn[0].setBackground(Color.CYAN);
+                }
+                selectedVictim[0] = victim;
+                selectedVictimBtn[0] = victimBtn;
+                victimBtn.setBackground(Color.red);
+            });
+            contentPanel.add(victimBtn);
+        }
+
         gamePlayer.updateDisplay();
     }
 }

@@ -178,8 +178,22 @@ public class GameState {
         addExtraTurn();
     }
 
+    public void triggerDisplayOfFavorPrompt() {
+        List<User> targets = getTargetsForCardEffects();
+        gamePlayer.displayFavorPrompt(targets);
+    }
+
     public void addExplodingKittenBackIntoDeck(Integer location) {
         drawDeck.addExplodingKittenAtLocation(location);
         transitionToNextTurn();
+    }
+
+    public void executeFavorOn(User user) {
+        int i = gamePlayer.inputForStealCard(user);
+        while (i == -1) {
+            i = gamePlayer.inputForStealCard(user);
+        }
+        Card stealCard = user.removeHand(i);
+        getUserForCurrentTurn().addCard(stealCard);
     }
 }

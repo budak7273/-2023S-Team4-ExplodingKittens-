@@ -26,8 +26,10 @@ public class GameDesigner {
         this.users = usersQueue;
     }
 
-    /** createGame takes in no parameters.
-     *  Is tasked with initializing the current game.*/
+    /**
+     * createGame takes in no parameters.
+     * Is tasked with initializing the current game.
+     */
     public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
@@ -40,7 +42,8 @@ public class GameDesigner {
 
     /**
      * readUserInfo takes in no parameters.
-     *      Asks the User for their information.
+     * Asks the User for their information.
+     *
      * @return a list of Strings that represent the current User's name
      */
     public static List<String> readUserInfo() {
@@ -91,7 +94,7 @@ public class GameDesigner {
         }
 
         System.out.println(Messages.getMessage(Messages.START_GAME));
-        for (String userName: userNameList) {
+        for (String userName : userNameList) {
             System.out.println(userName);
         }
         scanner.close();
@@ -114,10 +117,11 @@ public class GameDesigner {
         gamePlayer.updateUI();
     }
 
-        /**
-          * These methods should only be used for Integration Testing
-          * @return
-          */
+    /**
+     * These methods should only be used for Integration Testing
+     *
+     * @return
+     */
     public void initializeGameState() {
         Setup setup = new Setup(users.size());
         String path = "src/main/resources/cards.csv";
@@ -128,6 +132,7 @@ public class GameDesigner {
         gamePlayer.setGameState(gameState);
         gamePlayer.updateUI();
     }
+
     public GamePlayer getGamePlayer() {
         return this.gamePlayer;
     }
