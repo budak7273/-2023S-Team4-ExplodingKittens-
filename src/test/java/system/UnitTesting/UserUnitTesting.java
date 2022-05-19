@@ -506,7 +506,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -518,7 +518,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -530,7 +530,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -542,7 +542,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -554,7 +554,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -566,7 +566,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkCatPairMatch(card1,card2));
+        Assertions.assertTrue(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -578,7 +578,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkCatPairMatch(card1,card2));
+        Assertions.assertTrue(user.checkCatPairMatch(card1, card2));
     }
 
     @Test
@@ -590,7 +590,7 @@ public class UserUnitTesting {
         list.add(card1);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkCatPairMatch(card1,card2));
+        Assertions.assertTrue(user.checkCatPairMatch(card1, card2));
     }
 
 }

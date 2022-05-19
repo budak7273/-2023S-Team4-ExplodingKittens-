@@ -477,7 +477,6 @@ public class GamePlayer {
     }
 
     public void triggerFavorOn(User user) {
-        System.out.println("TODO: triggerFavorOn user");
         gameState.executeFavorOn(user);
     }
 
