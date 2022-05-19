@@ -75,7 +75,12 @@ public enum Messages {
     WARNING("Warning"),
     RIP("Rip"),
     VALID_INDEX("ValidIndex"),
-    STEALING("Stealing");
+    STEALING("Stealing"),
+    DONE("Done"),
+    LOCATION("Location"),
+    PLACE_KITTEN("PlaceKitten"),
+    KITTEN_PLACED("KittenPlaced");
+
 
 
     private static Locale currentLocation = Locale.ENGLISH;
