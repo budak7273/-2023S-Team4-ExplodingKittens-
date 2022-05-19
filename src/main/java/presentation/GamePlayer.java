@@ -90,6 +90,7 @@ public class GamePlayer {
                                 user.getHand().size() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private User innerUser = user;
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         tryNope(innerUser);
@@ -136,7 +137,8 @@ public class GamePlayer {
     public void disableButtons() {
         this.enabled = false;
         this.updateUI();
-        this.updateDisplay();    }
+        this.updateDisplay();
+    }
 
     public void enableButtons() {
         this.enabled = true;
@@ -166,6 +168,7 @@ public class GamePlayer {
                         Messages.SWITCH_TO_SHOW_MODE));
 
         this.setEnabledButton(modeButton);
+        this.checkCatModeAccessibility(modeButton);
         this.setEnabledButton(confirmButton);
         this.setEnabledButton(hideButton);
 
@@ -184,6 +187,14 @@ public class GamePlayer {
 
         p.add(playerNameLabel, BorderLayout.SOUTH);
         return p;
+    }
+
+    private void checkCatModeAccessibility(JButton modeButton) {
+        if (!catMode && !this.gameState.getUserForCurrentTurn()
+                .checkForSpecialEffectPotential()) {
+            modeButton.setEnabled(false);
+            modeButton.setBackground(Color.GRAY);
+        }
     }
 
     private void setEnabledButton(JButton button) {
@@ -226,11 +237,35 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-                    String msg = "TODO: Implement handleSelectedCardsInCatMode";
-                    System.out.println(msg);
+                    handleSelectedCardsInCatMode();
                 } else {
                     handleSelectedCardsInNormalMode();
                 }
+            }
+
+            private void handleSelectedCardsInCatMode() {
+                if (getSelectedCards().size() != 2) {
+                    diaplayWrongSelectionPromptInCatMode();
+                }
+                Card c1 = getSelectedCards().get(0);
+                Card c2 = getSelectedCards().get(1);
+                if (gameState.getUserForCurrentTurn()
+                        .checkCatPairMatch(c1, c2)) {
+                    String msg = "TODO: Implement handleSelectedCardsInCatMode";
+                    System.out.println(msg);
+                } else {
+                    diaplayWrongSelectionPromptInCatMode();
+                }
+            }
+
+            private void diaplayWrongSelectionPromptInCatMode() {
+                String infoMessage = Messages.getMessage(
+                        Messages.WRONG_SELECTION_CAT_MODE);
+                String titleBar = "InfoBox: Warning";
+                JOptionPane.showMessageDialog(null,
+                        infoMessage, titleBar,
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
             }
 
             private void handleSelectedCardsInNormalMode() {
@@ -379,6 +414,7 @@ public class GamePlayer {
 
 
     }
+
     public void addExplodingKittenIntoDeck(Integer location) {
         gameState.addExplodingKittenBackIntoDeck(location);
 
