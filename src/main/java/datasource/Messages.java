@@ -70,7 +70,9 @@ public enum Messages {
     NO_MUSIC("CouldntPlayMusic"),
     WRONG_INDEX_ENTERED("WrongIndexMessage"),
     NOPE_STATUS_MESSAGE("NopeStatusMessage"),
-    NOPE_STATUS_MESSAGE_NOT("NopeStatusMessageNot");
+    NOPE_STATUS_MESSAGE_NOT("NopeStatusMessageNot"),
+    WRONG_INDEX_ENTERED("WrongIndexMessage"),
+    WINNER_MESSAGE("WinnerMessage");
 
 
     private static Locale currentLocation = Locale.ENGLISH;
