@@ -38,6 +38,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithQueueOf2Users() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -61,6 +62,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithQueueOf10Users() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -103,6 +105,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithThreeAliveUsers() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -131,6 +134,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithThreeUsersFirstDead() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -159,6 +163,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithThreeUsersTwoDead() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -187,6 +192,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithTenUsersAndU1U2U4Dead() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -232,6 +238,7 @@ public class GameStateUnitTesting {
 
         EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
                 .andReturn(false);
+        gameboard.toggleCatMode();
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -268,6 +275,7 @@ public class GameStateUnitTesting {
         EasyMock.expect(drawDeck.drawFromBottomForUser(currentUser))
                 .andReturn(true);
         gameboard.explosionNotification(currentUser.isAlive());
+        gameboard.toggleCatMode();
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -294,6 +302,7 @@ public class GameStateUnitTesting {
         GameState gameState = new GameState(userQueue, gameboard, drawDeck);
 
         EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(false);
+        gameboard.toggleCatMode();
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -486,6 +495,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithMinPlayersAndExtraTurn() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -514,6 +524,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithMaxPlayersAndExtraTurn() {
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -630,6 +641,7 @@ public class GameStateUnitTesting {
         pq.add(player);
 
         GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.toggleCatMode();
         gpMock.updateUI();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         deckMock.addExplodingKittenAtLocation(0);

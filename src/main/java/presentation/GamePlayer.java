@@ -251,8 +251,7 @@ public class GamePlayer {
                 Card c1 = getSelectedCards().get(0);
                 Card c2 = getSelectedCards().get(1);
                 User current = gameState.getUserForCurrentTurn();
-                if (gameState.getUserForCurrentTurn()
-                        .checkCatPairMatch(c1, c2)) {
+                if (current.checkCatPairMatch(c1, c2)) {
 
                     gameState.triggerDisplayOfCatStealPrompt();
                     current.removeCard(c1);
@@ -573,7 +572,7 @@ public class GamePlayer {
         gameState.executeCatStealOn(user);
     }
 
-    public void toggleCatMode(){
+    public void toggleCatMode() {
         this.catMode = !this.catMode;
     }
 }
