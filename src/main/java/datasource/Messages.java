@@ -11,7 +11,7 @@ public enum Messages {
     ENTER_PLAYER("EnterPlayerMessage"),
     PLAYER_USERNAME("PlayerUsernameMessage"),
     START_GAME("StartGameMessage"),
-    YOUR_TURN("StartGameMessage"),
+    YOUR_TURN("YourTurnMessage"),
     MISSING_DATA("MissingDataMessage"),
     INVALID_CARD_TYPE("InvalidCardTypeMessage"),
     FOUND_IN_FILE("FoundInFileMessage"),
@@ -79,8 +79,8 @@ public enum Messages {
     DONE("Done"),
     LOCATION("Location"),
     PLACE_KITTEN("PlaceKitten"),
-    KITTEN_PLACED("KittenPlaced");
-
+    KITTEN_PLACED("KittenPlaced"),
+    WINNER_MESSAGE("WinnerMessage");
 
 
     private static Locale currentLocation = Locale.ENGLISH;
