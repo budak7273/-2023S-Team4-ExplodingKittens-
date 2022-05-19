@@ -446,7 +446,13 @@ public class GamePlayer {
         return this.gameState;
     }
 
-    public void endGame() {
+    public void displayWinForUser(User winner) {
+        this.gameFrame.dispose();
+        String infoMessage = winner.getName() +
+                Messages.getMessage(Messages.WINNER_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+                infoMessage, null,
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
