@@ -68,7 +68,8 @@ public enum Messages {
     SWITCH_TO_HIDE_MODE("SwitchToHideModeMessage"),
     DUPLICATED_USERNAME("DuplicatedUserName"),
     NO_MUSIC("CouldntPlayMusic"),
-    WRONG_INDEX_ENTERED("WrongIndexMessage");
+    WRONG_INDEX_ENTERED("WrongIndexMessage"),
+    WINNER_MESSAGE("WinnerMessage");
 
 
     private static Locale currentLocation = Locale.ENGLISH;
