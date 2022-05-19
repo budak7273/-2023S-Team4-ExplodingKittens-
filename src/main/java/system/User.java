@@ -110,16 +110,16 @@ public class User {
         return false;
     }
 
-    public boolean verifyEffectForCardsSelected(final List<Integer> selected) {
+    public boolean verifyEffectForCardsSelected(final List<Card> selected) {
         this.verifyCardsSelected(selected);
-        Card first = hand.get(selected.get(0));
+        Card first = selected.get(0);
 
-        for (Integer i : selected) {
-            if (!hand.get(i).isCatCard()) {
+        for (Card c : selected) {
+            if (!c.isCatCard()) {
                 return false;
             }
             CardType type1 = first.getType();
-            CardType type2 = hand.get(i).getType();
+            CardType type2 = c.getType();
             if (type1 != type2 && type1 != CardType.FERAL_CAT
                     && type2 != CardType.FERAL_CAT) {
                 return false;
@@ -133,7 +133,7 @@ public class User {
         return this.hand.isEmpty();
     }
 
-    public void verifyCardsSelected(final List<Integer> selected) {
+    public void verifyCardsSelected(final List<Card> selected) {
         String msg;
         if (selected == null) {
             msg = Messages.getMessage(Messages.MISSING_DATA);
@@ -144,12 +144,6 @@ public class User {
             throw new IllegalArgumentException(msg);
         }
         if (selected.size() > this.hand.size()) {
-            msg = Messages.getMessage(Messages.BAD_CARD_SELECTION);
-            throw new IllegalArgumentException(msg);
-        }
-        Set<Integer> set = new HashSet<>();
-        set.addAll(selected);
-        if (set.size() < selected.size()) {
             msg = Messages.getMessage(Messages.BAD_CARD_SELECTION);
             throw new IllegalArgumentException(msg);
         }

@@ -522,4 +522,16 @@ public class UserUnitTesting {
         Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
     }
 
+    @Test
+    public void
+    testCheckCatPairMatchOfTwoNonCatCardsThatMatch() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(card1,card2));
+    }
+
 }
