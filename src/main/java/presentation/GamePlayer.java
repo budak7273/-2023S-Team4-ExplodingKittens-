@@ -417,14 +417,14 @@ public class GamePlayer {
     }
 
     public void nopeMessage(boolean currentNope) {
-        String whether;
+        String status;
         if (currentNope) {
-            whether = "";
+            status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE);
         } else {
-            whether = "not";
+            status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE_NOT);
         }
-        notificationPanel.notifyPlayers("Waiting for NOPEs..."
-                + "<br>Currently " + whether + " noped", "");
+
+        notificationPanel.notifyPlayers(status, "");
         notificationPanel.addExitButtonToLayout("Counter-nope",
                 e -> tryNope(gameState.getUserForCurrentTurn()));
         updateDisplay();
