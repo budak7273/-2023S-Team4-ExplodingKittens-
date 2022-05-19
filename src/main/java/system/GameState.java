@@ -3,10 +3,7 @@ package system;
 import datasource.Messages;
 import presentation.GamePlayer;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class GameState {
     private final Queue<User> playerQueue;
@@ -187,6 +184,11 @@ public class GameState {
         gamePlayer.displayFavorPrompt(targets);
     }
 
+    public void triggerDisplayOfCatStealPrompt() {
+        List<User> targets = getTargetsForCardEffects();
+        gamePlayer.displayCatStealPrompt(targets);
+    }
+
     public void addExplodingKittenBackIntoDeck(Integer location) {
         drawDeck.addExplodingKittenAtLocation(location);
         transitionToNextTurn();
@@ -197,6 +199,13 @@ public class GameState {
         while (i == -1) {
             i = gamePlayer.inputForStealCard(user);
         }
+        Card stealCard = user.removeHand(i);
+        getUserForCurrentTurn().addCard(stealCard);
+    }
+
+    public void executeCatStealOn(User user) {
+        Random random = new Random();
+        int i = random.nextInt(user.getHand().size());
         Card stealCard = user.removeHand(i);
         getUserForCurrentTurn().addCard(stealCard);
     }

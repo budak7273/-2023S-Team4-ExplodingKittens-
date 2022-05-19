@@ -246,16 +246,28 @@ public class GamePlayer {
             private void handleSelectedCardsInCatMode() {
                 if (getSelectedCards().size() != 2) {
                     diaplayWrongSelectionPromptInCatMode();
+                    return;
                 }
                 Card c1 = getSelectedCards().get(0);
                 Card c2 = getSelectedCards().get(1);
+                User current = gameState.getUserForCurrentTurn();
                 if (gameState.getUserForCurrentTurn()
                         .checkCatPairMatch(c1, c2)) {
                     String msg = "TODO: Implement handleSelectedCardsInCatMode";
                     System.out.println(msg);
+                    gameState.triggerDisplayOfCatStealPrompt();
+                    current.removeCard(c1);
+                    current.removeCard(c2);
+
+                    updateUI();
+
+                    getSelectedCards().clear();
+                    gameFrame.validate();
+                    gameFrame.repaint();
                 } else {
                     diaplayWrongSelectionPromptInCatMode();
                 }
+
             }
 
             private void diaplayWrongSelectionPromptInCatMode() {
@@ -265,7 +277,6 @@ public class GamePlayer {
                 JOptionPane.showMessageDialog(null,
                         infoMessage, titleBar,
                         JOptionPane.INFORMATION_MESSAGE);
-                return;
             }
 
             private void handleSelectedCardsInNormalMode() {
@@ -521,6 +532,10 @@ public class GamePlayer {
         this.notificationPanel.displayFavorPrompt(users);
     }
 
+    public void displayCatStealPrompt(List<User> users) {
+        this.notificationPanel.displayCatStealPrompt(users);
+    }
+
     public int inputForStealCard(User user) {
         int result = 0;
         try {
@@ -552,5 +567,10 @@ public class GamePlayer {
         }
 
         return result;
+    }
+
+
+    public void triggerCatStealOn(User user) {
+        gameState.executeCatStealOn(user);
     }
 }

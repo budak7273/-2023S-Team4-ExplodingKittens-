@@ -53,7 +53,7 @@ public class NotificationPanel extends JPanel {
         gamePlayer.disableButtons();
         initializePane();
         addExitButtonToLayout("Done", e -> {
-        removeAll();
+            removeAll();
 
             if (cardOrder.size() > 0) {
                 gamePlayer.returnFutureCards(cardOrder);
@@ -140,18 +140,20 @@ public class NotificationPanel extends JPanel {
         gamePlayer.updateDisplay();
         addExitButtonToLayout("Select Location for Exploding Kitten in Deck",
                 e -> {
-            String getLocation = (String) JOptionPane.showInputDialog(null,
-                    "Where do you want to place the kitten?",
-                    "Place Exploding Kitten",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
+                    String getLocation = (String) JOptionPane
+                            .showInputDialog(null,
+                            "Where do you want to place the kitten?",
+                            "Place Exploding Kitten",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[0]);
 
-            removeAll();
-            gamePlayer.addExplodingKittenIntoDeck(
-                    Integer.parseInt(getLocation));
-            gamePlayer.enableButtons(); });
+                    removeAll();
+                    gamePlayer.addExplodingKittenIntoDeck(
+                            Integer.parseInt(getLocation));
+                    gamePlayer.enableButtons();
+                });
         gamePlayer.updateDisplay();
     }
 
@@ -187,6 +189,10 @@ public class NotificationPanel extends JPanel {
 
     }
 
+    public void displayCatStealPrompt(List<User> victims) {
+        displaySingleSelectionPrompt(victims, CardType.FERAL_CAT);
+    }
+
     private void displaySingleSelectionPrompt(
             List<User> victims, CardType type) {
         gamePlayer.disableButtons();
@@ -201,6 +207,8 @@ public class NotificationPanel extends JPanel {
             removeAll();
             if (type == CardType.FAVOR) {
                 gamePlayer.triggerFavorOn(selectedVictim[0]);
+            } else if (type == CardType.FERAL_CAT) {
+                gamePlayer.triggerCatStealOn(selectedVictim[0]);
             } else {
                 gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
             }
@@ -229,4 +237,6 @@ public class NotificationPanel extends JPanel {
 
         gamePlayer.updateDisplay();
     }
+
+
 }
