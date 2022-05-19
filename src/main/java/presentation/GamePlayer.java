@@ -115,7 +115,7 @@ public class GamePlayer {
                 gameState.drawCardForCurrentTurn();
             }
         });
-        JButton discardPile = createCardImage("Top Card",
+        JButton discardPile = createCardImage(Messages.getMessage(Messages.TOP_CARD),
                 "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
@@ -145,7 +145,8 @@ public class GamePlayer {
     }
 
     private JButton createDeckImage(String desc) {
-        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+        JButton deckImage = new JButton("<html><center>"
+                + Messages.getMessage(Messages.DRAW_DECK)+ "<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         this.setEnabledButton(deckImage);
@@ -160,7 +161,7 @@ public class GamePlayer {
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
         JButton confirmButton = createButtonImage(
-                "Confirm");
+                Messages.getMessage(Messages.CONFIRM));
         JButton hideButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_SHOW_MODE));
@@ -237,7 +238,7 @@ public class GamePlayer {
                 if (getSelectedCards().size() != 1) {
                     String infoMessage = Messages.getMessage(
                             Messages.WRONG_SELECTION_NORMAL_MODE);
-                    String titleBar = "InfoBox: Warning";
+                    String titleBar = Messages.getMessage(Messages.WARNING);
                     JOptionPane.showMessageDialog(null,
                             infoMessage, titleBar,
                             JOptionPane.INFORMATION_MESSAGE);
@@ -248,7 +249,7 @@ public class GamePlayer {
                 if (card.isCatCard()) {
                     String infoMessage = Messages.getMessage(
                             Messages.CAT_SELECTION_NORMAL_MODE);
-                    String titleBar = "InfoBox: Warning";
+                    String titleBar = Messages.getMessage(Messages.WARNING);
                     JOptionPane.showMessageDialog(null,
                             infoMessage, titleBar,
                             JOptionPane.INFORMATION_MESSAGE);
@@ -374,7 +375,8 @@ public class GamePlayer {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
             AudioPlayer.playExplosion();
             gameState.transitionToNextTurn();
-            getNotificationPanel().notifyPlayers(deathMessage, "rip");
+            getNotificationPanel().notifyPlayers(deathMessage,
+                    Messages.getMessage(Messages.RIP));
         }
 
 
@@ -491,8 +493,8 @@ public class GamePlayer {
         try {
             String inputs = (String) JOptionPane.showInputDialog(
                     gameFrame,
-                    "Type a valid index",
-                    "Stealing a card",
+                    Messages.getMessage(Messages.VALID_INDEX),
+                    Messages.getMessage(Messages.STEALING),
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,
@@ -503,7 +505,7 @@ public class GamePlayer {
             if (result < 0 || result >= user.getHand().size()) {
                 String infoMessage = Messages.getMessage(
                         Messages.WRONG_INDEX_ENTERED);
-                String titleBar = "InfoBox: Warning";
+                String titleBar = Messages.getMessage(Messages.WARNING);
                 JOptionPane.showMessageDialog(null,
                         infoMessage, titleBar,
                         JOptionPane.INFORMATION_MESSAGE);
