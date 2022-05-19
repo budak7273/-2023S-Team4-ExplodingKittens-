@@ -38,7 +38,7 @@ public class GameState {
                 playerQueue.poll();
             }
         }
-
+        gamePlayer.toggleCatMode();
         gamePlayer.updateUI();
     }
 
@@ -115,6 +115,7 @@ public class GameState {
             gamePlayer.explosionNotification(currentPlayer.isAlive());
         } else {
             transitionToNextTurn();
+
         }
 
     }

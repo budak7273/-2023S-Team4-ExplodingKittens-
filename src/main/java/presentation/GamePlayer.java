@@ -253,8 +253,7 @@ public class GamePlayer {
                 User current = gameState.getUserForCurrentTurn();
                 if (gameState.getUserForCurrentTurn()
                         .checkCatPairMatch(c1, c2)) {
-                    String msg = "TODO: Implement handleSelectedCardsInCatMode";
-                    System.out.println(msg);
+
                     gameState.triggerDisplayOfCatStealPrompt();
                     current.removeCard(c1);
                     current.removeCard(c2);
@@ -572,5 +571,9 @@ public class GamePlayer {
 
     public void triggerCatStealOn(User user) {
         gameState.executeCatStealOn(user);
+    }
+
+    public void toggleCatMode(){
+        this.catMode = !this.catMode;
     }
 }
