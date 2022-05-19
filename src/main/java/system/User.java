@@ -150,9 +150,9 @@ public class User {
     }
 
     public boolean checkCatPairMatch(Card card1, Card card2) {
-        List<Integer> pairList = new ArrayList<>();
-        pairList.add(this.hand.indexOf(card1));
-        pairList.add(this.hand.indexOf(card2));
+        List<Card> pairList = new ArrayList<>();
+        pairList.add(card1);
+        pairList.add(card2);
         return verifyEffectForCardsSelected(pairList);
     }
 }
