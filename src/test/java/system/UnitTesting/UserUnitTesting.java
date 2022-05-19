@@ -510,4 +510,13 @@ public class UserUnitTesting {
         EasyMock.verify(deckMock);
     }
 
+    @Test
+    public void
+    testCheckCatPairMatchOfTwoNonCatCardsNotMatch() {
+        ArrayList<Card> list = new ArrayList<>();
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(new Card(CardType.ATTACK),
+                new Card(CardType.NOPE)));
+    }
+
 }
