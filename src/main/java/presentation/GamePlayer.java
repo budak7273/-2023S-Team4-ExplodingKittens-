@@ -4,6 +4,7 @@ import datasource.Messages;
 import system.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,7 @@ public class GamePlayer {
      * Local storage of the game's current state.
      */
     private GameState gameState;
-    private JPanel playerDeckDisplayPanel;
+    private JComponent playerDeckDisplayPanel;
     private boolean catMode;
     private boolean enabled;
     private HashMap<Card, JButton> displayCards;
@@ -48,6 +49,10 @@ public class GamePlayer {
         };
         nopeTimer = new Timer(NOPE_DELAY_MILLIS, nopeListener);
         nopeTimer.setRepeats(false);
+
+        final int frameWidth = 1300;
+        final int frameHeight = 800;
+        gameFrame.setSize(frameWidth, frameHeight);
     }
 
     public void setGameState(final GameState currentGameState) {
@@ -60,8 +65,6 @@ public class GamePlayer {
     }
 
     public void buildGameView() {
-        final int frameWidth = 1300;
-        final int frameHeight = 800;
         gameFrame.getContentPane().removeAll();
 
         JPanel userDisplayPanel = generateUserDisplayPanel();
@@ -72,9 +75,6 @@ public class GamePlayer {
         gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
         gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
         gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
-
-        gameFrame.setSize(frameWidth, frameHeight);
-        gameFrame.pack();
 
         playerDeckDisplayPanel.setVisible(false);
         gameFrame.setVisible(true);
@@ -116,7 +116,7 @@ public class GamePlayer {
                 gameState.drawCardForCurrentTurn();
             }
         });
-        JButton discardPile = createCardImage("Top Card",
+        JButton discardPile = createCardImage(Messages.getMessage(Messages.TOP_CARD),
                 "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
@@ -129,7 +129,7 @@ public class GamePlayer {
         return tableAreaDisplayPanel;
     }
 
-    private JPanel generatePlayerDeckDisplayPanel() {
+    private JComponent generatePlayerDeckDisplayPanel() {
         return generatePlayerDeckCardsPanel(
                 BorderLayout.CENTER);
     }
@@ -147,7 +147,8 @@ public class GamePlayer {
     }
 
     private JButton createDeckImage(String desc) {
-        JButton deckImage = new JButton("<html><center>Draw Deck<br>"
+        JButton deckImage = new JButton("<html><center>"
+                + Messages.getMessage(Messages.DRAW_DECK)+ "<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         this.setEnabledButton(deckImage);
@@ -162,7 +163,7 @@ public class GamePlayer {
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
         JButton confirmButton = createButtonImage(
-                "Confirm");
+                Messages.getMessage(Messages.CONFIRM));
         JButton hideButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_SHOW_MODE));
@@ -281,7 +282,7 @@ public class GamePlayer {
                 if (getSelectedCards().size() != 1) {
                     String infoMessage = Messages.getMessage(
                             Messages.WRONG_SELECTION_NORMAL_MODE);
-                    String titleBar = "InfoBox: Warning";
+                    String titleBar = Messages.getMessage(Messages.WARNING);
                     JOptionPane.showMessageDialog(null,
                             infoMessage, titleBar,
                             JOptionPane.INFORMATION_MESSAGE);
@@ -292,7 +293,7 @@ public class GamePlayer {
                 if (card.isCatCard()) {
                     String infoMessage = Messages.getMessage(
                             Messages.CAT_SELECTION_NORMAL_MODE);
-                    String titleBar = "InfoBox: Warning";
+                    String titleBar = Messages.getMessage(Messages.WARNING);
                     JOptionPane.showMessageDialog(null,
                             infoMessage, titleBar,
                             JOptionPane.INFORMATION_MESSAGE);
@@ -343,7 +344,7 @@ public class GamePlayer {
         });
     }
 
-    private JPanel generatePlayerDeckCardsPanel(String layout) {
+    private JComponent generatePlayerDeckCardsPanel(String layout) {
         JPanel playerDeckCardsPanel = new JPanel();
         playerDeckCardsPanel.setLayout(new BorderLayout());
 
@@ -376,7 +377,11 @@ public class GamePlayer {
 
         JPanel p = new JPanel();
         p.add(playerDeckCardsPanel, layout);
-        return p;
+
+        JScrollPane scroll = new JScrollPane(p);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        return scroll;
     }
 
     protected JButton createCardImage(String name, String desc) {
@@ -418,7 +423,8 @@ public class GamePlayer {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
             AudioPlayer.playExplosion();
             gameState.transitionToNextTurn();
-            getNotificationPanel().notifyPlayers(deathMessage, "rip");
+            getNotificationPanel().notifyPlayers(deathMessage,
+                    Messages.getMessage(Messages.RIP));
         }
 
 
@@ -491,7 +497,13 @@ public class GamePlayer {
         return this.gameState;
     }
 
-    public void endGame() {
+    public void displayWinForUser(User winner) {
+        this.gameFrame.dispose();
+        String infoMessage = winner.getName() +
+                Messages.getMessage(Messages.WINNER_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+                infoMessage, null,
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -539,8 +551,8 @@ public class GamePlayer {
         try {
             String inputs = (String) JOptionPane.showInputDialog(
                     gameFrame,
-                    "Type a valid index",
-                    "Stealing a card",
+                    Messages.getMessage(Messages.VALID_INDEX),
+                    Messages.getMessage(Messages.STEALING),
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,
@@ -551,7 +563,7 @@ public class GamePlayer {
             if (result < 0 || result >= user.getHand().size()) {
                 String infoMessage = Messages.getMessage(
                         Messages.WRONG_INDEX_ENTERED);
-                String titleBar = "InfoBox: Warning";
+                String titleBar = Messages.getMessage(Messages.WARNING);
                 JOptionPane.showMessageDialog(null,
                         infoMessage, titleBar,
                         JOptionPane.INFORMATION_MESSAGE);

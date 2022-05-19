@@ -1,6 +1,7 @@
 package presentation;
 
 import datasource.CardType;
+import datasource.Messages;
 import system.Card;
 import system.DrawDeck;
 import system.User;
@@ -52,8 +53,9 @@ public class NotificationPanel extends JPanel {
     public void seeTheFuture(List<Card> future) {
         gamePlayer.disableButtons();
         initializePane();
-        addExitButtonToLayout("Done", e -> {
-            removeAll();
+        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
+                e -> {
+        removeAll();
 
             if (cardOrder.size() > 0) {
                 gamePlayer.returnFutureCards(cardOrder);
@@ -83,7 +85,8 @@ public class NotificationPanel extends JPanel {
             }
             gamePlayer.enableButtons();
         };
-        addExitButtonToLayout("Done", eventFn);
+        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
+                eventFn);
 
         final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {
@@ -138,16 +141,15 @@ public class NotificationPanel extends JPanel {
         content.setBackground(Color.CYAN);
 
         gamePlayer.updateDisplay();
-        addExitButtonToLayout("Select Location for Exploding Kitten in Deck",
+        addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
                 e -> {
-                    String getLocation = (String) JOptionPane
-                            .showInputDialog(null,
-                            "Where do you want to place the kitten?",
-                            "Place Exploding Kitten",
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[0]);
+            String getLocation = (String) JOptionPane.showInputDialog(null,
+                    Messages.getMessage(Messages.PLACE_KITTEN),
+                    Messages.getMessage(Messages.KITTEN_PLACED),
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
 
                     removeAll();
                     gamePlayer.addExplodingKittenIntoDeck(
@@ -214,7 +216,7 @@ public class NotificationPanel extends JPanel {
             }
             gamePlayer.enableButtons();
         };
-        addExitButtonToLayout("Confirm", eventFn);
+        addExitButtonToLayout(Messages.getMessage(Messages.CONFIRM), eventFn);
 
         for (User victim : victims) {
             JButton victimBtn = gamePlayer.createCardImage(

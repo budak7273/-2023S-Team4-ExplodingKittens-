@@ -16,6 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static org.easymock.EasyMock.isA;
+
 
 public class GameStateUnitTesting {
 
@@ -461,7 +463,7 @@ public class GameStateUnitTesting {
         queue.add(user);
         GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
         DrawDeck deck = EasyMock.createMock(DrawDeck.class);
-        gamePlayer.endGame();
+        gamePlayer.displayWinForUser(user);
         EasyMock.expectLastCall();
         EasyMock.replay(user, gamePlayer, deck);
         GameState gameState = new GameState(queue, gamePlayer, deck);
@@ -480,7 +482,7 @@ public class GameStateUnitTesting {
             queue.add(user);
         }
         GamePlayer gamePlayer = EasyMock.createMock(GamePlayer.class);
-        gamePlayer.endGame();
+        gamePlayer.displayWinForUser(isA(User.class));
         EasyMock.expectLastCall()
                 .andThrow(new AssertionFailedError()).anyTimes();
         DrawDeck deck = EasyMock.createMock(DrawDeck.class);

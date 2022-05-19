@@ -33,8 +33,8 @@ public class GameDesigner {
     public final void createGame() throws InvalidPlayerCountException {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
-            throw new InvalidPlayerCountException("ERROR: "
-                    + "Must have at least 2 players!");
+            throw new InvalidPlayerCountException(
+                    Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS));
         }
 
         initializeGameState(usernames);

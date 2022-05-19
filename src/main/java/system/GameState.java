@@ -40,6 +40,7 @@ public class GameState {
         }
         gamePlayer.toggleCatMode();
         gamePlayer.updateUI();
+        tryToEndGame();
     }
 
     private void transitionToTurnOfUser(User targetUser) {
@@ -144,7 +145,7 @@ public class GameState {
             throw new IllegalArgumentException(msg);
         }
         if (playerQueue.size() == 1) {
-            gamePlayer.endGame();
+            gamePlayer.displayWinForUser(getUserForCurrentTurn());
             return true;
         }
         return false;
