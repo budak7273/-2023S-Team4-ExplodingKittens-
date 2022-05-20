@@ -4,13 +4,14 @@ import datasource.Messages;
 import system.*;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static javax.swing.ScrollPaneConstants.*;
 
 public class GamePlayer {
 
@@ -335,7 +336,7 @@ public class GamePlayer {
         p.add(playerDeckCardsPanel, layout);
 
         JScrollPane scroll = new JScrollPane(p);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
         scroll.setBorder(BorderFactory.createEmptyBorder());
         return scroll;
     }
@@ -454,8 +455,8 @@ public class GamePlayer {
 
     public void displayWinForUser(User winner) {
         this.gameFrame.dispose();
-        String infoMessage = winner.getName() +
-                Messages.getMessage(Messages.WINNER_MESSAGE);
+        String infoMessage = winner.getName()
+                + Messages.getMessage(Messages.WINNER_MESSAGE);
         JOptionPane.showMessageDialog(null,
                 infoMessage, null,
                 JOptionPane.INFORMATION_MESSAGE);
