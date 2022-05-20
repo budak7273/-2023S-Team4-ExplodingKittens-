@@ -116,8 +116,8 @@ public class GamePlayer {
                 gameState.drawCardForCurrentTurn();
             }
         });
-        JButton discardPile = createCardImage(Messages.getMessage(Messages.TOP_CARD),
-                "");
+        JButton discardPile = createCardImage(
+                Messages.getMessage(Messages.TOP_CARD), "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
@@ -147,7 +147,8 @@ public class GamePlayer {
 
     private JButton createDeckImage(String desc) {
         JButton deckImage = new JButton("<html><center>"
-                + Messages.getMessage(Messages.DRAW_DECK)+ "<br>"
+                + Messages.getMessage(Messages.DRAW_DECK)
+                + "<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         this.setEnabledButton(deckImage);
