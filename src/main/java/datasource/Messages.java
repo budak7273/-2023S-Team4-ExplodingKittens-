@@ -68,6 +68,8 @@ public enum Messages {
     SWITCH_TO_HIDE_MODE("SwitchToHideModeMessage"),
     DUPLICATED_USERNAME("DuplicatedUserName"),
     NO_MUSIC("CouldntPlayMusic"),
+    NOPE_STATUS_MESSAGE("NopeStatusMessage"),
+    NOPE_STATUS_MESSAGE_NOT("NopeStatusMessageNot"),
     WRONG_INDEX_ENTERED("WrongIndexMessage"),
     TOP_CARD("TopCard"),
     DRAW_DECK("DrawDeck"),
