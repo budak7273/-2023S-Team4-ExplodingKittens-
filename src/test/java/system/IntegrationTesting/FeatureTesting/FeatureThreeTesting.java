@@ -34,7 +34,8 @@ public class FeatureThreeTesting {
         currentUser.removeCard(new Card(CardType.DEFUSE));
         gameState.drawCardForCurrentTurn();
         Assertions.assertEquals(2, gameState.getPlayerQueue().size());
-        Assertions.assertFalse(gameState.getPlayerQueue().contains(currentUser));
+        Assertions.assertFalse(
+                gameState.getPlayerQueue().contains(currentUser));
     }
 
     @Test
@@ -55,13 +56,16 @@ public class FeatureThreeTesting {
         DrawDeck drawDeck = gameState.getDrawDeck();
         gameState.transitionToNextTurn();
         gameState.transitionToNextTurn();
-        for (int i = 3; i < 9; i++) {
+        final int startingPoint = 3;
+        final int endingPoint = 9;
+        for (int i = startingPoint; i < endingPoint; i++) {
             drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
             User currentUser = gameState.getUserForCurrentTurn();
             currentUser.removeCard(new Card(CardType.DEFUSE));
             currentUser.removeCard(new Card(CardType.DEFUSE));
             gameState.drawCardForCurrentTurn();
-            Assertions.assertFalse(gameState.getPlayerQueue().contains(currentUser));
+            Assertions.assertFalse(
+                    gameState.getPlayerQueue().contains(currentUser));
         }
         Assertions.assertEquals(2, gameState.getPlayerQueue().size());
     }
