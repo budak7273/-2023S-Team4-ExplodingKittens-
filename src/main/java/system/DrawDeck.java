@@ -90,7 +90,7 @@ public class DrawDeck {
     }
 
     public void addExplodingKittenAtLocation(Integer location) {
-        Deque<Card> newCards = new LinkedList<Card>();
+        Deque<Card> newCards = new LinkedList<>();
         for (int i = 0; i < location; i++) {
             newCards.addLast(cards.pop());
         }
