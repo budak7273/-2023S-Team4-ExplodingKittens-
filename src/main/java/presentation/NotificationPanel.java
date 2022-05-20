@@ -125,9 +125,23 @@ public class NotificationPanel extends JPanel {
                                                DrawDeck deck) {
         gamePlayer.disableButtons();
         initializePane();
-
+        boolean lastCard = false;
         int size = deck.getDeckSize();
+
+        if (size == 0) {
+            lastCard = true;
+        }
+        if(lastCard){
+            addExitButtonToLayout(Messages.getMessage(Messages.KITTEN_PLACED),
+                    e -> {
+                        removeAll();
+                        gamePlayer.addExplodingKittenIntoDeck(0);
+                        gamePlayer.enableButtons();
+                    });
+        }
+        else{
         String[] options = new String[size];
+
         options[0] = "" + 0;
         for (int i = 0; i < size; i++) {
             options[i] = i + "";
@@ -141,20 +155,24 @@ public class NotificationPanel extends JPanel {
         content.setBackground(Color.CYAN);
 
         gamePlayer.updateDisplay();
+
         addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
                 e -> {
-            String getLocation = (String) JOptionPane.showInputDialog(null,
-                    Messages.getMessage(Messages.PLACE_KITTEN),
-                    Messages.getMessage(Messages.KITTEN_PLACED),
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
+                    String getLocation = (String) JOptionPane.showInputDialog(null,
+                            Messages.getMessage(Messages.PLACE_KITTEN),
+                            Messages.getMessage(Messages.KITTEN_PLACED),
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[0]);
 
-            removeAll();
-            gamePlayer.addExplodingKittenIntoDeck(
-                    Integer.parseInt(getLocation));
-            gamePlayer.enableButtons(); });
+                    removeAll();
+                    gamePlayer.addExplodingKittenIntoDeck(
+                            Integer.parseInt(getLocation));
+                    gamePlayer.enableButtons();
+                });
+
+    }
         gamePlayer.updateDisplay();
     }
 
