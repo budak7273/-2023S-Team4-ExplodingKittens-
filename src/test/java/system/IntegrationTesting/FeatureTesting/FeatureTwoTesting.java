@@ -30,4 +30,28 @@ public class FeatureTwoTesting {
         gameState.transitionToNextTurn();
         Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
     }
+
+    @Test
+    public void testDisplayingCurrentPlayersNameWithLargePlayerCount() {
+        Queue<User> users = new LinkedList<>();
+        users.add(new User("test1", true, new ArrayList<>()));
+        users.add(new User("test2", true, new ArrayList<>()));
+        users.add(new User("test3", true, new ArrayList<>()));
+        users.add(new User("test4", true, new ArrayList<>()));
+        users.add(new User("test5", true, new ArrayList<>()));
+        users.add(new User("test6", true, new ArrayList<>()));
+        users.add(new User("test7", true, new ArrayList<>()));
+        users.add(new User("test8", true, new ArrayList<>()));
+        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
+        gameDesigner.initializeGameState();
+        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
+        GameState gameState = gamePlayer.getGameState();
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
+        for (int i = 2; i < 9; i++) {
+            gameState.transitionToNextTurn();
+            Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test" + (i % 9));
+        }
+        gameState.transitionToNextTurn();
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
+    }
 }
