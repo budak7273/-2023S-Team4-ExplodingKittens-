@@ -30,7 +30,7 @@ public class FeatureOneTesting {
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
         User currentUser = gameState.getUserForCurrentTurn();
         currentUser.removeCard(new Card(CardType.DEFUSE));
-        while(gameState.getPlayerQueue().size() > 1){
+        while (gameState.getPlayerQueue().size() > 1) {
             gameState.drawCardForCurrentTurn();
         }
         Assertions.assertEquals(gameState.getPlayerQueue().size(), 1);
@@ -53,7 +53,7 @@ public class FeatureOneTesting {
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameState gameState = gamePlayer.getGameState();
         DrawDeck drawDeck = gameState.getDrawDeck();
-        while(gameState.getPlayerQueue().size() > 1){
+        while (gameState.getPlayerQueue().size() > 1) {
             drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
             User currentUser = gameState.getUserForCurrentTurn();
             currentUser.removeCard(new Card(CardType.DEFUSE));

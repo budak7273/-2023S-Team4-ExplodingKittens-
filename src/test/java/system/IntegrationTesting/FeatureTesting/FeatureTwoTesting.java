@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
-import system.DrawDeck;
 import system.GameState;
 import system.User;
 
@@ -24,11 +23,14 @@ public class FeatureTwoTesting {
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameState gameState = gamePlayer.getGameState();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                "test1");
         gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test2");
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                "test2");
         gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                "test1");
     }
 
     @Test
@@ -46,12 +48,15 @@ public class FeatureTwoTesting {
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameState gameState = gamePlayer.getGameState();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
-        for (int i = 2; i < 9; i++) {
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                "test1");
+        for (int i = 2; i < gameState.getPlayerQueue().size() + 1; i++) {
             gameState.transitionToNextTurn();
-            Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test" + (i % 9));
+            Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                    "test" + (i % (gameState.getPlayerQueue().size() + 1)));
         }
         gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(), "test1");
+        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                "test1");
     }
 }
