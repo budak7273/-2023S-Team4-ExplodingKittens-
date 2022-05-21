@@ -30,6 +30,8 @@ public class FeatureOneTesting {
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
         User currentUser = gameState.getUserForCurrentTurn();
         currentUser.removeCard(new Card(CardType.DEFUSE));
+        currentUser.removeCard(new Card(CardType.DEFUSE));
+        currentUser.removeCard(new Card(CardType.DEFUSE));
         while (gameState.getPlayerQueue().size() > 1) {
             gameState.drawCardForCurrentTurn();
         }
@@ -56,6 +58,8 @@ public class FeatureOneTesting {
         while (gameState.getPlayerQueue().size() > 1) {
             drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
             User currentUser = gameState.getUserForCurrentTurn();
+            currentUser.removeCard(new Card(CardType.DEFUSE));
+            currentUser.removeCard(new Card(CardType.DEFUSE));
             currentUser.removeCard(new Card(CardType.DEFUSE));
             gameState.drawCardForCurrentTurn();
         }
