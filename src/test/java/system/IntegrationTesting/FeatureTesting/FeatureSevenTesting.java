@@ -33,8 +33,10 @@ public class FeatureSevenTesting {
         gameState.drawCardForCurrentTurn();
         Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
                 "test2");
-        Assertions.assertEquals(currentUser.getHand().size(), currentHandSize + 1);
-        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(), currentDeckSize - 1);
+        Assertions.assertEquals(currentUser.getHand().size(),
+                currentHandSize + 1);
+        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(),
+                currentDeckSize - 1);
     }
 
     @Test
@@ -52,7 +54,8 @@ public class FeatureSevenTesting {
         int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
-        currentUser.getHand().get(currentHandSize-1).activateEffect(gameState);
+        currentUser.getHand().get(currentHandSize - 1)
+                .activateEffect(gameState);
         Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
@@ -76,7 +79,8 @@ public class FeatureSevenTesting {
         int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
-        currentUser.getHand().get(currentHandSize-1).activateEffect(gameState);
+        currentUser.getHand().get(currentHandSize - 1)
+                .activateEffect(gameState);
         Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
