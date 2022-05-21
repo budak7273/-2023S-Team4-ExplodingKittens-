@@ -4,7 +4,6 @@ import datasource.Messages;
 import system.*;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,8 +115,8 @@ public class GamePlayer {
                 gameState.drawCardForCurrentTurn();
             }
         });
-        JButton discardPile = createCardImage(Messages.getMessage(Messages.TOP_CARD),
-                "");
+        JButton discardPile = createCardImage(
+                Messages.getMessage(Messages.TOP_CARD), "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
@@ -148,7 +147,7 @@ public class GamePlayer {
 
     private JButton createDeckImage(String desc) {
         JButton deckImage = new JButton("<html><center>"
-                + Messages.getMessage(Messages.DRAW_DECK)+ "<br>"
+                + Messages.getMessage(Messages.DRAW_DECK) + "<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         this.setEnabledButton(deckImage);
@@ -379,7 +378,8 @@ public class GamePlayer {
         p.add(playerDeckCardsPanel, layout);
 
         JScrollPane scroll = new JScrollPane(p);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scroll.setBorder(BorderFactory.createEmptyBorder());
         return scroll;
     }
@@ -468,14 +468,14 @@ public class GamePlayer {
     }
 
     public void nopeMessage(boolean currentNope) {
-        String whether;
+        String status;
         if (currentNope) {
-            whether = "";
+            status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE);
         } else {
-            whether = "not";
+            status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE_NOT);
         }
-        notificationPanel.notifyPlayers("Waiting for NOPEs..."
-                + "<br>Currently " + whether + " noped", "");
+
+        notificationPanel.notifyPlayers(status, "");
         notificationPanel.addExitButtonToLayout("Counter-nope",
                 e -> tryNope(gameState.getUserForCurrentTurn()));
         updateDisplay();
@@ -499,8 +499,8 @@ public class GamePlayer {
 
     public void displayWinForUser(User winner) {
         this.gameFrame.dispose();
-        String infoMessage = winner.getName() +
-                Messages.getMessage(Messages.WINNER_MESSAGE);
+        String infoMessage = winner.getName()
+                + Messages.getMessage(Messages.WINNER_MESSAGE);
         JOptionPane.showMessageDialog(null,
                 infoMessage, null,
                 JOptionPane.INFORMATION_MESSAGE);
