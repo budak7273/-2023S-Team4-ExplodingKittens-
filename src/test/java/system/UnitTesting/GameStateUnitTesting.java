@@ -160,22 +160,23 @@ public class GameStateUnitTesting {
 
     @Test
     public void testTransitionToNextAliveWithThreeUsersTwoDead() {
-        User user3 = new User();
         GamePlayer boardMock = EasyMock.createMock(GamePlayer.class);
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        boardMock.displayWinForUser(user3);
-        EasyMock.replay(boardMock);
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
         user1.attemptToDie();
         User user2 = new User();
         user2.attemptToDie();
+        User user3 = new User();
         pq.add(user1);
         pq.add(user2);
         pq.add(user3);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
+        boardMock.updateUI();
+        EasyMock.expectLastCall();
+        boardMock.displayWinForUser(user3);
+        EasyMock.expectLastCall();
+        EasyMock.replay(boardMock);
 
         GameState gameState = new GameState(pq, boardMock, deck);
         gameState.transitionToNextTurn();
