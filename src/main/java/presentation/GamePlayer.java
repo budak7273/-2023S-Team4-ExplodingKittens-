@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import static javax.swing.ScrollPaneConstants.*;
 
@@ -587,7 +588,7 @@ public class GamePlayer {
 
 
     public void triggerCatStealOn(User user) {
-        gameState.executeCatStealOn(user);
+        gameState.executeCatStealOn(user, new Random());
     }
 
     public void toggleCatMode() {

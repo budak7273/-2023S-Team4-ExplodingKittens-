@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 import static org.easymock.EasyMock.isA;
 
@@ -813,4 +810,34 @@ public class GameStateUnitTesting {
         gameState.triggerDisplayOfFavorPrompt();
         EasyMock.verify(targetUser, deckMock, gpMock);
     }
+
+    @Test
+    public void testCatCardStealingDisplay() {
+        Queue<User> pq = new LinkedList<>();
+        ArrayList<User> users = new ArrayList<>();
+        Card c = new Card(CardType.ATTACK);
+        User currentUser = EasyMock.createMock(User.class);
+        currentUser.addCard(c);
+        pq.add(currentUser);
+        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
+            User user = EasyMock.createMock(User.class);
+            user.addCard(c);
+            pq.add(user);
+        }
+        User targetUser = EasyMock.createMock(User.class);
+        EasyMock.replay(targetUser);
+        pq.add(targetUser);
+        users.addAll(pq);
+        users.remove(currentUser);
+        GamePlayer gpMock = EasyMock.createMock(GamePlayer.class);
+        gpMock.displayCatStealPrompt(users);
+        EasyMock.expectLastCall();
+        DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
+        EasyMock.replay(gpMock, deckMock);
+
+        GameState gameState = new GameState(pq, gpMock, deckMock);
+        gameState.triggerDisplayOfCatStealPrompt();
+        EasyMock.verify(gpMock, deckMock);
+    }
+
 }
