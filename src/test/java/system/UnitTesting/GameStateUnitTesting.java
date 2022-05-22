@@ -176,6 +176,7 @@ public class GameStateUnitTesting {
         pq.add(user2);
         pq.add(user3);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
+        boardMock.toggleCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         boardMock.displayWinForUser(user3);

@@ -161,6 +161,10 @@ public class GamePlayer {
         JButton modeButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
+        if(catMode){
+            modeButton.setText( Messages.getMessage(
+                    Messages.SWITCH_TO_NORMAL_MODE));
+        }
         JButton confirmButton = createButtonImage(
                 Messages.getMessage(Messages.CONFIRM));
         JButton hideButton = createButtonImage(
@@ -556,9 +560,9 @@ public class GamePlayer {
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,
-                    0
+                    1
             );
-            result = Integer.parseInt(inputs);
+            result = Integer.parseInt(inputs) - 1;
 
             if (result < 0 || result >= user.getHand().size()) {
                 String infoMessage = Messages.getMessage(
@@ -585,6 +589,6 @@ public class GamePlayer {
     }
 
     public void toggleCatMode() {
-        this.catMode = !this.catMode;
+        this.catMode = false;
     }
 }
