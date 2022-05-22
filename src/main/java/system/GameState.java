@@ -205,8 +205,7 @@ public class GameState {
         getUserForCurrentTurn().addCard(stealCard);
     }
 
-    public void executeCatStealOn(User user) {
-        Random random = new Random();
+    public void executeCatStealOn(User user, Random random) {
         int i = random.nextInt(user.getHand().size());
         Card stealCard = user.removeHand(i);
         getUserForCurrentTurn().addCard(stealCard);

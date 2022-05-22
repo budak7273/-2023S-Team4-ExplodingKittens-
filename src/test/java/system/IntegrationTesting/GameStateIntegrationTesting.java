@@ -4,10 +4,8 @@ import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+
+import java.util.*;
 
 import presentation.GameDesigner;
 import presentation.GamePlayer;
@@ -305,5 +303,28 @@ public class GameStateIntegrationTesting {
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
     }
 
+    @Test
+    public void testExecuteCatStealOn() {
+        Queue<User> pq = new LinkedList<User>();
+        User userStartingAtTopOfQueue = new User();
+        User secondUser = new User();
+        User targetUser = new User();
+        pq.add(userStartingAtTopOfQueue);
+        pq.add(secondUser);
+        pq.add(targetUser);
+        final int alreadyAddedUsers = 3;
+        for (int i = 0; i < MAX_USER_COUNT - alreadyAddedUsers; i++) {
+            pq.add(new User());
+        }
+
+        GameDesigner boardMock = new GameDesigner(pq, new JFrame());
+        boardMock.initializeGameState();
+        GamePlayer gamePlayer = boardMock.getGamePlayer();
+        GameState gameState = gamePlayer.getGameState();
+        int currentTargetSize = targetUser.getHand().size();
+        gameState.executeCatStealOn(targetUser, new Random());
+        Assertions.assertEquals(targetUser.getHand().size(),
+                currentTargetSize - 1);
+    }
 
 }
