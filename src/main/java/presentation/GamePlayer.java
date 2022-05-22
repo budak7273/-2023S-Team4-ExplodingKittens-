@@ -164,8 +164,8 @@ public class GamePlayer {
         JButton modeButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
-        if(catMode){
-            modeButton.setText( Messages.getMessage(
+        if (catMode) {
+            modeButton.setText(Messages.getMessage(
                     Messages.SWITCH_TO_NORMAL_MODE));
         }
         JButton confirmButton = createButtonImage(

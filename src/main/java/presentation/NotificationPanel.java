@@ -131,46 +131,50 @@ public class NotificationPanel extends JPanel {
         if (size == 0) {
             lastCard = true;
         }
-        if(lastCard){
+        if (lastCard) {
             addExitButtonToLayout(Messages.getMessage(Messages.KITTEN_PLACED),
                     e -> {
                         removeAll();
                         gamePlayer.addExplodingKittenIntoDeck(0);
                         gamePlayer.enableButtons();
                     });
+        } else {
+            String[] options = new String[size];
+
+            options[0] = "" + 0;
+            for (int i = 0; i < size; i++) {
+                options[i] = i + "";
+            }
+
+            JLabel content = new JLabel("<html><center><br>"
+                    + contentMessage + "<br><br></center></html>");
+
+            contentPanel.add(content);
+            content.setOpaque(true);
+            content.setBackground(Color.CYAN);
+
+            gamePlayer.updateDisplay();
+
+            addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
+                    e -> {
+                        String getLocation = (String)
+                                JOptionPane.showInputDialog(
+                                    null,
+                                    Messages.getMessage(
+                                            Messages.PLACE_KITTEN),
+                                    Messages.getMessage(
+                                            Messages.KITTEN_PLACED),
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    options,
+                                    options[0]);
+
+                        removeAll();
+                        gamePlayer.addExplodingKittenIntoDeck(
+                                Integer.parseInt(getLocation));
+                        gamePlayer.enableButtons();
+                    });
         }
-        else{
-        String[] options = new String[size];
-
-        options[0] = "" + 0;
-        for (int i = 0; i < size; i++) {
-            options[i] = i + "";
-        }
-
-        JLabel content = new JLabel("<html><center><br>"
-                + contentMessage + "<br><br></center></html>");
-
-        contentPanel.add(content);
-        content.setOpaque(true);
-        content.setBackground(Color.CYAN);
-
-        gamePlayer.updateDisplay();
-
-        addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
-                e -> {
-                    String getLocation = (String) JOptionPane.showInputDialog(null,
-                            Messages.getMessage(Messages.PLACE_KITTEN),
-                            Messages.getMessage(Messages.KITTEN_PLACED),
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[0]);
-
-                    removeAll();
-                    gamePlayer.addExplodingKittenIntoDeck(
-                            Integer.parseInt(getLocation));
-                    gamePlayer.enableButtons();
-                });
         gamePlayer.updateDisplay();
     }
 
