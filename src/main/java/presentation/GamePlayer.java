@@ -89,6 +89,7 @@ public class GamePlayer {
                                 user.getHand().size() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private User innerUser = user;
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         tryNope(innerUser);
@@ -135,7 +136,8 @@ public class GamePlayer {
     public void disableButtons() {
         this.enabled = false;
         this.updateUI();
-        this.updateDisplay();    }
+        this.updateDisplay();
+    }
 
     public void enableButtons() {
         this.enabled = true;
@@ -159,6 +161,10 @@ public class GamePlayer {
         JButton modeButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
+        if(catMode){
+            modeButton.setText( Messages.getMessage(
+                    Messages.SWITCH_TO_NORMAL_MODE));
+        }
         JButton confirmButton = createButtonImage(
                 Messages.getMessage(Messages.CONFIRM));
         JButton hideButton = createButtonImage(
@@ -166,6 +172,7 @@ public class GamePlayer {
                         Messages.SWITCH_TO_SHOW_MODE));
 
         this.setEnabledButton(modeButton);
+        this.checkCatModeAccessibility(modeButton);
         this.setEnabledButton(confirmButton);
         this.setEnabledButton(hideButton);
 
@@ -184,6 +191,14 @@ public class GamePlayer {
 
         p.add(playerNameLabel, BorderLayout.SOUTH);
         return p;
+    }
+
+    private void checkCatModeAccessibility(JButton modeButton) {
+        if (!catMode && !this.gameState.getUserForCurrentTurn()
+                .checkForSpecialEffectPotential()) {
+            modeButton.setEnabled(false);
+            modeButton.setBackground(Color.GRAY);
+        }
     }
 
     private void setEnabledButton(JButton button) {
@@ -226,11 +241,44 @@ public class GamePlayer {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-                    String msg = "TODO: Implement handleSelectedCardsInCatMode";
-                    System.out.println(msg);
+                    handleSelectedCardsInCatMode();
                 } else {
                     handleSelectedCardsInNormalMode();
                 }
+            }
+
+            private void handleSelectedCardsInCatMode() {
+                if (getSelectedCards().size() != 2) {
+                    diaplayWrongSelectionPromptInCatMode();
+                    return;
+                }
+                Card c1 = getSelectedCards().get(0);
+                Card c2 = getSelectedCards().get(1);
+                User current = gameState.getUserForCurrentTurn();
+                if (current.checkCatPairMatch(c1, c2)) {
+
+                    gameState.triggerDisplayOfCatStealPrompt();
+                    current.removeCard(c1);
+                    current.removeCard(c2);
+
+                    updateUI();
+
+                    getSelectedCards().clear();
+                    gameFrame.validate();
+                    gameFrame.repaint();
+                } else {
+                    diaplayWrongSelectionPromptInCatMode();
+                }
+
+            }
+
+            private void diaplayWrongSelectionPromptInCatMode() {
+                String infoMessage = Messages.getMessage(
+                        Messages.WRONG_SELECTION_CAT_MODE);
+                String titleBar = "InfoBox: Warning";
+                JOptionPane.showMessageDialog(null,
+                        infoMessage, titleBar,
+                        JOptionPane.INFORMATION_MESSAGE);
             }
 
             private void handleSelectedCardsInNormalMode() {
@@ -385,6 +433,7 @@ public class GamePlayer {
 
 
     }
+
     public void addExplodingKittenIntoDeck(Integer location) {
         gameState.addExplodingKittenBackIntoDeck(location);
 
@@ -489,13 +538,16 @@ public class GamePlayer {
     }
 
     public void triggerFavorOn(User user) {
-        System.out.println("TODO: triggerFavorOn user");
         gameState.executeFavorOn(user);
     }
 
 
     public void displayFavorPrompt(List<User> users) {
         this.notificationPanel.displayFavorPrompt(users);
+    }
+
+    public void displayCatStealPrompt(List<User> users) {
+        this.notificationPanel.displayCatStealPrompt(users);
     }
 
     public int inputForStealCard(User user) {
@@ -508,9 +560,9 @@ public class GamePlayer {
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,
-                    0
+                    1
             );
-            result = Integer.parseInt(inputs);
+            result = Integer.parseInt(inputs) - 1;
 
             if (result < 0 || result >= user.getHand().size()) {
                 String infoMessage = Messages.getMessage(
@@ -529,5 +581,14 @@ public class GamePlayer {
         }
 
         return result;
+    }
+
+
+    public void triggerCatStealOn(User user) {
+        gameState.executeCatStealOn(user);
+    }
+
+    public void toggleCatMode() {
+        this.catMode = false;
     }
 }
