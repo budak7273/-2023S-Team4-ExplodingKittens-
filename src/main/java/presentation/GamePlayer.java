@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static javax.swing.ScrollPaneConstants.*;
+
 public class GamePlayer {
 
     /**
@@ -147,7 +149,8 @@ public class GamePlayer {
 
     private JButton createDeckImage(String desc) {
         JButton deckImage = new JButton("<html><center>"
-                + Messages.getMessage(Messages.DRAW_DECK) + "<br>"
+                + Messages.getMessage(Messages.DRAW_DECK)
+                + "<br>"
                 + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         this.setEnabledButton(deckImage);
@@ -161,8 +164,8 @@ public class GamePlayer {
         JButton modeButton = createButtonImage(
                 Messages.getMessage(
                         Messages.SWITCH_TO_CAT_MODE));
-        if(catMode){
-            modeButton.setText( Messages.getMessage(
+        if (catMode) {
+            modeButton.setText(Messages.getMessage(
                     Messages.SWITCH_TO_NORMAL_MODE));
         }
         JButton confirmButton = createButtonImage(
@@ -382,8 +385,7 @@ public class GamePlayer {
         p.add(playerDeckCardsPanel, layout);
 
         JScrollPane scroll = new JScrollPane(p);
-        scroll.setVerticalScrollBarPolicy(
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
         scroll.setBorder(BorderFactory.createEmptyBorder());
         return scroll;
     }
