@@ -212,13 +212,6 @@ public class SetupUnitTesting {
     }
 
     @Test
-    public void testCreateDiscardDeck() {
-        Setup setup = new Setup(2);
-        DiscardDeck discDeck = setup.createDiscardDeck();
-        Assertions.assertTrue(discDeck.getDeckSize() == 0);
-    }
-
-    @Test
     public void testDistributeCards1User() {
         Queue<User> users = new LinkedList<>();
         users.add(new User());
