@@ -231,8 +231,8 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectedEmptyHandWithNonEmptyListIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(ARBITRARY_COUNT_OF_SELECTED);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(new Card(CardType.ATTACK));
         User user = new User("test1", false, list);
         Executable executable =
                 () -> user.verifyEffectForCardsSelected(selected);
@@ -253,13 +253,15 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectedHandWithNoCatCardsIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
+        Card c = new Card(CardType.ATTACK);
+        list.add(c);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
-        list.add(new Card(CardType.ATTACK));
-        selected.add(1);
+        Card c2 = new Card(CardType.ATTACK);
+        list.add(c2);
+        selected.add(c2);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
@@ -267,26 +269,11 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize1HandWMultIndexIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
-        User user = new User("test1", false, list);
-        Executable executable =
-                () -> user.verifyEffectForCardsSelected(selected);
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
-    }
-
-    @Test
-    public void
-    testVerifyEffectForSelectSize2HandWIndexDupIntegratTest() {
-        ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
-        list.add(new Card(CardType.NOPE));
-
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(0);
+        Card c = new Card(CardType.ATTACK);
+        list.add(c);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c);
+        selected.add(new Card(CardType.ATTACK));
         User user = new User("test1", false, list);
         Executable executable =
                 () -> user.verifyEffectForCardsSelected(selected);
@@ -297,11 +284,13 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandSelectNonMatchCatIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
-        list.add(new Card(CardType.CATTERMELON));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        Card c1 = new Card(CardType.RAINBOW_RALPHING_CAT);
+        Card c2 = new Card(CardType.CATTERMELON);
+        list.add(c1);
+        list.add(c2);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c1);
+        selected.add(c2);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
@@ -310,11 +299,13 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandSelectMatchCatIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.FERAL_CAT));
-        list.add(new Card(CardType.CATTERMELON));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        Card c1 = new Card(CardType.FERAL_CAT);
+        Card c2 = new Card(CardType.CATTERMELON);
+        list.add(c1);
+        list.add(c2);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c1);
+        selected.add(c2);
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -323,11 +314,13 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectSize2HandSelectMatchCat2IntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.CATTERMELON));
-        list.add(new Card(CardType.CATTERMELON));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        Card c1 = new Card(CardType.CATTERMELON);
+        Card c2 = new Card(CardType.CATTERMELON);
+        list.add(c1);
+        list.add(c2);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c1);
+        selected.add(c2);
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -336,18 +329,20 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectMaxSizeHandSelectMatchPairIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
+        Card c1 = new Card(CardType.CATTERMELON);
+        Card c2 = new Card(CardType.FERAL_CAT);
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON));
+                list.add(c1);
             } else if (i == 1) {
-                list.add(new Card(CardType.FERAL_CAT));
+                list.add(c2);
             } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c1);
+        selected.add(c2);
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -356,18 +351,19 @@ public class UserIntegrationTesting {
     public void
     testVerifyEffectForSelectMaxSizeHandSelectNonMatchPairIntegratTest() {
         ArrayList<Card> list = new ArrayList<Card>();
+        Card c1 = new Card(CardType.CATTERMELON);
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i == 0) {
-                list.add(new Card(CardType.CATTERMELON));
+                list.add(c1);
             } else if (i == 1) {
                 list.add(new Card(CardType.FERAL_CAT));
             } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        final int falseAdd = 3;
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
+        final Card falseAdd = new Card(CardType.NOPE);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c1);
         selected.add(falseAdd);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
@@ -379,18 +375,19 @@ public class UserIntegrationTesting {
         final int rainbowRaphNumber = 3;
         final int hairPotatoNumber = 6;
         ArrayList<Card> list = new ArrayList<Card>();
+        Card c1 = new Card(CardType.RAINBOW_RALPHING_CAT);
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
+                list.add(c1);
             } else if (i < hairPotatoNumber) {
                 list.add(new Card(CardType.HAIRY_POTATO_CAT));
             } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        final int falseAdd = 3;
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
+        final Card falseAdd = new Card(CardType.NOPE);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c1);
         selected.add(falseAdd);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
@@ -401,17 +398,18 @@ public class UserIntegrationTesting {
     testVerifyEffectForSelMaxHandContOneTripleSelMatchPairIntegrationTest() {
         final int rainbowRaphNumber = 3;
         ArrayList<Card> list = new ArrayList<Card>();
+        Card c = new Card(CardType.RAINBOW_RALPHING_CAT);
         for (int i = 0; i < MAX_HAND_SIZE; i++) {
             if (i < rainbowRaphNumber) {
-                list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
+                list.add(c);
             } else {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
-        selected.add(2);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c);
+        selected.add(c);
+        selected.add(c);
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }

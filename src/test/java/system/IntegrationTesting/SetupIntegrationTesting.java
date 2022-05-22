@@ -3,7 +3,6 @@ package system.IntegrationTesting;
 import system.Setup;
 import system.User;
 import system.DrawDeck;
-import system.DiscardDeck;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -205,13 +204,6 @@ public class SetupIntegrationTesting {
         File cardInfoFile = new File(path);
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
-    }
-
-    @Test
-    public void testCreateDiscardDeckIntegrationTest() {
-        Setup setup = new Setup(2);
-        DiscardDeck discDeck = setup.createDiscardDeck();
-        Assertions.assertTrue(discDeck.getDeckSize() == 0);
     }
 
     @Test

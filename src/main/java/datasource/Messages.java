@@ -71,6 +71,7 @@ public enum Messages {
     NOPE_STATUS_MESSAGE("NopeStatusMessage"),
     NOPE_STATUS_MESSAGE_NOT("NopeStatusMessageNot"),
     WRONG_INDEX_ENTERED("WrongIndexMessage"),
+    WRONG_SELECTION_CAT_MODE("WrongSelectionCatModeMessage"),
     TOP_CARD("TopCard"),
     DRAW_DECK("DrawDeck"),
     CONFIRM("Confirm"),
