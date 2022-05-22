@@ -16,7 +16,7 @@ import static system.UnitTesting.GameStateUnitTesting.MAX_USER_COUNT;
 
 public class UserUnitTesting {
 
-    static final int ARBITRARY_COUNT_OF_SELECTED = 3;
+    static final Card ARBITRARY_CARD_OF_SELECTED = new Card(CardType.FAVOR);
     static final int MAX_HAND_SIZE = 120;
 
     @Test
@@ -246,7 +246,7 @@ public class UserUnitTesting {
     @Test
     public void testVerifyEffectForCardsSelectedEmptyHandWithEmptyList() {
         ArrayList<Card> list = new ArrayList<Card>();
-        ArrayList<Integer> selected = new ArrayList<>();
+        ArrayList<Card> selected = new ArrayList<>();
         User user = new User("test1", false, list);
         user.verifyCardsSelected(selected);
     }
@@ -254,8 +254,8 @@ public class UserUnitTesting {
     @Test
     public void testVerifyEffectForCardsSelectedEmptyHandWithNonEmptyList() {
         ArrayList<Card> list = new ArrayList<Card>();
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(ARBITRARY_COUNT_OF_SELECTED);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(ARBITRARY_CARD_OF_SELECTED);
         User user = new User("test1", false, list);
         Executable executable =
                 () -> user.verifyEffectForCardsSelected(selected);
@@ -275,12 +275,12 @@ public class UserUnitTesting {
     public void testVerifyEffectForCardsSelectedHandWithNoCatCards() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.ATTACK));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
         list.add(new Card(CardType.ATTACK));
-        selected.add(1);
+        selected.add(list.get(1));
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
 
@@ -288,28 +288,15 @@ public class UserUnitTesting {
     public void testVerifyEffectForCardsSelectedSize1HandWithMultipleIndex() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.ATTACK));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
+        selected.add(list.get(0));
         User user = new User("test1", false, list);
         Executable executable =
                 () -> user.verifyEffectForCardsSelected(selected);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
-    @Test
-    public void testVerifyEffectForCardsSelectedSize2HandWithIndexDuplicated() {
-        ArrayList<Card> list = new ArrayList<Card>();
-        list.add(new Card(CardType.ATTACK));
-        list.add(new Card(CardType.NOPE));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(0);
-        User user = new User("test1", false, list);
-        Executable executable =
-                () -> user.verifyEffectForCardsSelected(selected);
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
-    }
 
     @Test
     public void
@@ -317,9 +304,9 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.RAINBOW_RALPHING_CAT));
         list.add(new Card(CardType.CATTERMELON));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
+        selected.add(list.get(1));
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
@@ -329,9 +316,9 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.FERAL_CAT));
         list.add(new Card(CardType.CATTERMELON));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
+        selected.add(list.get(1));
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -341,9 +328,9 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(new Card(CardType.CATTERMELON));
         list.add(new Card(CardType.CATTERMELON));
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
+        selected.add(list.get(1));
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -361,9 +348,9 @@ public class UserUnitTesting {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
+        selected.add(list.get(1));
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -381,9 +368,9 @@ public class UserUnitTesting {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        final int falseAdd = 3;
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
+        final Card falseAdd = list.get(2);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
         selected.add(falseAdd);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
@@ -404,9 +391,9 @@ public class UserUnitTesting {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        final int falseAdd = 3;
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
+        final Card falseAdd = list.get(3);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
         selected.add(falseAdd);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
@@ -423,10 +410,10 @@ public class UserUnitTesting {
                 list.add(new Card(CardType.ATTACK));
             }
         }
-        ArrayList<Integer> selected = new ArrayList<>();
-        selected.add(0);
-        selected.add(1);
-        selected.add(2);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(list.get(0));
+        selected.add(list.get(1));
+        selected.add(list.get(2));
         User user = new User("test1", false, list);
         Assertions.assertTrue(user.verifyEffectForCardsSelected(selected));
     }
@@ -508,6 +495,102 @@ public class UserUnitTesting {
 
         EasyMock.verify(gp);
         EasyMock.verify(deckMock);
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfTwoNonCatCardsNotMatch() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.NOPE);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfTwoNonCatCardsThatMatch() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.ATTACK);
+        Card card2 = new Card(CardType.ATTACK);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfMixCards1() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.FERAL_CAT);
+        Card card2 = new Card(CardType.ATTACK);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfMixCards2() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.ATTACK);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfNonFeralCatCards() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.CATTERMELON);
+        Card card2 = new Card(CardType.RAINBOW_RALPHING_CAT);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertFalse(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfCatCardsWithOneFeral() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.FERAL_CAT);
+        Card card2 = new Card(CardType.RAINBOW_RALPHING_CAT);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfTwoMatchingNonFeralCards() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.RAINBOW_RALPHING_CAT);
+        Card card2 = new Card(CardType.RAINBOW_RALPHING_CAT);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkCatPairMatch(card1, card2));
+    }
+
+    @Test
+    public void
+    testCheckCatPairMatchOfTwoFeralCards() {
+        ArrayList<Card> list = new ArrayList<>();
+        Card card1 = new Card(CardType.FERAL_CAT);
+        Card card2 = new Card(CardType.FERAL_CAT);
+        list.add(card1);
+        list.add(card2);
+        User user = new User("test1", false, list);
+        Assertions.assertTrue(user.checkCatPairMatch(card1, card2));
     }
 
 }

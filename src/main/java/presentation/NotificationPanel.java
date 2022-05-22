@@ -171,8 +171,6 @@ public class NotificationPanel extends JPanel {
                             Integer.parseInt(getLocation));
                     gamePlayer.enableButtons();
                 });
-
-    }
         gamePlayer.updateDisplay();
     }
 
@@ -208,6 +206,10 @@ public class NotificationPanel extends JPanel {
 
     }
 
+    public void displayCatStealPrompt(List<User> victims) {
+        displaySingleSelectionPrompt(victims, CardType.FERAL_CAT);
+    }
+
     private void displaySingleSelectionPrompt(
             List<User> victims, CardType type) {
         gamePlayer.disableButtons();
@@ -222,6 +224,8 @@ public class NotificationPanel extends JPanel {
             removeAll();
             if (type == CardType.FAVOR) {
                 gamePlayer.triggerFavorOn(selectedVictim[0]);
+            } else if (type == CardType.FERAL_CAT) {
+                gamePlayer.triggerCatStealOn(selectedVictim[0]);
             } else {
                 gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
             }
@@ -250,4 +254,6 @@ public class NotificationPanel extends JPanel {
 
         gamePlayer.updateDisplay();
     }
+
+
 }
