@@ -18,7 +18,8 @@ jobs:
         run: |
           cp config/checkstyle/checkstyle.xml .github/linters/sun_checks.xml
       - name: Lint Code Base
-        uses: github/super-linter@v3
+        uses: github/super-linter@v3.17.0
+        # latest v3 has issue that won't be fixed https://github.com/github/super-linter/issues/2253
         env:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
