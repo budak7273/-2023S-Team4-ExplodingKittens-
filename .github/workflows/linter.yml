@@ -1,0 +1,27 @@
+# This workflow runs checkstyle against java code (and other linters against other languages)
+# Documentation: https://help.github.com/en/articles/workflow-syntax-for-github-actions
+
+name: Lint Code Base
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Copy Checkstyle Rules into desired directory
+        run: |
+          cp config/checkstyle/checkstyle.xml .github/linters/sun_checks.xml
+      - name: Lint Code Base
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_BASH: false  # Fails on gradlew. No plans to use bash in project.
+          VALIDATE_BASH_EXEC: false
