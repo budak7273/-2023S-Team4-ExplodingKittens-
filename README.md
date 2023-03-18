@@ -15,7 +15,15 @@ None :)
 
 ## Passed items
 - Definition of Done;
-- checkstyle and spotbugs
+- checkstyle and spo
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- tbugs
 - TDD/BDD;
 - 100% mutation 
 - 100% basis path coverage of all non-GUI (and non-enum) code.
