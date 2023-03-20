@@ -25,27 +25,33 @@ public class CardCSVParser {
         List<Card> cardList = new ArrayList<Card>();
         Scanner scanner = generateScanner();
         scanner.nextLine();
-        while (scanner.hasNextLine()) {
-            String cardInfo = scanner.nextLine();
-            String[] cardProperties = cardInfo.split(",");
-            String cardTypeName = cardProperties[0];
-
-            CardType cardType = CardType.valueOf(cardTypeName);
-            Card card = new Card(cardType);
-
-            if (includePaw
-                    && Boolean.parseBoolean(cardProperties[1])) {
-                cardList.add(card);
-            }
-            if (includeNoPaw
-                    && !Boolean.parseBoolean(cardProperties[1])) {
-                cardList.add(card);
-            }
+        while (scanner.hasNextLine()){
+           String cardInfo = scanner.nextLine();
+           cardList = getListWithAddedCard(cardInfo, cardList, includePaw, includeNoPaw);
         }
 
         return cardList;
     }
 
+    private List<Card> getListWithAddedCard(String cardInfo, List<Card> cardList,
+                                            boolean includePaw, boolean includeNoPaw){
+        List<Card> list = cardList;
+        String[] cardProperties = cardInfo.split(",");
+        String cardTypeName = cardProperties[0];
+
+        CardType cardType = CardType.valueOf(cardTypeName);
+        Card card = new Card(cardType);
+
+        if (includePaw
+                && Boolean.parseBoolean(cardProperties[1])) {
+            list.add(card);
+        }
+        if (includeNoPaw
+                && !Boolean.parseBoolean(cardProperties[1])) {
+            list.add(card);
+        }
+    return list;
+    }
     private void verifyCSVFormat() {
         Scanner scanner = generateScanner();
         scanner.nextLine();
