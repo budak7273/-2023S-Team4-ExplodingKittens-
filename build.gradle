@@ -38,6 +38,14 @@ dependencies {
 }
 
 test {
+    //Dynamic exclude through property defined in the build.gradle file
+    // https://blog.jdriven.com/2017/10/run-one-or-exclude-one-test-with-gradle/
+    test {
+        if (project.hasProperty('excludeTests')) {
+            exclude project.property('excludeTests')
+        }
+    }
+//    exclude '**/IntegrationTesting/**' // TODO these tests break the CI
     useJUnitPlatform()
 }
 
