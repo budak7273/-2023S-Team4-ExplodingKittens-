@@ -13,7 +13,6 @@ public class CardCSVParser {
 
     private File csvFile;
     private static final int MAX_CARD_COUNT = 101;
-    private Card card;
 
     public CardCSVParser(File csv) {
         this.csvFile = csv;
