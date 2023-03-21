@@ -13,57 +13,36 @@ public class CardCSVParser {
 
     private File csvFile;
     private static final int MAX_CARD_COUNT = 101;
+    private Card card;
 
     public CardCSVParser(File csv) {
         this.csvFile = csv;
     }
 
-    public List<Card> generateListOfCards(boolean includePaw,
-                                          boolean includeNoPaw) {
-        verifyCSVFormat();
-
-        List<Card> cardList = new ArrayList<Card>();
-        Scanner scanner = generateScanner();
-        scanner.nextLine();
-        while (scanner.hasNextLine()){
-           String cardInfo = scanner.nextLine();
-           cardList = getListWithAddedCard(cardInfo, cardList, includePaw, includeNoPaw);
-        }
-
-        return cardList;
-    }
-
-    private List<Card> getListWithAddedCard(String cardInfo, List<Card> cardList,
-                                            boolean includePaw, boolean includeNoPaw){
-        List<Card> list = cardList;
-        String[] cardProperties = cardInfo.split(",");
-        String cardTypeName = cardProperties[0];
-
+    private Card createCardFromTypeName(String cardTypeName){
         CardType cardType = CardType.valueOf(cardTypeName);
-        Card card = new Card(cardType);
-
-        if (includePaw
-                && Boolean.parseBoolean(cardProperties[1])) {
-            list.add(card);
-        }
-        if (includeNoPaw
-                && !Boolean.parseBoolean(cardProperties[1])) {
-            list.add(card);
-        }
-    return list;
+        return new Card(cardType);
     }
-    private void verifyCSVFormat() {
+
+    public List<Card> generateListOfCards(boolean includePaw, boolean includePawless){
+        return generateListOfCardsWithVerification(includePaw, includePawless);
+    }
+
+    public List<Card> generateListOfCardsWithVerification(boolean includePaw, boolean includePawless){
+        List<Card> cardList = new ArrayList<Card>();
+        int cardCount = 0;
+
         Scanner scanner = generateScanner();
         scanner.nextLine();
-        int cardCount = 0;
         while (scanner.hasNextLine()) {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
-            if (cardProperties.length != 2) {
-                throw new IllegalArgumentException(
-                        Messages.getMessage(Messages.MISSING_DATA));
-            }
-            String cardType = cardProperties[0];
+
+            checkPropertyLength(cardProperties);
+
+            String cardTypeName = cardProperties[0];
+            Boolean hasAPaw = Boolean.parseBoolean(cardProperties[1]);
+
             final int typeCount = 17;
             String[] types = new String[typeCount];
             int i = 0;
@@ -71,27 +50,42 @@ public class CardCSVParser {
                 types[i] = typeEnum.name();
                 i++;
             }
-            if (Arrays.stream(types).noneMatch(cardType::equals)) {
+            if (Arrays.stream(types).noneMatch(cardTypeName::equals)) {
                 throw new IllegalArgumentException(Messages
-                        .getMessage(Messages.INVALID_CARD_TYPE) + cardType
+                        .getMessage(Messages.INVALID_CARD_TYPE) + cardTypeName
                         + Messages.getMessage(Messages.FOUND_IN_FILE));
             }
-
             cardCount++;
-        }
-        if (cardCount != MAX_CARD_COUNT) {
-            throw new IllegalArgumentException(Messages
-                    .getMessage(Messages.BAD_NUMBER_OF_CARDS));
 
+            Card currentCard = createCardFromTypeName(cardTypeName);
+            if(includePaw && hasAPaw){
+                cardList.add(currentCard);
+            } else if (includePawless && !hasAPaw) {
+                cardList.add(currentCard);
+            }
         }
-    }
-
+        checkCardCount(cardCount);
+        return cardList;
+        }
     private Scanner generateScanner() {
         try {
             return new Scanner(csvFile, "UTF-8");
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(
                     Messages.getMessage(Messages.COULD_NOT_GENERATE));
+        }
+    }
+    private void checkPropertyLength(String[] cardProperties){
+        if (cardProperties.length != 2) {
+            throw new IllegalArgumentException(
+                    Messages.getMessage(Messages.MISSING_DATA));
+        }
+    }
+
+    private void checkCardCount(int cardCount){
+        if (cardCount != MAX_CARD_COUNT) {
+            throw new IllegalArgumentException(Messages
+                    .getMessage(Messages.BAD_NUMBER_OF_CARDS));
         }
     }
 }
