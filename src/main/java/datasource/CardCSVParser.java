@@ -38,23 +38,12 @@ public class CardCSVParser {
             String cardInfo = scanner.nextLine();
             String[] cardProperties = cardInfo.split(",");
 
-            checkPropertyLength(cardProperties);
+            verifyPropertyLength(cardProperties);
 
             String cardTypeName = cardProperties[0];
             Boolean hasAPaw = Boolean.parseBoolean(cardProperties[1]);
 
-            final int typeCount = 17;
-            String[] types = new String[typeCount];
-            int i = 0;
-            for (CardType typeEnum : CardType.class.getEnumConstants()) {
-                types[i] = typeEnum.name();
-                i++;
-            }
-            if (Arrays.stream(types).noneMatch(cardTypeName::equals)) {
-                throw new IllegalArgumentException(Messages
-                        .getMessage(Messages.INVALID_CARD_TYPE) + cardTypeName
-                        + Messages.getMessage(Messages.FOUND_IN_FILE));
-            }
+            verifyCardType(cardTypeName);
             cardCount++;
 
             Card currentCard = createCardFromTypeName(cardTypeName);
@@ -64,7 +53,7 @@ public class CardCSVParser {
                 cardList.add(currentCard);
             }
         }
-        checkCardCount(cardCount);
+        verifyCardCount(cardCount);
         return cardList;
         }
     private Scanner generateScanner() {
@@ -75,17 +64,32 @@ public class CardCSVParser {
                     Messages.getMessage(Messages.COULD_NOT_GENERATE));
         }
     }
-    private void checkPropertyLength(String[] cardProperties){
+    private void verifyPropertyLength(String[] cardProperties){
         if (cardProperties.length != 2) {
             throw new IllegalArgumentException(
                     Messages.getMessage(Messages.MISSING_DATA));
         }
     }
 
-    private void checkCardCount(int cardCount){
+    private void verifyCardCount(int cardCount){
         if (cardCount != MAX_CARD_COUNT) {
             throw new IllegalArgumentException(Messages
                     .getMessage(Messages.BAD_NUMBER_OF_CARDS));
+        }
+    }
+    private void verifyCardType(String cardTypeName){
+        //TODO: Robb
+        final int typeCount = 17;
+        String[] types = new String[typeCount];
+        int i = 0;
+        for (CardType typeEnum : CardType.class.getEnumConstants()) {
+            types[i] = typeEnum.name();
+            i++;
+        }
+        if (Arrays.stream(types).noneMatch(cardTypeName::equals)) {
+            throw new IllegalArgumentException(Messages
+                    .getMessage(Messages.INVALID_CARD_TYPE) + cardTypeName
+                    + Messages.getMessage(Messages.FOUND_IN_FILE));
         }
     }
 }
