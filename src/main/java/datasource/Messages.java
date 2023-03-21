@@ -84,8 +84,6 @@ public enum Messages {
     PLACE_KITTEN("PlaceKitten"),
     KITTEN_PLACED("KittenPlaced"),
     WINNER_MESSAGE("WinnerMessage");
-
-
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
 
@@ -94,21 +92,19 @@ public enum Messages {
     }
 
     public static String getMessage(final Messages message) {
-        return getMessage(message.toString());
+        return getMessageFromString(message.toString());
     }
 
     public static void switchLanguageToGerman() {
         currentLocation = Locale.GERMAN;
     }
 
-
     @Override
     public String toString() {
         return this.messageName;
     }
 
-    private static String getMessage(String key) {
-
+    private static String getMessageFromString(String key) {
         ResourceBundle messages =
                 ResourceBundle.getBundle("message", currentLocation);
         String value = messages.getString(key);
