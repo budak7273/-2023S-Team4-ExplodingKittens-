@@ -14,27 +14,12 @@ repositories {
     mavenCentral()
 }
 
-jacoco {
-    toolVersion = "0.7.5.+"
-}
-
-jacocoTestReport {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports after running tests."
-
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled true
-    }
-}
-
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    // https://mvnrepository.com/artifact/org.easymock/easymock
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0', 'org.easymock:easymock:3.1'
+    testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     implementation 'javazoom:jlayer:1.0.1'
-    // https://mvnrepository.com/artifact/org.easymock/easymock
-    testImplementation 'org.easymock:easymock:3.1'
 }
 
 test {
@@ -47,6 +32,42 @@ test {
     }
 //    exclude '**/IntegrationTesting/**' // TODO these tests break the CI
     useJUnitPlatform()
+}
+
+[spotbugsMain, spotbugsTest].each { task ->
+    task.configure {
+        reports {
+            html {
+                enabled = true
+                stylesheet = 'fancy-hist.xsl'
+            }
+        }
+    }
+}
+
+pitest {
+    targetClasses = ['system.*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+    junit5PluginVersion = '0.12'
+    verbose = true
+}
+
+jacoco {
+    toolVersion = "0.7.5.+"
+}
+
+jacocoTestReport {
+    dependsOn test
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
 }
 
 test.finalizedBy(jacocoTestReport)
@@ -74,23 +95,3 @@ task codeCoverageInfo (dependsOn: jacocoTestReport) {
     }
 }
 jacocoTestReport.finalizedBy(codeCoverageInfo)
-
-[spotbugsMain, spotbugsTest].each { task ->
-    task.configure {
-        reports {
-            html {
-                enabled = true
-                stylesheet = 'fancy-hist.xsl'
-            }
-        }
-    }
-}
-
-pitest {
-    targetClasses = ['system.*']
-    threads = 4
-    outputFormats = ['XML', 'HTML']
-    timestampedReports = false
-    junit5PluginVersion = '0.12'
-    verbose = true
-}
