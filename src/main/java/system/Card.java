@@ -24,10 +24,10 @@ public class Card {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Card)) {
-            return false;
+        if (o instanceof Card) {
+            return cardType.equals(((Card) o).cardType);
         }
-        return cardType.equals(((Card) o).cardType);
+       return false;
     }
 
     @Override

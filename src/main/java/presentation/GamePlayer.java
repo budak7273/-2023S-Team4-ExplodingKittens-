@@ -160,6 +160,7 @@ public class GamePlayer {
 
     private JPanel generateUserSelectionPanel() {
         JPanel p = new JPanel(new GridLayout(2, 1));
+        JPanel labelPanel = new JPanel();
         JPanel userSelectionPanel = new JPanel();
 
         JButton modeButton = createButtonImage(
@@ -184,16 +185,19 @@ public class GamePlayer {
         this.setConfirmButtonListener(confirmButton, hideButton);
         this.setEndButtonListener(hideButton);
 
+        JLabel playerNameLabel =
+                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
+                        + " " + gameState.getUserForCurrentTurn().getName());
+        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
+        labelPanel.add(playerNameLabel, BorderLayout.WEST);
+        p.add(labelPanel);
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(hideButton, BorderLayout.EAST);
         p.add(userSelectionPanel, BorderLayout.WEST);
 
-        JLabel playerNameLabel =
-                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
-                        + gameState.getUserForCurrentTurn().getName());
 
-        p.add(playerNameLabel, BorderLayout.SOUTH);
+        p.setSize(200, 500);
         return p;
     }
 
