@@ -16,6 +16,9 @@ import static javax.swing.ScrollPaneConstants.*;
 
 public class GamePlayer {
 
+    public static final int PLAYER_NAME_FONT_SIZE = 30;
+    public static final int PLAYER_SELECTOR_WIDTH = 200;
+    public static final int PLAYER_SELECTOR_HEIGHT = 500;
     /**
      * This is the frame the game is made on.
      */
@@ -188,7 +191,7 @@ public class GamePlayer {
         JLabel playerNameLabel =
                 new JLabel(Messages.getMessage(Messages.YOUR_TURN)
                         + " " + gameState.getUserForCurrentTurn().getName());
-        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
+        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, PLAYER_NAME_FONT_SIZE));
         labelPanel.add(playerNameLabel, BorderLayout.WEST);
         p.add(labelPanel);
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
@@ -197,7 +200,7 @@ public class GamePlayer {
         p.add(userSelectionPanel, BorderLayout.WEST);
 
 
-        p.setSize(200, 500);
+        p.setSize(PLAYER_SELECTOR_WIDTH, PLAYER_SELECTOR_HEIGHT);
         return p;
     }
 

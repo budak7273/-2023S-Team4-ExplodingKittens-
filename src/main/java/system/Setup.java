@@ -3,6 +3,7 @@ package system;
 import datasource.CardCSVParser;
 import datasource.CardType;
 import datasource.Messages;
+
 import java.io.File;
 import java.util.*;
 
@@ -54,12 +55,13 @@ public class Setup {
     private List<Card> generateCardList(File cardInfoFile) {
         boolean smallGame = numOfPlayers <= MAX_COUNT_WITH_PAW;
         boolean mediumGame = numOfPlayers >= MIN_COUNT_WITHOUT_PAW
-                           && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
+                && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
 
-        boolean includePaw, includePawless;
+        boolean includePaw;
+        boolean includePawless;
         int numOfDefuseCardsToAdd;
 
-        if(smallGame){
+        if (smallGame) {
             includePaw = true;
             includePawless = false;
             numOfDefuseCardsToAdd = MAX_COUNT_WITH_PAW - numOfPlayers;
