@@ -32,8 +32,6 @@ public class GamePlayer {
     private boolean enabled;
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
-    private static final int NOPE_DELAY_MILLIS = 2000;
-    private Timer nopeTimer;
     private Card executingCard;
     private Object mutex = new Object();
 
@@ -49,8 +47,6 @@ public class GamePlayer {
                 tryTriggerCardExecution();
             }
         };
-        nopeTimer = new Timer(NOPE_DELAY_MILLIS, nopeListener);
-        nopeTimer.setRepeats(false);
 
         final int frameWidth = 1300;
         final int frameHeight = 800;
@@ -323,7 +319,6 @@ public class GamePlayer {
                 synchronized (mutex) {
                     gameState.setCardExecutionState(1);
                 }
-                nopeTimer.start();
 
                 updateUI();
 
@@ -492,7 +487,14 @@ public class GamePlayer {
         notificationPanel.notifyPlayers(status, "");
         notificationPanel.addExitButtonToLayout("Counter-nope",
                 e -> tryNope(gameState.getUserForCurrentTurn()));
+        notificationPanel.addExitButtonToLayout("No nopes",
+                e -> this.noNopes());
         updateDisplay();
+    }
+
+    public void noNopes() {
+        getNotificationPanel().removeAll();
+        tryTriggerCardExecution();
     }
 
     /**
