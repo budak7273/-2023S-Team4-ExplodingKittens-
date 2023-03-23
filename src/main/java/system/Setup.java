@@ -3,6 +3,7 @@ package system;
 import datasource.CardCSVParser;
 import datasource.CardType;
 import datasource.Messages;
+
 import java.io.File;
 import java.util.*;
 
@@ -52,31 +53,33 @@ public class Setup {
     }
 
     private List<Card> generateCardList(File cardInfoFile) {
-        boolean countIsInPawOnlyBracket = numOfPlayers <= MAX_COUNT_WITH_PAW;
-        boolean countIsInNoPawOnlyBracket =
-                numOfPlayers >= MIN_COUNT_WITHOUT_PAW
+        boolean smallGame = numOfPlayers <= MAX_COUNT_WITH_PAW;
+        boolean mediumGame = numOfPlayers >= MIN_COUNT_WITHOUT_PAW
                 && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
-        boolean countIsInAllBracket = !countIsInPawOnlyBracket
-                && !countIsInNoPawOnlyBracket;
 
-        boolean withPaw = countIsInPawOnlyBracket || countIsInAllBracket;
-        boolean withNoPaw = countIsInNoPawOnlyBracket || countIsInAllBracket;
-
-        CardCSVParser parser = new CardCSVParser(cardInfoFile);
-        List<Card> cardList = parser.generateListOfCards(withPaw, withNoPaw);
-
+        boolean includePaw;
+        boolean includePawless;
         int numOfDefuseCardsToAdd;
-        if (countIsInPawOnlyBracket) {
+
+        if (smallGame) {
+            includePaw = true;
+            includePawless = false;
             numOfDefuseCardsToAdd = MAX_COUNT_WITH_PAW - numOfPlayers;
-        } else if (countIsInNoPawOnlyBracket) {
+        } else if (mediumGame) {
+            includePaw = false;
+            includePawless = true;
             numOfDefuseCardsToAdd = MAX_COUNT_WITHOUT_PAW - numOfPlayers;
         } else {
+            includePaw = true;
+            includePawless = true;
             numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
+        CardCSVParser parser = new CardCSVParser(cardInfoFile);
+        List<Card> cardList = parser.generateListOfCardsWithVerification(includePaw, includePawless);
+
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
             cardList.add(new Card(CardType.DEFUSE));
         }
-
         return cardList;
     }
 
