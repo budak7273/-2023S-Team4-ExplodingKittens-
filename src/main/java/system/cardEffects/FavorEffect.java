@@ -1,11 +1,14 @@
 package system.cardEffects;
 
-import system.GameState;
+import system.User;
 
-public class FavorEffect implements EffectPattern {
+import java.util.List;
+
+public class FavorEffect extends EffectPattern {
 
     @Override
-    public void useEffect(GameState gameState) {
-        gameState.triggerDisplayOfFavorPrompt();
+    public void useEffect() {
+        List<User> targets = currentState.getTargetsForCardEffects();
+        currentState.triggerDisplayOfFavorPrompt(targets);
     }
 }

@@ -1,10 +1,13 @@
 package system.cardEffects;
 
-import system.GameState;
+import system.Card;
+import java.util.List;
 
-public class SeeTheFutureEffect implements EffectPattern {
+public class SeeTheFutureEffect extends EffectPattern {
+
     @Override
-    public void useEffect(GameState gameState) {
-        gameState.seeTheFuture();
+    public void useEffect() {
+        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
+        currentState.seeTheFuture(futureCards);
     }
 }

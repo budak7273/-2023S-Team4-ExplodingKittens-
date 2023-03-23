@@ -65,31 +65,31 @@ public class GameState {
         }
     }
 
-    public void drawFromBottom() {
-        User currentUser = getUserForCurrentTurn();
-        boolean drawnExplodingKitten =
-                drawDeck.drawFromBottomForUser(currentUser);
-        if (drawnExplodingKitten) {
-            currentUser.attemptToDie();
-            gamePlayer.explosionNotification(currentUser.isAlive());
+    public void checkExplodingKitten(Boolean drawnExplodingKitten) {
+        if(drawnExplodingKitten) {
+            getUserForCurrentTurn().attemptToDie();
+            gamePlayer.explosionNotification(getUserForCurrentTurn().isAlive());
         }
-        transitionToNextTurn();
     }
 
-    public void shuffleDeck() {
-        if (drawDeck.shuffle()) {
+    public void drawCardForCurrentTurn() {
+        User currentPlayer = getUserForCurrentTurn();
+        boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
+        checkExplodingKitten(drawnExplodingKitten);
+        if(!drawnExplodingKitten) transitionToNextTurn();
+    }
+
+    public void shuffleDeck(Boolean shuffled) {
+        if (shuffled) {
             gamePlayer.updateUI();
         }
     }
 
-    public void seeTheFuture() {
-        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
+    public void seeTheFuture(List<Card> futureCards) {
         gamePlayer.displayFutureCards(futureCards);
-
     }
 
-    public void alterTheFuture() {
-        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
+    public void alterTheFuture(List<Card> futureCards) {
         gamePlayer.editFutureCards(futureCards);
     }
 
@@ -106,19 +106,6 @@ public class GameState {
 
     public int getDeckSizeForCurrentTurn() {
         return drawDeck.getDeckSize();
-    }
-
-    public void drawCardForCurrentTurn() {
-        User currentPlayer = getUserForCurrentTurn();
-        boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
-        if (drawnExplodingKitten) {
-            currentPlayer.attemptToDie();
-            gamePlayer.explosionNotification(currentPlayer.isAlive());
-        } else {
-            transitionToNextTurn();
-
-        }
-
     }
 
     public Queue<User> getPlayerQueue() {
@@ -164,12 +151,11 @@ public class GameState {
         currentUser.removeCard(card);
     }
 
-    public void triggerDisplayOfTargetedAttackPrompt() {
-        List<User> targets = getTargetsForCardEffects();
+    public void triggerDisplayOfTargetedAttackPrompt(List<User> targets) {
         gamePlayer.displayTargetedAttackPrompt(targets);
     }
 
-    private List<User> getTargetsForCardEffects() {
+    public List<User> getTargetsForCardEffects() {
         List<User> targets = new ArrayList<>();
         targets.addAll(playerQueue);
         targets.remove(getUserForCurrentTurn());
@@ -181,8 +167,7 @@ public class GameState {
         addExtraTurn();
     }
 
-    public void triggerDisplayOfFavorPrompt() {
-        List<User> targets = getTargetsForCardEffects();
+    public void triggerDisplayOfFavorPrompt(List<User> targets) {
         gamePlayer.displayFavorPrompt(targets);
     }
 

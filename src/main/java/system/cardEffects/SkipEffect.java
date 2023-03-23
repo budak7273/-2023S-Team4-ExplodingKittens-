@@ -1,10 +1,9 @@
 package system.cardEffects;
 
-import system.GameState;
+public class SkipEffect extends EffectPattern {
 
-public class SkipEffect implements EffectPattern {
     @Override
-    public void useEffect(GameState gameState) {
-        gameState.transitionToNextTurn();
+    public void useEffect() {
+        currentState.transitionToNextTurn();
     }
 }

@@ -19,7 +19,8 @@ public class Card {
 
     public void activateEffect(GameState gameState) {
         gameState.removeCardFromCurrentUser(new Card(cardType));
-        cardType.getEffectPattern().useEffect(gameState);
+        cardType.getEffectPattern().setCurrentState(gameState);
+        cardType.getEffectPattern().useEffect();
     }
 
     @Override
