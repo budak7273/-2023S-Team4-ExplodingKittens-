@@ -48,8 +48,6 @@ public class GameDesigner {
 
         setupLanguage(scanner);
 
-        System.out.println(Messages.getMessage(Messages.ENTER_PLAYER_1_NAME));
-
         userNameList = setupPlayerUsernames(scanner);
 
         displayPlayerList(userNameList);
@@ -105,6 +103,8 @@ public class GameDesigner {
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
 
+        System.out.println(Messages.getMessage(Messages.ENTER_PLAYER_1_NAME));
+
         while (scanner.hasNext()) {
 
             String username = scanner.next();
@@ -121,7 +121,6 @@ public class GameDesigner {
             if (nextPlayerCount >= tooManyPlayers) {
                 break;
             }
-
             System.out.println(Messages.getMessage(
                     Messages.ADD_ANOTHER_PLAYER));
 
