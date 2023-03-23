@@ -4,6 +4,6 @@ public class SkipEffect extends EffectPattern {
 
     @Override
     public void useEffect() {
-        currentState.transitionToNextTurn();
+        getCurrentState().transitionToNextTurn();
     }
 }

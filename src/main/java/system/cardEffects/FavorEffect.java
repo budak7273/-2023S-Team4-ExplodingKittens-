@@ -8,7 +8,7 @@ public class FavorEffect extends EffectPattern {
 
     @Override
     public void useEffect() {
-        List<User> targets = currentState.getTargetsForCardEffects();
-        currentState.triggerDisplayOfFavorPrompt(targets);
+        List<User> targets = getCurrentState().getTargetsForCardEffects();
+        getCurrentState().triggerDisplayOfFavorPrompt(targets);
     }
 }

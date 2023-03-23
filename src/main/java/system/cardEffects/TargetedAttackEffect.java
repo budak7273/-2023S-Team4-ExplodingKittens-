@@ -7,7 +7,7 @@ public class TargetedAttackEffect extends EffectPattern {
 
     @Override
     public void useEffect() {
-        List<User> targets = currentState.getTargetsForCardEffects();
-        currentState.triggerDisplayOfTargetedAttackPrompt(targets);
+        List<User> targets = getCurrentState().getTargetsForCardEffects();
+        getCurrentState().triggerDisplayOfTargetedAttackPrompt(targets);
     }
 }

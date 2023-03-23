@@ -8,7 +8,7 @@ public class AlterTheFutureEffect extends EffectPattern {
 
     @Override
     public void useEffect() {
-        List<Card> futureCards = drawDeck.drawThreeCardsFromTop();
-        currentState.alterTheFuture(futureCards);
+        List<Card> futureCards = getDrawDeck().drawThreeCardsFromTop();
+        getCurrentState().alterTheFuture(futureCards);
     }
 }

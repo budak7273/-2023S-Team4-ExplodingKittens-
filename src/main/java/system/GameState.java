@@ -66,7 +66,7 @@ public class GameState {
     }
 
     public void checkExplodingKitten(Boolean drawnExplodingKitten) {
-        if(drawnExplodingKitten) {
+        if (drawnExplodingKitten) {
             getUserForCurrentTurn().attemptToDie();
             gamePlayer.explosionNotification(getUserForCurrentTurn().isAlive());
         }
@@ -76,7 +76,9 @@ public class GameState {
         User currentPlayer = getUserForCurrentTurn();
         boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
         checkExplodingKitten(drawnExplodingKitten);
-        if(!drawnExplodingKitten) transitionToNextTurn();
+        if (!drawnExplodingKitten) {
+            transitionToNextTurn();
+        }
     }
 
     public void shuffleDeck(Boolean shuffled) {
