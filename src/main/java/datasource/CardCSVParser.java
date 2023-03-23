@@ -80,16 +80,12 @@ public class CardCSVParser {
                     .getMessage(Messages.BAD_NUMBER_OF_CARDS));
         }
     }
-    private void verifyCardType(String cardTypeName){
-        //TODO: Robb
-        final int typeCount = 17;
-        String[] types = new String[typeCount];
-        int i = 0;
-        for (CardType typeEnum : CardType.class.getEnumConstants()) {
-            types[i] = typeEnum.name();
-            i++;
-        }
-        if (Arrays.stream(types).noneMatch(cardTypeName::equals)) {
+
+    private void verifyCardType(String cardTypeName) {
+        System.out.println(cardTypeName);
+        Set<String> allCardTypes = Collections.unmodifiableSet(new HashSet<>(CardType.ENUM_VALUES));
+        System.out.println(allCardTypes);
+        if (!allCardTypes.contains(cardTypeName)) {
             throw new IllegalArgumentException(Messages
                     .getMessage(Messages.INVALID_CARD_TYPE) + cardTypeName
                     + Messages.getMessage(Messages.FOUND_IN_FILE));
