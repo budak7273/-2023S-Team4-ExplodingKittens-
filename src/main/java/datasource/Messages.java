@@ -98,11 +98,12 @@ public enum Messages {
     public static void switchLanguageToGerman() {
         currentLocation = Locale.GERMAN;
     }
-    public static void switchLanguage(String language){
-        switch (language){
-            case "g": currentLocation = Locale.GERMAN;
-            case "e": currentLocation = Locale.ENGLISH;
-            default: System.out.println("invalid selection! defaulting to English. ");
+    public static void switchLanguage(String language) {
+        switch (language) {
+            case "g": currentLocation = Locale.GERMAN; break;
+            case "e": currentLocation = Locale.ENGLISH; break;
+            default: System.out.println(
+                    "invalid selection! defaulting to English. ");
         }
     }
 

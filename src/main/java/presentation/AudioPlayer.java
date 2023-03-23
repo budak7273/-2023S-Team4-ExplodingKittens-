@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class AudioPlayer {
     private AudioPlayer() { }
-    private static void playMusic(String pathname){
+    private static void playMusic(String pathname) {
         Runnable runnablePlay = new Runnable() {
             @Override
             public void run() {

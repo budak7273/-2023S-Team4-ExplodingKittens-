@@ -91,14 +91,12 @@ public class GameDesigner {
     public GamePlayer getGamePlayer() {
         return this.gamePlayer;
     }
-    private static void setupLanguage(Scanner scanner){
+    private static void setupLanguage(Scanner scanner) {
         System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
-
         String languageSelection = scanner.next().toLowerCase();
-        boolean useGermanLanguage = (languageSelection.equals("g"));
         Messages.switchLanguage(languageSelection);
     }
-    private static List<String> setupPlayerUsernames(Scanner scanner){
+    private static List<String> setupPlayerUsernames(Scanner scanner) {
         List<String> userNameList = new ArrayList<>();
         int nextPlayerCount = 2;
         final int tooManyPlayers = 11;
@@ -138,7 +136,7 @@ public class GameDesigner {
         }
         return userNameList;
     }
-    private static void displayPlayerList(List<String> userNameList){
+    private static void displayPlayerList(List<String> userNameList) {
         System.out.println(Messages.getMessage(Messages.START_GAME));
         for (String userName : userNameList) {
             System.out.println(userName);

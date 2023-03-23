@@ -159,6 +159,9 @@ public class GamePlayer {
     }
 
     private JPanel generateUserSelectionPanel() {
+        final int fontSize = 30;
+        final int width = 200;
+        final int height = 500;
         JPanel p = new JPanel(new GridLayout(2, 1));
         JPanel labelPanel = new JPanel();
         JPanel userSelectionPanel = new JPanel();
@@ -188,7 +191,7 @@ public class GamePlayer {
         JLabel playerNameLabel =
                 new JLabel(Messages.getMessage(Messages.YOUR_TURN)
                         + " " + gameState.getUserForCurrentTurn().getName());
-        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
+        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, fontSize));
         labelPanel.add(playerNameLabel, BorderLayout.WEST);
         p.add(labelPanel);
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
@@ -197,7 +200,7 @@ public class GamePlayer {
         p.add(userSelectionPanel, BorderLayout.WEST);
 
 
-        p.setSize(200, 500);
+        p.setSize(width, height);
         return p;
     }
 
