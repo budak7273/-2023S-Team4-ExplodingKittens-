@@ -8,17 +8,13 @@ import java.io.File;
 import java.util.*;
 
 public class GameDesigner {
-
     private Queue<User> users;
-
     private GamePlayer gamePlayer;
-
     private JFrame gameFrame;
 
     public GameDesigner(JFrame frame) {
         this.gameFrame = frame;
         this.users = new ArrayDeque<>();
-
     }
 
     public GameDesigner(Queue<User> usersQueue, JFrame frame) {
@@ -47,56 +43,15 @@ public class GameDesigner {
      * @return a list of Strings that represent the current User's name
      */
     public static List<String> readUserInfo() {
-        List<String> userNameList = new ArrayList<>();
-        int nextPlayerCount = 2;
-        final int tooManyPlayers = 11;
-        System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
+        List<String> userNameList;
         Scanner scanner = new Scanner(System.in, "UTF-8");
-        String languageSelection = scanner.next().toLowerCase();
-        boolean useGermanLanguage = (languageSelection.equals("g"));
 
-        if (useGermanLanguage) {
-            Messages.switchLanguageToGerman();
-        }
-        System.out.println(Messages
-                .getMessage(Messages.ENTER_PLAYER_1_NAME));
+        setupLanguage(scanner);
 
+        userNameList = setupPlayerUsernames(scanner);
 
-        while (scanner.hasNext()) {
-            String username = scanner.next();
-            if (userNameList.contains(username)) {
-                System.out.println(Messages.getMessage(
-                        Messages.DUPLICATED_USERNAME));
-                continue;
-            }
+        displayPlayerList(userNameList);
 
-            userNameList.add(username);
-            System.out.println(username + Messages
-                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
-
-            if (nextPlayerCount >= tooManyPlayers) {
-                break;
-            }
-            System.out.println(Messages.getMessage(
-                    Messages.ADD_ANOTHER_PLAYER));
-
-            String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y")
-                    || response.equals("j"));
-            if (!addAnotherPlayer) {
-                break;
-            }
-
-            System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
-                    + nextPlayerCount + Messages
-                    .getMessage(Messages.PLAYER_USERNAME));
-            nextPlayerCount++;
-        }
-
-        System.out.println(Messages.getMessage(Messages.START_GAME));
-        for (String userName : userNameList) {
-            System.out.println(userName);
-        }
         scanner.close();
         return userNameList;
     }
@@ -136,5 +91,55 @@ public class GameDesigner {
     public GamePlayer getGamePlayer() {
         return this.gamePlayer;
     }
+    private static void setupLanguage(Scanner scanner) {
+        System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
+        String languageSelection = scanner.next().toLowerCase();
+        Messages.switchLanguage(languageSelection);
+    }
+    private static List<String> setupPlayerUsernames(Scanner scanner) {
+        List<String> userNameList = new ArrayList<>();
+        int nextPlayerCount = 2;
+        final int tooManyPlayers = 11;
 
+        System.out.println(Messages.getMessage(Messages.ENTER_PLAYER_1_NAME));
+
+        while (scanner.hasNext()) {
+
+            String username = scanner.next();
+            if (userNameList.contains(username)) {
+                System.out.println(Messages.getMessage(
+                        Messages.DUPLICATED_USERNAME));
+                continue;
+            }
+
+            userNameList.add(username);
+            System.out.println(username + Messages
+                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
+
+            if (nextPlayerCount >= tooManyPlayers) {
+                break;
+            }
+            System.out.println(Messages.getMessage(
+                    Messages.ADD_ANOTHER_PLAYER));
+
+            String response = scanner.next().toLowerCase();
+            boolean addAnotherPlayer = (response.equals("y")
+                    || response.equals("j"));
+            if (!addAnotherPlayer) {
+                break;
+            }
+
+            System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
+                    + nextPlayerCount + Messages
+                    .getMessage(Messages.PLAYER_USERNAME));
+            nextPlayerCount++;
+        }
+        return userNameList;
+    }
+    private static void displayPlayerList(List<String> userNameList) {
+        System.out.println(Messages.getMessage(Messages.START_GAME));
+        for (String userName : userNameList) {
+            System.out.println(userName);
+        }
+    }
 }
