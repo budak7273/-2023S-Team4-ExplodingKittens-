@@ -41,12 +41,6 @@ public class GamePlayer {
         this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
-        ActionListener nopeListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tryTriggerCardExecution();
-            }
-        };
 
         final int frameWidth = 1300;
         final int frameHeight = 800;
