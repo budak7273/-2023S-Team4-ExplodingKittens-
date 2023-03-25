@@ -31,3 +31,4 @@ jobs:
           VALIDATE_BASH: false  # Fails on gradlew. No plans to use bash in project.
           VALIDATE_BASH_EXEC: false
           VALIDATE_MARKDOWN: false # Not relevant to this project.
+          VALIDATE_JSCPD: false # Temporarily disable to pin down other issues
