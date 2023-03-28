@@ -1,6 +1,9 @@
 package datasource;
 
+import system.Utils;
 import system.cardEffects.*;
+
+import java.util.List;
 
 public enum CardType {
 
@@ -56,6 +59,8 @@ public enum CardType {
             new SeeTheFutureEffect(),
             Messages.SEE_DESC);
 
+    public static final List<String> ENUM_VALUES = Utils.enumValuesToStrings(CardType.class.getEnumConstants());
+
     private String displayName;
     private EffectPattern effectPattern;
     private Messages description;
@@ -78,5 +83,4 @@ public enum CardType {
     public String toString() {
         return this.displayName;
     }
-
 }

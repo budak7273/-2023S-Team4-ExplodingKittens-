@@ -3,7 +3,10 @@
 
 name: Lint Code Base
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   build:
@@ -18,11 +21,14 @@ jobs:
         run: |
           cp config/checkstyle/checkstyle.xml .github/linters/sun_checks.xml
       - name: Lint Code Base
+        # Configuration info here: https://github.com/github/super-linter
         uses: github/super-linter@v3.17.0
-        # latest v3 has issue that won't be fixed https://github.com/github/super-linter/issues/2253
+        # using 3.17.0 because latest v3 has issue that won't be fixed https://github.com/github/super-linter/issues/2253
         env:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_BASH: false  # Fails on gradlew. No plans to use bash in project.
           VALIDATE_BASH_EXEC: false
+          VALIDATE_MARKDOWN: false # Not relevant to this project.
+          VALIDATE_JSCPD: false # Temporarily disable to pin down other issues

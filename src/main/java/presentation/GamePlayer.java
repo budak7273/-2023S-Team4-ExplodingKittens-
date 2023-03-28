@@ -31,8 +31,6 @@ public class GamePlayer {
     private boolean enabled;
     private HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
-    private static final int NOPE_DELAY_MILLIS = 2000;
-    private Timer nopeTimer;
     private Card executingCard;
     private Object mutex = new Object();
     private GameManager gameManager;
@@ -43,14 +41,6 @@ public class GamePlayer {
         this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
-        ActionListener nopeListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tryTriggerCardExecution();
-            }
-        };
-        nopeTimer = new Timer(NOPE_DELAY_MILLIS, nopeListener);
-        nopeTimer.setRepeats(false);
 
         final int frameWidth = 1300;
         final int frameHeight = 800;
@@ -159,7 +149,11 @@ public class GamePlayer {
     }
 
     private JPanel generateUserSelectionPanel() {
+        final int fontSize = 30;
+        final int width = 200;
+        final int height = 500;
         JPanel p = new JPanel(new GridLayout(2, 1));
+        JPanel labelPanel = new JPanel();
         JPanel userSelectionPanel = new JPanel();
 
         JButton modeButton = createButtonImage(
@@ -184,16 +178,18 @@ public class GamePlayer {
         this.setConfirmButtonListener(confirmButton, hideButton);
         this.setEndButtonListener(hideButton);
 
+        JLabel playerNameLabel =
+                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
+                        + " " + gameManager.getUserForCurrentTurn().getName());
+        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, fontSize));
+        labelPanel.add(playerNameLabel, BorderLayout.WEST);
+        p.add(labelPanel);
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(hideButton, BorderLayout.EAST);
         p.add(userSelectionPanel, BorderLayout.WEST);
 
-        JLabel playerNameLabel =
-                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
-                        + gameManager.getUserForCurrentTurn().getName());
-
-        p.add(playerNameLabel, BorderLayout.SOUTH);
+        p.setSize(width, height);
         return p;
     }
 
@@ -314,9 +310,8 @@ public class GamePlayer {
                 executingCard = card;
                 nopeMessage(false);
                 synchronized (mutex) {
-                    gameFrame.setCardExecutionState(1);
+                    gameManager.setCardExecutionState(1);
                 }
-                nopeTimer.start();
 
                 updateUI();
 
@@ -483,9 +478,16 @@ public class GamePlayer {
         }
 
         notificationPanel.notifyPlayers(status, "");
-        notificationPanel.addExitButtonToLayout("Counter-nope",
+        notificationPanel.addExitButtonToLayout(Messages.getMessage(Messages.COUNTER_NOPE),
                 e -> tryNope(gameManager.getUserForCurrentTurn()));
+        notificationPanel.addExitButtonToLayout(Messages.getMessage(Messages.NO_MORE_NOPES),
+                e -> this.noNopes());
         updateDisplay();
+    }
+
+    public void noNopes() {
+        getNotificationPanel().removeAll();
+        tryTriggerCardExecution();
     }
 
     /**
