@@ -19,7 +19,7 @@ public class GamePlayer {
     /**
      * This is the frame the game is made on.
      */
-    private JFrame gameFrame;
+    private final JFrame gameFrame;
 
     private NotificationPanel notificationPanel;
 
@@ -29,10 +29,10 @@ public class GamePlayer {
     private JComponent playerDeckDisplayPanel;
     private boolean catMode;
     private boolean enabled;
-    private HashMap<Card, JButton> displayCards;
+    private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
-    private Object mutex = new Object();
+    private final Object mutex = new Object();
     private GameManager gameManager;
 
     public GamePlayer(JFrame frame) {
@@ -56,7 +56,7 @@ public class GamePlayer {
         gameFrame.repaint();
     }
 
-    public void buildGameView() {
+    private void buildGameView() {
         gameFrame.getContentPane().removeAll();
 
         JPanel userDisplayPanel = generateUserDisplayPanel();
@@ -81,7 +81,7 @@ public class GamePlayer {
                         createCardImage(user.getName(),
                                 user.getHand().size() + "");
                 otherPlayer.addActionListener(new ActionListener() {
-                    private User innerUser = user;
+                    private final User innerUser = user;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -103,9 +103,11 @@ public class GamePlayer {
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                getSelectedCards().clear();
-                getNotificationPanel().removeAll();
-                gameManager.drawCardForCurrentTurn();
+                if (gameManager.getCardExecutionState() == -1) {
+                    getSelectedCards().clear();
+                    getNotificationPanel().removeAll();
+                    gameManager.drawCardForCurrentTurn();
+                }
             }
         });
         JButton discardPile = createCardImage(
@@ -240,11 +242,13 @@ public class GamePlayer {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (catMode) {
-                    handleSelectedCardsInCatMode();
-                } else {
-                    handleSelectedCardsInNormalMode();
-                }
+                    if (gameManager.getCardExecutionState() == -1) {
+                        if (catMode) {
+                            handleSelectedCardsInCatMode();
+                        } else {
+                            handleSelectedCardsInNormalMode();
+                        }
+                    }
             }
 
             private void handleSelectedCardsInCatMode() {
@@ -315,7 +319,6 @@ public class GamePlayer {
 
                 updateUI();
 
-                getSelectedCards().clear();
                 gameFrame.validate();
                 gameFrame.repaint();
             }
@@ -438,7 +441,7 @@ public class GamePlayer {
     }
 
 
-    public void tryTriggerCardExecution() {
+    private void tryTriggerCardExecution() {
         notificationPanel.removeAll();
         synchronized (mutex) {
             if (gameManager.getCardExecutionState() == 1) {
@@ -450,9 +453,10 @@ public class GamePlayer {
             gameManager.setCardExecutionState(-1);
         }
         updateUI();
+        getSelectedCards().clear();
     }
 
-    public void tryNope(User executingUser) {
+    private void tryNope(User executingUser) {
         synchronized (mutex) {
             int execution = gameManager.getCardExecutionState();
             if (execution == 0) {
@@ -469,7 +473,7 @@ public class GamePlayer {
         }
     }
 
-    public void nopeMessage(boolean currentNope) {
+    private void nopeMessage(boolean currentNope) {
         String status;
         if (currentNope) {
             status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE);
@@ -485,7 +489,7 @@ public class GamePlayer {
         updateDisplay();
     }
 
-    public void noNopes() {
+    private void noNopes() {
         getNotificationPanel().removeAll();
         tryTriggerCardExecution();
     }
@@ -496,15 +500,6 @@ public class GamePlayer {
     public void updateUI() {
         buildGameView();
     }
-
-    /**
-     * These methods should only be used for Integration Testing
-     *
-     * @return
-     */
-//    public GameState getGameManager() {
-//        return this.gameManager;
-//    }
 
     public void displayWinForUser(User winner) {
         this.gameFrame.dispose();
@@ -520,10 +515,6 @@ public class GamePlayer {
      */
     public NotificationPanel getNotificationPanel() {
         return notificationPanel;
-    }
-
-    public void setNotificationPanel(NotificationPanel panel) {
-        this.notificationPanel = panel;
     }
 
     public ArrayList<Card> getSelectedCards() {

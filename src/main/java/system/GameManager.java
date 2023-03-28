@@ -14,9 +14,9 @@ public class GameManager {
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameManager(GameState gameState, GamePlayer gamePlayer) {
-        this.gameState = gameState;
-        this.gamePlayer = gamePlayer;
+    public GameManager(GameState state, GamePlayer player) {
+        this.gameState = state;
+        this.gamePlayer = player;
     }
 
     private void transitionToTurnOfUser(User targetUser) {
@@ -80,21 +80,16 @@ public class GameManager {
     public void drawCardForCurrentTurn() {
         User currentPlayer = gameState.getUserForCurrentTurn();
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(currentPlayer);
-//        checkExplodingKitten(drawnExplodingKitten);
         if (drawnExplodingKitten) {
-            gameState.getUserForCurrentTurn().attemptToDie();
-            gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
-        }
-        else {
+            checkExplodingKitten();
+        } else {
             transitionToNextTurn();
         }
     }
 
-    public void checkExplodingKitten(Boolean drawnExplodingKitten) {
-        if (drawnExplodingKitten) {
-            gameState.getUserForCurrentTurn().attemptToDie();
-            gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
-        }
+    public void checkExplodingKitten() {
+        gameState.getUserForCurrentTurn().attemptToDie();
+        gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
     }
 
     public void returnFutureCards(List<Card> future) {
