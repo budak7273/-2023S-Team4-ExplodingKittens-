@@ -309,7 +309,7 @@ public class GamePlayer {
                 }
 
                 executingCard = card;
-                nopeMessage(false);
+                nopeMessage(false, gameState.getUserForCurrentTurn().getName());
                 synchronized (mutex) {
                     gameState.setCardExecutionState(1);
                 }
@@ -458,22 +458,27 @@ public class GamePlayer {
             int execution = gameState.getCardExecutionState();
             if (execution == 0) {
                 if (executingUser.attemptToNope()) {
-                    nopeMessage(false);
+                    nopeMessage(false, executingUser.getName());
                     gameState.setCardExecutionState(1);
                 }
             } else if (execution == 1) {
                 if (executingUser.attemptToNope()) {
-                    nopeMessage(true);
+                    nopeMessage(true, executingUser.getName());
                     gameState.setCardExecutionState(0);
                 }
             }
         }
     }
 
-    public void nopeMessage(boolean currentNope) {
+    public String buildNopeMessage(String executingUsername) {
+        return Messages.getMessage(Messages.NOPE_STATUS_MESSAGE) + "<br>"
+               + executingUsername + " " + Messages.getMessage(Messages.WHO_NOPED);
+    }
+
+    public void nopeMessage(boolean currentNope, String executingUsername) {
         String status;
         if (currentNope) {
-            status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE);
+            status = buildNopeMessage(executingUsername);
         } else {
             status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE_NOT);
         }
