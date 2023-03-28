@@ -3,7 +3,7 @@ package system;
 import java.util.*;
 
 public class GameState {
-    private final Queue<User> playerQueue;
+    private Queue<User> playerQueue;
     private final DrawDeck drawDeck;
     private int extraTurnsForCurrentUser = 0;
     private int cardExecutionState = -1;
@@ -27,6 +27,10 @@ public class GameState {
         Queue<User> toReturn = new LinkedList<>();
         toReturn.addAll(this.playerQueue);
         return toReturn;
+    }
+
+    public void setPlayerQueue(Queue<User> pq) {
+        this.playerQueue = pq;
     }
 
     public DrawDeck getDrawDeck() {

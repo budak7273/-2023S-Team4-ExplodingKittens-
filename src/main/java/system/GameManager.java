@@ -58,6 +58,7 @@ public class GameManager {
                 playerQueue.poll();
             }
         }
+        gameState.setPlayerQueue(playerQueue);
         gamePlayer.toggleCatMode();
         gamePlayer.updateUI();
         tryToEndGame();
@@ -79,8 +80,12 @@ public class GameManager {
     public void drawCardForCurrentTurn() {
         User currentPlayer = gameState.getUserForCurrentTurn();
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(currentPlayer);
-        checkExplodingKitten(drawnExplodingKitten);
-        if (!drawnExplodingKitten) {
+//        checkExplodingKitten(drawnExplodingKitten);
+        if (drawnExplodingKitten) {
+            gameState.getUserForCurrentTurn().attemptToDie();
+            gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
+        }
+        else {
             transitionToNextTurn();
         }
     }
@@ -161,19 +166,27 @@ public class GameManager {
     }
 
     public Queue<User> getPlayerQueue() {
-        return getGameState().getPlayerQueue();
+        return gameState.getPlayerQueue();
     }
 
     public User getUserForCurrentTurn() {
-        return getGameState().getUserForCurrentTurn();
+        return gameState.getUserForCurrentTurn();
     }
 
     public int getDeckSizeForCurrentTurn() {
-        return getGameState().getDeckSizeForCurrentTurn();
+        return gameState.getDeckSizeForCurrentTurn();
     }
 
     public DrawDeck getDrawDeck() {
-        return getGameState().getDrawDeck();
+        return gameState.getDrawDeck();
+    }
+
+    public void setCardExecutionState(int state) {
+        gameState.setCardExecutionState(state);
+    }
+
+    public int getCardExecutionState() {
+        return gameState.getCardExecutionState();
     }
 
 }
