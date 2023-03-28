@@ -2,7 +2,6 @@ package system;
 
 import datasource.Messages;
 import presentation.GamePlayer;
-
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
@@ -81,7 +80,8 @@ public class GameManager {
         User currentPlayer = gameState.getUserForCurrentTurn();
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(currentPlayer);
         if (drawnExplodingKitten) {
-            checkExplodingKitten();
+            gameState.getUserForCurrentTurn().attemptToDie();
+            gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
         } else {
             transitionToNextTurn();
         }
@@ -116,6 +116,10 @@ public class GameManager {
     public void addExplodingKittenBackIntoDeck(Integer location) {
         gameState.getDrawDeck().addExplodingKittenAtLocation(location);
         transitionToNextTurn();
+    }
+
+    public void addCardToDeck(Card card) {
+        gameState.getDrawDeck().addCardToTop(card);
     }
 
     public void triggerDisplayOfCatStealPrompt() {

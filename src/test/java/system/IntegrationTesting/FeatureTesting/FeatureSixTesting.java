@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.Card;
-import system.GameState;
+import system.GameManager;
 import system.User;
 import javax.swing.*;
 import java.util.ArrayList;
@@ -23,18 +23,18 @@ public class FeatureSixTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        User currentUser = gameState.getUserForCurrentTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        User currentUser = gameManager.getUserForCurrentTurn();
         int currentHandSize = currentUser.getHand().size();
-        int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
+        int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
-        gameState.drawCardForCurrentTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        gameManager.drawCardForCurrentTurn();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
                 currentHandSize + 1);
-        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(),
+        Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
                 currentDeckSize - 1);
     }
 
@@ -46,20 +46,20 @@ public class FeatureSixTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        User currentUser = gameState.getUserForCurrentTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        User currentUser = gameManager.getUserForCurrentTurn();
         currentUser.addCard(new Card(CardType.SKIP));
         int currentHandSize = currentUser.getHand().size();
-        int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
+        int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
         currentUser.getHand().get(currentHandSize - 1)
-                .activateEffect(gameState);
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                .activateEffect(gameManager);
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
                 currentHandSize - 1);
-        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(),
+        Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
                 currentDeckSize);
     }
 }

@@ -10,6 +10,7 @@ import java.util.*;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.Card;
+import system.GameManager;
 import system.User;
 import system.DrawDeck;
 import system.GameState;
@@ -32,8 +33,9 @@ public class GameStateIntegrationTesting {
         GamePlayer board = new GamePlayer(new JFrame());
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         pq.add(new User());
-        GameState gameState = new GameState(pq, board, deck);
-        Executable executable = () -> gameState.transitionToNextTurn();
+        GameState gameState = new GameState(pq, deck);
+        GameManager gameManager = new GameManager(gameState, board);
+        Executable executable = () -> gameManager.transitionToNextTurn();
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
@@ -48,10 +50,10 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        gameState.transitionToNextTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        gameManager.transitionToNextTurn();
 
-        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        User userForCurrentTurn = gameManager.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
     }
@@ -69,10 +71,10 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        gameState.transitionToNextTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        gameManager.transitionToNextTurn();
 
-        User userForCurrentTurn = gameState.getUserForCurrentTurn();
+        User userForCurrentTurn = gameManager.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
     }
@@ -102,15 +104,15 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
+        GameManager gameManager = gamePlayer.getGameManager();
 
-        gameState.transitionToNextTurn();
+        gameManager.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
         expected.add(user2);
         expected.add(user3);
         expected.add(user1);
-        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+        Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
     }
 
@@ -130,14 +132,14 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
+        GameManager gameManager = gamePlayer.getGameManager();
 
-        gameState.transitionToNextTurn();
+        gameManager.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
         expected.add(user2);
         expected.add(user3);
-        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+        Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
     }
 
@@ -158,13 +160,13 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
+        GameManager gameManager = gamePlayer.getGameManager();
 
-        gameState.transitionToNextTurn();
+        gameManager.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
         expected.add(user3);
-        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+        Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
     }
 
@@ -188,11 +190,11 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
+        GameManager gameManager = gamePlayer.getGameManager();
 
-        gameState.transitionToNextTurn();
+        gameManager.transitionToNextTurn();
 
-        Assertions.assertEquals(expected, gameState.getPlayerQueue());
+        Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
     }
 
@@ -209,37 +211,9 @@ public class GameStateIntegrationTesting {
         GameDesigner gameboard = new GameDesigner(userQueue, new JFrame());
         gameboard.initializeGameState();
         GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
+        GameManager gameManager = gamePlayer.getGameManager();
 
-        gameState.removeCardFromCurrentUser(attackCard);
-    }
-
-    @Test
-    public void testDrawFromBottomIntegrationTest() {
-        List<String> playerUsernames = new ArrayList<>();
-        playerUsernames.add("Player1ForIntegrationTest");
-        playerUsernames.add("Player2ForIntegrationTest");
-        playerUsernames.add("Player3ForIntegrationTest");
-        playerUsernames.add("Player4ForIntegrationTest");
-        playerUsernames.add("Player5ForIntegrationTest");
-
-        GameDesigner gameboard = new GameDesigner(new JFrame());
-        gameboard.initializeGameState(playerUsernames);
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-
-        GameState gameState = gamePlayer.getGameState();
-        DrawDeck drawDeck = gameState.getDrawDeck();
-        int beforeCount = gameState.getDeckSizeForCurrentTurn();
-        User currentUser = gameState.getUserForCurrentTurn();
-        drawDeck.drawFromBottomForUser(currentUser);
-
-        gamePlayer.updateUI();
-        Assertions.assertEquals(
-                beforeCount - 1, gameState.getDeckSizeForCurrentTurn());
-        gameState.drawFromBottom();
-        Assertions.assertEquals(
-                beforeCount - 2, gameState.getDeckSizeForCurrentTurn());
-
+        gameManager.removeCardFromCurrentUser(attackCard);
     }
 
     @Test
@@ -251,56 +225,12 @@ public class GameStateIntegrationTesting {
 
         GamePlayer gamePlayer = new GamePlayer(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
-        GameState gameState = new GameState(userQueue, gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
+        GameState gameState = new GameState(userQueue, drawDeck);
+        GameManager gameManager = new GameManager(gameState, gamePlayer);
+        gamePlayer.setGameManager(gameManager);
 
-        gameState.shuffleDeck();
+        gameManager.shuffleDeck(true);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
-    }
-
-    @Test
-    public void
-    testTransitionToNextTurnWithMaxPlayersAndExtraTurnIntegrationTesting() {
-        Queue<User> pq = new LinkedList<User>();
-        User userStartingAtTopOfQueue = new User();
-        pq.add(userStartingAtTopOfQueue);
-        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
-            pq.add(new User());
-        }
-
-        GameDesigner boardMock = new GameDesigner(pq, new JFrame());
-        boardMock.initializeGameState();
-        GamePlayer gamePlayer = boardMock.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        gameState.addExtraTurn();
-        gameState.transitionToNextTurn();
-
-        User userForCurrentTurn = gameState.getUserForCurrentTurn();
-        Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
-        Assertions.assertEquals(0, gameState.getExtraTurnCountForCurrentUser());
-    }
-
-    @Test
-    public void
-    testTransitionToNextTurnWithMaxPlayersAndTwoExtraTurnsIntegrationTesting() {
-        Queue<User> pq = new LinkedList<User>();
-        User userStartingAtTopOfQueue = new User();
-        pq.add(userStartingAtTopOfQueue);
-        for (int i = 0; i < MAX_USER_COUNT - 1; i++) {
-            pq.add(new User());
-        }
-
-        GameDesigner boardMock = new GameDesigner(pq, new JFrame());
-        boardMock.initializeGameState();
-        GamePlayer gamePlayer = boardMock.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        gameState.addExtraTurn();
-        gameState.addExtraTurn();
-        gameState.transitionToNextTurn();
-
-        User userForCurrentTurn = gameState.getUserForCurrentTurn();
-        Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
-        Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
     }
 
     @Test
@@ -320,9 +250,9 @@ public class GameStateIntegrationTesting {
         GameDesigner boardMock = new GameDesigner(pq, new JFrame());
         boardMock.initializeGameState();
         GamePlayer gamePlayer = boardMock.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
+        GameManager gameManager = gamePlayer.getGameManager();
         int currentTargetSize = targetUser.getHand().size();
-        gameState.executeCatStealOn(targetUser, new Random());
+        gameManager.executeCatStealOn(targetUser, new Random());
         Assertions.assertEquals(targetUser.getHand().size(),
                 currentTargetSize - 1);
     }

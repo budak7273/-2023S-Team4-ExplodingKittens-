@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.Card;
-import system.DrawDeck;
-import system.GameState;
+import system.GameManager;
 import system.User;
 
 import javax.swing.*;
@@ -33,16 +32,16 @@ public class FeatureFiveTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        GameManager gameManager = gamePlayer.getGameManager();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
-        for (int i = 2; i < gameState.getPlayerQueue().size() + 1; i++) {
-            gameState.transitionToNextTurn();
-            Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
-                    "test" + (i % (gameState.getPlayerQueue().size() + 1)));
+        for (int i = 2; i < gameManager.getPlayerQueue().size() + 1; i++) {
+            gameManager.transitionToNextTurn();
+            Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
+                    "test" + (i % (gameManager.getPlayerQueue().size() + 1)));
         }
-        gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        gameManager.transitionToNextTurn();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
     }
 
@@ -62,21 +61,20 @@ public class FeatureFiveTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        DrawDeck drawDeck = gameState.getDrawDeck();
-        gameState.transitionToNextTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        gameManager.transitionToNextTurn();
         final int startingPoint = 2;
         final int endingPoint = 11;
         for (int i = startingPoint; i < endingPoint; i++) {
-            drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
-            User currentUser = gameState.getUserForCurrentTurn();
-            currentUser.removeCard(new Card(CardType.DEFUSE));
-            currentUser.removeCard(new Card(CardType.DEFUSE));
-            gameState.drawCardForCurrentTurn();
+            gameManager.addCardToDeck(new Card(CardType.EXPLODING_KITTEN));
+            User currentUser = gameManager.getUserForCurrentTurn();
+            gameManager.removeCardFromCurrentUser(new Card(CardType.DEFUSE));
+            gameManager.removeCardFromCurrentUser(new Card(CardType.DEFUSE));
+            gameManager.drawCardForCurrentTurn();
             Assertions.assertFalse(
-                    gameState.getPlayerQueue().contains(currentUser));
+                    gameManager.getPlayerQueue().contains(currentUser));
         }
-        Assertions.assertEquals(1, gameState.getPlayerQueue().size());
-        Assertions.assertTrue(gameState.tryToEndGame());
+        Assertions.assertEquals(1, gameManager.getPlayerQueue().size());
+        Assertions.assertTrue(gameManager.tryToEndGame());
     }
 }

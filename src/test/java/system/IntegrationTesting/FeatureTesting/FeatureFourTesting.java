@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.Card;
-import system.GameState;
+import system.GameManager;
 import system.User;
+import system.cardEffects.ShuffleEffect;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -23,20 +25,20 @@ public class FeatureFourTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        User currentUser = gameState.getUserForCurrentTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        User currentUser = gameManager.getUserForCurrentTurn();
         currentUser.addCard(new Card(CardType.ATTACK));
         int currentHandSize = currentUser.getHand().size();
-        int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
+        int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
         currentUser.getHand().get(currentHandSize - 1)
-                .activateEffect(gameState);
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                .activateEffect(gameManager);
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
                 currentHandSize - 1);
-        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(),
+        Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
                 currentDeckSize);
     }
 
@@ -48,18 +50,20 @@ public class FeatureFourTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        User currentUser = gameState.getUserForCurrentTurn();
-        currentUser.addCard(new Card(CardType.DRAW_FROM_THE_BOTTOM));
+        GameManager gameManager = gamePlayer.getGameManager();
+        User currentUser = gameManager.getUserForCurrentTurn();
+        Card cardToAdd = new Card(CardType.DRAW_FROM_THE_BOTTOM);
+        currentUser.addCard(cardToAdd);
         int currentHandSize = currentUser.getHand().size();
-        int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
-        Card topCard = gameState.getDrawDeck().getCardsAsList().get(0);
-        gameState.drawFromBottom();
+        int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
+        Card topCard = gameManager.getDrawDeck().getCardsAsList().get(0);
+        currentUser.getHand().get(currentHandSize - 1).activateEffect(gameManager);
+        gameManager.removeCardFromCurrentUser(cardToAdd);
         Assertions.assertEquals(topCard,
-                gameState.getDrawDeck().getCardsAsList().get(0));
+                                gameManager.getDrawDeck().getCardsAsList().get(0));
         Assertions.assertEquals(currentUser.getHand().size(),
-                currentHandSize + 1);
-        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(),
+                currentHandSize);
+        Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
                 currentDeckSize - 1);
     }
 
@@ -71,13 +75,17 @@ public class FeatureFourTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        User currentUser = gameState.getUserForCurrentTurn();
-        currentUser.addCard(new Card(CardType.SHUFFLE));
-        Card topCard = gameState.getDrawDeck().getCardsAsList().get(0);
-        gameState.shuffleDeck();
+        GameManager gameManager = gamePlayer.getGameManager();
+        User currentUser = gameManager.getUserForCurrentTurn();
+        ShuffleEffect shuffleEffect = new ShuffleEffect();
+        shuffleEffect.setCurrentState(gameManager);
+        CardType shuffleType = CardType.SHUFFLE;
+        currentUser.addCard(new Card(shuffleType));
+        int handSize = currentUser.getHand().size();
+        Card topCard = gameManager.getDrawDeck().getCardsAsList().get(0);
+        currentUser.getHand().get(handSize - 1).activateEffect(gameManager);
         Assertions.assertNotEquals(topCard,
-                gameState.getDrawDeck().getCardsAsList().get(0));
+                                   gameManager.getDrawDeck().getCardsAsList().get(0));
     }
 
     @Test
@@ -88,20 +96,20 @@ public class FeatureFourTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        User currentUser = gameState.getUserForCurrentTurn();
+        GameManager gameManager = gamePlayer.getGameManager();
+        User currentUser = gameManager.getUserForCurrentTurn();
         currentUser.addCard(new Card(CardType.SKIP));
         int currentHandSize = currentUser.getHand().size();
-        int currentDeckSize = gameState.getDeckSizeForCurrentTurn();
+        int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
         currentUser.getHand().get(currentHandSize - 1)
-                .activateEffect(gameState);
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+                .activateEffect(gameManager);
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
                 currentHandSize - 1);
-        Assertions.assertEquals(gameState.getDeckSizeForCurrentTurn(),
+        Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
                 currentDeckSize);
     }
 

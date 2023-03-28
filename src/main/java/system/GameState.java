@@ -24,9 +24,7 @@ public class GameState {
     }
 
     public Queue<User> getPlayerQueue() {
-        Queue<User> toReturn = new LinkedList<>();
-        toReturn.addAll(this.playerQueue);
-        return toReturn;
+        return playerQueue;
     }
 
     public void setPlayerQueue(Queue<User> pq) {

@@ -105,7 +105,7 @@ public class GamePlayer {
             public void actionPerformed(final ActionEvent e) {
                 if (gameManager.getCardExecutionState() == -1) {
                     getSelectedCards().clear();
-                    getNotificationPanel().removeAll();
+                    notificationPanel.removeAll();
                     gameManager.drawCardForCurrentTurn();
                 }
             }
@@ -118,7 +118,7 @@ public class GamePlayer {
 
         JPanel playerSelectionPanel = generateUserSelectionPanel();
         tableAreaDisplayPanel.add(playerSelectionPanel, BorderLayout.SOUTH);
-        tableAreaDisplayPanel.add(getNotificationPanel());
+        tableAreaDisplayPanel.add(notificationPanel);
 
         return tableAreaDisplayPanel;
     }
@@ -404,11 +404,11 @@ public class GamePlayer {
     }
 
     public void displayFutureCards(List<Card> future) {
-        getNotificationPanel().seeTheFuture(future);
+        notificationPanel.seeTheFuture(future);
     }
 
     public void editFutureCards(List<Card> future) {
-        getNotificationPanel().alterTheFuture(future);
+        notificationPanel.alterTheFuture(future);
     }
 
     public void returnFutureCards(List<Card> future) {
@@ -421,14 +421,14 @@ public class GamePlayer {
         if (victimState) {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
             DrawDeck deck = gameManager.getDrawDeck();
-            getNotificationPanel()
+            notificationPanel
                     .addExplodingKittenBackIntoDeck(deathMessage, deck);
             AudioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
             AudioPlayer.playExplosion();
             gameManager.transitionToNextTurn();
-            getNotificationPanel().notifyPlayers(deathMessage,
+            notificationPanel.notifyPlayers(deathMessage,
                     Messages.getMessage(Messages.RIP));
         }
 
@@ -437,7 +437,6 @@ public class GamePlayer {
 
     public void addExplodingKittenIntoDeck(Integer location) {
         gameManager.addExplodingKittenBackIntoDeck(location);
-
     }
 
 
@@ -490,7 +489,7 @@ public class GamePlayer {
     }
 
     private void noNopes() {
-        getNotificationPanel().removeAll();
+        notificationPanel.removeAll();
         tryTriggerCardExecution();
     }
 
@@ -586,5 +585,9 @@ public class GamePlayer {
 
     public void toggleCatMode() {
         this.catMode = false;
+    }
+
+    public GameManager getGameManager() {
+        return this.gameManager;
     }
 }

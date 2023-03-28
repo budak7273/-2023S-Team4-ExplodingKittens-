@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import presentation.GameDesigner;
 import presentation.GamePlayer;
+import system.GameManager;
 import system.cardEffects.*;
 import system.User;
 import system.DrawDeck;
@@ -49,12 +50,15 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testDefuseBombEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();
-        GamePlayer gameBoard = new GamePlayer(new JFrame());
+        GamePlayer gamePlayer = new GamePlayer(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
-        GameState gameState = new GameState(playerQueue, gameBoard, drawDeck);
+        GameState gameState = new GameState(playerQueue, drawDeck);
+        GameManager gameManager = new GameManager(gameState, gamePlayer);
+        gamePlayer.setGameManager(gameManager);
+        bombEffectPattern.setCurrentState(gameManager);
 
-        Executable executable = () -> bombEffectPattern.useEffect(gameState);
+        Executable executable = () -> bombEffectPattern.useEffect();
         Assertions.assertDoesNotThrow(executable);
 
     }
@@ -65,10 +69,12 @@ public class CardEffectIntegrationTesting {
         GamePlayer gamePlayer = new GamePlayer(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
-        GameState gameState = new GameState(playerQueue, gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
+        GameState gameState = new GameState(playerQueue, drawDeck);
+        GameManager gameManager = new GameManager(gameState, gamePlayer);
+        gamePlayer.setGameManager(gameManager);
+        bombEffectPattern.setCurrentState(gameManager);
 
-        Executable executable = () -> bombEffectPattern.useEffect(gameState);
+        Executable executable = () -> bombEffectPattern.useEffect();
         Assertions.assertDoesNotThrow(executable);
 
     }
@@ -81,14 +87,14 @@ public class CardEffectIntegrationTesting {
         gameDesigner.initializeGameState(playerUsernames);
         GamePlayer gameBoard = gameDesigner.getGamePlayer();
 
-        GameState gameState = gameBoard.getGameState();
-        int beforeCount = gameState.getDeckSizeForCurrentTurn();
-        gameState.drawFromBottom();
+        GameManager gameManager = gameBoard.getGameManager();
+        int beforeCount = gameManager.getDeckSizeForCurrentTurn();
+        drawFromBottomEffect.setCurrentState(gameManager);
         Assertions.assertEquals(
-                beforeCount - 1, gameState.getDeckSizeForCurrentTurn());
-        drawFromBottomEffect.useEffect(gameState);
+                beforeCount, gameManager.getDeckSizeForCurrentTurn());
+        drawFromBottomEffect.useEffect();
         Assertions.assertEquals(
-                beforeCount - 2, gameState.getDeckSizeForCurrentTurn());
+                beforeCount - 1, gameManager.getDeckSizeForCurrentTurn());
 
     }
 
@@ -100,10 +106,9 @@ public class CardEffectIntegrationTesting {
         gameDesigner.initializeGameState(playerUsernames);
         GamePlayer gameBoard = gameDesigner.getGamePlayer();
 
-        GameState gameState = gameBoard.getGameState();
-        gameState.transitionToNextTurn();
-
-        skipEffect.useEffect(gameState);
+        GameManager gameManager = gameBoard.getGameManager();
+        skipEffect.setCurrentState(gameManager);
+        skipEffect.useEffect();
 
     }
 
