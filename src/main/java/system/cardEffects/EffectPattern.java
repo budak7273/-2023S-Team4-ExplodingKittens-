@@ -14,14 +14,19 @@ public abstract class EffectPattern {
 
     public void useEffect() { };
 
-    public void setCurrentState(GameState state) {
-        currentState = state;
+    public void setCurrentState(GameManager manager) {
+        gameManager = manager;
+        currentState = manager.getGameState();
         currentUser = currentState.getUserForCurrentTurn();
         drawDeck = currentState.getDrawDeck();
     }
 
     protected User getCurrentUser() {
         return currentUser;
+    }
+
+    protected GameManager getGameManager() {
+        return gameManager;
     }
 
     protected GameState getCurrentState() {

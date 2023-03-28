@@ -9,6 +9,6 @@ public class FavorEffect extends EffectPattern {
     @Override
     public void useEffect() {
         List<User> targets = getCurrentState().getTargetsForCardEffects();
-        getCurrentState().triggerDisplayOfFavorPrompt(targets);
+        getGameManager().triggerDisplayOfFavorPrompt(targets);
     }
 }

@@ -8,6 +8,6 @@ public class TargetedAttackEffect extends EffectPattern {
     @Override
     public void useEffect() {
         List<User> targets = getCurrentState().getTargetsForCardEffects();
-        getCurrentState().triggerDisplayOfTargetedAttackPrompt(targets);
+        getGameManager().triggerDisplayOfTargetedAttackPrompt(targets);
     }
 }

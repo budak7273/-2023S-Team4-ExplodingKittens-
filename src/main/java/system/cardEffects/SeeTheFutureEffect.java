@@ -8,6 +8,6 @@ public class SeeTheFutureEffect extends EffectPattern {
     @Override
     public void useEffect() {
         List<Card> futureCards = getDrawDeck().drawThreeCardsFromTop();
-        getCurrentState().seeTheFuture(futureCards);
+        getGameManager().seeTheFuture(futureCards);
     }
 }

@@ -4,7 +4,7 @@ public class AttackEffect extends EffectPattern {
 
     @Override
     public void useEffect() {
-        getCurrentState().transitionToNextTurn();
+        getGameManager().transitionToNextTurn();
         getCurrentState().addExtraTurn();
     }
 

@@ -5,6 +5,6 @@ public class ShuffleEffect extends EffectPattern {
     @Override
     public void useEffect() {
         Boolean shuffled = getDrawDeck().shuffle();
-        getCurrentState().shuffleDeck(shuffled);
+        getGameManager().shuffleDeck(shuffled);
     }
 }

@@ -1,105 +1,18 @@
 package system;
 
-import datasource.Messages;
-import presentation.GamePlayer;
-
 import java.util.*;
 
 public class GameState {
     private final Queue<User> playerQueue;
-    private final GamePlayer gamePlayer;
     private final DrawDeck drawDeck;
-    private static final int MIN_PLAYERS = 2;
-    private static final int MAX_PLAYERS = 10;
     private int extraTurnsForCurrentUser = 0;
-
     private int cardExecutionState = -1;
 
-    public GameState(Queue<User> pq, GamePlayer gp,
-                     DrawDeck deck) {
+    public GameState(Queue<User> pq, DrawDeck deck) {
         Queue<User> pqCopy = new LinkedList<>();
         pqCopy.addAll(pq);
         this.playerQueue = pqCopy;
-        this.gamePlayer = gp;
         this.drawDeck = deck;
-    }
-
-    public void transitionToNextTurn() {
-        throwIfQueueSizeIsInvalid();
-
-        if (extraTurnsForCurrentUser != 0) {
-            extraTurnsForCurrentUser--;
-        } else {
-            User userForCurrentTurn = playerQueue.poll();
-            if (userForCurrentTurn.isAlive()) {
-                playerQueue.add(userForCurrentTurn);
-            }
-            while (!getUserForCurrentTurn().isAlive()) {
-                playerQueue.poll();
-            }
-        }
-        gamePlayer.toggleCatMode();
-        gamePlayer.updateUI();
-        tryToEndGame();
-    }
-
-    private void transitionToTurnOfUser(User targetUser) {
-        throwIfQueueSizeIsInvalid();
-
-        User userAtTopOfQueue = playerQueue.peek();
-        while (userAtTopOfQueue != targetUser) {
-            userAtTopOfQueue = playerQueue.poll();
-            playerQueue.add(userAtTopOfQueue);
-            userAtTopOfQueue = playerQueue.peek();
-        }
-
-        gamePlayer.updateUI();
-
-    }
-
-    private void throwIfQueueSizeIsInvalid() {
-        if (playerQueue.size() < MIN_PLAYERS
-                || playerQueue.size() > MAX_PLAYERS) {
-            throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
-        }
-    }
-
-    public void checkExplodingKitten(Boolean drawnExplodingKitten) {
-        if (drawnExplodingKitten) {
-            getUserForCurrentTurn().attemptToDie();
-            gamePlayer.explosionNotification(getUserForCurrentTurn().isAlive());
-        }
-    }
-
-    public void drawCardForCurrentTurn() {
-        User currentPlayer = getUserForCurrentTurn();
-        boolean drawnExplodingKitten = drawDeck.drawCard(currentPlayer);
-        checkExplodingKitten(drawnExplodingKitten);
-        if (!drawnExplodingKitten) {
-            transitionToNextTurn();
-        }
-    }
-
-    public void shuffleDeck(Boolean shuffled) {
-        if (shuffled) {
-            gamePlayer.updateUI();
-        }
-    }
-
-    public void seeTheFuture(List<Card> futureCards) {
-        gamePlayer.displayFutureCards(futureCards);
-    }
-
-    public void alterTheFuture(List<Card> futureCards) {
-        gamePlayer.editFutureCards(futureCards);
-    }
-
-    public void returnFutureCards(List<Card> future) {
-        for (int i = future.size() - 1; i >= 0; i--) {
-            Card replace = future.get(i);
-            drawDeck.addCardToTop(replace);
-        }
     }
 
     public User getUserForCurrentTurn() {
@@ -128,33 +41,16 @@ public class GameState {
         return this.cardExecutionState;
     }
 
-    public boolean tryToEndGame() {
-        if (playerQueue.size() < 1) {
-            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
-            throw new IllegalArgumentException(msg);
-        }
-        if (playerQueue.size() == 1) {
-            gamePlayer.displayWinForUser(getUserForCurrentTurn());
-            return true;
-        }
-        return false;
-    }
-
     public void addExtraTurn() {
         extraTurnsForCurrentUser++;
     }
 
+    public void removeExtraTurn() {
+        extraTurnsForCurrentUser--;
+    }
+
     public int getExtraTurnCountForCurrentUser() {
         return extraTurnsForCurrentUser;
-    }
-
-    public void removeCardFromCurrentUser(Card card) {
-        User currentUser = getUserForCurrentTurn();
-        currentUser.removeCard(card);
-    }
-
-    public void triggerDisplayOfTargetedAttackPrompt(List<User> targets) {
-        gamePlayer.displayTargetedAttackPrompt(targets);
     }
 
     public List<User> getTargetsForCardEffects() {
@@ -164,37 +60,4 @@ public class GameState {
         return targets;
     }
 
-    public void executeTargetedAttackOn(User user) {
-        transitionToTurnOfUser(user);
-        addExtraTurn();
-    }
-
-    public void triggerDisplayOfFavorPrompt(List<User> targets) {
-        gamePlayer.displayFavorPrompt(targets);
-    }
-
-    public void triggerDisplayOfCatStealPrompt() {
-        List<User> targets = getTargetsForCardEffects();
-        gamePlayer.displayCatStealPrompt(targets);
-    }
-
-    public void addExplodingKittenBackIntoDeck(Integer location) {
-        drawDeck.addExplodingKittenAtLocation(location);
-        transitionToNextTurn();
-    }
-
-    public void executeFavorOn(User user) {
-        int i = gamePlayer.inputForStealCard(user);
-        while (i == -1) {
-            i = gamePlayer.inputForStealCard(user);
-        }
-        Card stealCard = user.removeHand(i);
-        getUserForCurrentTurn().addCard(stealCard);
-    }
-
-    public void executeCatStealOn(User user, Random random) {
-        int i = random.nextInt(user.getHand().size());
-        Card stealCard = user.removeHand(i);
-        getUserForCurrentTurn().addCard(stealCard);
-    }
 }

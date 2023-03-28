@@ -6,7 +6,7 @@ public class DrawFromBottomEffect extends EffectPattern {
     public void useEffect() {
         boolean drawnExplodingKitten =
                 getDrawDeck().drawFromBottomForUser(getCurrentUser());
-        getCurrentState().checkExplodingKitten(drawnExplodingKitten);
-        getCurrentState().transitionToNextTurn();
+        getGameManager().checkExplodingKitten(drawnExplodingKitten);
+        getGameManager().transitionToNextTurn();
     }
 }
