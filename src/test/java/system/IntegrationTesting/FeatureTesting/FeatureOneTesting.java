@@ -7,9 +7,8 @@ import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.Card;
 import system.DrawDeck;
-import system.GameState;
+import system.GameManager;
 import system.User;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -25,18 +24,18 @@ public class FeatureOneTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        DrawDeck drawDeck = gameState.getDrawDeck();
+        GameManager gameManager = gamePlayer.getGameManager();
+        DrawDeck drawDeck = gameManager.getDrawDeck();
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
-        User currentUser = gameState.getUserForCurrentTurn();
+        User currentUser = gameManager.getUserForCurrentTurn();
         currentUser.removeCard(new Card(CardType.DEFUSE));
         currentUser.removeCard(new Card(CardType.DEFUSE));
         currentUser.removeCard(new Card(CardType.DEFUSE));
-        while (gameState.getPlayerQueue().size() > 1) {
-            gameState.drawCardForCurrentTurn();
+        while (gameManager.getPlayerQueue().size() > 1) {
+            gameManager.drawCardForCurrentTurn();
         }
-        Assertions.assertEquals(gameState.getPlayerQueue().size(), 1);
-        Assertions.assertTrue(gameState.tryToEndGame());
+        Assertions.assertEquals(gameManager.getPlayerQueue().size(), 1);
+        Assertions.assertTrue(gameManager.tryToEndGame());
     }
 
     @Test
@@ -53,18 +52,18 @@ public class FeatureOneTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        DrawDeck drawDeck = gameState.getDrawDeck();
-        while (gameState.getPlayerQueue().size() > 1) {
+        GameManager gameManager = gamePlayer.getGameManager();
+        DrawDeck drawDeck = gameManager.getDrawDeck();
+        while (gameManager.getPlayerQueue().size() > 1) {
             drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
-            User currentUser = gameState.getUserForCurrentTurn();
+            User currentUser = gameManager.getUserForCurrentTurn();
             currentUser.removeCard(new Card(CardType.DEFUSE));
             currentUser.removeCard(new Card(CardType.DEFUSE));
             currentUser.removeCard(new Card(CardType.DEFUSE));
-            gameState.drawCardForCurrentTurn();
+            gameManager.drawCardForCurrentTurn();
         }
-        Assertions.assertEquals(gameState.getPlayerQueue().size(), 1);
-        Assertions.assertTrue(gameState.tryToEndGame());
+        Assertions.assertEquals(gameManager.getPlayerQueue().size(), 1);
+        Assertions.assertTrue(gameManager.tryToEndGame());
     }
 
 

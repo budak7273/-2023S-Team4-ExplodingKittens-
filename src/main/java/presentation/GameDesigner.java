@@ -65,9 +65,9 @@ public class GameDesigner {
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
         gamePlayer = new GamePlayer(gameFrame);
-        final GameState gameState = new GameState(users,
-                gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
+        final GameState gameState = new GameState(users, drawDeck);
+        final GameManager gameManager = new GameManager(gameState, gamePlayer);
+        gamePlayer.setGameManager(gameManager);
         AudioPlayer.playMusicOnStartup();
         gamePlayer.updateUI();
     }
@@ -83,14 +83,16 @@ public class GameDesigner {
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);
         gamePlayer = new GamePlayer(gameFrame);
-        GameState gameState = new GameState(this.users, gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
+        GameState gameState = new GameState(this.users, drawDeck);
+        GameManager gameManager = new GameManager(gameState, gamePlayer);
+        gamePlayer.setGameManager(gameManager);
         gamePlayer.updateUI();
     }
 
     public GamePlayer getGamePlayer() {
         return this.gamePlayer;
     }
+
     private static void setupLanguage(Scanner scanner) {
         System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
         String languageSelection = scanner.next().toLowerCase();

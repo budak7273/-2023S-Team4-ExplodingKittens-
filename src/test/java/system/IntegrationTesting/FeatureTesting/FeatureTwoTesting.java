@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
-import system.GameState;
+import system.GameManager;
 import system.User;
 
 import javax.swing.*;
@@ -22,14 +22,14 @@ public class FeatureTwoTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        GameManager gameManager = gamePlayer.getGameManager();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
-        gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        gameManager.transitionToNextTurn();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test2");
-        gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        gameManager.transitionToNextTurn();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
     }
 
@@ -47,16 +47,16 @@ public class FeatureTwoTesting {
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState();
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameState gameState = gamePlayer.getGameState();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        GameManager gameManager = gamePlayer.getGameManager();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
-        for (int i = 2; i < gameState.getPlayerQueue().size() + 1; i++) {
-            gameState.transitionToNextTurn();
-            Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
-                    "test" + (i % (gameState.getPlayerQueue().size() + 1)));
+        for (int i = 2; i < gameManager.getPlayerQueue().size() + 1; i++) {
+            gameManager.transitionToNextTurn();
+            Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
+                    "test" + (i % (gameManager.getPlayerQueue().size() + 1)));
         }
-        gameState.transitionToNextTurn();
-        Assertions.assertEquals(gameState.getUserForCurrentTurn().getName(),
+        gameManager.transitionToNextTurn();
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
     }
 }
