@@ -6,12 +6,18 @@ import datasource.Messages;
 import java.util.*;
 
 public class DrawDeck {
+    private final Random random;
     private Deque<Card> cards;
 
+    public DrawDeck(List<Card> cardList, Random inputRandom) {
+        this.cards = new LinkedList<>(cardList);
+        this.random = inputRandom;
+    }
+
+    // For tests that do not care about the random seed
     public DrawDeck(List<Card> cardList) {
-        Deque<Card> cardsCopy = new LinkedList<>();
-        cardsCopy.addAll(cardList);
-        cards = cardsCopy;
+        this.cards = new LinkedList<>(cardList);
+        this.random = new Random();
     }
 
     public boolean drawCard(final User drawingUser) {
@@ -65,7 +71,7 @@ public class DrawDeck {
     }
 
     public boolean shuffle() {
-        Collections.shuffle((LinkedList<Card>) this.cards);
+        Collections.shuffle((LinkedList<Card>) this.cards, random);
         return true;
     }
 

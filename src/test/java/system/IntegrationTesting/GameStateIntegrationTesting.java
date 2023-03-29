@@ -8,9 +8,10 @@ import org.junit.jupiter.api.function.Executable;
 import java.util.*;
 
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.Card;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 import system.DrawDeck;
 import system.GameState;
@@ -18,9 +19,9 @@ import system.GameState;
 import javax.swing.*;
 
 
-public class GameStateIntegrationTesting {
+class GameStateIntegrationTesting {
 
-    public GameStateIntegrationTesting() {
+    GameStateIntegrationTesting() {
         System.setProperty("java.awt.headless", "false");
     }
 
@@ -28,19 +29,19 @@ public class GameStateIntegrationTesting {
     static final int ARBITRARY_USER_ID_TO_KILL = 3;
 
     @Test
-    public void testTransitionToNextTurnWithQueueOf1UserIntegrationTest() {
+    void testTransitionToNextTurnWithQueueOf1UserIntegrationTest() {
         Queue<User> pq = new LinkedList<User>();
-        GamePlayer board = new GamePlayer(new JFrame());
+        GameWindow board = new GameWindow(new JFrame(), true);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         pq.add(new User());
         GameState gameState = new GameState(pq, deck);
         GameManager gameManager = new GameManager(gameState, board);
-        Executable executable = () -> gameManager.transitionToNextTurn();
+        Executable executable = gameManager::transitionToNextTurn;
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
-    public void testTransitionToNextTurnWithQueueOf2UsersIntegrationTest() {
+    void testTransitionToNextTurnWithQueueOf2UsersIntegrationTest() {
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = new User();
         User userNextInQueue = new User();
@@ -48,9 +49,9 @@ public class GameStateIntegrationTesting {
         pq.add(userNextInQueue);
 
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         gameManager.transitionToNextTurn();
 
         User userForCurrentTurn = gameManager.getUserForCurrentTurn();
@@ -59,7 +60,7 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
-    public void testTransitionToNextTurnWithQueueOf10UsersIntegrationTest() {
+    void testTransitionToNextTurnWithQueueOf10UsersIntegrationTest() {
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = new User();
         User userNextInQueue = new User();
@@ -69,9 +70,9 @@ public class GameStateIntegrationTesting {
             pq.add(new User());
         }
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         gameManager.transitionToNextTurn();
 
         User userForCurrentTurn = gameManager.getUserForCurrentTurn();
@@ -80,18 +81,18 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
-    public void testTransitionToNextTurnWithQueueOf11UsersIntegrationTest() {
+    void testTransitionToNextTurnWithQueueOf11UsersIntegrationTest() {
         Queue<User> pq = new LinkedList<User>();
         for (int i = 0; i < MAX_USER_COUNT + 1; i++) {
             pq.add(new User());
         }
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        Executable executable1 = () -> gameboard.initializeGameState();
-        Assertions.assertThrows(IllegalArgumentException.class, executable1);
+        Executable executable = () -> gameboard.initializeGameState(TestingUtils.getTestRandom());
+        Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
-    public void testTransitionToNextAliveWithThreeAliveUsersIntegrationTest() {
+    void testTransitionToNextAliveWithThreeAliveUsersIntegrationTest() {
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
@@ -102,9 +103,9 @@ public class GameStateIntegrationTesting {
         pq.add(user3);
 
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
 
         gameManager.transitionToNextTurn();
 
@@ -117,8 +118,7 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
-    public void
-    testTransitionToNextAliveWithThreeUsersFirstDeadIntegrationTest() {
+    void testTransitionToNextAliveWithThreeUsersFirstDeadIntegrationTest() {
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
@@ -130,13 +130,13 @@ public class GameStateIntegrationTesting {
         pq.add(user3);
 
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
 
         gameManager.transitionToNextTurn();
 
-        Queue<User> expected = new LinkedList<User>();
+        Queue<User> expected = new LinkedList<>();
         expected.add(user2);
         expected.add(user3);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
@@ -144,10 +144,9 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
-    public void
-    testTransitionToNextAliveWithThreeUsersTwoDeadIntegrationTest() {
+    void testTransitionToNextAliveWithThreeUsersTwoDeadIntegrationTest() {
 
-        Queue<User> pq = new LinkedList<User>();
+        Queue<User> pq = new LinkedList<>();
         User user1 = new User();
         user1.attemptToDie();
         User user2 = new User();
@@ -158,9 +157,9 @@ public class GameStateIntegrationTesting {
         pq.add(user3);
 
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
 
         gameManager.transitionToNextTurn();
 
@@ -171,8 +170,7 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
-    public void
-    testTransitionToNextAliveWithTenUsersAndU1U2U4DeadIntegrationTest() {
+    void testTransitionToNextAliveWithTenUsersAndU1U2U4DeadIntegrationTest() {
 
         Queue<User> pq = new LinkedList<User>();
         Queue<User> expected = new LinkedList<User>();
@@ -188,9 +186,9 @@ public class GameStateIntegrationTesting {
             }
         }
         GameDesigner gameboard = new GameDesigner(pq, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
 
         gameManager.transitionToNextTurn();
 
@@ -199,7 +197,7 @@ public class GameStateIntegrationTesting {
     }
 
     @Test
-    public void testRemoveCardWithKitten() {
+    void testRemoveCardWithKitten() {
         ArrayList<Card> cards = new ArrayList<Card>();
         Card attackCard = new Card(CardType.ATTACK);
         cards.add(attackCard);
@@ -209,32 +207,32 @@ public class GameStateIntegrationTesting {
         userQueue.add(new User());
 
         GameDesigner gameboard = new GameDesigner(userQueue, new JFrame());
-        gameboard.initializeGameState();
-        GamePlayer gamePlayer = gameboard.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameboard.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameboard.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
 
         gameManager.removeCardFromCurrentUser(attackCard);
     }
 
     @Test
-    public void testShuffleDeckIntegrationTest() {
+    void testShuffleDeckIntegrationTest() {
         Queue<User> userQueue = new LinkedList<>();
         User currentUser = new User();
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        GamePlayer gamePlayer = new GamePlayer(new JFrame());
+        GameWindow gameWindow = new GameWindow(new JFrame(), true);
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
         GameState gameState = new GameState(userQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
 
         gameManager.shuffleDeck(true);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
     }
 
     @Test
-    public void testExecuteCatStealOn() {
+    void testExecuteCatStealOn() {
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = new User();
         User secondUser = new User();
@@ -248,9 +246,9 @@ public class GameStateIntegrationTesting {
         }
 
         GameDesigner boardMock = new GameDesigner(pq, new JFrame());
-        boardMock.initializeGameState();
-        GamePlayer gamePlayer = boardMock.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        boardMock.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = boardMock.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         int currentTargetSize = targetUser.getHand().size();
         gameManager.executeCatStealOn(targetUser, new Random());
         Assertions.assertEquals(targetUser.getHand().size(),

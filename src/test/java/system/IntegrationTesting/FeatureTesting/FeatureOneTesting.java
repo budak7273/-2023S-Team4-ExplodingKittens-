@@ -4,27 +4,28 @@ import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.Card;
 import system.DrawDeck;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureOneTesting {
+class FeatureOneTesting {
 
     @Test
-    public void testDetectWhenPlayerWinsGame() {
+    void testDetectWhenPlayerWinsGame() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         DrawDeck drawDeck = gameManager.getDrawDeck();
         drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
         User currentUser = gameManager.getUserForCurrentTurn();
@@ -39,7 +40,7 @@ public class FeatureOneTesting {
     }
 
     @Test
-    public void testWhenMultiplePlayersInGameAndOneWins() {
+    void testWhenMultiplePlayersInGameAndOneWins() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
@@ -50,9 +51,9 @@ public class FeatureOneTesting {
         users.add(new User("test7", true, new ArrayList<>()));
         users.add(new User("test8", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         DrawDeck drawDeck = gameManager.getDrawDeck();
         while (gameManager.getPlayerQueue().size() > 1) {
             drawDeck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));

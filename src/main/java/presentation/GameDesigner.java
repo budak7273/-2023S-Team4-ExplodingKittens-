@@ -9,12 +9,11 @@ import java.util.*;
 
 public class GameDesigner {
     private Queue<User> users;
-    private GamePlayer gamePlayer;
+    private GameWindow gameWindow;
     private JFrame gameFrame;
 
     public GameDesigner(JFrame frame) {
-        this.gameFrame = frame;
-        this.users = new ArrayDeque<>();
+        this(new ArrayDeque<>(), frame);
     }
 
     public GameDesigner(Queue<User> usersQueue, JFrame frame) {
@@ -57,40 +56,37 @@ public class GameDesigner {
     }
 
     public void initializeGameState(final List<String> usernames) {
-        Setup setup = new Setup(usernames.size());
+        Setup setup = new Setup(usernames.size(), new Random());
         users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(users, drawDeck);
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
-        gamePlayer = new GamePlayer(gameFrame);
+        gameWindow = new GameWindow(gameFrame, false);
         final GameState gameState = new GameState(users, drawDeck);
-        final GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
-        AudioPlayer.playMusicOnStartup();
-        gamePlayer.updateUI();
+        final GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
     }
 
     /**
      * These methods should only be used for Integration Testing
-     *
-     * @return
      */
-    public void initializeGameState() {
-        Setup setup = new Setup(users.size());
+    public void initializeGameState(Random random) {
+        Setup setup = new Setup(users.size(), random);
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);
-        gamePlayer = new GamePlayer(gameFrame);
+        gameWindow = new GameWindow(gameFrame, true);
         GameState gameState = new GameState(this.users, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
-        gamePlayer.updateUI();
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
     }
 
-    public GamePlayer getGamePlayer() {
-        return this.gamePlayer;
+    public GameWindow getGameWindow() {
+        return this.gameWindow;
     }
 
     private static void setupLanguage(Scanner scanner) {

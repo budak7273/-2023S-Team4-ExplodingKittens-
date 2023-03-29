@@ -3,26 +3,27 @@ package system.IntegrationTesting.FeatureTesting;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.GameManager;
 import system.User;
+import system.TestingUtils;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureTwoTesting {
+class FeatureTwoTesting {
 
     @Test
-    public void testDisplayingCurrentPlayersName() {
+    void testDisplayingCurrentPlayersName() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
         gameManager.transitionToNextTurn();
@@ -34,7 +35,7 @@ public class FeatureTwoTesting {
     }
 
     @Test
-    public void testDisplayingCurrentPlayersNameWithLargePlayerCount() {
+    void testDisplayingCurrentPlayersNameWithLargePlayerCount() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
@@ -45,9 +46,9 @@ public class FeatureTwoTesting {
         users.add(new User("test7", true, new ArrayList<>()));
         users.add(new User("test8", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
         for (int i = 2; i < gameManager.getPlayerQueue().size() + 1; i++) {

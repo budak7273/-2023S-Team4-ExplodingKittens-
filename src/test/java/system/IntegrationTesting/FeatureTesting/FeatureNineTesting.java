@@ -3,8 +3,9 @@ package system.IntegrationTesting.FeatureTesting;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 
 import javax.swing.*;
@@ -12,18 +13,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureNineTesting {
+class FeatureNineTesting {
 
     @Test
-    public void
-    testDisplayingUsersInOrderTheyAreEnteredSmallGame() {
+    void testDisplayingUsersInOrderTheyAreEnteredSmallGame() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("thisIsFirst", true, new ArrayList<>()));
         users.add(new User("thisIsSecond", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "thisIsFirst");
         gameManager.transitionToNextTurn();
@@ -35,8 +35,7 @@ public class FeatureNineTesting {
     }
 
     @Test
-    public void
-    testDisplayingUsersInOrderTheyAreEnteredBigGame() {
+    void testDisplayingUsersInOrderTheyAreEnteredBigGame() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("thisIsFirst", true, new ArrayList<>()));
         users.add(new User("thisIsSecond", true, new ArrayList<>()));
@@ -49,9 +48,9 @@ public class FeatureNineTesting {
         users.add(new User("thisIsNinth", true, new ArrayList<>()));
         users.add(new User("thisIsTenth", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "thisIsFirst");
         gameManager.transitionToNextTurn();

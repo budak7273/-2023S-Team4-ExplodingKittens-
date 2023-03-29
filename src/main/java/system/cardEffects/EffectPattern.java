@@ -12,7 +12,7 @@ public abstract class EffectPattern {
     private DrawDeck drawDeck;
     private GameManager gameManager;
 
-    public void useEffect() { };
+    public abstract void useEffect();
 
     public void setCurrentState(GameManager manager) {
         gameManager = manager;

@@ -2,11 +2,13 @@ package system.IntegrationTesting.FeatureTesting;
 
 import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.Card;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 
 import javax.swing.*;
@@ -14,18 +16,25 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureSevenTesting {
+class FeatureSevenTesting {
 
-    @Test
-    public void testUserDrawsACardToEndTurn() {
+    private User currentUser;
+    private GameManager gameManager;
+
+    @BeforeEach
+    void setUp() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
-        User currentUser = gameManager.getUserForCurrentTurn();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        gameManager = gameWindow.getGameManager();
+        currentUser = gameManager.getUserForCurrentTurn();
+    }
+
+    @Test
+    void testUserDrawsACardToEndTurn() {
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
@@ -40,15 +49,7 @@ public class FeatureSevenTesting {
     }
 
     @Test
-    public void testUserPlaysSkipCard() {
-        Queue<User> users = new LinkedList<>();
-        users.add(new User("test1", true, new ArrayList<>()));
-        users.add(new User("test2", true, new ArrayList<>()));
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
-        User currentUser = gameManager.getUserForCurrentTurn();
+    void testUserPlaysSkipCard() {
         currentUser.addCard(new Card(CardType.SKIP));
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
@@ -65,15 +66,7 @@ public class FeatureSevenTesting {
     }
 
     @Test
-    public void testUserPlaysAttackCardWithNoRetaliation() {
-        Queue<User> users = new LinkedList<>();
-        users.add(new User("test1", true, new ArrayList<>()));
-        users.add(new User("test2", true, new ArrayList<>()));
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
-        User currentUser = gameManager.getUserForCurrentTurn();
+    void testUserPlaysAttackCardWithNoRetaliation() {
         currentUser.addCard(new Card(CardType.ATTACK));
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
