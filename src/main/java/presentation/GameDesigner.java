@@ -93,7 +93,7 @@ public class GameDesigner {
     }
     private static void setupLanguage(Scanner scanner) {
         System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
-        String languageSelection = scanner.next().toLowerCase();
+        String languageSelection = scanner.nextLine().toLowerCase();
         Messages.switchLanguage(languageSelection);
     }
     private static List<String> setupPlayerUsernames(Scanner scanner) {
@@ -103,9 +103,8 @@ public class GameDesigner {
 
         System.out.println(Messages.getMessage(Messages.ENTER_PLAYER_1_NAME));
 
-        while (scanner.hasNext()) {
-
-            String username = scanner.next();
+        while (scanner.hasNextLine()) {
+            String username = scanner.nextLine();
             if (userNameList.contains(username)) {
                 System.out.println(Messages.getMessage(
                         Messages.DUPLICATED_USERNAME));
@@ -122,7 +121,7 @@ public class GameDesigner {
             System.out.println(Messages.getMessage(
                     Messages.ADD_ANOTHER_PLAYER));
 
-            String response = scanner.next().toLowerCase();
+            String response = scanner.nextLine().toLowerCase();
             boolean addAnotherPlayer = (response.equals("y")
                     || response.equals("j"));
             if (!addAnotherPlayer) {
