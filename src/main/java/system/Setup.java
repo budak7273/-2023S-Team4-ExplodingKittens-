@@ -96,7 +96,7 @@ public class Setup {
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
         if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
-            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
+            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS) + ": " + playerQueue.size();
             throw new IllegalArgumentException(msg);
         }
 

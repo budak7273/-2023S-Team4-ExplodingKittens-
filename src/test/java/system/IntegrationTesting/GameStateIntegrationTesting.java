@@ -31,7 +31,7 @@ class GameStateIntegrationTesting {
     @Test
     void testTransitionToNextTurnWithQueueOf1UserIntegrationTest() {
         Queue<User> pq = new LinkedList<User>();
-        GameWindow board = new GameWindow(new JFrame());
+        GameWindow board = new GameWindow(new JFrame(), true);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
         pq.add(new User());
         GameState gameState = new GameState(pq, deck);
@@ -221,7 +221,7 @@ class GameStateIntegrationTesting {
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        GameWindow gameWindow = new GameWindow(new JFrame());
+        GameWindow gameWindow = new GameWindow(new JFrame(), true);
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
         GameState gameState = new GameState(userQueue, drawDeck);
         GameManager gameManager = new GameManager(gameState, gameWindow);

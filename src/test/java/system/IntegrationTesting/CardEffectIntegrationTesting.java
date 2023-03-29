@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import presentation.GameDesigner;
 import presentation.GameWindow;
 import system.GameManager;
+import system.TestingUtils;
 import system.cardEffects.*;
 import system.User;
 import system.DrawDeck;
@@ -40,7 +41,7 @@ class CardEffectIntegrationTesting {
     @Test
     void testDefuseBombEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();
-        GameWindow gameWindow = new GameWindow(new JFrame());
+        GameWindow gameWindow = new GameWindow(new JFrame(), true);
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, drawDeck);
@@ -55,7 +56,7 @@ class CardEffectIntegrationTesting {
     @Test
     void testAttackEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new AttackEffect();
-        GameWindow gameWindow = new GameWindow(new JFrame());
+        GameWindow gameWindow = new GameWindow(new JFrame(), true);
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, drawDeck);
@@ -72,7 +73,7 @@ class CardEffectIntegrationTesting {
         EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
         GameDesigner gameDesigner = new GameDesigner(new JFrame());
 
-        gameDesigner.initializeGameState(playerUsernames);
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameBoard = gameDesigner.getGameWindow();
 
         GameManager gameManager = gameBoard.getGameManager();
@@ -91,7 +92,7 @@ class CardEffectIntegrationTesting {
         EffectPattern skipEffect = new SkipEffect();
         GameDesigner gameDesigner = new GameDesigner(new JFrame());
 
-        gameDesigner.initializeGameState(playerUsernames);
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameBoard = gameDesigner.getGameWindow();
 
         GameManager gameManager = gameBoard.getGameManager();

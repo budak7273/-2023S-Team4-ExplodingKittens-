@@ -64,7 +64,7 @@ public class GameDesigner {
         setup.dealHands(users, drawDeck);
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
-        gameWindow = new GameWindow(gameFrame);
+        gameWindow = new GameWindow(gameFrame, false);
         final GameState gameState = new GameState(users, drawDeck);
         final GameManager gameManager = new GameManager(gameState, gameWindow);
         gameWindow.setGameManager(gameManager);
@@ -80,7 +80,7 @@ public class GameDesigner {
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);
-        gameWindow = new GameWindow(gameFrame);
+        gameWindow = new GameWindow(gameFrame, true);
         GameState gameState = new GameState(this.users, drawDeck);
         GameManager gameManager = new GameManager(gameState, gameWindow);
         gameWindow.setGameManager(gameManager);
