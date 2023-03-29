@@ -4,15 +4,14 @@ package system.IntegrationTesting;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 
-import presentation.GameDesigner;
 import presentation.GameWindow;
 import system.GameManager;
-import system.TestingUtils;
 import system.cardEffects.*;
 import system.User;
 import system.DrawDeck;
@@ -26,12 +25,13 @@ class CardEffectIntegrationTesting {
     private Queue<User> playerQueue;
 
     private List<String> playerUsernames;
+    private static final int NUM_PLAYERS = 5;
 
     @BeforeEach
     void setUp() {
         playerQueue = new ArrayDeque<>();
         playerUsernames = new ArrayList<>();
-        for (int index = 1; index <= 5; index++) {
+        for (int index = 1; index <= NUM_PLAYERS; index++) {
             String username = "Player" + index + "ForIntegrationTest";
             playerQueue.add(new User(username));
             playerUsernames.add(username);
@@ -50,7 +50,6 @@ class CardEffectIntegrationTesting {
         bombEffectPattern.setCurrentState(gameManager);
 
         Assertions.assertDoesNotThrow(bombEffectPattern::useEffect);
-
     }
 
     @Test
@@ -65,7 +64,5 @@ class CardEffectIntegrationTesting {
         bombEffectPattern.setCurrentState(gameManager);
 
         Assertions.assertDoesNotThrow(bombEffectPattern::useEffect);
-
     }
-
 }

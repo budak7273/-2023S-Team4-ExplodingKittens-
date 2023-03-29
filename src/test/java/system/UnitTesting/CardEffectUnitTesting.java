@@ -3,7 +3,6 @@ package system.UnitTesting;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import system.cardEffects.*;
 import system.*;
 
@@ -95,7 +94,8 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    @SuppressWarnings("unchecked")
+        // We know the cards mock is an unsafe type conversion
     void testSeeTheFuture() {
         EffectPattern futureEffect = new SeeTheFutureEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
@@ -140,7 +140,8 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    @SuppressWarnings("unchecked")
+        // We know the cards mock is an unsafe type conversion
     void testAlterTheFuture() {
         EffectPattern alterEffect = new AlterTheFutureEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
@@ -163,7 +164,8 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    @SuppressWarnings("unchecked")
+        // We know the cards mock is an unsafe type conversion
     void testTargetedAttack() {
         EffectPattern targetedAtkEffect = new TargetedAttackEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
@@ -186,7 +188,8 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    @SuppressWarnings("unchecked")
+        // We know the cards mock is an unsafe type conversion
     void testFavor() {
         EffectPattern favorEffect = new FavorEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
