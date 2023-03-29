@@ -93,28 +93,25 @@ public class GameDesigner {
 
     private static void setupLanguage(Scanner scanner) {
         System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
-        String languageSelection = scanner.next().toLowerCase();
+        String languageSelection = scanner.nextLine().toLowerCase();
         Messages.switchLanguage(languageSelection);
     }
     private static List<String> setupPlayerUsernames(Scanner scanner) {
         List<String> userNameList = new ArrayList<>();
-        int nextPlayerCount = 2;
-        final int tooManyPlayers = 11;
 
         System.out.println(Messages.getMessage(Messages.ENTER_PLAYER_1_NAME));
 
-        while (scanner.hasNext()) {
+        enterPlayerNames(scanner, userNameList);
+        return userNameList;
+    }
 
-            String username = scanner.next();
-            if (userNameList.contains(username)) {
-                System.out.println(Messages.getMessage(
-                        Messages.DUPLICATED_USERNAME));
+    private static void enterPlayerNames(Scanner scanner, List<String> userNameList) {
+        int nextPlayerCount = 2;
+        final int tooManyPlayers = 11;
+        while (scanner.hasNextLine()) {
+            if (enterAUsername(scanner, userNameList)) {
                 continue;
             }
-
-            userNameList.add(username);
-            System.out.println(username + Messages
-                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
 
             if (nextPlayerCount >= tooManyPlayers) {
                 break;
@@ -122,7 +119,7 @@ public class GameDesigner {
             System.out.println(Messages.getMessage(
                     Messages.ADD_ANOTHER_PLAYER));
 
-            String response = scanner.next().toLowerCase();
+            String response = scanner.nextLine().toLowerCase();
             boolean addAnotherPlayer = (response.equals("y")
                     || response.equals("j"));
             if (!addAnotherPlayer) {
@@ -130,12 +127,26 @@ public class GameDesigner {
             }
 
             System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
-                    + nextPlayerCount + Messages
+                               + nextPlayerCount + Messages
                     .getMessage(Messages.PLAYER_USERNAME));
             nextPlayerCount++;
         }
-        return userNameList;
     }
+
+    private static boolean enterAUsername(Scanner scanner, List<String> userNameList) {
+        String username = scanner.nextLine();
+        if (userNameList.contains(username)) {
+            System.out.println(Messages.getMessage(
+                    Messages.DUPLICATED_USERNAME));
+            return true;
+        }
+
+        userNameList.add(username);
+        System.out.println(username + Messages
+                .getMessage(Messages.PLAYER_ADDED_TO_GAME));
+        return false;
+    }
+
     private static void displayPlayerList(List<String> userNameList) {
         System.out.println(Messages.getMessage(Messages.START_GAME));
         for (String userName : userNameList) {
