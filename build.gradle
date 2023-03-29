@@ -34,6 +34,18 @@ test {
     useJUnitPlatform()
 }
 
+// Checkstyle plugin
+checkstyle {
+    toolVersion '8.41'
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+    source ='src/main/java'
+}
+checkstyleTest {
+    source ='src/test/java'
+}
+
 [spotbugsMain, spotbugsTest].each { task ->
     task.configure {
         reports {
