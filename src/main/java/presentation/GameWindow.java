@@ -34,11 +34,11 @@ public class GameWindow {
     private Card executingCard;
     private final Object mutex = new Object();
     private GameManager gameManager;
-    public final boolean isRunningAsTest;
+    private final boolean isRunningAsTest;
 
-    public GameWindow(JFrame frame, boolean isRunningAsTest) {
+    public GameWindow(JFrame frame, boolean inputIsRunningAsTest) {
         this.gameFrame = frame;
-        this.isRunningAsTest = isRunningAsTest;
+        this.isRunningAsTest = inputIsRunningAsTest;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
         setSelectedCards(new ArrayList<>());

@@ -24,9 +24,9 @@ public class Setup {
         this(playerCount, new Random());
     }
 
-    public Setup(int playerCount, Random random) {
+    public Setup(int playerCount, Random inputRandom) {
         this.numOfPlayers = playerCount;
-        this.random = random;
+        this.random = inputRandom;
     }
 
     public Queue<User> createUsers(List<String> names) {

@@ -6,12 +6,12 @@ import datasource.Messages;
 import java.util.*;
 
 public class DrawDeck {
-    final Random random;
+    private final Random random;
     private Deque<Card> cards;
 
-    public DrawDeck(List<Card> cardList, Random random) {
+    public DrawDeck(List<Card> cardList, Random inputRandom) {
         this.cards = new LinkedList<>(cardList);
-        this.random = random;
+        this.random = inputRandom;
     }
 
     // For tests that do not care about the random seed
