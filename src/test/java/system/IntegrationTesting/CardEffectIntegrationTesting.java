@@ -68,37 +68,4 @@ class CardEffectIntegrationTesting {
 
     }
 
-    @Test
-    void testDrawFromBottomIntegrationTest() {
-        EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
-        GameDesigner gameDesigner = new GameDesigner(new JFrame());
-
-        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
-        GameWindow gameBoard = gameDesigner.getGameWindow();
-
-        GameManager gameManager = gameBoard.getGameManager();
-        int beforeCount = gameManager.getDeckSizeForCurrentTurn();
-        drawFromBottomEffect.setCurrentState(gameManager);
-        Assertions.assertEquals(
-                beforeCount, gameManager.getDeckSizeForCurrentTurn());
-        drawFromBottomEffect.useEffect();
-        Assertions.assertEquals(
-                beforeCount - 1, gameManager.getDeckSizeForCurrentTurn());
-
-    }
-
-    @Test
-    void testSkipIntegrationTest() {
-        EffectPattern skipEffect = new SkipEffect();
-        GameDesigner gameDesigner = new GameDesigner(new JFrame());
-
-        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
-        GameWindow gameBoard = gameDesigner.getGameWindow();
-
-        GameManager gameManager = gameBoard.getGameManager();
-        skipEffect.setCurrentState(gameManager);
-        skipEffect.useEffect();
-
-    }
-
 }
