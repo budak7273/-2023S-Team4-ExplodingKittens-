@@ -9,7 +9,7 @@ import java.util.*;
 
 public class GameDesigner {
     private Queue<User> users;
-    private GamePlayer gamePlayer;
+    private GameWindow gameWindow;
     private JFrame gameFrame;
 
     public GameDesigner(JFrame frame) {
@@ -64,12 +64,12 @@ public class GameDesigner {
         setup.dealHands(users, drawDeck);
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
-        gamePlayer = new GamePlayer(gameFrame);
+        gameWindow = new GameWindow(gameFrame);
         final GameState gameState = new GameState(users, drawDeck);
-        final GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
+        final GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
         AudioPlayer.playMusicOnStartup();
-        gamePlayer.updateUI();
+        gameWindow.updateUI();
     }
 
     /**
@@ -80,15 +80,15 @@ public class GameDesigner {
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);
-        gamePlayer = new GamePlayer(gameFrame);
+        gameWindow = new GameWindow(gameFrame);
         GameState gameState = new GameState(this.users, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
-        gamePlayer.updateUI();
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
     }
 
-    public GamePlayer getGamePlayer() {
-        return this.gamePlayer;
+    public GameWindow getGameWindow() {
+        return this.gameWindow;
     }
 
     private static void setupLanguage(Scanner scanner) {

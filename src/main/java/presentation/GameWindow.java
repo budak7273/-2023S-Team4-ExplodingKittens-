@@ -14,7 +14,7 @@ import java.util.Random;
 
 import static javax.swing.ScrollPaneConstants.*;
 
-public class GamePlayer {
+public class GameWindow {
 
     /**
      * This is the frame the game is made on.
@@ -35,7 +35,7 @@ public class GamePlayer {
     private final Object mutex = new Object();
     private GameManager gameManager;
 
-    public GamePlayer(JFrame frame) {
+    public GameWindow(JFrame frame) {
         this.gameFrame = frame;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
@@ -568,8 +568,6 @@ public class GamePlayer {
                         JOptionPane.INFORMATION_MESSAGE);
                 result = -1;
             }
-
-        } catch (HeadlessException e) {
 
         } catch (NumberFormatException e) {
             result = -1;

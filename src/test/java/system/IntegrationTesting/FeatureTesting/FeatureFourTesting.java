@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.Card;
 import system.GameManager;
 import system.TestingUtils;
@@ -30,8 +30,8 @@ class FeatureFourTesting {
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState(new Random(TestingUtils.TESTS_RANDOM_SEED));
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        gameManager = gamePlayer.getGameManager();
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        gameManager = gameWindow.getGameManager();
         currentUser = gameManager.getUserForCurrentTurn();
     }
 

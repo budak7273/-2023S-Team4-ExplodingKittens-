@@ -1,7 +1,7 @@
 package system;
 
 import datasource.Messages;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
@@ -9,13 +9,13 @@ import java.util.Random;
 public class GameManager {
 
     private final GameState gameState;
-    private final GamePlayer gamePlayer;
+    private final GameWindow gameWindow;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
 
-    public GameManager(GameState state, GamePlayer player) {
+    public GameManager(GameState state, GameWindow player) {
         this.gameState = state;
-        this.gamePlayer = player;
+        this.gameWindow = player;
     }
 
     private void transitionToTurnOfUser(User targetUser) {
@@ -29,7 +29,7 @@ public class GameManager {
             userAtTopOfQueue = playerQueue.peek();
         }
 
-        gamePlayer.updateUI();
+        gameWindow.updateUI();
 
     }
 
@@ -58,8 +58,8 @@ public class GameManager {
             }
         }
         gameState.setPlayerQueue(playerQueue);
-        gamePlayer.toggleCatMode();
-        gamePlayer.updateUI();
+        gameWindow.toggleCatMode();
+        gameWindow.updateUI();
         tryToEndGame();
     }
 
@@ -70,7 +70,7 @@ public class GameManager {
             throw new IllegalArgumentException(msg);
         }
         if (playerQueue.size() == 1) {
-            gamePlayer.displayWinForUser(gameState.getUserForCurrentTurn());
+            gameWindow.displayWinForUser(gameState.getUserForCurrentTurn());
             return true;
         }
         return false;
@@ -81,7 +81,7 @@ public class GameManager {
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(currentPlayer);
         if (drawnExplodingKitten) {
             gameState.getUserForCurrentTurn().attemptToDie();
-            gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
+            gameWindow.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
         } else {
             transitionToNextTurn();
         }
@@ -89,7 +89,7 @@ public class GameManager {
 
     public void checkExplodingKitten() {
         gameState.getUserForCurrentTurn().attemptToDie();
-        gamePlayer.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
+        gameWindow.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
     }
 
     public void returnFutureCards(List<Card> future) {
@@ -101,16 +101,16 @@ public class GameManager {
 
     public void shuffleDeck(Boolean shuffled) {
         if (shuffled) {
-            gamePlayer.updateUI();
+            gameWindow.updateUI();
         }
     }
 
     public void seeTheFuture(List<Card> futureCards) {
-        gamePlayer.displayFutureCards(futureCards);
+        gameWindow.displayFutureCards(futureCards);
     }
 
     public void alterTheFuture(List<Card> futureCards) {
-        gamePlayer.editFutureCards(futureCards);
+        gameWindow.editFutureCards(futureCards);
     }
 
     public void addExplodingKittenBackIntoDeck(Integer location) {
@@ -124,11 +124,11 @@ public class GameManager {
 
     public void triggerDisplayOfCatStealPrompt() {
         List<User> targets = gameState.getTargetsForCardEffects();
-        gamePlayer.displayCatStealPrompt(targets);
+        gameWindow.displayCatStealPrompt(targets);
     }
 
     public void triggerDisplayOfFavorPrompt(List<User> targets) {
-        gamePlayer.displayFavorPrompt(targets);
+        gameWindow.displayFavorPrompt(targets);
     }
 
     public void executeTargetedAttackOn(User user) {
@@ -137,9 +137,9 @@ public class GameManager {
     }
 
     public void executeFavorOn(User user) {
-        int i = gamePlayer.inputForStealCard(user);
+        int i = gameWindow.inputForStealCard(user);
         while (i == -1) {
-            i = gamePlayer.inputForStealCard(user);
+            i = gameWindow.inputForStealCard(user);
         }
         Card stealCard = user.removeHand(i);
         gameState.getUserForCurrentTurn().addCard(stealCard);
@@ -152,7 +152,7 @@ public class GameManager {
     }
 
     public void triggerDisplayOfTargetedAttackPrompt(List<User> targets) {
-        gamePlayer.displayTargetedAttackPrompt(targets);
+        gameWindow.displayTargetedAttackPrompt(targets);
     }
 
     public void removeCardFromCurrentUser(Card card) {

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.GameManager;
 import system.cardEffects.*;
 import system.User;
@@ -50,12 +50,12 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testDefuseBombEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();
-        GamePlayer gamePlayer = new GamePlayer(new JFrame());
+        GameWindow gameWindow = new GameWindow(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
         bombEffectPattern.setCurrentState(gameManager);
 
         Executable executable = () -> bombEffectPattern.useEffect();
@@ -66,12 +66,12 @@ public class CardEffectIntegrationTesting {
     @Test
     public void testAttackEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new AttackEffect();
-        GamePlayer gamePlayer = new GamePlayer(new JFrame());
+        GameWindow gameWindow = new GameWindow(new JFrame());
         DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(playerQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gamePlayer);
-        gamePlayer.setGameManager(gameManager);
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
         bombEffectPattern.setCurrentState(gameManager);
 
         Executable executable = () -> bombEffectPattern.useEffect();
@@ -85,7 +85,7 @@ public class CardEffectIntegrationTesting {
         GameDesigner gameDesigner = new GameDesigner(new JFrame());
 
         gameDesigner.initializeGameState(playerUsernames);
-        GamePlayer gameBoard = gameDesigner.getGamePlayer();
+        GameWindow gameBoard = gameDesigner.getGameWindow();
 
         GameManager gameManager = gameBoard.getGameManager();
         int beforeCount = gameManager.getDeckSizeForCurrentTurn();
@@ -104,7 +104,7 @@ public class CardEffectIntegrationTesting {
         GameDesigner gameDesigner = new GameDesigner(new JFrame());
 
         gameDesigner.initializeGameState(playerUsernames);
-        GamePlayer gameBoard = gameDesigner.getGamePlayer();
+        GameWindow gameBoard = gameDesigner.getGameWindow();
 
         GameManager gameManager = gameBoard.getGameManager();
         skipEffect.setCurrentState(gameManager);

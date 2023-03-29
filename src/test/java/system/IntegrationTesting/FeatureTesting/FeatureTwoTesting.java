@@ -3,7 +3,7 @@ package system.IntegrationTesting.FeatureTesting;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.GameManager;
 import system.User;
 import system.TestingUtils;
@@ -22,8 +22,8 @@ class FeatureTwoTesting {
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
         gameManager.transitionToNextTurn();
@@ -47,8 +47,8 @@ class FeatureTwoTesting {
         users.add(new User("test8", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
+        GameWindow gameWindow = gameDesigner.getGameWindow();
+        GameManager gameManager = gameWindow.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test1");
         for (int i = 2; i < gameManager.getPlayerQueue().size() + 1; i++) {
