@@ -98,22 +98,20 @@ public class GameDesigner {
     }
     private static List<String> setupPlayerUsernames(Scanner scanner) {
         List<String> userNameList = new ArrayList<>();
-        int nextPlayerCount = 2;
-        final int tooManyPlayers = 11;
 
         System.out.println(Messages.getMessage(Messages.ENTER_PLAYER_1_NAME));
 
+        enterPlayerNames(scanner, userNameList);
+        return userNameList;
+    }
+
+    private static void enterPlayerNames(Scanner scanner, List<String> userNameList) {
+        int nextPlayerCount = 2;
+        final int tooManyPlayers = 11;
         while (scanner.hasNextLine()) {
-            String username = scanner.nextLine();
-            if (userNameList.contains(username)) {
-                System.out.println(Messages.getMessage(
-                        Messages.DUPLICATED_USERNAME));
+            if (enterAUsername(scanner, userNameList)) {
                 continue;
             }
-
-            userNameList.add(username);
-            System.out.println(username + Messages
-                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
 
             if (nextPlayerCount >= tooManyPlayers) {
                 break;
@@ -129,12 +127,26 @@ public class GameDesigner {
             }
 
             System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
-                    + nextPlayerCount + Messages
+                               + nextPlayerCount + Messages
                     .getMessage(Messages.PLAYER_USERNAME));
             nextPlayerCount++;
         }
-        return userNameList;
     }
+
+    private static boolean enterAUsername(Scanner scanner, List<String> userNameList) {
+        String username = scanner.nextLine();
+        if (userNameList.contains(username)) {
+            System.out.println(Messages.getMessage(
+                    Messages.DUPLICATED_USERNAME));
+            return true;
+        }
+
+        userNameList.add(username);
+        System.out.println(username + Messages
+                .getMessage(Messages.PLAYER_ADDED_TO_GAME));
+        return false;
+    }
+
     private static void displayPlayerList(List<String> userNameList) {
         System.out.println(Messages.getMessage(Messages.START_GAME));
         for (String userName : userNameList) {
