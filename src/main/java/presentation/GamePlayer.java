@@ -479,9 +479,9 @@ public class GamePlayer {
         }
 
         notificationPanel.notifyPlayers(status, "");
-        notificationPanel.addExitButtonToLayout("Counter-nope",
+        notificationPanel.addExitButtonToLayout(Messages.getMessage(Messages.COUNTER_NOPE),
                 e -> tryNope(gameState.getUserForCurrentTurn()));
-        notificationPanel.addExitButtonToLayout("No nopes",
+        notificationPanel.addExitButtonToLayout(Messages.getMessage(Messages.NO_MORE_NOPES),
                 e -> this.noNopes());
         updateDisplay();
     }

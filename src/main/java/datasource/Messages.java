@@ -83,7 +83,9 @@ public enum Messages {
     LOCATION("Location"),
     PLACE_KITTEN("PlaceKitten"),
     KITTEN_PLACED("KittenPlaced"),
-    WINNER_MESSAGE("WinnerMessage");
+    WINNER_MESSAGE("WinnerMessage"),
+    COUNTER_NOPE("counter.nope"),
+    NO_MORE_NOPES("no.more.nopes");
     private static Locale currentLocation = Locale.ENGLISH;
     private String messageName;
 
