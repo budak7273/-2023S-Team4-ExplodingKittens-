@@ -35,18 +35,21 @@ public class GameWindow {
     private final Object mutex = new Object();
     private GameManager gameManager;
     private final boolean isRunningAsTest;
+    private AudioPlayer audioPlayer;
 
     public GameWindow(JFrame frame, boolean inputIsRunningAsTest) {
         this.gameFrame = frame;
         this.isRunningAsTest = inputIsRunningAsTest;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
+        this.audioPlayer = new AudioPlayer(!isRunningAsTest);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
 
         final int frameWidth = 1300;
         final int frameHeight = 800;
         gameFrame.setSize(frameWidth, frameHeight);
+        audioPlayer.playMusicOnStartup();
     }
 
     public void setGameManager(final GameManager manager) {
@@ -413,10 +416,10 @@ public class GameWindow {
             deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
             DrawDeck deck = gameManager.getDrawDeck();
             notificationPanel.addExplodingKittenBackIntoDeck(deathMessage, deck);
-            AudioPlayer.playDefused();
+            audioPlayer.playDefused();
         } else {
             deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
-            AudioPlayer.playExplosion();
+            audioPlayer.playExplosion();
             gameManager.transitionToNextTurn();
             notificationPanel.notifyPlayers(deathMessage, Messages.getMessage(Messages.RIP));
         }

@@ -13,8 +13,7 @@ public class GameDesigner {
     private JFrame gameFrame;
 
     public GameDesigner(JFrame frame) {
-        this.gameFrame = frame;
-        this.users = new ArrayDeque<>();
+        this(new ArrayDeque<>(), frame);
     }
 
     public GameDesigner(Queue<User> usersQueue, JFrame frame) {
@@ -68,7 +67,6 @@ public class GameDesigner {
         final GameState gameState = new GameState(users, drawDeck);
         final GameManager gameManager = new GameManager(gameState, gameWindow);
         gameWindow.setGameManager(gameManager);
-        AudioPlayer.playMusicOnStartup();
         gameWindow.updateUI();
     }
 

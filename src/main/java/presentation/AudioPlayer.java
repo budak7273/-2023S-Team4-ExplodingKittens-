@@ -10,9 +10,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AudioPlayer {
-    private AudioPlayer() { }
-    public static boolean enableSound = false;
-    private static void playMusic(String pathname) {
+    private final boolean enableSound;
+
+    public AudioPlayer(boolean inputEnableSound) {
+        this.enableSound = inputEnableSound;
+    }
+
+    private void playMusic(String pathname) {
         if (!enableSound) {
             return;
         }
@@ -32,13 +36,16 @@ public class AudioPlayer {
         Thread playThread = new Thread(runnablePlay);
         playThread.start();
     }
-    public static void playMusicOnStartup() {
-      playMusic("src/main/resources/start.mp3");
+
+    public void playMusicOnStartup() {
+        playMusic("src/main/resources/start.mp3");
     }
-    public static void playExplosion() {
-      playMusic("src/main/resources/explodingKitten.mp3");
+
+    public void playExplosion() {
+        playMusic("src/main/resources/explodingKitten.mp3");
     }
-    public static void playDefused() {
-       playMusic("src/main/resources/defused.mp3");
+
+    public void playDefused() {
+        playMusic("src/main/resources/defused.mp3");
     }
 }
