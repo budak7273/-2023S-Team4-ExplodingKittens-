@@ -2,29 +2,38 @@ package system.IntegrationTesting.FeatureTesting;
 
 import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.Card;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureSixTesting {
+class FeatureSixTesting {
 
-    @Test
-    public void testUserPassesTurn() {
+    private GameManager gameManager;
+    private User currentUser;
+
+    @BeforeEach
+    void setUp() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
-        User currentUser = gameManager.getUserForCurrentTurn();
+        gameManager = gamePlayer.getGameManager();
+        currentUser = gameManager.getUserForCurrentTurn();
+    }
+
+    @Test
+    void testUserPassesTurn() {
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
@@ -39,15 +48,7 @@ public class FeatureSixTesting {
     }
 
     @Test
-    public void testUserPlaysCard() {
-        Queue<User> users = new LinkedList<>();
-        users.add(new User("test1", true, new ArrayList<>()));
-        users.add(new User("test2", true, new ArrayList<>()));
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
-        GamePlayer gamePlayer = gameDesigner.getGamePlayer();
-        GameManager gameManager = gamePlayer.getGameManager();
-        User currentUser = gameManager.getUserForCurrentTurn();
+    void testUserPlaysCard() {
         currentUser.addCard(new Card(CardType.SKIP));
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();

@@ -57,7 +57,7 @@ public class GameDesigner {
     }
 
     public void initializeGameState(final List<String> usernames) {
-        Setup setup = new Setup(usernames.size());
+        Setup setup = new Setup(usernames.size(), new Random());
         users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
@@ -74,11 +74,9 @@ public class GameDesigner {
 
     /**
      * These methods should only be used for Integration Testing
-     *
-     * @return
      */
-    public void initializeGameState() {
-        Setup setup = new Setup(users.size());
+    public void initializeGameState(Random random) {
+        Setup setup = new Setup(users.size(), random);
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);

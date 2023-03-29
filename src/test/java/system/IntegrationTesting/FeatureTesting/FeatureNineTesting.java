@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import presentation.GameDesigner;
 import presentation.GamePlayer;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 
 import javax.swing.*;
@@ -12,16 +13,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureNineTesting {
+class FeatureNineTesting {
 
     @Test
-    public void
-    testDisplayingUsersInOrderTheyAreEnteredSmallGame() {
+    void testDisplayingUsersInOrderTheyAreEnteredSmallGame() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("thisIsFirst", true, new ArrayList<>()));
         users.add(new User("thisIsSecond", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameManager gameManager = gamePlayer.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
@@ -35,8 +35,7 @@ public class FeatureNineTesting {
     }
 
     @Test
-    public void
-    testDisplayingUsersInOrderTheyAreEnteredBigGame() {
+    void testDisplayingUsersInOrderTheyAreEnteredBigGame() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("thisIsFirst", true, new ArrayList<>()));
         users.add(new User("thisIsSecond", true, new ArrayList<>()));
@@ -49,7 +48,7 @@ public class FeatureNineTesting {
         users.add(new User("thisIsNinth", true, new ArrayList<>()));
         users.add(new User("thisIsTenth", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameManager gameManager = gamePlayer.getGameManager();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),

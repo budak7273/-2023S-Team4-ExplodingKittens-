@@ -10,9 +10,9 @@ import system.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CardEffectUnitTesting {
+class CardEffectUnitTesting {
     @Test
-    public void testDefuseBombEffectUse() {
+    void testDefuseBombEffectUse() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -26,14 +26,13 @@ public class CardEffectUnitTesting {
         EasyMock.replay(gameManager, gameState, user, drawDeck);
 
         bombEffectPattern.setCurrentState(gameManager);
-        Executable executable = () -> bombEffectPattern.useEffect();
-        Assertions.assertDoesNotThrow(executable);
+        Assertions.assertDoesNotThrow(bombEffectPattern::useEffect);
 
         EasyMock.verify(gameState, gameState, user, drawDeck);
     }
 
     @Test
-    public void testDrawFromBottom() {
+    void testDrawFromBottom() {
         EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -54,7 +53,7 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testSkip() {
+    void testSkip() {
         EffectPattern skipEffect = new SkipEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -74,7 +73,7 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testShuffleDeck() {
+    void testShuffleDeck() {
         EffectPattern shuffleEffect = new ShuffleEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -96,7 +95,8 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testSeeTheFuture() {
+    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    void testSeeTheFuture() {
         EffectPattern futureEffect = new SeeTheFutureEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -118,7 +118,7 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testAttack() {
+    void testAttack() {
         EffectPattern attackEffect = new AttackEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -140,7 +140,8 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testAlterTheFuture() {
+    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    void testAlterTheFuture() {
         EffectPattern alterEffect = new AlterTheFutureEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -162,7 +163,8 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testTargetedAttack() {
+    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    void testTargetedAttack() {
         EffectPattern targetedAtkEffect = new TargetedAttackEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);
@@ -184,7 +186,8 @@ public class CardEffectUnitTesting {
     }
 
     @Test
-    public void testFavor() {
+    @SuppressWarnings("unchecked") // We know the cards mock is an unsafe type conversion
+    void testFavor() {
         EffectPattern favorEffect = new FavorEffect();
         GameState gameState = EasyMock.createMock(GameState.class);
         User user = EasyMock.createMock(User.class);

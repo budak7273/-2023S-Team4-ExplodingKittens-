@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.*;
 
 public class Setup {
+    private final Random random;
     private int numOfPlayers;
 
     private static final int MIN_PLAYERS = 2;
@@ -18,8 +19,14 @@ public class Setup {
 
     private static final int INITIAL_HAND_SIZE = 7;
 
+    // For tests that do not care about specific random seeds
     public Setup(int playerCount) {
+        this(playerCount, new Random());
+    }
+
+    public Setup(int playerCount, Random random) {
         this.numOfPlayers = playerCount;
+        this.random = random;
     }
 
     public Queue<User> createUsers(List<String> names) {
@@ -84,7 +91,7 @@ public class Setup {
     }
 
     private DrawDeck generateDrawDeck(List<Card> cardList) {
-        return new DrawDeck(cardList);
+        return new DrawDeck(cardList, random);
     }
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {

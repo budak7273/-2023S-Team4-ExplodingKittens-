@@ -8,21 +8,22 @@ import presentation.GamePlayer;
 import system.Card;
 import system.DrawDeck;
 import system.GameManager;
+import system.TestingUtils;
 import system.User;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FeatureOneTesting {
+class FeatureOneTesting {
 
     @Test
-    public void testDetectWhenPlayerWinsGame() {
+    void testDetectWhenPlayerWinsGame() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameManager gameManager = gamePlayer.getGameManager();
         DrawDeck drawDeck = gameManager.getDrawDeck();
@@ -39,7 +40,7 @@ public class FeatureOneTesting {
     }
 
     @Test
-    public void testWhenMultiplePlayersInGameAndOneWins() {
+    void testWhenMultiplePlayersInGameAndOneWins() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
@@ -50,7 +51,7 @@ public class FeatureOneTesting {
         users.add(new User("test7", true, new ArrayList<>()));
         users.add(new User("test8", true, new ArrayList<>()));
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState();
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GamePlayer gamePlayer = gameDesigner.getGamePlayer();
         GameManager gameManager = gamePlayer.getGameManager();
         DrawDeck drawDeck = gameManager.getDrawDeck();
