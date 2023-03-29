@@ -1,11 +1,8 @@
 package system.cardEffects;
 
-import system.GameState;
+public class DefuseBombEffect extends EffectPattern {
 
-public class DefuseBombEffect implements EffectPattern {
-
-    public void useEffect(GameState gameState) {
-
-    }
+    @Override
+    public void useEffect() { }
 
 }

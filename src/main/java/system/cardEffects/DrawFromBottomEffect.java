@@ -1,10 +1,14 @@
 package system.cardEffects;
 
-import system.GameState;
+public class DrawFromBottomEffect extends EffectPattern {
 
-public class DrawFromBottomEffect implements EffectPattern {
     @Override
-    public void useEffect(GameState gameState) {
-        gameState.drawFromBottom();
+    public void useEffect() {
+        boolean drawnExplodingKitten =
+                getDrawDeck().drawFromBottomForUser(getCurrentUser());
+        if (drawnExplodingKitten) {
+            getGameManager().checkExplodingKitten();
+        }
+        getGameManager().transitionToNextTurn();
     }
 }
