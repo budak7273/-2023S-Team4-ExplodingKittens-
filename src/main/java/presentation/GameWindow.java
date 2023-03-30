@@ -308,7 +308,7 @@ public class GameWindow {
                     displayInformationalMessage(infoMessage, titleBar);
                     return;
                 }
-                // ANNELISE HERE
+
                 if (card.getType() == CardType.DEFUSE) {
                     String infoMessage = I18n.getMessage("DefuseWithoutExplodingKittenMessage");
                     String titleBar = I18n.getMessage("Warning");
