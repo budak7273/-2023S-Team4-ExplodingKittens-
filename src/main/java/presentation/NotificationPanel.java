@@ -85,8 +85,7 @@ public class NotificationPanel extends JPanel {
             }
             gameWindow.enableButtons();
         };
-        addExitButtonToLayout(I18n.getMessage("Done"),
-                              eventFn);
+        addExitButtonToLayout(I18n.getMessage("Done"), eventFn);
 
         final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {

@@ -98,7 +98,7 @@ public class GameDesigner {
         }
         String languageSelection = scanner.nextLine().toLowerCase();
         String selected = I18n.switchLanguage(languageSelection);
-        System.out.println("Selected " + selected);
+        System.out.println(I18n.getMessage("LanguageSelected") + " " + selected);
     }
 
     private static List<String> setupPlayerUsernames(Scanner scanner) {
