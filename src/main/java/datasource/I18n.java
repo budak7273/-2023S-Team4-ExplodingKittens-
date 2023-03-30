@@ -44,7 +44,7 @@ public enum I18n {
                 return language.locale.getDisplayLanguage();
             }
         }
-        System.out.println("invalid selection!");
+        System.out.println(I18n.getMessage("InvalidLanguageSelected"));
         return ENGLISH.locale.getDisplayLanguage();
     }
 }
