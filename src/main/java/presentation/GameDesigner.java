@@ -11,6 +11,8 @@ public class GameDesigner {
     private Queue<User> users;
     private GameWindow gameWindow;
     private JFrame gameFrame;
+    private static final int MAX_PLAYER_COUNT = 10;
+    private static final int MIN_PLAYER_COUNT = 2;
 
     public GameDesigner(JFrame frame) {
         this(new ArrayDeque<>(), frame);
@@ -98,52 +100,45 @@ public class GameDesigner {
         String selected = I18n.switchLanguage(languageSelection);
         System.out.println("Selected " + selected);
     }
+
     private static List<String> setupPlayerUsernames(Scanner scanner) {
         List<String> userNameList = new ArrayList<>();
-
-        System.out.println(I18n.getMessage("EnterPlayer1NameMessage"));
-
         enterPlayerNames(scanner, userNameList);
         return userNameList;
     }
 
     private static void enterPlayerNames(Scanner scanner, List<String> userNameList) {
-        int nextPlayerCount = 2;
-        final int tooManyPlayers = 11;
-        while (scanner.hasNextLine()) {
-            if (enterAUsername(scanner, userNameList)) {
-                continue;
-            }
-
-            if (nextPlayerCount >= tooManyPlayers) {
-                break;
-            }
-            System.out.println(I18n.getMessage("AddAnotherPlayerMessage"));
-
-            String response = scanner.nextLine().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y")
-                    || response.equals("j"));
-            if (!addAnotherPlayer) {
-                break;
-            }
-
+        boolean addMorePlayers = true;
+        while (addMorePlayers) {
+            int nextPlayerCount = userNameList.size() + 1;
             System.out.println(I18n.getMessage("EnterPlayerMessage")
                                + nextPlayerCount + I18n
-                    .getMessage("PlayerUsernameMessage"));
-            nextPlayerCount++;
+                                       .getMessage("PlayerUsernameMessage"));
+            userNameList.add(collectUsername(scanner, userNameList));
+
+            if (nextPlayerCount > MAX_PLAYER_COUNT) {
+                addMorePlayers = false;
+            } else if (nextPlayerCount >= MIN_PLAYER_COUNT) {
+                System.out.println(I18n.getMessage("AddAnotherPlayerMessage"));
+
+                String response = scanner.nextLine().toLowerCase();
+                addMorePlayers = response.equals("y") || response.equals("j");
+            }
         }
     }
 
-    private static boolean enterAUsername(Scanner scanner, List<String> userNameList) {
-        String username = scanner.nextLine();
-        if (userNameList.contains(username)) {
-            System.out.println(I18n.getMessage("DuplicatedUserName"));
-            return true;
-        }
-
-        userNameList.add(username);
-        System.out.println(username + I18n.getMessage("PlayerAddedToGameMessage"));
-        return false;
+    private static String collectUsername(Scanner scanner, List<String> userNameList) {
+        String selectedUsername = null;
+        do {
+            String input = scanner.nextLine();
+            if (userNameList.contains(input)) {
+                System.out.println(I18n.getMessage("DuplicatedUserName"));
+            } else {
+                System.out.println(input + I18n.getMessage("PlayerAddedToGameMessage"));
+                selectedUsername = input;
+            }
+        } while (selectedUsername == null);
+        return selectedUsername;
     }
 
     private static void displayPlayerList(List<String> userNameList) {
