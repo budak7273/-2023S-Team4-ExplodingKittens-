@@ -32,7 +32,7 @@ public class GameManager {
         gameWindow.updateUI();
 
     }
-    public boolean checkCurrentUsersSpecialEffect(){
+    public boolean checkCurrentUsersSpecialEffect() {
       return this.getUserForCurrentTurn().checkForSpecialEffectPotential();
     }
     private void throwIfQueueSizeIsInvalid() {
