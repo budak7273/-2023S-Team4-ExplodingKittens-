@@ -253,7 +253,7 @@ public class GamePlayer {
 
             private void handleSelectedCardsInCatMode() {
                 if (getSelectedCards().size() != 2) {
-                    diaplayWrongSelectionPromptInCatMode();
+                    displayWrongSelectionPromptInCatMode();
                     return;
                 }
                 Card c1 = getSelectedCards().get(0);
@@ -271,7 +271,7 @@ public class GamePlayer {
                     gameFrame.validate();
                     gameFrame.repaint();
                 } else {
-                    diaplayWrongSelectionPromptInCatMode();
+                    displayWrongSelectionPromptInCatMode();
                 }
 
             }
