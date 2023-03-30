@@ -46,7 +46,9 @@ public class User {
 
         this.hand.add(drawnCard);
     }
-
+    public Card getLastCardInHand() {
+        return this.getHand().get(this.getHandCount() - 1);
+    }
     public void removeCard(Card drawnCard) {
         this.hand.remove(drawnCard);
     }
