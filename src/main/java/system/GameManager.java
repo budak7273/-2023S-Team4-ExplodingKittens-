@@ -32,7 +32,9 @@ public class GameManager {
         gameWindow.updateUI();
 
     }
-
+    public boolean checkCurrentUsersSpecialEffect(){
+      return this.getUserForCurrentTurn().checkForSpecialEffectPotential();
+    }
     private void throwIfQueueSizeIsInvalid() {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         if (playerQueue.size() < MIN_PLAYERS
