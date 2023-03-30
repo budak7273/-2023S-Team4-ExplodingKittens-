@@ -276,7 +276,7 @@ public class GamePlayer {
 
             }
 
-            private void diaplayWrongSelectionPromptInCatMode() {
+            private void displayWrongSelectionPromptInCatMode() {
                 String infoMessage = Messages.getMessage(
                         Messages.WRONG_SELECTION_CAT_MODE);
                 String titleBar = "InfoBox: Warning";
@@ -502,10 +502,9 @@ public class GamePlayer {
 
     public void displayWinForUser(User winner) {
         this.gameFrame.dispose();
-        String infoMessage = winner.getName()
-                + Messages.getMessage(Messages.WINNER_MESSAGE);
         JOptionPane.showMessageDialog(null,
-                infoMessage, null,
+                                      winner.getName()
+                                      + Messages.getMessage(Messages.WINNER_MESSAGE), null,
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -516,11 +515,11 @@ public class GamePlayer {
         return notificationPanel;
     }
 
-    public ArrayList<Card> getSelectedCards() {
+    private ArrayList<Card> getSelectedCards() {
         return selectedCards;
     }
 
-    public void setSelectedCards(ArrayList<Card> cards) {
+    private void setSelectedCards(ArrayList<Card> cards) {
         this.selectedCards = cards;
     }
 
