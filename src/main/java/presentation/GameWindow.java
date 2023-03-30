@@ -82,10 +82,9 @@ public class GameWindow {
         JPanel userDisplayPanel = new JPanel();
         for (User user : this.gameManager.getPlayerQueue()) {
             if (user != this.gameManager.getUserForCurrentTurn()) {
-                JButton otherPlayer = createCardImage(user.getName(), user.getHand().size() + "");
+                JButton otherPlayer = createCardImage(user.getName(), user.getHandCount() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private final User innerUser = user;
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         tryNope(innerUser);
@@ -199,7 +198,7 @@ public class GameWindow {
     }
 
     private void checkCatModeAccessibility(JButton modeButton) {
-        if (!catMode && !this.gameManager.getUserForCurrentTurn().checkForSpecialEffectPotential()) {
+        if (!catMode && !this.gameManager.checkCurrentUsersSpecialEffect()) {
             modeButton.setEnabled(false);
             modeButton.setBackground(Color.GRAY);
         }

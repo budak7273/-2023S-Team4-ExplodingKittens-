@@ -94,6 +94,7 @@ public class GameDesigner {
         String languageSelection = scanner.nextLine().toLowerCase();
         Messages.switchLanguage(languageSelection);
     }
+
     private static List<String> setupPlayerUsernames(Scanner scanner) {
         List<String> userNameList = new ArrayList<>();
 

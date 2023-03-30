@@ -39,7 +39,9 @@ public class User {
         toReturn.addAll(this.hand);
         return toReturn;
     }
-
+    public Integer getHandCount() {
+        return this.hand.size();
+    }
     public void addCard(Card drawnCard) {
 
         this.hand.add(drawnCard);
