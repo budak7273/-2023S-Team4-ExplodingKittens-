@@ -1,6 +1,6 @@
 package presentation;
 
-import datasource.Messages;
+import datasource.I18n;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -30,7 +30,7 @@ public class AudioPlayer {
                 Player player = new Player(bufferedInputStream);
                 player.play();
             } catch (JavaLayerException | IOException e) {
-                System.err.println(Messages.getMessage("CouldntPlayMusic"));
+                System.err.println(I18n.getMessage("CouldntPlayMusic"));
             }
         };
         Thread playThread = new Thread(runnablePlay);

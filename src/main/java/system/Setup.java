@@ -2,7 +2,7 @@ package system;
 
 import datasource.CardCSVParser;
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 
 import java.io.File;
 import java.util.*;
@@ -96,7 +96,7 @@ public class Setup {
 
     public void dealHands(Queue<User> playerQueue, DrawDeck deck) {
         if (playerQueue.size() < 2 || playerQueue.size() > MAX_PLAYERS) {
-            String msg = Messages.getMessage("IllegalPlayersMessage") + ": " + playerQueue.size();
+            String msg = I18n.getMessage("IllegalPlayersMessage") + ": " + playerQueue.size();
             throw new IllegalArgumentException(msg);
         }
 

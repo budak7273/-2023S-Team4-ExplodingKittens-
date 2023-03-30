@@ -2,7 +2,7 @@ package system;
 
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 
 import java.util.*;
 
@@ -135,13 +135,13 @@ public class User {
 
     public void verifyCardsSelected(final List<Card> selected) {
         if (selected == null) {
-            throw new IllegalArgumentException(Messages.getMessage("MissingDataMessage"));
+            throw new IllegalArgumentException(I18n.getMessage("MissingDataMessage"));
         }
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            throw new IllegalArgumentException(Messages.getMessage("EmptyHandMessage"));
+            throw new IllegalArgumentException(I18n.getMessage("EmptyHandMessage"));
         }
         if (selected.size() > this.hand.size()) {
-            throw new IllegalArgumentException(Messages.getMessage("BadCardSelectionMessage"));
+            throw new IllegalArgumentException(I18n.getMessage("BadCardSelectionMessage"));
         }
     }
 

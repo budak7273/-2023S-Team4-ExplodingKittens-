@@ -1,6 +1,6 @@
 package presentation;
 
-import datasource.Messages;
+import datasource.I18n;
 import system.*;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ public class GameDesigner {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
             throw new InvalidPlayerCountException(
-                    Messages.getMessage("NotEnoughPlayersMessage"));
+                    I18n.getMessage("NotEnoughPlayersMessage"));
         }
 
         initializeGameState(usernames);
@@ -90,17 +90,17 @@ public class GameDesigner {
     }
 
     private static void setupLanguage(Scanner scanner) {
-        System.out.println(Messages.getMessage("ChooseLanguageMessage"));
-        for (Messages language : Messages.values()) {
+        System.out.println(I18n.getMessage("ChooseLanguageMessage"));
+        for (I18n language : I18n.values()) {
             System.out.println(language.localeSummaryString());
         }
         String languageSelection = scanner.nextLine().toLowerCase();
-        Messages.switchLanguage(languageSelection);
+        I18n.switchLanguage(languageSelection);
     }
     private static List<String> setupPlayerUsernames(Scanner scanner) {
         List<String> userNameList = new ArrayList<>();
 
-        System.out.println(Messages.getMessage("EnterPlayer1NameMessage"));
+        System.out.println(I18n.getMessage("EnterPlayer1NameMessage"));
 
         enterPlayerNames(scanner, userNameList);
         return userNameList;
@@ -117,7 +117,7 @@ public class GameDesigner {
             if (nextPlayerCount >= tooManyPlayers) {
                 break;
             }
-            System.out.println(Messages.getMessage("AddAnotherPlayerMessage"));
+            System.out.println(I18n.getMessage("AddAnotherPlayerMessage"));
 
             String response = scanner.nextLine().toLowerCase();
             boolean addAnotherPlayer = (response.equals("y")
@@ -126,8 +126,8 @@ public class GameDesigner {
                 break;
             }
 
-            System.out.println(Messages.getMessage("EnterPlayerMessage")
-                               + nextPlayerCount + Messages
+            System.out.println(I18n.getMessage("EnterPlayerMessage")
+                               + nextPlayerCount + I18n
                     .getMessage("PlayerUsernameMessage"));
             nextPlayerCount++;
         }
@@ -136,17 +136,17 @@ public class GameDesigner {
     private static boolean enterAUsername(Scanner scanner, List<String> userNameList) {
         String username = scanner.nextLine();
         if (userNameList.contains(username)) {
-            System.out.println(Messages.getMessage("DuplicatedUserName"));
+            System.out.println(I18n.getMessage("DuplicatedUserName"));
             return true;
         }
 
         userNameList.add(username);
-        System.out.println(username + Messages.getMessage("PlayerAddedToGameMessage"));
+        System.out.println(username + I18n.getMessage("PlayerAddedToGameMessage"));
         return false;
     }
 
     private static void displayPlayerList(List<String> userNameList) {
-        System.out.println(Messages.getMessage("StartGameMessage"));
+        System.out.println(I18n.getMessage("StartGameMessage"));
         for (String userName : userNameList) {
             System.out.println(userName);
         }

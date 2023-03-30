@@ -4,14 +4,14 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public enum Messages {
+public enum I18n {
     ENGLISH('e', Locale.ENGLISH),
     GERMAN('g', Locale.GERMAN);
     private final char localeRepresentingCharacter;
     private final Locale locale;
     private static Locale currentLocation = Locale.ENGLISH;
 
-    Messages(char localeCharacter, Locale sourceLocale) {
+    I18n(char localeCharacter, Locale sourceLocale) {
         this.localeRepresentingCharacter = localeCharacter;
         this.locale = sourceLocale;
     }
@@ -35,7 +35,7 @@ public enum Messages {
     }
 
     public static void switchLanguage(String language) {
-        for (Messages value : Messages.values()) {
+        for (I18n value : I18n.values()) {
             if (value.localeRepresentingCharacter == language.charAt(0)) {
                 currentLocation = value.locale;
                 return;

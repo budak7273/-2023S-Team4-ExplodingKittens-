@@ -31,9 +31,9 @@ public enum CardType {
     private final String description;
 
     CardType(String displayNameI18nKey, EffectPattern pattern, String descriptionI18nKey) {
-        this.displayName = Messages.getMessage(displayNameI18nKey);
+        this.displayName = I18n.getMessage(displayNameI18nKey);
         this.effectPattern = pattern;
-        this.description = Messages.getMessage(descriptionI18nKey);
+        this.description = I18n.getMessage(descriptionI18nKey);
     }
 
     public EffectPattern getEffectPattern() {
