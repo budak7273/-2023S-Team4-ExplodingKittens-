@@ -53,7 +53,7 @@ public class NotificationPanel extends JPanel {
     public void seeTheFuture(List<Card> future) {
         gameWindow.disableButtons();
         initializePane();
-        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
+        addExitButtonToLayout(Messages.getMessage("Done"),
                 e -> {
         removeAll();
 
@@ -85,7 +85,7 @@ public class NotificationPanel extends JPanel {
             }
             gameWindow.enableButtons();
         };
-        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
+        addExitButtonToLayout(Messages.getMessage("Done"),
                 eventFn);
 
         final Card[] selectedCard = {null};
@@ -132,7 +132,7 @@ public class NotificationPanel extends JPanel {
             lastCard = true;
         }
         if (lastCard) {
-            addExitButtonToLayout(Messages.getMessage(Messages.KITTEN_PLACED),
+            addExitButtonToLayout(Messages.getMessage("KittenPlaced"),
                     e -> {
                         removeAll();
                         gameWindow.addExplodingKittenIntoDeck(0);
@@ -155,15 +155,13 @@ public class NotificationPanel extends JPanel {
 
             gameWindow.updateDisplay();
 
-            addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
+            addExitButtonToLayout(Messages.getMessage("Location"),
                     e -> {
                         String getLocation = (String)
                                 JOptionPane.showInputDialog(
                                     null,
-                                    Messages.getMessage(
-                                            Messages.PLACE_KITTEN),
-                                    Messages.getMessage(
-                                            Messages.KITTEN_PLACED),
+                                    Messages.getMessage("PlaceKitten"),
+                                    Messages.getMessage("KittenPlaced"),
                                     JOptionPane.QUESTION_MESSAGE,
                                     null,
                                     options,
@@ -235,7 +233,7 @@ public class NotificationPanel extends JPanel {
             }
             gameWindow.enableButtons();
         };
-        addExitButtonToLayout(Messages.getMessage(Messages.CONFIRM), eventFn);
+        addExitButtonToLayout(Messages.getMessage("Confirm"), eventFn);
 
         for (User victim : victims) {
             JButton victimBtn = gameWindow.createCardImage(

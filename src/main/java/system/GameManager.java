@@ -37,8 +37,7 @@ public class GameManager {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         if (playerQueue.size() < MIN_PLAYERS
                 || playerQueue.size() > MAX_PLAYERS) {
-            throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
+            throw new IllegalArgumentException(Messages.getMessage("IllegalPlayersMessage"));
         }
     }
 
@@ -66,7 +65,7 @@ public class GameManager {
     public boolean tryToEndGame() {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         if (playerQueue.size() < 1) {
-            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
+            String msg = Messages.getMessage("IllegalPlayersMessage");
             throw new IllegalArgumentException(msg);
         }
         if (playerQueue.size() == 1) {

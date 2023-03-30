@@ -18,8 +18,8 @@ public class CardTesting {
         Object otherObj = 1;
         Assertions.assertFalse(card.equals(otherObj));
 
-        String expectedName = Messages.getMessage(Messages.ATTACK_CARD);
-        String expectedDesc = Messages.getMessage(Messages.ATTACK_DESC);
+        String expectedName = Messages.getMessage("AttackCard");
+        String expectedDesc = Messages.getMessage("AttackDesc");
         Assertions.assertEquals(expectedName, card.getName());
         Assertions.assertEquals(expectedDesc, card.getDesc());
     }

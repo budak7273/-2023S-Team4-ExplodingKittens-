@@ -6,69 +6,34 @@ import system.cardEffects.*;
 import java.util.List;
 
 public enum CardType {
-
-    ATTACK(Messages.getMessage(Messages.ATTACK_CARD),
-            new AttackEffect(),
-            Messages.ATTACK_DESC),
-    EXPLODING_KITTEN(Messages.getMessage(Messages.EXPLODING_KITTEN_CARD),
-            null,
-            Messages.EXPLODING_DESC),
-    DEFUSE(Messages.getMessage(Messages.DEFUSE_CARD),
-            null,
-            Messages.DEFUSE_DESC),
-    SKIP(Messages.getMessage(Messages.SKIP_CARD),
-            new SkipEffect(),
-            Messages.SKIP_DESC),
-    FAVOR(Messages.getMessage(Messages.FAVOR_CARD),
-            new FavorEffect(),
-            Messages.FAVOR_DESC),
-    SHUFFLE(Messages.getMessage(Messages.SHUFFLE_CARD),
-            new ShuffleEffect(),
-            Messages.SHUFFLE_DESC),
-    BEARD_CAT(Messages.getMessage(Messages.BEARD_CAT_CARD),
-            null,
-            Messages.BEARD_CAT_DESC),
-    TACO_CAT(Messages.getMessage(Messages.TACO_CAT_CARD),
-            null,
-            Messages.TACO_CAT_DESC),
-    HAIRY_POTATO_CAT(Messages.getMessage(Messages.HAIRY_POTATO_CAT),
-            null,
-            Messages.HAIRY_POTATO_CAT_DESC),
-    RAINBOW_RALPHING_CAT(Messages.getMessage(Messages.RAINBOW_RALPHING_CAT),
-            null,
-            Messages.RAINBOW_CAT_DESC),
-    CATTERMELON(Messages.getMessage(Messages.CATTERMELON),
-            null,
-            Messages.CATTERMELON_DESC),
-    FERAL_CAT(Messages.getMessage(Messages.FERAL_CAT),
-            null,
-            Messages.FERAL_CAT_DESC),
-    DRAW_FROM_THE_BOTTOM(Messages.getMessage(Messages.DRAW_FROM_THE_BOTTOM),
-            new DrawFromBottomEffect(),
-            Messages.DRAW_FROM_BOTTOM_DESC),
-    NOPE(Messages.getMessage(Messages.NOPE),
-            null,
-            Messages.NOPE_DESC),
-    ALTER_THE_FUTURE(Messages.getMessage(Messages.ALTER_THE_FUTURE),
-            new AlterTheFutureEffect(),
-            Messages.ALTER_DESC),
-    TARGETED_ATTACK(Messages.getMessage(Messages.TARGETED_ATTACK),
-            new TargetedAttackEffect(),
-            Messages.TARGETED_ATTACK_DESC),
-    SEE_THE_FUTURE(Messages.getMessage(Messages.SEE_THE_FUTURE),
-            new SeeTheFutureEffect(),
-            Messages.SEE_DESC);
+    ATTACK("AttackCard", new AttackEffect(), "AttackDesc"),
+    EXPLODING_KITTEN("ExplodingKitten", null, "ExplodingDesc"),
+    DEFUSE("Defuse", null, "DefuseDesc"),
+    SKIP("Skip", new SkipEffect(), "SkipDesc"),
+    FAVOR("Favor", new FavorEffect(), "SkipDesc"),
+    SHUFFLE("Shuffle", new ShuffleEffect(), "ShuffleDesc"),
+    BEARD_CAT("BeardCat", null, "BeardCatDesc"),
+    TACO_CAT("TacoCat", null, "TacoCatDesc"),
+    HAIRY_POTATO_CAT("HairyPotatoCat", null, "HairyPotatoDesc"),
+    RAINBOW_RALPHING_CAT("RainbowRalphingCat", null, "RainbowDesc"),
+    CATTERMELON("Cattermelon", null, "CattermelonDesc"),
+    FERAL_CAT("FeralCat", null, "FeralCatDesc"),
+    DRAW_FROM_THE_BOTTOM("DrawFromTheBottom", new DrawFromBottomEffect(), "DrawFromBottomDesc"),
+    NOPE("Nope", null, "NopeDesc"),
+    ALTER_THE_FUTURE("AlterTheFuture", new AlterTheFutureEffect(), "AlterDesc"),
+    TARGETED_ATTACK("TargetedAttack", new TargetedAttackEffect(), "TargetedAttackDesc"),
+    SEE_THE_FUTURE("SeeTheFuture", new SeeTheFutureEffect(), "SeeTheFutureDesc");
 
     public static final List<String> ENUM_VALUES = Utils.enumValuesToStrings(CardType.class.getEnumConstants());
 
-    private String displayName;
-    private EffectPattern effectPattern;
-    private Messages description;
+    private final String displayName;
+    private final EffectPattern effectPattern;
+    private final String description;
 
-    CardType(String displayNameStr, EffectPattern pattern, Messages desc) {
-        this.displayName = displayNameStr;
+    CardType(String displayNameI18nKey, EffectPattern pattern, String descriptionI18nKey) {
+        this.displayName = Messages.getMessage(displayNameI18nKey);
         this.effectPattern = pattern;
-        this.description = desc;
+        this.description = Messages.getMessage(descriptionI18nKey);
     }
 
     public EffectPattern getEffectPattern() {
@@ -76,7 +41,7 @@ public enum CardType {
     }
 
     public String getDescription() {
-        return Messages.getMessage(description);
+        return this.description;
     }
 
     @Override

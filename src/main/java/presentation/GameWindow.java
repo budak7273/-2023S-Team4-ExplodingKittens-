@@ -114,7 +114,7 @@ public class GameWindow {
             }
         });
         JButton discardPile = createCardImage(
-                Messages.getMessage(Messages.TOP_CARD), "");
+                Messages.getMessage("TopCard"), "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
@@ -145,8 +145,7 @@ public class GameWindow {
 
     private JButton createDeckImage(String desc) {
         JButton deckImage = new JButton("<html><center>"
-                                        + Messages.getMessage(Messages.DRAW_DECK)
-                                        + "<br>"
+                                        + Messages.getMessage("DrawDeck") + "<br>"
                                         + desc + "</center></html>");
         deckImage.setBackground(Color.GREEN);
         this.setEnabledButton(deckImage);
@@ -161,18 +160,12 @@ public class GameWindow {
         JPanel labelPanel = new JPanel();
         JPanel userSelectionPanel = new JPanel();
 
-        JButton modeButton = createButtonImage(
-                Messages.getMessage(
-                        Messages.SWITCH_TO_CAT_MODE));
+        JButton modeButton = createButtonImage(Messages.getMessage("SwitchToCatModeMessage"));
         if (catMode) {
-            modeButton.setText(Messages.getMessage(
-                    Messages.SWITCH_TO_NORMAL_MODE));
+            modeButton.setText(Messages.getMessage("SwitchToNormalModeMessage"));
         }
-        JButton confirmButton = createButtonImage(
-                Messages.getMessage(Messages.CONFIRM));
-        JButton hideButton = createButtonImage(
-                Messages.getMessage(
-                        Messages.SWITCH_TO_SHOW_MODE));
+        JButton confirmButton = createButtonImage(Messages.getMessage("Confirm"));
+        JButton hideButton = createButtonImage(Messages.getMessage("SwitchToShowModeMessage"));
 
         this.setEnabledButton(modeButton);
         this.checkCatModeAccessibility(modeButton);
@@ -183,9 +176,8 @@ public class GameWindow {
         this.setConfirmButtonListener(confirmButton, hideButton);
         this.setEndButtonListener(hideButton);
 
-        JLabel playerNameLabel =
-                new JLabel(Messages.getMessage(Messages.YOUR_TURN)
-                           + " " + gameManager.getUserForCurrentTurn().getName());
+        JLabel playerNameLabel = new JLabel(Messages.getMessage("YourTurnMessage") + " "
+                                            + gameManager.getUserForCurrentTurn().getName());
         playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, fontSize));
         labelPanel.add(playerNameLabel, BorderLayout.WEST);
         p.add(labelPanel);
@@ -226,13 +218,9 @@ public class GameWindow {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (catMode) {
-                    modeButton.setText(
-                            Messages.getMessage(
-                                    Messages.SWITCH_TO_CAT_MODE));
+                    modeButton.setText(Messages.getMessage("SwitchToCatModeMessage"));
                 } else {
-                    modeButton.setText(
-                            Messages.getMessage(
-                                    Messages.SWITCH_TO_NORMAL_MODE));
+                    modeButton.setText(Messages.getMessage("SwitchToNormalModeMessage"));
                 }
                 catMode = !catMode;
             }
@@ -255,7 +243,7 @@ public class GameWindow {
 
             private void handleSelectedCardsInCatMode() {
                 if (getSelectedCards().size() != 2) {
-                    diaplayWrongSelectionPromptInCatMode();
+                    displayWrongSelectionPromptInCatMode();
                     return;
                 }
                 Card c1 = getSelectedCards().get(0);
@@ -273,31 +261,28 @@ public class GameWindow {
                     gameFrame.validate();
                     gameFrame.repaint();
                 } else {
-                    diaplayWrongSelectionPromptInCatMode();
+                    displayWrongSelectionPromptInCatMode();
                 }
             }
 
-            private void diaplayWrongSelectionPromptInCatMode() {
-                String infoMessage = Messages.getMessage(
-                        Messages.WRONG_SELECTION_CAT_MODE);
+            private void displayWrongSelectionPromptInCatMode() {
+                String infoMessage = Messages.getMessage("WrongSelectionCatModeMessage");
                 String titleBar = "InfoBox: Warning";
                 displayInformationalMessage(infoMessage, titleBar);
             }
 
             private void handleSelectedCardsInNormalMode() {
                 if (getSelectedCards().size() != 1) {
-                    String infoMessage = Messages.getMessage(
-                            Messages.WRONG_SELECTION_NORMAL_MODE);
-                    String titleBar = Messages.getMessage(Messages.WARNING);
+                    String infoMessage = Messages.getMessage("WrongSelectionNormalModeMessage");
+                    String titleBar = Messages.getMessage("Warning");
                     displayInformationalMessage(infoMessage, titleBar);
                     return;
                 }
 
                 Card card = getSelectedCards().get(0);
                 if (card.isCatCard()) {
-                    String infoMessage = Messages.getMessage(
-                            Messages.CAT_SELECTION_NORMAL_MODE);
-                    String titleBar = Messages.getMessage(Messages.WARNING);
+                    String infoMessage = Messages.getMessage("CatSelectionNormalModeMessage");
+                    String titleBar = Messages.getMessage("Warning");
                     displayInformationalMessage(infoMessage, titleBar);
                     return;
                 }
@@ -327,16 +312,11 @@ public class GameWindow {
                 if (playerDeckDisplayPanel != null) {
                     if (playerDeckDisplayPanel.isVisible()) {
                         playerDeckDisplayPanel.setVisible(false);
-                        hideButton.setText(
-                                Messages.getMessage(
-                                        Messages.SWITCH_TO_SHOW_MODE));
+                        hideButton.setText(Messages.getMessage("SwitchToShowModeMessage"));
                         updateDisplay();
                     } else {
-
                         playerDeckDisplayPanel.setVisible(true);
-                        hideButton.setText(
-                                Messages.getMessage(
-                                        Messages.SWITCH_TO_HIDE_MODE));
+                        hideButton.setText(Messages.getMessage("SwitchToHideModeMessage"));
                         updateDisplay();
                     }
                 }
@@ -413,15 +393,15 @@ public class GameWindow {
         String deathMessage;
 
         if (victimState) {
-            deathMessage = Messages.getMessage(Messages.PLAYER_LOST_DEFUSE);
+            deathMessage = Messages.getMessage("PlayerLostDefuse");
             DrawDeck deck = gameManager.getDrawDeck();
             notificationPanel.addExplodingKittenBackIntoDeck(deathMessage, deck);
             audioPlayer.playDefused();
         } else {
-            deathMessage = Messages.getMessage(Messages.PLAYER_DIED);
+            deathMessage = Messages.getMessage("PlayerDied");
             audioPlayer.playExplosion();
             gameManager.transitionToNextTurn();
-            notificationPanel.notifyPlayers(deathMessage, Messages.getMessage(Messages.RIP));
+            notificationPanel.notifyPlayers(deathMessage, Messages.getMessage("Rip"));
         }
     }
 
@@ -463,8 +443,8 @@ public class GameWindow {
     }
 
     public String buildNopeMessage(String executingUsername) {
-        return Messages.getMessage(Messages.NOPE_STATUS_MESSAGE) + "<br>"
-               + executingUsername + " " + Messages.getMessage(Messages.WHO_NOPED);
+        return Messages.getMessage("NopeStatusMessage") + "<br>"
+               + executingUsername + " " + Messages.getMessage("WhoNoped");
     }
 
     public void nopeMessage(boolean currentNope, String executingUsername) {
@@ -472,13 +452,13 @@ public class GameWindow {
         if (currentNope) {
             status = buildNopeMessage(executingUsername);
         } else {
-            status = Messages.getMessage(Messages.NOPE_STATUS_MESSAGE_NOT);
+            status = Messages.getMessage("NopeStatusMessageNot");
         }
 
         notificationPanel.notifyPlayers(status, "");
-        notificationPanel.addExitButtonToLayout(Messages.getMessage(Messages.COUNTER_NOPE),
+        notificationPanel.addExitButtonToLayout(Messages.getMessage("counter.nope"),
                                                 e -> tryNope(gameManager.getUserForCurrentTurn()));
-        notificationPanel.addExitButtonToLayout(Messages.getMessage(Messages.NO_MORE_NOPES),
+        notificationPanel.addExitButtonToLayout(Messages.getMessage("no.more.nopes"),
                                                 e -> this.noNopes());
         updateDisplay();
     }
@@ -497,7 +477,7 @@ public class GameWindow {
 
     public void displayWinForUser(User winner) {
         this.gameFrame.dispose();
-        String infoMessage = winner.getName() + Messages.getMessage(Messages.WINNER_MESSAGE);
+        String infoMessage = winner.getName() + Messages.getMessage("WinnerMessage");
         displayInformationalMessage(infoMessage, "");
     }
 
@@ -548,8 +528,8 @@ public class GameWindow {
         try {
             String inputs = (String) JOptionPane.showInputDialog(
                     gameFrame,
-                    Messages.getMessage(Messages.VALID_INDEX),
-                    Messages.getMessage(Messages.STEALING),
+                    Messages.getMessage("ValidIndex"),
+                    Messages.getMessage("Stealing"),
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,
@@ -558,9 +538,8 @@ public class GameWindow {
             result = Integer.parseInt(inputs) - 1;
 
             if (result < 0 || result >= user.getHand().size()) {
-                String infoMessage = Messages.getMessage(
-                        Messages.WRONG_INDEX_ENTERED);
-                String titleBar = Messages.getMessage(Messages.WARNING);
+                String infoMessage = Messages.getMessage("WrongIndexMessage");
+                String titleBar = Messages.getMessage("Warning");
                 displayInformationalMessage(infoMessage, titleBar);
                 result = -1;
             }

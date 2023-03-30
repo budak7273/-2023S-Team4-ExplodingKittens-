@@ -30,7 +30,7 @@ public class AudioPlayer {
                 Player player = new Player(bufferedInputStream);
                 player.play();
             } catch (JavaLayerException | IOException e) {
-                System.err.println(Messages.getMessage(Messages.NO_MUSIC));
+                System.err.println(Messages.getMessage("CouldntPlayMusic"));
             }
         };
         Thread playThread = new Thread(runnablePlay);
