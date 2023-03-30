@@ -34,13 +34,17 @@ public enum I18n {
         return String.format("[%s] - %s", localeRepresentingCharacter, locale.getDisplayName());
     }
 
-    public static void switchLanguage(String language) {
-        for (I18n value : I18n.values()) {
-            if (value.localeRepresentingCharacter == language.charAt(0)) {
-                currentLocation = value.locale;
-                return;
+    public static String switchLanguage(String entry) {
+        for (I18n language : I18n.values()) {
+            boolean localeNameMatch = entry.equalsIgnoreCase(language.locale.getDisplayLanguage());
+            boolean localeCodeMatch = entry.equals(language.locale.getLanguage());
+            boolean exactCharMatch = language.localeRepresentingCharacter == entry.charAt(0);
+            if (exactCharMatch || localeNameMatch || localeCodeMatch) {
+                currentLocation = language.locale;
+                return language.locale.getDisplayLanguage();
             }
         }
-        System.out.println("invalid selection! defaulting to English. ");
+        System.out.println("invalid selection!");
+        return ENGLISH.locale.getDisplayLanguage();
     }
 }
