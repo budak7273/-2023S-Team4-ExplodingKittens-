@@ -253,6 +253,7 @@ public class GameStateUnitTesting {
         EasyMock.replay(gameboard, drawDeck);
 
         gameManager.drawCardForCurrentTurn();
+        gameManager.transitionToNextTurn();
 
         EasyMock.verify(gameboard, drawDeck, currentUser, otherUser);
     }

@@ -39,6 +39,7 @@ class FeatureSixTesting {
         Assertions.assertEquals(currentUser.getName(),
                 "test1");
         gameManager.drawCardForCurrentTurn();
+        gameManager.transitionToNextTurn();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                 "test2");
         Assertions.assertEquals(currentUser.getHand().size(),

@@ -2,7 +2,6 @@ package presentation;
 
 import datasource.I18n;
 import system.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -97,6 +96,17 @@ public class GameWindow {
         return userDisplayPanel;
     }
 
+    private void notifyUserOfCardDrawn() {
+        gameManager.setCardExecutionState(1);
+    }
+
+    public void clearCardDisplay() {
+        gameManager.setCardExecutionState(-1);
+        notificationPanel.removeAll();
+        enableButtons();
+        gameManager.transitionToNextTurn();
+    }
+
     private JPanel generateTableAreaDisplayPanel() {
         JPanel tableAreaDisplayPanel = new JPanel();
         tableAreaDisplayPanel.setLayout(new BorderLayout());
@@ -108,7 +118,19 @@ public class GameWindow {
                 if (gameManager.getCardExecutionState() == -1) {
                     getSelectedCards().clear();
                     notificationPanel.removeAll();
-                    gameManager.drawCardForCurrentTurn();
+                    boolean drawnExploding = gameManager.drawCardForCurrentTurn();
+                    if (!drawnExploding) {
+                        Card drawnCard =
+                                gameManager.getUserForCurrentTurn()
+                                           .getHand()
+                                           .get(gameManager.getUserForCurrentTurn().getHandCount() - 1);
+                        notificationPanel.notifyPlayers("card drawn is " + drawnCard.getName(), "");
+                        notificationPanel.addExitButtonToLayout("Confirm",
+                                                                e2 -> clearCardDisplay());
+                        notificationPanel.updateUI();
+                        disableButtons();
+                        notifyUserOfCardDrawn();
+                    }
                 }
             }
         });

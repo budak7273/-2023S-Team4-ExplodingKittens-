@@ -77,15 +77,14 @@ public class GameManager {
         return false;
     }
 
-    public void drawCardForCurrentTurn() {
+    public boolean drawCardForCurrentTurn() {
         User currentPlayer = gameState.getUserForCurrentTurn();
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(currentPlayer);
         if (drawnExplodingKitten) {
             gameState.getUserForCurrentTurn().attemptToDie();
             gameWindow.explosionNotification(gameState.getUserForCurrentTurn().isAlive());
-        } else {
-            transitionToNextTurn();
         }
+       return drawnExplodingKitten;
     }
 
     public void checkExplodingKitten() {
