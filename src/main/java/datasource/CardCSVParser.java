@@ -63,21 +63,21 @@ public class CardCSVParser {
             return new Scanner(csvFile, "UTF-8");
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.COULD_NOT_GENERATE));
+                    I18n.getMessage("CouldNotGenerateMessage"));
         }
     }
 
     private void verifyPropertyLength(String[] cardProperties) {
         if (cardProperties.length != 2) {
             throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.MISSING_DATA));
+                    I18n.getMessage("MissingDataMessage"));
         }
     }
 
     private void verifyCardCount(int cardCount) {
         if (cardCount != MAX_CARD_COUNT) {
-            throw new IllegalArgumentException(Messages
-                    .getMessage(Messages.BAD_NUMBER_OF_CARDS));
+            throw new IllegalArgumentException(I18n
+                    .getMessage("BadNumberOfCardsMessage"));
         }
     }
 
@@ -86,9 +86,9 @@ public class CardCSVParser {
         Set<String> allCardTypes = Collections.unmodifiableSet(new HashSet<>(CardType.ENUM_VALUES));
         System.out.println(allCardTypes);
         if (!allCardTypes.contains(cardTypeName)) {
-            throw new IllegalArgumentException(Messages
-                    .getMessage(Messages.INVALID_CARD_TYPE) + cardTypeName
-                    + Messages.getMessage(Messages.FOUND_IN_FILE));
+            throw new IllegalArgumentException(I18n
+                    .getMessage("InvalidCardTypeMessage") + cardTypeName
+                                               + I18n.getMessage("FoundInFileMessage"));
         }
     }
 }

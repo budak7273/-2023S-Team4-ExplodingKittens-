@@ -1,7 +1,7 @@
 package system;
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 
 import java.util.*;
 
@@ -22,8 +22,7 @@ public class DrawDeck {
 
     public boolean drawCard(final User drawingUser) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
         }
         Card drawnCard = cards.pop();
 
@@ -37,8 +36,7 @@ public class DrawDeck {
 
     public boolean drawFromBottomForUser(final User currentUser) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
         }
         Card drawnCard = cards.removeLast();
 
@@ -52,8 +50,7 @@ public class DrawDeck {
 
     public List<Card> drawThreeCardsFromTop() {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
         }
 
         ArrayList<Card> top = new ArrayList<>();

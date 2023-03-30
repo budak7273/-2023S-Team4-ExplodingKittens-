@@ -1,7 +1,7 @@
 package presentation;
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 import system.Card;
 import system.DrawDeck;
 import system.User;
@@ -53,7 +53,7 @@ public class NotificationPanel extends JPanel {
     public void seeTheFuture(List<Card> future) {
         gameWindow.disableButtons();
         initializePane();
-        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
+        addExitButtonToLayout(I18n.getMessage("Done"),
                 e -> {
         removeAll();
 
@@ -85,8 +85,7 @@ public class NotificationPanel extends JPanel {
             }
             gameWindow.enableButtons();
         };
-        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
-                eventFn);
+        addExitButtonToLayout(I18n.getMessage("Done"), eventFn);
 
         final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {
@@ -132,7 +131,7 @@ public class NotificationPanel extends JPanel {
             lastCard = true;
         }
         if (lastCard) {
-            addExitButtonToLayout(Messages.getMessage(Messages.KITTEN_PLACED),
+            addExitButtonToLayout(I18n.getMessage("KittenPlaced"),
                     e -> {
                         removeAll();
                         gameWindow.addExplodingKittenIntoDeck(0);
@@ -155,19 +154,17 @@ public class NotificationPanel extends JPanel {
 
             gameWindow.updateDisplay();
 
-            addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
+            addExitButtonToLayout(I18n.getMessage("Location"),
                     e -> {
                         String getLocation = (String)
                                 JOptionPane.showInputDialog(
-                                    null,
-                                    Messages.getMessage(
-                                            Messages.PLACE_KITTEN),
-                                    Messages.getMessage(
-                                            Messages.KITTEN_PLACED),
-                                    JOptionPane.QUESTION_MESSAGE,
-                                    null,
-                                    options,
-                                    options[0]);
+                                        null,
+                                        I18n.getMessage("PlaceKitten"),
+                                        I18n.getMessage("KittenPlaced"),
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        options,
+                                        options[0]);
 
                         removeAll();
                         gameWindow.addExplodingKittenIntoDeck(
@@ -235,7 +232,7 @@ public class NotificationPanel extends JPanel {
             }
             gameWindow.enableButtons();
         };
-        addExitButtonToLayout(Messages.getMessage(Messages.CONFIRM), eventFn);
+        addExitButtonToLayout(I18n.getMessage("Confirm"), eventFn);
 
         for (User victim : victims) {
             JButton victimBtn = gameWindow.createCardImage(

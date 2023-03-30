@@ -1,7 +1,7 @@
 package system.UnitTesting;
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,8 +18,8 @@ public class CardTesting {
         Object otherObj = 1;
         Assertions.assertFalse(card.equals(otherObj));
 
-        String expectedName = Messages.getMessage(Messages.ATTACK_CARD);
-        String expectedDesc = Messages.getMessage(Messages.ATTACK_DESC);
+        String expectedName = I18n.getMessage("AttackCard");
+        String expectedDesc = I18n.getMessage("AttackDesc");
         Assertions.assertEquals(expectedName, card.getName());
         Assertions.assertEquals(expectedDesc, card.getDesc());
     }

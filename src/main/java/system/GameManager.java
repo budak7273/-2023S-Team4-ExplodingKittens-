@@ -1,6 +1,6 @@
 package system;
 
-import datasource.Messages;
+import datasource.I18n;
 import presentation.GameWindow;
 import java.util.List;
 import java.util.Queue;
@@ -39,8 +39,7 @@ public class GameManager {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         if (playerQueue.size() < MIN_PLAYERS
                 || playerQueue.size() > MAX_PLAYERS) {
-            throw new IllegalArgumentException(
-                    Messages.getMessage(Messages.ILLEGAL_PLAYERS));
+            throw new IllegalArgumentException(I18n.getMessage("IllegalPlayersMessage"));
         }
     }
 
@@ -68,7 +67,7 @@ public class GameManager {
     public boolean tryToEndGame() {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         if (playerQueue.size() < 1) {
-            String msg = Messages.getMessage(Messages.ILLEGAL_PLAYERS);
+            String msg = I18n.getMessage("IllegalPlayersMessage");
             throw new IllegalArgumentException(msg);
         }
         if (playerQueue.size() == 1) {
