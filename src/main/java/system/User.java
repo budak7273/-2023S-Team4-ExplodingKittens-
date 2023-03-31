@@ -2,7 +2,7 @@ package system;
 
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 
 import java.util.*;
 
@@ -39,12 +39,16 @@ public class User {
         toReturn.addAll(this.hand);
         return toReturn;
     }
-
+    public Integer getHandCount() {
+        return this.hand.size();
+    }
     public void addCard(Card drawnCard) {
 
         this.hand.add(drawnCard);
     }
-
+    public Card getLastCardInHand() {
+        return this.getHand().get(this.getHandCount() - 1);
+    }
     public void removeCard(Card drawnCard) {
         this.hand.remove(drawnCard);
     }
@@ -118,6 +122,7 @@ public class User {
             if (!c.isCatCard()) {
                 return false;
             }
+
             CardType type1 = first.getType();
             CardType type2 = c.getType();
             if (type1 != type2 && type1 != CardType.FERAL_CAT
@@ -134,25 +139,18 @@ public class User {
     }
 
     public void verifyCardsSelected(final List<Card> selected) {
-        String msg;
         if (selected == null) {
-            msg = Messages.getMessage(Messages.MISSING_DATA);
-            throw new IllegalArgumentException(msg);
+            throw new IllegalArgumentException(I18n.getMessage("MissingDataMessage"));
         }
         if (this.hand.isEmpty() && !selected.isEmpty()) {
-            msg = Messages.getMessage(Messages.EMPTY_HAND);
-            throw new IllegalArgumentException(msg);
+            throw new IllegalArgumentException(I18n.getMessage("EmptyHandMessage"));
         }
         if (selected.size() > this.hand.size()) {
-            msg = Messages.getMessage(Messages.BAD_CARD_SELECTION);
-            throw new IllegalArgumentException(msg);
+            throw new IllegalArgumentException(I18n.getMessage("BadCardSelectionMessage"));
         }
     }
 
     public boolean checkCatPairMatch(Card card1, Card card2) {
-        List<Card> pairList = new ArrayList<>();
-        pairList.add(card1);
-        pairList.add(card2);
-        return verifyEffectForCardsSelected(pairList);
+        return verifyEffectForCardsSelected(Arrays.asList(card1, card2));
     }
 }

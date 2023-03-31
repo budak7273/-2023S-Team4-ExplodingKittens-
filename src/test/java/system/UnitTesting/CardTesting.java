@@ -1,12 +1,15 @@
 package system.UnitTesting;
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import system.Card;
+import system.DrawDeck;
+import system.GameManager;
 import system.GameState;
+import system.User;
 
 public class CardTesting {
     @Test
@@ -15,8 +18,8 @@ public class CardTesting {
         Object otherObj = 1;
         Assertions.assertFalse(card.equals(otherObj));
 
-        String expectedName = Messages.getMessage(Messages.ATTACK_CARD);
-        String expectedDesc = Messages.getMessage(Messages.ATTACK_DESC);
+        String expectedName = I18n.getMessage("AttackCard");
+        String expectedDesc = I18n.getMessage("AttackDesc");
         Assertions.assertEquals(expectedName, card.getName());
         Assertions.assertEquals(expectedDesc, card.getDesc());
     }
@@ -68,20 +71,26 @@ public class CardTesting {
 
     @Test
     public void testActivateEffectOnAttackCard() {
+        GameManager gameManager = EasyMock.createMock(GameManager.class);
         GameState gameState = EasyMock.createMock(GameState.class);
+        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
+        User user = EasyMock.createMock(User.class);
         Card cardToRemove = new Card(CardType.ATTACK);
 
-        gameState.removeCardFromCurrentUser(cardToRemove);
+        gameManager.removeCardFromCurrentUser(cardToRemove);
         EasyMock.expectLastCall();
-        gameState.transitionToNextTurn();
+        EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
         EasyMock.expectLastCall();
+        EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
         gameState.addExtraTurn();
+        gameManager.transitionToNextTurn();
         EasyMock.expectLastCall();
-        EasyMock.replay(gameState);
+        EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
+        EasyMock.replay(gameManager, gameState, user, drawDeck);
 
-        cardToRemove.activateEffect(gameState);
+        cardToRemove.activateEffect(gameManager);
 
-        EasyMock.verify(gameState);
+        EasyMock.verify(gameManager, gameState, user, drawDeck);
     }
 
 }

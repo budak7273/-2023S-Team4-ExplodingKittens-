@@ -5,7 +5,7 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import presentation.GamePlayer;
+import presentation.GameWindow;
 import system.*;
 
 import java.util.ArrayList;
@@ -481,19 +481,20 @@ public class UserUnitTesting {
         targetUser.addCard(c);
         pq.add(targetUser);
 
-        GamePlayer gp = EasyMock.createMock(GamePlayer.class);
-        EasyMock.expect(gp.inputForStealCard(targetUser)).andReturn(0);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        EasyMock.expect(gw.inputForStealCard(targetUser)).andReturn(0);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
 
-        EasyMock.replay(gp);
+        EasyMock.replay(gw);
         EasyMock.replay(deckMock);
-        GameState gameState = new GameState(pq, gp, deckMock);
-        gameState.executeFavorOn(targetUser);
+        GameState gameState = new GameState(pq, deckMock);
+        GameManager gameManager = new GameManager(gameState, gw);
+        gameManager.executeFavorOn(targetUser);
 
         Assertions.assertFalse(targetUser.getHand().contains(c));
         Assertions.assertEquals(0, targetUser.getHand().size());
 
-        EasyMock.verify(gp);
+        EasyMock.verify(gw);
         EasyMock.verify(deckMock);
     }
 

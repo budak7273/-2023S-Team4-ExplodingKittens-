@@ -1,6 +1,6 @@
 package presentation;
 
-import datasource.Messages;
+import datasource.I18n;
 import system.*;
 
 import javax.swing.*;
@@ -8,17 +8,14 @@ import java.io.File;
 import java.util.*;
 
 public class GameDesigner {
-
     private Queue<User> users;
-
-    private GamePlayer gamePlayer;
-
+    private GameWindow gameWindow;
     private JFrame gameFrame;
+    private static final int MAX_PLAYER_COUNT = 10;
+    private static final int MIN_PLAYER_COUNT = 2;
 
     public GameDesigner(JFrame frame) {
-        this.gameFrame = frame;
-        this.users = new ArrayDeque<>();
-
+        this(new ArrayDeque<>(), frame);
     }
 
     public GameDesigner(Queue<User> usersQueue, JFrame frame) {
@@ -34,7 +31,7 @@ public class GameDesigner {
         List<String> usernames = readUserInfo();
         if (usernames.size() == 1) {
             throw new InvalidPlayerCountException(
-                    Messages.getMessage(Messages.NOT_ENOUGH_PLAYERS));
+                    I18n.getMessage("NotEnoughPlayersMessage"));
         }
 
         initializeGameState(usernames);
@@ -47,94 +44,107 @@ public class GameDesigner {
      * @return a list of Strings that represent the current User's name
      */
     public static List<String> readUserInfo() {
-        List<String> userNameList = new ArrayList<>();
-        int nextPlayerCount = 2;
-        final int tooManyPlayers = 11;
-        System.out.print(Messages.getMessage(Messages.CHOOSE_LANGUAGE));
+        List<String> userNameList;
         Scanner scanner = new Scanner(System.in, "UTF-8");
-        String languageSelection = scanner.next().toLowerCase();
-        boolean useGermanLanguage = (languageSelection.equals("g"));
 
-        if (useGermanLanguage) {
-            Messages.switchLanguageToGerman();
-        }
-        System.out.println(Messages
-                .getMessage(Messages.ENTER_PLAYER_1_NAME));
+        setupLanguage(scanner);
 
+        userNameList = setupPlayerUsernames(scanner);
 
-        while (scanner.hasNext()) {
-            String username = scanner.next();
-            if (userNameList.contains(username)) {
-                System.out.println(Messages.getMessage(
-                        Messages.DUPLICATED_USERNAME));
-                continue;
-            }
+        displayPlayerList(userNameList);
 
-            userNameList.add(username);
-            System.out.println(username + Messages
-                    .getMessage(Messages.PLAYER_ADDED_TO_GAME));
-
-            if (nextPlayerCount >= tooManyPlayers) {
-                break;
-            }
-            System.out.println(Messages.getMessage(
-                    Messages.ADD_ANOTHER_PLAYER));
-
-            String response = scanner.next().toLowerCase();
-            boolean addAnotherPlayer = (response.equals("y")
-                    || response.equals("j"));
-            if (!addAnotherPlayer) {
-                break;
-            }
-
-            System.out.println(Messages.getMessage(Messages.ENTER_PLAYER)
-                    + nextPlayerCount + Messages
-                    .getMessage(Messages.PLAYER_USERNAME));
-            nextPlayerCount++;
-        }
-
-        System.out.println(Messages.getMessage(Messages.START_GAME));
-        for (String userName : userNameList) {
-            System.out.println(userName);
-        }
         scanner.close();
         return userNameList;
     }
 
     public void initializeGameState(final List<String> usernames) {
-        Setup setup = new Setup(usernames.size());
+        Setup setup = new Setup(usernames.size(), new Random());
         users = setup.createUsers(usernames);
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(users, drawDeck);
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
-        gamePlayer = new GamePlayer(gameFrame);
-        final GameState gameState = new GameState(users,
-                gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
-        AudioPlayer.playMusicOnStartup();
-        gamePlayer.updateUI();
+        gameWindow = new GameWindow(gameFrame, false);
+        final GameState gameState = new GameState(users, drawDeck);
+        final GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
     }
 
     /**
      * These methods should only be used for Integration Testing
-     *
-     * @return
      */
-    public void initializeGameState() {
-        Setup setup = new Setup(users.size());
+    public void initializeGameState(Random random) {
+        Setup setup = new Setup(users.size(), random);
         String path = "src/main/resources/cards.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
         setup.dealHands(this.users, drawDeck);
-        gamePlayer = new GamePlayer(gameFrame);
-        GameState gameState = new GameState(this.users, gamePlayer, drawDeck);
-        gamePlayer.setGameState(gameState);
-        gamePlayer.updateUI();
+        gameWindow = new GameWindow(gameFrame, true);
+        GameState gameState = new GameState(this.users, drawDeck);
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
     }
 
-    public GamePlayer getGamePlayer() {
-        return this.gamePlayer;
+    public GameWindow getGameWindow() {
+        return this.gameWindow;
     }
 
+    private static void setupLanguage(Scanner scanner) {
+        System.out.println(I18n.getMessage("ChooseLanguageMessage"));
+        for (I18n language : I18n.values()) {
+            System.out.println(language.localeSummaryString());
+        }
+        String languageSelection = scanner.nextLine().toLowerCase();
+        String selected = I18n.switchLanguage(languageSelection);
+        System.out.println(I18n.getMessage("LanguageSelected") + " " + selected);
+    }
+
+    private static List<String> setupPlayerUsernames(Scanner scanner) {
+        List<String> userNameList = new ArrayList<>();
+        enterPlayerNames(scanner, userNameList);
+        return userNameList;
+    }
+
+    private static void enterPlayerNames(Scanner scanner, List<String> userNameList) {
+        boolean addMorePlayers = true;
+        while (addMorePlayers) {
+            int nextPlayerCount = userNameList.size() + 1;
+            System.out.println(I18n.getMessage("EnterPlayerMessage")
+                               + nextPlayerCount + I18n
+                                       .getMessage("PlayerUsernameMessage"));
+            userNameList.add(collectUsername(scanner, userNameList));
+
+            if (nextPlayerCount > MAX_PLAYER_COUNT) {
+                addMorePlayers = false;
+            } else if (nextPlayerCount >= MIN_PLAYER_COUNT) {
+                System.out.println(I18n.getMessage("AddAnotherPlayerMessage"));
+
+                String response = scanner.nextLine().toLowerCase();
+                addMorePlayers = response.equals("y") || response.equals("j");
+            }
+        }
+    }
+
+    private static String collectUsername(Scanner scanner, List<String> userNameList) {
+        String selectedUsername = null;
+        do {
+            String input = scanner.nextLine();
+            if (userNameList.contains(input)) {
+                System.out.println(I18n.getMessage("DuplicatedUserName"));
+            } else {
+                System.out.println(input + I18n.getMessage("PlayerAddedToGameMessage"));
+                selectedUsername = input;
+            }
+        } while (selectedUsername == null);
+        return selectedUsername;
+    }
+
+    private static void displayPlayerList(List<String> userNameList) {
+        System.out.println(I18n.getMessage("StartGameMessage"));
+        for (String userName : userNameList) {
+            System.out.println(userName);
+        }
+    }
 }

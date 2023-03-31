@@ -17,17 +17,18 @@ public class Card {
         return this.cardType;
     }
 
-    public void activateEffect(GameState gameState) {
-        gameState.removeCardFromCurrentUser(new Card(cardType));
-        cardType.getEffectPattern().useEffect(gameState);
+    public void activateEffect(GameManager gameManager) {
+        gameManager.removeCardFromCurrentUser(new Card(cardType));
+        cardType.getEffectPattern().setCurrentState(gameManager);
+        cardType.getEffectPattern().useEffect();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Card)) {
-            return false;
+        if (o instanceof Card) {
+            return cardType.equals(((Card) o).cardType);
         }
-        return cardType.equals(((Card) o).cardType);
+       return false;
     }
 
     @Override
@@ -36,18 +37,10 @@ public class Card {
     }
 
     public boolean isCatCard() {
-        if (this.cardType == CardType.HAIRY_POTATO_CAT
-                || this.cardType == CardType.BEARD_CAT
-                || this.cardType == CardType.CATTERMELON
-                || this.cardType == CardType.TACO_CAT
-                || this.cardType == CardType.RAINBOW_RALPHING_CAT
-                || this.cardType == CardType.FERAL_CAT) {
-            return true;
-        }
-        return false;
+        return this.cardType.getIsCatCard();
     }
 
     public String getDesc() {
-        return cardType.getDescription();
+        return this.cardType.getDescription();
     }
 }

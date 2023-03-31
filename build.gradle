@@ -14,11 +14,64 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    // https://mvnrepository.com/artifact/org.easymock/easymock
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0', 'org.easymock:easymock:3.1'
+    testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'javazoom:jlayer:1.0.1'
+}
+
+test {
+    // Allows for dynamic exclude through property defined in the build.gradle file
+    // Used to leave out integration tests in CI since they currently call GUI code -> fails on HeadlessException
+    // https://blog.jdriven.com/2017/10/run-one-or-exclude-one-test-with-gradle/
+    test {
+        if (project.hasProperty('excludeTests')) {
+            exclude project.property('excludeTests')
+        }
+    }
+    useJUnitPlatform()
+}
+
+// Checkstyle plugin
+checkstyle {
+    toolVersion '8.41'
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+    source ='src/main/java'
+}
+checkstyleTest {
+    source ='src/test/java'
+}
+
+[spotbugsMain, spotbugsTest].each { task ->
+    task.configure {
+        reports {
+            html {
+                enabled = true
+                stylesheet = 'fancy-hist.xsl'
+            }
+        }
+    }
+}
+
+pitest {
+    targetClasses = ['system.*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+    junit5PluginVersion = '0.12'
+    verbose = true
+}
+
 jacoco {
     toolVersion = "0.7.5.+"
 }
 
 jacocoTestReport {
+    dependsOn test
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
 
@@ -27,18 +80,6 @@ jacocoTestReport {
         csv.enabled false
         html.enabled true
     }
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-    implementation 'javazoom:jlayer:1.0.1'
-    // https://mvnrepository.com/artifact/org.easymock/easymock
-    testImplementation 'org.easymock:easymock:3.1'
-}
-
-test {
-    useJUnitPlatform()
 }
 
 test.finalizedBy(jacocoTestReport)
@@ -66,23 +107,3 @@ task codeCoverageInfo (dependsOn: jacocoTestReport) {
     }
 }
 jacocoTestReport.finalizedBy(codeCoverageInfo)
-
-[spotbugsMain, spotbugsTest].each { task ->
-    task.configure {
-        reports {
-            html {
-                enabled = true
-                stylesheet = 'fancy-hist.xsl'
-            }
-        }
-    }
-}
-
-pitest {
-    targetClasses = ['system.*']
-    threads = 4
-    outputFormats = ['XML', 'HTML']
-    timestampedReports = false
-    junit5PluginVersion = '0.12'
-    verbose = true
-}

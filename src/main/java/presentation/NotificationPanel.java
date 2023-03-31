@@ -1,7 +1,7 @@
 package presentation;
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 import system.Card;
 import system.DrawDeck;
 import system.User;
@@ -17,13 +17,13 @@ public class NotificationPanel extends JPanel {
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
     private final ArrayList<Card> cardOrder = new ArrayList<>();
-    private final GamePlayer gamePlayer;
+    private final GameWindow gameWindow;
     private JPanel contentPanel;
     private JPanel buttonPanel;
 
-    public NotificationPanel(GamePlayer player) {
+    public NotificationPanel(GameWindow player) {
         super();
-        this.gamePlayer = player;
+        this.gameWindow = player;
         constructBaseLayout();
     }
 
@@ -51,22 +51,22 @@ public class NotificationPanel extends JPanel {
     }
 
     public void seeTheFuture(List<Card> future) {
-        gamePlayer.disableButtons();
+        gameWindow.disableButtons();
         initializePane();
-        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
+        addExitButtonToLayout(I18n.getMessage("Done"),
                 e -> {
         removeAll();
 
             if (cardOrder.size() > 0) {
-                gamePlayer.returnFutureCards(cardOrder);
+                gameWindow.returnFutureCards(cardOrder);
                 cardOrder.clear();
             }
-            gamePlayer.enableButtons();
+            gameWindow.enableButtons();
         });
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
-            JButton futureCard = gamePlayer.createCardImage(
+            JButton futureCard = gameWindow.createCardImage(
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             contentPanel.add(futureCard);
@@ -74,24 +74,23 @@ public class NotificationPanel extends JPanel {
     }
 
     public void alterTheFuture(List<Card> future) {
-        gamePlayer.disableButtons();
+        gameWindow.disableButtons();
         initializePane();
         ActionListener eventFn = e -> {
             removeAll();
 
             if (cardOrder.size() > 0) {
-                gamePlayer.returnFutureCards(cardOrder);
+                gameWindow.returnFutureCards(cardOrder);
                 cardOrder.clear();
             }
-            gamePlayer.enableButtons();
+            gameWindow.enableButtons();
         };
-        addExitButtonToLayout(Messages.getMessage(Messages.DONE),
-                eventFn);
+        addExitButtonToLayout(I18n.getMessage("Done"), eventFn);
 
         final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
-            JButton futureCard = gamePlayer.createCardImage(
+            JButton futureCard = gameWindow.createCardImage(
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
@@ -114,7 +113,7 @@ public class NotificationPanel extends JPanel {
             contentPanel.add(futureCard);
         }
 
-        gamePlayer.updateDisplay();
+        gameWindow.updateDisplay();
     }
 
     public void displayTargetedAttackPrompt(List<User> victims) {
@@ -123,7 +122,7 @@ public class NotificationPanel extends JPanel {
 
     public void addExplodingKittenBackIntoDeck(String contentMessage,
                                                DrawDeck deck) {
-        gamePlayer.disableButtons();
+        gameWindow.disableButtons();
         initializePane();
         boolean lastCard = false;
         int size = deck.getDeckSize();
@@ -132,11 +131,11 @@ public class NotificationPanel extends JPanel {
             lastCard = true;
         }
         if (lastCard) {
-            addExitButtonToLayout(Messages.getMessage(Messages.KITTEN_PLACED),
+            addExitButtonToLayout(I18n.getMessage("KittenPlaced"),
                     e -> {
                         removeAll();
-                        gamePlayer.addExplodingKittenIntoDeck(0);
-                        gamePlayer.enableButtons();
+                        gameWindow.addExplodingKittenIntoDeck(0);
+                        gameWindow.enableButtons();
                     });
         } else {
             String[] options = new String[size];
@@ -153,29 +152,27 @@ public class NotificationPanel extends JPanel {
             content.setOpaque(true);
             content.setBackground(Color.CYAN);
 
-            gamePlayer.updateDisplay();
+            gameWindow.updateDisplay();
 
-            addExitButtonToLayout(Messages.getMessage(Messages.LOCATION),
+            addExitButtonToLayout(I18n.getMessage("Location"),
                     e -> {
                         String getLocation = (String)
                                 JOptionPane.showInputDialog(
-                                    null,
-                                    Messages.getMessage(
-                                            Messages.PLACE_KITTEN),
-                                    Messages.getMessage(
-                                            Messages.KITTEN_PLACED),
-                                    JOptionPane.QUESTION_MESSAGE,
-                                    null,
-                                    options,
-                                    options[0]);
+                                        null,
+                                        I18n.getMessage("PlaceKitten"),
+                                        I18n.getMessage("KittenPlaced"),
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        options,
+                                        options[0]);
 
                         removeAll();
-                        gamePlayer.addExplodingKittenIntoDeck(
+                        gameWindow.addExplodingKittenIntoDeck(
                                 Integer.parseInt(getLocation));
-                        gamePlayer.enableButtons();
+                        gameWindow.enableButtons();
                     });
         }
-        gamePlayer.updateDisplay();
+        gameWindow.updateDisplay();
     }
 
     public void notifyPlayers(String contentMessage, String doneMessage) {
@@ -191,7 +188,7 @@ public class NotificationPanel extends JPanel {
         content.setOpaque(true);
         content.setBackground(Color.CYAN);
 
-        gamePlayer.updateDisplay();
+        gameWindow.updateDisplay();
     }
 
     private void initializePane() {
@@ -202,7 +199,7 @@ public class NotificationPanel extends JPanel {
     @Override
     public void removeAll() {
         super.removeAll();
-        gamePlayer.updateDisplay();
+        gameWindow.updateDisplay();
     }
 
     public void displayFavorPrompt(List<User> victims) {
@@ -216,7 +213,7 @@ public class NotificationPanel extends JPanel {
 
     private void displaySingleSelectionPrompt(
             List<User> victims, CardType type) {
-        gamePlayer.disableButtons();
+        gameWindow.disableButtons();
         initializePane();
 
         final User[] selectedVictim = {null};
@@ -227,18 +224,18 @@ public class NotificationPanel extends JPanel {
             }
             removeAll();
             if (type == CardType.FAVOR) {
-                gamePlayer.triggerFavorOn(selectedVictim[0]);
+                gameWindow.triggerFavorOn(selectedVictim[0]);
             } else if (type == CardType.FERAL_CAT) {
-                gamePlayer.triggerCatStealOn(selectedVictim[0]);
+                gameWindow.triggerCatStealOn(selectedVictim[0]);
             } else {
-                gamePlayer.triggerTargetedAttackOn(selectedVictim[0]);
+                gameWindow.triggerTargetedAttackOn(selectedVictim[0]);
             }
-            gamePlayer.enableButtons();
+            gameWindow.enableButtons();
         };
-        addExitButtonToLayout(Messages.getMessage(Messages.CONFIRM), eventFn);
+        addExitButtonToLayout(I18n.getMessage("Confirm"), eventFn);
 
         for (User victim : victims) {
-            JButton victimBtn = gamePlayer.createCardImage(
+            JButton victimBtn = gameWindow.createCardImage(
                     victim.getName(), "");
 
             if (type == CardType.FAVOR && victim.isEmptyHand()) {
@@ -256,7 +253,7 @@ public class NotificationPanel extends JPanel {
             contentPanel.add(victimBtn);
         }
 
-        gamePlayer.updateDisplay();
+        gameWindow.updateDisplay();
     }
 
 

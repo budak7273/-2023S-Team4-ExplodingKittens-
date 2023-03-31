@@ -1,10 +1,13 @@
 package system.cardEffects;
 
-import system.GameState;
+import system.User;
+import java.util.List;
 
-public class TargetedAttackEffect implements EffectPattern {
+public class TargetedAttackEffect extends EffectPattern {
+
     @Override
-    public void useEffect(GameState gameState) {
-        gameState.triggerDisplayOfTargetedAttackPrompt();
+    public void useEffect() {
+        List<User> targets = getCurrentState().getTargetsForCardEffects();
+        getGameManager().triggerDisplayOfTargetedAttackPrompt(targets);
     }
 }

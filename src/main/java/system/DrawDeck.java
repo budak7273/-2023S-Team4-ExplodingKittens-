@@ -1,23 +1,28 @@
 package system;
 
 import datasource.CardType;
-import datasource.Messages;
+import datasource.I18n;
 
 import java.util.*;
 
 public class DrawDeck {
+    private final Random random;
     private Deque<Card> cards;
 
+    public DrawDeck(List<Card> cardList, Random inputRandom) {
+        this.cards = new LinkedList<>(cardList);
+        this.random = inputRandom;
+    }
+
+    // For tests that do not care about the random seed
     public DrawDeck(List<Card> cardList) {
-        Deque<Card> cardsCopy = new LinkedList<>();
-        cardsCopy.addAll(cardList);
-        cards = cardsCopy;
+        this.cards = new LinkedList<>(cardList);
+        this.random = new Random();
     }
 
     public boolean drawCard(final User drawingUser) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
         }
         Card drawnCard = cards.pop();
 
@@ -31,8 +36,7 @@ public class DrawDeck {
 
     public boolean drawFromBottomForUser(final User currentUser) {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
         }
         Card drawnCard = cards.removeLast();
 
@@ -46,8 +50,7 @@ public class DrawDeck {
 
     public List<Card> drawThreeCardsFromTop() {
         if (cards.isEmpty()) {
-            String msg = Messages.getMessage(Messages.EMPTY_DRAW_DECK);
-            throw new RuntimeException(msg);
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
         }
 
         ArrayList<Card> top = new ArrayList<>();
@@ -65,7 +68,7 @@ public class DrawDeck {
     }
 
     public boolean shuffle() {
-        Collections.shuffle((LinkedList<Card>) this.cards);
+        Collections.shuffle((LinkedList<Card>) this.cards, random);
         return true;
     }
 
