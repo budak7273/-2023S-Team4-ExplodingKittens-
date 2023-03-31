@@ -1,5 +1,6 @@
 package presentation;
 
+import datasource.CardType;
 import datasource.I18n;
 import system.*;
 import javax.swing.*;
@@ -301,6 +302,20 @@ public class GameWindow {
                 Card card = getSelectedCards().get(0);
                 if (card.isCatCard()) {
                     String infoMessage = I18n.getMessage("CatSelectionNormalModeMessage");
+                    String titleBar = I18n.getMessage("Warning");
+                    displayInformationalMessage(infoMessage, titleBar);
+                    return;
+                }
+
+                if (card.getType() == CardType.DEFUSE) {
+                    String infoMessage = I18n.getMessage("DefuseWithoutExplodingKittenMessage");
+                    String titleBar = I18n.getMessage("Warning");
+                    displayInformationalMessage(infoMessage, titleBar);
+                    return;
+                }
+
+                if (card.getType() == CardType.NOPE) {
+                    String infoMessage = I18n.getMessage("NopeDuringNormalTurnMessage");
                     String titleBar = I18n.getMessage("Warning");
                     displayInformationalMessage(infoMessage, titleBar);
                     return;
