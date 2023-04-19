@@ -29,8 +29,11 @@ public class User {
         this.hand = playerHand;
     }
 
-    public String getName() {
+    public Card getCardFromHand(int index) {
+        return this.hand.get(index);
+    }
 
+    public String getName() {
         return this.name;
     }
 
@@ -47,13 +50,7 @@ public class User {
         this.hand.add(drawnCard);
     }
 
-    public void removeCard(Card drawnCard) {
-        this.hand.remove(drawnCard);
-    }
-
-    public Card removeHand(int index) {
-        return this.hand.remove(index);
-    }
+    public void removeCard(Card cardToRemove) { this.hand.remove(cardToRemove); }
 
     public boolean isAlive() {
         return this.alive;

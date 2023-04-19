@@ -694,7 +694,8 @@ public class GameStateUnitTesting {
             pq.add(user);
         }
         User targetUser = EasyMock.createMock(User.class);
-        EasyMock.expect(targetUser.removeHand(0)).andReturn(cardToGive);
+        EasyMock.expect(targetUser.getCardFromHand(0)).andReturn(cardToGive);
+        targetUser.removeCard(cardToGive);
         EasyMock.replay(targetUser);
         pq.add(targetUser);
 

@@ -141,13 +141,16 @@ public class GameManager {
         while (i == -1) {
             i = gameWindow.inputForStealCard(user);
         }
-        Card stealCard = user.removeHand(i);
+        Card stealCard = user.getCardFromHand(i);
+//        Card stealCard = user.removeHand(i);
+        user.removeCard(stealCard);
         gameState.getUserForCurrentTurn().addCard(stealCard);
     }
 
     public void executeCatStealOn(User user, Random random) {
         int i = random.nextInt(user.getHand().size());
-        Card stealCard = user.removeHand(i);
+        Card stealCard = user.getCardFromHand(i);
+        user.removeCard(stealCard);
         gameState.getUserForCurrentTurn().addCard(stealCard);
     }
 

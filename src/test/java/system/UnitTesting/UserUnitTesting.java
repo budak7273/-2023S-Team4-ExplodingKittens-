@@ -77,7 +77,9 @@ public class UserUnitTesting {
         Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
-        user.removeHand(0);
+        Card cardToRemove = user.getCardFromHand(0);
+        user.removeCard(cardToRemove);
+//        user.removeHand(0);
         Assertions.assertEquals(new ArrayList<>(), user.getHand());
         Assertions.assertTrue(user.isEmptyHand());
     }
@@ -87,7 +89,7 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
         Executable executable =
-                () -> user.removeHand(0);
+                () -> user.removeCard(user.getCardFromHand(0));
         Assertions.assertThrows(IndexOutOfBoundsException.class, executable);
     }
 
