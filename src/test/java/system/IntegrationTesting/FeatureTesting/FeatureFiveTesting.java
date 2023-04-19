@@ -21,7 +21,12 @@ class FeatureFiveTesting {
 
     private GameManager gameManager;
 
-    public static final int NUM_PLAYERS = 10;
+    private static final int NUM_PLAYERS = 10;
+
+    @BeforeEach
+    void runAsHeadless() {
+        System.setProperty("java.awt.headless", "true");
+    }
 
     @BeforeEach
     void setUp() {
@@ -29,8 +34,8 @@ class FeatureFiveTesting {
         for (int i = 1; i <= NUM_PLAYERS; i++) {
             users.add(new User("test" + i, true, new ArrayList<>()));
         }
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState(new Random(TestingUtils.TESTS_RANDOM_SEED));
+        GameDesigner gameDesigner = new GameDesigner(users, TestingUtils.getFakeFrame());
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
         gameManager = gameWindow.getGameManager();
     }

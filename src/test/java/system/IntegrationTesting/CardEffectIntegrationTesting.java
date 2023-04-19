@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import presentation.GameWindow;
 import system.GameManager;
+import system.TestingUtils;
 import system.cardEffects.*;
 import system.User;
 import system.DrawDeck;
@@ -22,31 +23,34 @@ import javax.swing.*;
 
 class CardEffectIntegrationTesting {
 
-    private Queue<User> playerQueue;
-
-    private List<String> playerUsernames;
     private static final int NUM_PLAYERS = 5;
+    private GameManager gameManager;
+
+    @BeforeEach
+    void runAsHeadless() {
+        System.setProperty("java.awt.headless", "true");
+    }
 
     @BeforeEach
     void setUp() {
-        playerQueue = new ArrayDeque<>();
-        playerUsernames = new ArrayList<>();
+        Queue<User> playerQueue = new ArrayDeque<>();
         for (int index = 1; index <= NUM_PLAYERS; index++) {
             String username = "Player" + index + "ForIntegrationTest";
             playerQueue.add(new User(username));
-            playerUsernames.add(username);
         }
+
+        JFrame frame = TestingUtils.getFakeFrame();
+        GameWindow gameWindow = new GameWindow(frame, true);
+        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
+
+        GameState gameState = new GameState(playerQueue, drawDeck);
+        gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
     }
 
     @Test
     void testDefuseBombEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();
-        GameWindow gameWindow = new GameWindow(new JFrame(), true);
-        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
-
-        GameState gameState = new GameState(playerQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameWindow);
-        gameWindow.setGameManager(gameManager);
         bombEffectPattern.setCurrentState(gameManager);
 
         Assertions.assertDoesNotThrow(bombEffectPattern::useEffect);
@@ -55,12 +59,6 @@ class CardEffectIntegrationTesting {
     @Test
     void testAttackEffectUseIntegrationTest() {
         EffectPattern bombEffectPattern = new AttackEffect();
-        GameWindow gameWindow = new GameWindow(new JFrame(), true);
-        DrawDeck drawDeck = new DrawDeck(new ArrayList<>());
-
-        GameState gameState = new GameState(playerQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameWindow);
-        gameWindow.setGameManager(gameManager);
         bombEffectPattern.setCurrentState(gameManager);
 
         Assertions.assertDoesNotThrow(bombEffectPattern::useEffect);
