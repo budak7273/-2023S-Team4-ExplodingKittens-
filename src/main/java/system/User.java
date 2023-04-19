@@ -29,8 +29,11 @@ public class User {
         this.hand = playerHand;
     }
 
-    public String getName() {
+    public Card getCardFromHand(int index) {
+        return this.hand.get(index);
+    }
 
+    public String getName() {
         return this.name;
     }
 
@@ -39,22 +42,21 @@ public class User {
         toReturn.addAll(this.hand);
         return toReturn;
     }
+
     public Integer getHandCount() {
         return this.hand.size();
     }
-    public void addCard(Card drawnCard) {
 
+    public void addCard(Card drawnCard) {
         this.hand.add(drawnCard);
     }
-    public Card getLastCardInHand() {
-        return this.getHand().get(this.getHandCount() - 1);
-    }
-    public void removeCard(Card drawnCard) {
-        this.hand.remove(drawnCard);
+
+    public void removeCard(Card cardToRemove) {
+        this.hand.remove(cardToRemove);
     }
 
-    public Card removeHand(int index) {
-        return this.hand.remove(index);
+    public Card getLastCardInHand() {
+        return this.getHand().get(this.getHandCount() - 1);
     }
 
     public boolean isAlive() {
