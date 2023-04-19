@@ -55,6 +55,10 @@ public class User {
         this.hand.remove(cardToRemove);
     }
 
+    public Card getLastCardInHand() {
+        return this.getHand().get(this.getHandCount() - 1);
+    }
+
     public boolean isAlive() {
         return this.alive;
     }
@@ -120,6 +124,7 @@ public class User {
             if (!c.isCatCard()) {
                 return false;
             }
+
             CardType type1 = first.getType();
             CardType type2 = c.getType();
             if (type1 != type2 && type1 != CardType.FERAL_CAT
@@ -148,9 +153,6 @@ public class User {
     }
 
     public boolean checkCatPairMatch(Card card1, Card card2) {
-        List<Card> pairList = new ArrayList<>();
-        pairList.add(card1);
-        pairList.add(card2);
-        return verifyEffectForCardsSelected(pairList);
+        return verifyEffectForCardsSelected(Arrays.asList(card1, card2));
     }
 }

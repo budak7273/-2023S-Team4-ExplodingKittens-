@@ -37,18 +37,10 @@ public class Card {
     }
 
     public boolean isCatCard() {
-        if (this.cardType == CardType.HAIRY_POTATO_CAT
-                || this.cardType == CardType.BEARD_CAT
-                || this.cardType == CardType.CATTERMELON
-                || this.cardType == CardType.TACO_CAT
-                || this.cardType == CardType.RAINBOW_RALPHING_CAT
-                || this.cardType == CardType.FERAL_CAT) {
-            return true;
-        }
-        return false;
+        return this.cardType.getIsCatCard();
     }
 
     public String getDesc() {
-        return cardType.getDescription();
+        return this.cardType.getDescription();
     }
 }
