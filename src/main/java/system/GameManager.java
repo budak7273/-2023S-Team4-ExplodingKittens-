@@ -142,7 +142,6 @@ public class GameManager {
             i = gameWindow.inputForStealCard(user);
         }
         Card stealCard = user.getCardFromHand(i);
-//        Card stealCard = user.removeHand(i);
         user.removeCard(stealCard);
         gameState.getUserForCurrentTurn().addCard(stealCard);
     }
