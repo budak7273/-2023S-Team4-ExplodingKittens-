@@ -57,10 +57,11 @@ public class NotificationPanel extends JPanel {
                 e -> {
         removeAll();
 
-            if (cardOrder.size() > 0) {
-                gameWindow.returnFutureCards(cardOrder);
-                cardOrder.clear();
-            }
+//            if (cardOrder.size() > 0) {
+//                gameWindow.returnFutureCards(cardOrder);
+//                cardOrder.clear();
+//            }
+            cardOrder.clear();
             gameWindow.enableButtons();
         });
 
