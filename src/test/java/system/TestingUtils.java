@@ -1,5 +1,9 @@
 package system;
 
+import org.easymock.EasyMock;
+
+import javax.swing.JFrame;
+import java.awt.Container;
 import java.util.Random;
 
 public class TestingUtils {
@@ -11,5 +15,13 @@ public class TestingUtils {
 
     public static Random getTestRandom() {
         return new Random(TESTS_RANDOM_SEED);
+    }
+
+    public static JFrame getFakeFrame() {
+        JFrame mock = EasyMock.createNiceMock(JFrame.class);
+        Container mockedContainer = EasyMock.createNiceMock(Container.class);
+        EasyMock.expect(mock.getContentPane()).andReturn(mockedContainer).anyTimes();
+        EasyMock.replay(mock, mockedContainer);
+        return mock;
     }
 }

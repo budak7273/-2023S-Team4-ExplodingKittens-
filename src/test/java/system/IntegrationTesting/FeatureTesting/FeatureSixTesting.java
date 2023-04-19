@@ -21,11 +21,18 @@ class FeatureSixTesting {
     private User currentUser;
 
     @BeforeEach
+    void runAsHeadless() {
+        System.setProperty("java.awt.headless", "true");
+    }
+
+    @BeforeEach
     void setUp() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
+
+        JFrame frame = TestingUtils.getFakeFrame();
+        GameDesigner gameDesigner = new GameDesigner(users, frame);
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
         gameManager = gameWindow.getGameManager();

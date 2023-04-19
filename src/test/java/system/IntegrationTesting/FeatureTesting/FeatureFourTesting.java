@@ -12,11 +12,9 @@ import system.TestingUtils;
 import system.User;
 import system.cardEffects.ShuffleEffect;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 class FeatureFourTesting {
 
@@ -24,12 +22,17 @@ class FeatureFourTesting {
     private User currentUser;
 
     @BeforeEach
+    void runAsHeadless() {
+        System.setProperty("java.awt.headless", "true");
+    }
+
+    @BeforeEach
     void setUp() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
-        gameDesigner.initializeGameState(new Random(TestingUtils.TESTS_RANDOM_SEED));
+        GameDesigner gameDesigner = new GameDesigner(users, TestingUtils.getFakeFrame());
+        gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
         gameManager = gameWindow.getGameManager();
         currentUser = gameManager.getUserForCurrentTurn();
