@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 class FeatureNineTesting {
-    JFrame frame;
+    private JFrame frame;
 
     @BeforeEach
     void runAsHeadless() {

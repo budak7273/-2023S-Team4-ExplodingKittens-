@@ -12,11 +12,9 @@ import system.TestingUtils;
 import system.User;
 import system.cardEffects.ShuffleEffect;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 class FeatureFourTesting {
 

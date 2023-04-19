@@ -21,7 +21,6 @@ import javax.swing.*;
 
 
 class GameStateIntegrationTesting {
-    
 
     static final int MAX_USER_COUNT = 10;
     static final int ARBITRARY_USER_ID_TO_KILL = 3;
@@ -32,8 +31,6 @@ class GameStateIntegrationTesting {
         System.setProperty("java.awt.headless", "true");
         frame = TestingUtils.getFakeFrame();
     }
-    
-    
 
     @Test
     void testTransitionToNextTurnWithQueueOf1UserIntegrationTest() {
@@ -63,7 +60,6 @@ class GameStateIntegrationTesting {
 
         User userForCurrentTurn = gameManager.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
-
     }
 
     @Test
@@ -84,7 +80,6 @@ class GameStateIntegrationTesting {
 
         User userForCurrentTurn = gameManager.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
-
     }
 
     @Test
@@ -121,7 +116,6 @@ class GameStateIntegrationTesting {
         expected.add(user3);
         expected.add(user1);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
-
     }
 
     @Test
@@ -147,7 +141,6 @@ class GameStateIntegrationTesting {
         expected.add(user2);
         expected.add(user3);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
-
     }
 
     @Test
@@ -173,7 +166,6 @@ class GameStateIntegrationTesting {
         Queue<User> expected = new LinkedList<User>();
         expected.add(user3);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
-
     }
 
     @Test
@@ -200,7 +192,6 @@ class GameStateIntegrationTesting {
         gameManager.transitionToNextTurn();
 
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
-
     }
 
     @Test
@@ -259,7 +250,6 @@ class GameStateIntegrationTesting {
         int currentTargetSize = targetUser.getHand().size();
         gameManager.executeCatStealOn(targetUser, new Random());
         Assertions.assertEquals(targetUser.getHand().size(),
-                currentTargetSize - 1);
+                                currentTargetSize - 1);
     }
-
 }

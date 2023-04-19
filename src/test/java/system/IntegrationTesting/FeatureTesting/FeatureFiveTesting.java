@@ -11,11 +11,9 @@ import system.GameManager;
 import system.TestingUtils;
 import system.User;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 class FeatureFiveTesting {
 
@@ -44,15 +42,15 @@ class FeatureFiveTesting {
     void testGameWith10Players() {
 
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "test1");
+                                "test1");
         for (int i = 2; i < gameManager.getPlayerQueue().size() + 1; i++) {
             gameManager.transitionToNextTurn();
             Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                    "test" + (i % (gameManager.getPlayerQueue().size() + 1)));
+                                    "test" + (i % (gameManager.getPlayerQueue().size() + 1)));
         }
         gameManager.transitionToNextTurn();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "test1");
+                                "test1");
     }
 
     @Test

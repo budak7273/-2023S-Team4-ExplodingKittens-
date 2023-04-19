@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.List;
 import java.util.ArrayList;
 
 import presentation.GameWindow;

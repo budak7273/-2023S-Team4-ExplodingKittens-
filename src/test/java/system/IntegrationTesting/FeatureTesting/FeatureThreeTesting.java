@@ -12,10 +12,8 @@ import system.GameManager;
 import system.TestingUtils;
 import system.User;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 class FeatureThreeTesting {
