@@ -42,15 +42,18 @@ public class User {
         toReturn.addAll(this.hand);
         return toReturn;
     }
+
     public Integer getHandCount() {
         return this.hand.size();
     }
-    public void addCard(Card drawnCard) {
 
+    public void addCard(Card drawnCard) {
         this.hand.add(drawnCard);
     }
 
-    public void removeCard(Card cardToRemove) { this.hand.remove(cardToRemove); }
+    public void removeCard(Card cardToRemove) {
+        this.hand.remove(cardToRemove);
+    }
 
     public boolean isAlive() {
         return this.alive;
