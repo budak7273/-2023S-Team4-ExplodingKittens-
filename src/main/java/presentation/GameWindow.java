@@ -123,11 +123,9 @@ public class GameWindow {
                     boolean drawnExploding = gameManager.drawCardForCurrentTurn();
                     if (!drawnExploding) {
                         Card drawnCard =
-                                gameManager.getUserForCurrentTurn()
-                                           .getHand()
-                                           .get(gameManager.getUserForCurrentTurn().getHandCount() - 1);
-                        notificationPanel.notifyPlayers("card drawn is " + drawnCard.getName(), "");
-                        notificationPanel.addExitButtonToLayout("Confirm",
+                                gameManager.getUserForCurrentTurn().getLastCardInHand();
+                        notificationPanel.notifyPlayers(I18n.getMessage("CardDrawn") + drawnCard.getName(), "");
+                        notificationPanel.addExitButtonToLayout(I18n.getMessage("Confirm"),
                                                                 e2 -> clearCardDisplay());
                         notificationPanel.updateUI();
                         disableButtons();
