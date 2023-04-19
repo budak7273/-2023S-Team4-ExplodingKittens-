@@ -79,7 +79,6 @@ public class UserUnitTesting {
         User user = new User("test1", false, list);
         Card cardToRemove = user.getCardFromHand(0);
         user.removeCard(cardToRemove);
-//        user.removeHand(0);
         Assertions.assertEquals(new ArrayList<>(), user.getHand());
         Assertions.assertTrue(user.isEmptyHand());
     }
