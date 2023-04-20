@@ -1,15 +1,19 @@
-package system.UnitTesting;
+package system;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import system.EventMessage;
-import system.User;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class EventMessageTests {
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+class EventMessageTests {
 
     private User owner;
     private User nonOwner;
@@ -20,8 +24,8 @@ public class EventMessageTests {
 
     @BeforeEach
     void setUp() {
-        owner = new User();
-        nonOwner = new User();
+        owner = EasyMock.createNiceMock(User.class);
+        nonOwner = EasyMock.createNiceMock(User.class);
         Set<User> owners = new HashSet<>();
         owners.add(owner);
         privateMessage = new EventMessage(owners, PUBLIC_CONTENTS, PRIVATE_CONTENTS);
@@ -30,37 +34,37 @@ public class EventMessageTests {
 
     @Test
     void testPrivateMessageOwnership() {
-        Assertions.assertTrue(privateMessage.isOwnedBy(owner));
-        Assertions.assertFalse(privateMessage.isOwnedBy(nonOwner));
+        assertTrue(privateMessage.isOwnedBy(owner));
+        assertFalse(privateMessage.isOwnedBy(nonOwner));
     }
 
     @Test
     void testPrivateMessageHasPrivateContents() {
-        Assertions.assertTrue(privateMessage.hasPrivateContents());
+        assertTrue(privateMessage.hasPrivateContents());
     }
 
     @Test
     void testPublicMessageHasNoPrivateContents() {
-        Assertions.assertFalse(publicMessage.hasPrivateContents());
+        assertFalse(publicMessage.hasPrivateContents());
     }
 
     @Test
     void testPublicMessageContentsIdentical() {
-        Assertions.assertEquals(publicMessage.getPublicContents(), publicMessage.getPrivateContents());
+        assertEquals(publicMessage.getPublicContents(), publicMessage.getPrivateContents());
     }
 
     @Test
     void testDistinctContents() {
-        Assertions.assertNotEquals(privateMessage.getPrivateContents(), privateMessage.getPublicContents());
+        assertNotEquals(privateMessage.getPrivateContents(), privateMessage.getPublicContents());
     }
 
     @Test
     void testOwnerSeesPrivate() {
-        Assertions.assertEquals(PRIVATE_CONTENTS, privateMessage.getContentsFor(owner));
+        assertEquals(PRIVATE_CONTENTS, privateMessage.getContentsFor(owner));
     }
 
     @Test
     void testNonOwnerSeesPublic() {
-        Assertions.assertEquals(PUBLIC_CONTENTS, privateMessage.getContentsFor(nonOwner));
+        assertEquals(PUBLIC_CONTENTS, privateMessage.getContentsFor(nonOwner));
     }
 }
