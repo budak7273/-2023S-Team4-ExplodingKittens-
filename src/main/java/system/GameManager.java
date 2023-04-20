@@ -59,7 +59,7 @@ public class GameManager {
             }
         }
         gameState.setPlayerQueue(playerQueue);
-        gameWindow.toggleCatMode();
+        gameWindow.disableCatMode();
         gameWindow.updateUI();
         tryToEndGame();
     }

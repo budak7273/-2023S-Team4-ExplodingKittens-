@@ -38,7 +38,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithQueueOf2Users() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -63,7 +63,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithQueueOf10Users() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -108,7 +108,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithThreeAliveUsers() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -138,7 +138,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithThreeUsersFirstDead() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -179,7 +179,7 @@ public class GameStateUnitTesting {
         pq.add(user2);
         pq.add(user3);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         boardMock.displayWinForUser(user3);
@@ -200,7 +200,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextAliveWithTenUsersAndU1U2U4Dead() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -247,7 +247,7 @@ public class GameStateUnitTesting {
         GameManager gameManager = new GameManager(gameState, gameboard);
 
         EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(false);
-        gameboard.toggleCatMode();
+        gameboard.disableCatMode();
         gameboard.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(gameboard, drawDeck);
@@ -446,7 +446,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithMinPlayersAndExtraTurn() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -476,7 +476,7 @@ public class GameStateUnitTesting {
     @Test
     public void testTransitionToNextTurnWithMaxPlayersAndExtraTurn() {
         GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.toggleCatMode();
+        boardMock.disableCatMode();
         boardMock.updateUI();
         EasyMock.expectLastCall();
         EasyMock.replay(boardMock);
@@ -599,7 +599,7 @@ public class GameStateUnitTesting {
         pq.add(player);
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        gpMock.toggleCatMode();
+        gpMock.disableCatMode();
         gpMock.updateUI();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         deckMock.addExplodingKittenAtLocation(0);
