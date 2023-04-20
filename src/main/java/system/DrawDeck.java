@@ -80,7 +80,6 @@ public class DrawDeck {
         }
         for (int i = 0; i <= cards.size(); i++) {
             Card bottomCards = cards.pop();
-            System.out.println(bottomCards.getName() + " " + cards.size());
             bottom.add(bottomCards);
             cardDeck.add(bottomCards);
         }
