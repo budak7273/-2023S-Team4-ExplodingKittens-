@@ -37,51 +37,22 @@ class FeatureNineTesting {
     @Test
     void testDisplayingUsersInOrderTheyAreEnteredBigGame() {
         Queue<User> users = new LinkedList<>();
-        users.add(new User("thisIsFirst", true, new ArrayList<>()));
-        users.add(new User("thisIsSecond", true, new ArrayList<>()));
-        users.add(new User("thisIsThird", true, new ArrayList<>()));
-        users.add(new User("thisIsFourth", true, new ArrayList<>()));
-        users.add(new User("thisIsFifth", true, new ArrayList<>()));
-        users.add(new User("thisIsSixth", true, new ArrayList<>()));
-        users.add(new User("thisIsSeventh", true, new ArrayList<>()));
-        users.add(new User("thisIsEighth", true, new ArrayList<>()));
-        users.add(new User("thisIsNinth", true, new ArrayList<>()));
-        users.add(new User("thisIsTenth", true, new ArrayList<>()));
+
+        for (int i = 1; i < 11; i++) {
+            users.add(new User("User" + i, true, new ArrayList<>()));
+        }
+
         GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
         GameManager gameManager = gameWindow.getGameManager();
+
+        for (int j = 1; j < 11; j++) {
+            Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
+                                    "User" + j);
+            gameManager.transitionToNextTurn();
+        }
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsFirst");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsSecond");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsThird");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsFourth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsFifth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsSixth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsSeventh");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsEighth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsNinth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsTenth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "thisIsFirst");
+                                "User1");
     }
 }
