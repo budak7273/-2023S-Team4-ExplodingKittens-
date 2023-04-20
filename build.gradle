@@ -11,7 +11,13 @@ group 'org.rosehulman.csse376.team3'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+    // TODO switch back to this when Maven Central/Sonatype stops being whack
+    // mavenCentral()
+
+    // Manual URL found via poking around on the Maven website https://central.sonatype.com/artifact/javazoom/jlayer/1.0.1/versions
+    maven {
+        url "https://repo1.maven.org/maven2/"
+    }
 }
 
 dependencies {
