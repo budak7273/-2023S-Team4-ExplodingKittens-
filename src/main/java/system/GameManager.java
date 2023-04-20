@@ -59,7 +59,7 @@ public class GameManager {
 
     public void executeSkip() {
         postMessage(EventMessage.publicMessage(
-                String.format("%s skipped their turn", getUserForCurrentTurn().getName())));
+                String.format(I18n.getMessage("SkipPublic"), getUserForCurrentTurn().getName())));
         transitionToNextTurn();
     }
 
@@ -105,8 +105,8 @@ public class GameManager {
         // TODO switch drawCard to return the card instead of wasExplodingKitten
         postMessage(new EventMessage(
                 forUsers(current),
-                String.format("%s drew a card", current.getName()),
-                String.format("You drew a %s", current.getLastCardInHand().getName())));
+                String.format(I18n.getMessage("DrawCardPublic"), current.getName()),
+                String.format(I18n.getMessage("DrawCardPrivate"), current.getLastCardInHand().getName())));
         if (drawnExplodingKitten) {
             current.attemptToDie();
             gameWindow.explosionNotification(current.isAlive());
@@ -130,25 +130,25 @@ public class GameManager {
         if (shuffled) {
             gameWindow.updateUI();
             postMessage(EventMessage.publicMessage(
-                    String.format("%s shuffled the deck", getUserForCurrentTurn().getName())));
+                    String.format(I18n.getMessage("ShufflePublic"), getUserForCurrentTurn().getName())));
         }
     }
 
     public void executeSeeTheFuture(List<Card> cards) {
         postMessage(EventMessage.publicMessage(
-                String.format("%s played See the Future", getUserForCurrentTurn().getName())));
+                String.format(I18n.getMessage("SeeTheFuturePublic"), getUserForCurrentTurn().getName())));
         gameWindow.displayFutureCards(cards);
     }
 
     public void executeSeeTheEnd(List<Card> cards) {
         postMessage(EventMessage.publicMessage(
-                String.format("%s played See the End", getUserForCurrentTurn().getName())));
+                String.format(I18n.getMessage("SeeTheEndPublic"), getUserForCurrentTurn().getName())));
         gameWindow.displayFutureCards(cards);
     }
 
     public void executeAlterTheFuture(List<Card> futureCards) {
         postMessage(EventMessage.publicMessage(
-                String.format("%s played Alter the Future", getUserForCurrentTurn().getName())));
+                String.format(I18n.getMessage("AlterFuturePublic"), getUserForCurrentTurn().getName())));
         gameWindow.editFutureCards(futureCards);
     }
 
@@ -158,8 +158,8 @@ public class GameManager {
         User target = getUserForCurrentTurn();
         postMessage(new EventMessage(
                 forUsers(target),
-                String.format("%s Attacked %s", attacker.getName(), target.getName()),
-                String.format("You were attacked by %s, so you have to play two turns", attacker.getName())));
+                String.format(I18n.getMessage("AttackPublic"), attacker.getName(), target.getName()),
+                String.format(I18n.getMessage("AttackPrivate"), attacker.getName())));
         gameState.addExtraTurn();
     }
 
@@ -186,8 +186,8 @@ public class GameManager {
         User attacker = getUserForCurrentTurn();
         postMessage(new EventMessage(
                 forUsers(target),
-                String.format("%s called a Targeted Attack on %s", attacker.getName(), target.getName()),
-                String.format("You were attacked by %s, so you have to play two turns", attacker.getName())));
+                String.format(I18n.getMessage("TargetedAttackPublic"), attacker.getName(), target.getName()),
+                String.format(I18n.getMessage("TargetedAttackPrivate"), attacker.getName())));
         transitionToTurnOfUser(target);
         gameState.addExtraTurn();
     }
@@ -203,8 +203,8 @@ public class GameManager {
         current.addCard(stealCard);
         postMessage(new EventMessage(
                 forUsers(current, target),
-                String.format("%s called a Favor on %s", current.getName(), target.getName()),
-                String.format("%s took a %s from %s via a Favor", current.getName(), stealCard.getName(),
+                String.format(I18n.getMessage("FavorPublic"), current.getName(), target.getName()),
+                String.format(I18n.getMessage("FavorPrivate"), current.getName(), stealCard.getName(),
                               target.getName())));
     }
 
@@ -217,9 +217,9 @@ public class GameManager {
         attacker.addCard(stealCard);
         postMessage(new EventMessage(
                 forUsers(attacker, target),
-                String.format("%s took a random card from %s via Cat Combo",
+                String.format(I18n.getMessage("CatComboPublic"),
                               attacker.getName(), target.getName()),
-                String.format("%s took a %s from %s via a Cat Combo",
+                String.format(I18n.getMessage("CatComboPrivate"),
                               attacker.getName(), stealCard.getName(), target.getName())));
     }
 

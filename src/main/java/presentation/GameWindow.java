@@ -274,7 +274,7 @@ public class GameWindow {
                 User current = gameManager.getUserForCurrentTurn();
                 if (current.checkCatPairMatch(c1, c2)) {
                     gameManager.postMessage(EventMessage.publicMessage(
-                            String.format("%s played a Cat Combo with %s and %s",
+                            String.format(I18n.getMessage("CatComboDetailsPublic"),
                                           current.getName(), c1.getName(), c2.getName())));
                     gameManager.triggerDisplayOfCatStealPrompt();
                     current.removeCard(c1);
@@ -333,7 +333,7 @@ public class GameWindow {
 
                 executingCard = card;
                 gameManager.postMessage(EventMessage.publicMessage(
-                        String.format("%s is trying to play a %s - does anyone want to Nope?",
+                        String.format(I18n.getMessage("AnyoneNopePublic"),
                                       gameManager.getUserForCurrentTurn().getName(),
                                       executingCard.getName())
                 ));
@@ -446,14 +446,14 @@ public class GameWindow {
         if (victimState) {
             deathMessage = I18n.getMessage("PlayerLostDefuse");
             gameManager.postMessage(EventMessage.publicMessage(
-                    String.format("%s had to Defuse an exploding kitten!", gameManager.getUserForCurrentTurn())));
+                    String.format(I18n.getMessage("DefuseUsedPublic"), gameManager.getUserForCurrentTurn().getName())));
             DrawDeck deck = gameManager.getDrawDeck();
             notificationPanel.addExplodingKittenBackIntoDeck(deathMessage, deck);
             audioPlayer.playDefused();
         } else {
             deathMessage = I18n.getMessage("PlayerDied");
             gameManager.postMessage(EventMessage.publicMessage(
-                    String.format("%s blew up!", gameManager.getUserForCurrentTurn())));
+                    String.format(I18n.getMessage("BlowUpPublic"), gameManager.getUserForCurrentTurn().getName())));
             audioPlayer.playExplosion();
             gameManager.transitionToNextTurn();
             notificationPanel.notifyPlayers(deathMessage, I18n.getMessage("Rip"));
@@ -472,7 +472,8 @@ public class GameWindow {
                 executingCard.activateEffect(gameManager);
             } else {
                 gameManager.postMessage(EventMessage.publicMessage(
-                        String.format("%s attempted to play a %s, but was Noped", gameManager.getUserForCurrentTurn(),
+                        String.format(I18n.getMessage("PlayBlockedByNopePublic"),
+                                      gameManager.getUserForCurrentTurn().getName(),
                                       executingCard.getName())
                 ));
                 gameManager.removeCardFromCurrentUser(executingCard);
@@ -511,10 +512,10 @@ public class GameWindow {
         if (currentNope) {
             status = buildNopeMessage(executingUsername);
             gameManager.postMessage(EventMessage.publicMessage(
-                    String.format("Currently Noped by %s", executingUsername)));
+                    String.format(I18n.getMessage("IsNopedPublic"), executingUsername)));
         } else {
             status = I18n.getMessage("NopeStatusMessageNot");
-            gameManager.postMessage(EventMessage.publicMessage("Currently NOT noped"));
+            gameManager.postMessage(EventMessage.publicMessage(I18n.getMessage("NotNopedPublic")));
         }
         notificationPanel.notifyPlayers(status, "");
         notificationPanel.addExitButtonToLayout(I18n.getMessage("counter.nope"),

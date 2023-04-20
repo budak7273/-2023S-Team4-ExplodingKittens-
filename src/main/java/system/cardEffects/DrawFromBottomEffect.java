@@ -1,5 +1,6 @@
 package system.cardEffects;
 
+import datasource.I18n;
 import system.GameManager;
 import system.messages.EventMessage;
 
@@ -15,9 +16,9 @@ public class DrawFromBottomEffect extends EffectPattern {
         // TODO switch drawCard to return the card instead of wasExplodingKitten
         gm.postMessage(new EventMessage(
                 forUsers(getCurrentUser()),
-                String.format("%s played a Draw from the Bottom",
+                String.format(I18n.getMessage("DrawFromBottomPublic"),
                               getCurrentUser().getName()),
-                String.format("You used a Draw from the Bottom to draw a %s",
+                String.format(I18n.getMessage("DrawFromBottomPrivate"),
                               getCurrentUser().getLastCardInHand().getName())));
         if (drawnExplodingKitten) {
             gm.checkExplodingKitten();
