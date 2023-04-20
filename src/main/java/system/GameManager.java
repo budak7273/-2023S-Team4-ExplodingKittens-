@@ -33,7 +33,7 @@ public class GameManager {
 
     }
     public boolean checkCurrentUsersSpecialEffect() {
-      return this.getUserForCurrentTurn().checkForSpecialEffectPotential();
+      return this.getUserForCurrentTurn().checkForCatCardEffects();
     }
     private void throwIfQueueSizeIsInvalid() {
         Queue<User> playerQueue = gameState.getPlayerQueue();

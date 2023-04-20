@@ -110,7 +110,7 @@ public class UserUnitTesting {
     public void testCheckForSpecialEffectPotentialEmptyHand() {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
 
     }
 
@@ -120,7 +120,7 @@ public class UserUnitTesting {
         Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -164,7 +164,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -177,7 +177,7 @@ public class UserUnitTesting {
         list.add(card2);
         list.add(card3);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class UserUnitTesting {
             list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -203,7 +203,7 @@ public class UserUnitTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -227,7 +227,7 @@ public class UserUnitTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -241,7 +241,7 @@ public class UserUnitTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test

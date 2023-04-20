@@ -84,30 +84,35 @@ public class User {
         return false;
     }
 
-    public boolean checkForSpecialEffectPotential() {
+    public boolean checkForCatCardEffects() {
         int feralCount = 0;
-        int otherCount = 0;
-        HashMap<String, Integer> list = new HashMap<>();
+        int otherCatCount = 0;
+        HashMap<String, Integer> catCardsInHand = new HashMap<>();
 
         for (Card card : this.hand) {
             if (card.getType() == CardType.FERAL_CAT) {
                 feralCount++;
             } else if (card.isCatCard()) {
-                otherCount++;
+                otherCatCount++;
                 String cname = card.getType().toString();
-                int count = list.getOrDefault(cname, 0);
-                list.put(cname, count + 1);
+                int count = catCardsInHand.getOrDefault(cname, 0);
+                catCardsInHand.put(cname, count + 1);
             }
         }
 
-        if ((feralCount >= 1 && otherCount >= 1) || feralCount >= 2) {
+        return verifyCatCardEffectCount(feralCount, otherCatCount, catCardsInHand);
+    }
+
+    private boolean verifyCatCardEffectCount(int feralCount, int otherCatCount,
+                                            HashMap<String, Integer> catCardsInHand) {
+        if ((feralCount >= 1 && otherCatCount >= 1) || feralCount >= 2) {
             return true;
-        } else if (otherCount < 2) {
+        } else if (otherCatCount < 2) {
             return false;
         } else {
-            for (Map.Entry<String, Integer> entry : list.entrySet()) {
+            for (Map.Entry<String, Integer> entry : catCardsInHand.entrySet()) {
                 String cname = entry.getKey();
-                if (list.get(cname) > 1) {
+                if (catCardsInHand.get(cname) > 1) {
                     return true;
                 }
             }
