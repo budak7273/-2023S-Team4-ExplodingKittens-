@@ -584,7 +584,8 @@ public class GameStateUnitTesting {
         public void testAddExplodingKittenIntoDeckTargetedAttack() {
         Queue<User> pq = new LinkedList<>();
         User user = EasyMock.createMock(User.class);
-        EasyMock.expect(user.getName()).andReturn("").times(4);
+        final int expectedMessageDisplayCount = 4;
+        EasyMock.expect(user.getName()).andReturn("").times(expectedMessageDisplayCount);
         pq.add(user);
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
@@ -633,7 +634,8 @@ public class GameStateUnitTesting {
     public void testTransitionToTurnOfUserWithQueueOf2Users() {
         Queue<User> pq = new LinkedList<>();
         User user = EasyMock.createMock(User.class);
-        EasyMock.expect(user.getName()).andReturn("").times(3);
+        final int expectedMessageDisplayCount = 3;
+        EasyMock.expect(user.getName()).andReturn("").times(expectedMessageDisplayCount);
         pq.add(user);
         User targetUser = EasyMock.createMock(User.class);
         EasyMock.expect(targetUser.getName()).andReturn("").times(2);
@@ -699,7 +701,8 @@ public class GameStateUnitTesting {
         Card c = new Card(CardType.ATTACK);
         Card cardToGive = new Card(CardType.ATTACK);
         User currentUser = EasyMock.createMock(User.class);
-        EasyMock.expect(currentUser.getName()).andReturn("").times(3);
+        final int expectedMessageDisplayCount = 3;
+        EasyMock.expect(currentUser.getName()).andReturn("").times(expectedMessageDisplayCount);
         currentUser.addCard(cardToGive);
         currentUser.addCard(c);
         EasyMock.expectLastCall();
