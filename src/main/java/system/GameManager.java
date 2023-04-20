@@ -40,7 +40,9 @@ public class GameManager {
     private void updateEventLogDisplay() {
 
         String message =
-                "Event Log contents for player: " + getUserForCurrentTurn().getName() + "\n" + gameState.getEventLogForCurrentTurn();
+                "Event Log contents for player: "
+                + getUserForCurrentTurn().getName()
+                + "\n" + gameState.getEventLogForCurrentTurn();
         gameWindow.updateEventHistoryLog(message);
     }
 

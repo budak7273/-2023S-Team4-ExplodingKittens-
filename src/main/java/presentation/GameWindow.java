@@ -6,7 +6,6 @@ import system.*;
 import system.messages.EventMessage;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +32,7 @@ public class GameWindow {
     private boolean catMode;
     private JTextArea textArea;
     private boolean enabled;
+
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
@@ -62,7 +62,7 @@ public class GameWindow {
         this.gameManager = manager;
     }
 
-    public void updateEventHistoryLog(String message){
+    public void updateEventHistoryLog(String message) {
         textArea.setText(message);
         buildGameView();
         updateDisplay();
@@ -107,20 +107,20 @@ public class GameWindow {
 
         JPanel scrollContent = new JPanel();
         scrollContent.setLayout(new BorderLayout());
-
-        textArea.setSize(new Dimension(300, 300));
+        final int frameWidthAndHeight = 300;
+        textArea.setSize(new Dimension(frameWidthAndHeight, frameWidthAndHeight));
         textArea.setWrapStyleWord(true);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
         textArea.setFocusable(false);
         textArea.setOpaque(true);
 
-        textArea.setBackground(new Color(255, 255,255));
+        textArea.setBackground(Color.WHITE);
         textArea.setBorder(null);
 
 
         scrollContent.add(textArea);
-        JScrollPane scrollPane = new JScrollPane( scrollContent, VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane scrollPane = new JScrollPane(scrollContent, VERTICAL_SCROLLBAR_AS_NEEDED,
                                                   HORIZONTAL_SCROLLBAR_NEVER);
 
 
