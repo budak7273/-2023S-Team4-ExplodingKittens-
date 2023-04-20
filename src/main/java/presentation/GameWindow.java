@@ -31,6 +31,7 @@ public class GameWindow {
      */
     private JComponent playerDeckDisplayPanel;
     private boolean catMode;
+    private JTextArea textArea;
     private boolean enabled;
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
@@ -43,6 +44,7 @@ public class GameWindow {
 
     public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
+        textArea = new JTextArea("Event History Log");
         this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
@@ -60,6 +62,12 @@ public class GameWindow {
         this.gameManager = manager;
     }
 
+    public void updateEventHistoryLog(String message){
+        textArea.setText(message);
+        buildGameView();
+        updateDisplay();
+
+    }
     public void updateDisplay() {
         gameFrame.revalidate();
         gameFrame.repaint();
@@ -98,22 +106,7 @@ public class GameWindow {
     private JScrollPane generateScrollPane() {
 
         JPanel scrollContent = new JPanel();
-        JLabel logLabel = new JLabel("Event History");
         scrollContent.setLayout(new BorderLayout());
-
-        JTextArea textArea = new JTextArea("TeText private JFrame frm = new JFrame();\\n\" +\n" +
-                                           "                                           \"    private JPanel pnl = new" +
-                                           " JPanel();\\n\" +\n" +
-                                           "                                           \"    private JButton btn = " +
-                                           "new JButton(\\\"Get ScreenSize for JComponents\\\")\" +\n" +
-                                           "                                           \";\\n\" +\n" +
-                                           "                                           \"\\n\" +\n" +
-                                           "                                           \"    public FrameSize() " +
-                                           "{\\n\" +\n" +
-
-                                           "         CAN I SEE THIS?");
-
-
 
         textArea.setSize(new Dimension(300, 300));
         textArea.setWrapStyleWord(true);
