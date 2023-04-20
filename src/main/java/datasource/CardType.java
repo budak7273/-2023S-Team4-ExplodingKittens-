@@ -22,7 +22,8 @@ public enum CardType {
     NOPE("Nope", null, "NopeDesc"),
     ALTER_THE_FUTURE("AlterTheFuture", new AlterTheFutureEffect(), "AlterDesc"),
     TARGETED_ATTACK("TargetedAttack", new TargetedAttackEffect(), "TargetedAttackDesc"),
-    SEE_THE_FUTURE("SeeTheFuture", new SeeTheFutureEffect(), "SeeTheFutureDesc");
+    SEE_THE_FUTURE("SeeTheFuture", new SeeTheFutureEffect(), "SeeTheFutureDesc"),
+    SEE_THE_END("SeeTheEnd", new SeeTheEndEffect(), "SeeTheEndDesc");
 
     public static final List<String> ENUM_VALUES = Utils.enumValuesToStrings(CardType.class.getEnumConstants());
 

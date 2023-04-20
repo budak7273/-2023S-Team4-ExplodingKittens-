@@ -59,8 +59,33 @@ public class DrawDeck {
         while (cards.size() > 0 && top.size() < maxTop) {
             top.add(cards.pop());
         }
+        for (int i = top.size() - 1; i >= 0; i--) {
+            cards.push(top.get(i));
+        }
 
         return top;
+    }
+
+    public List<Card> drawThreeCardsFromBottom() {
+        if (cards.isEmpty()) {
+            throw new RuntimeException(I18n.getMessage("EmptyDrawDeckMessage"));
+        }
+
+        ArrayList<Card> bottom = new ArrayList<>();
+        Deque<Card> cardDeck = new LinkedList<>();
+        final int maxBottom = 3;
+
+        while (cards.size() - 2 >= maxBottom) {
+            cardDeck.add(cards.pop());
+        }
+        for (int i = 0; i <= cards.size(); i++) {
+            Card bottomCards = cards.pop();
+            bottom.add(bottomCards);
+            cardDeck.add(bottomCards);
+        }
+        cards = cardDeck;
+
+        return bottom;
     }
 
     public void addCardToTop(Card card) {

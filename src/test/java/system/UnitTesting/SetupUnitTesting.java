@@ -16,8 +16,8 @@ import system.*;
 import static org.easymock.EasyMock.eq;
 
 public class SetupUnitTesting {
-    private static final int FULL_SIZE = 101;
-    private static final int PAW_ONLY_SIZE = 41;
+    private static final int FULL_SIZE = 107;
+    private static final int PAW_ONLY_SIZE = 44;
 
     private static final int MAX_PLAYER_COUNT = 10;
 

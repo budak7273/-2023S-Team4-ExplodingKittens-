@@ -11,8 +11,8 @@ import java.util.function.Predicate;
 
 public class CardCSVParserTesting {
 
-    private static final int PARTY_PACK_SIZE = 101;
-    private static final int PARTY_PACK_PAW_ONLY_SIZE = 41;
+    private static final int PARTY_PACK_SIZE = 107;
+    private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
 
     @Test
     public void testGenerateListOfCardsWithEmptyInput() {

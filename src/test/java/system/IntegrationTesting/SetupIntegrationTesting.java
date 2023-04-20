@@ -11,8 +11,8 @@ import java.util.*;
 
 
 public class SetupIntegrationTesting {
-    private static final int FULL_SIZE = 101;
-    private static final int PAW_ONLY_SIZE = 41;
+    private static final int FULL_SIZE = 107;
+    private static final int PAW_ONLY_SIZE = 44;
 
     private static final int MAX_PLAYER_COUNT = 10;
 
@@ -224,7 +224,7 @@ public class SetupIntegrationTesting {
         Setup setup = new Setup(2);
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        final int firstDeckSize = 42;
+        final int firstDeckSize = 45;
         Assertions.assertEquals(firstDeckSize,
                 drawDeck.getCardsAsList().size());
 
@@ -233,7 +233,7 @@ public class SetupIntegrationTesting {
         users.add(player2);
 
         setup.dealHands(users, drawDeck);
-        final int secondDeckSize = 28;
+        final int secondDeckSize = 31;
         Assertions.assertEquals(secondDeckSize,
                 drawDeck.getCardsAsList().size());
 
@@ -248,11 +248,11 @@ public class SetupIntegrationTesting {
         Setup setup = new Setup(MAX_PLAYER_COUNT);
         String path = "src/test/resources/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        final int firstDeckSize = 101;
+        final int firstDeckSize = 107;
         Assertions.assertEquals(firstDeckSize,
                 drawDeck.getCardsAsList().size());
         setup.dealHands(users, drawDeck);
-        final int secondDeckSize = 31;
+        final int secondDeckSize = 37;
         Assertions.assertEquals(secondDeckSize,
                 drawDeck.getCardsAsList().size());
 

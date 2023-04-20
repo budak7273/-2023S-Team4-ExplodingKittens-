@@ -113,6 +113,15 @@ public class DrawDeckUnitTesting {
     }
 
     @Test
+    public void testGetBottomOfDeckWithEmptyDeck() {
+        DrawDeck deck = new DrawDeck(new ArrayList<>());
+
+        Executable executable = deck::drawThreeCardsFromBottom;
+
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
     public void testGetTopOfDeckWithOneCard() {
         Card topCard = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
@@ -123,7 +132,7 @@ public class DrawDeckUnitTesting {
 
         Assertions.assertEquals(1, future.size());
         Assertions.assertEquals(topCard, future.get(0));
-        Assertions.assertEquals(0, deck.getDeckSize());
+        Assertions.assertEquals(1, deck.getDeckSize());
     }
 
     @Test
@@ -145,7 +154,7 @@ public class DrawDeckUnitTesting {
         Assertions.assertEquals(first, future.get(0));
         Assertions.assertEquals(second, future.get(1));
         Assertions.assertEquals(third, future.get(2));
-        Assertions.assertEquals(0, deck.getDeckSize());
+        Assertions.assertEquals(expectedFutureSize, deck.getDeckSize());
     }
 
     @Test
@@ -164,11 +173,12 @@ public class DrawDeckUnitTesting {
         List<Card> future = deck.drawThreeCardsFromTop();
 
         final int expectedFutureSize = 3;
+        final int expectedDeckSize = 4;
         Assertions.assertEquals(expectedFutureSize, future.size());
         Assertions.assertEquals(first, future.get(0));
         Assertions.assertEquals(second, future.get(1));
         Assertions.assertEquals(third, future.get(2));
-        Assertions.assertEquals(1, deck.getDeckSize());
+        Assertions.assertEquals(expectedDeckSize, deck.getDeckSize());
     }
 
     @Test
