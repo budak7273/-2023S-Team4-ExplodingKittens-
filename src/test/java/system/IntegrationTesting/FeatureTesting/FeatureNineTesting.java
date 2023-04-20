@@ -16,6 +16,9 @@ import java.util.Queue;
 
 class FeatureNineTesting {
     private JFrame frame;
+    private final String[] names = {"thisIsFirst", "thisIsSecond", "thisIsThird", "thisIsFourth", "thisIsFifth",
+            "thisIsSixth",
+            "thisIsSeventh", "thisIsEighth", "thisIsNinth", "thisIsTenth"};
 
     @BeforeEach
     void runAsHeadless() {
@@ -26,8 +29,9 @@ class FeatureNineTesting {
     @Test
     void testDisplayingUsersInOrderTheyAreEnteredSmallGame() {
         Queue<User> users = new LinkedList<>();
-        users.add(new User("thisIsFirst", true, new ArrayList<>()));
-        users.add(new User("thisIsSecond", true, new ArrayList<>()));
+        for (int i = 0; i < 2; i++) {
+            users.add(new User(names[i], true, new ArrayList<>()));
+        }
         GameDesigner gameDesigner = new GameDesigner(users, frame);
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
@@ -41,41 +45,19 @@ class FeatureNineTesting {
 
     @Test
     void testDisplayingUsersInOrderTheyAreEnteredBigGame() {
+        final int playerCount = 10;
         Queue<User> users = new LinkedList<>();
-        users.add(new User("thisIsFirst", true, new ArrayList<>()));
-        users.add(new User("thisIsSecond", true, new ArrayList<>()));
-        users.add(new User("thisIsThird", true, new ArrayList<>()));
-        users.add(new User("thisIsFourth", true, new ArrayList<>()));
-        users.add(new User("thisIsFifth", true, new ArrayList<>()));
-        users.add(new User("thisIsSixth", true, new ArrayList<>()));
-        users.add(new User("thisIsSeventh", true, new ArrayList<>()));
-        users.add(new User("thisIsEighth", true, new ArrayList<>()));
-        users.add(new User("thisIsNinth", true, new ArrayList<>()));
-        users.add(new User("thisIsTenth", true, new ArrayList<>()));
+        for (int i = 0; i < playerCount; i++) {
+            users.add(new User(names[i], true, new ArrayList<>()));
+        }
         GameDesigner gameDesigner = new GameDesigner(users, frame);
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
         GameManager gameManager = gameWindow.getGameManager();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsFirst");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsSecond");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsThird");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsFourth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsFifth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsSixth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsSeventh");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsEighth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsNinth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsTenth");
-        gameManager.transitionToNextTurn();
-        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), "thisIsFirst");
+        for (int i = 0; i < playerCount; i++) {
+            Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), names[i]);
+            gameManager.transitionToNextTurn();
+        }
+        Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(), names[0]);
     }
 }
