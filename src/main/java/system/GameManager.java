@@ -188,7 +188,6 @@ public class GameManager {
                 forUsers(target),
                 String.format("%s called a Targeted Attack on %s", attacker.getName(), target.getName()),
                 String.format("You were attacked by %s, so you have to play two turns", attacker.getName())));
-        gameState.addExtraTurn();
         transitionToTurnOfUser(target);
         gameState.addExtraTurn();
     }
