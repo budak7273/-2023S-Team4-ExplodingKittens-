@@ -4,6 +4,7 @@ import datasource.CardType;
 import datasource.I18n;
 import system.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +48,7 @@ public class GameWindow {
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
 
-        final int frameWidth = 1300;
+        final int frameWidth = 1800;
         final int frameHeight = 800;
         gameFrame.setSize(frameWidth, frameHeight);
         audioPlayer.playMusicOnStartup();
@@ -63,20 +64,72 @@ public class GameWindow {
     }
 
     private void buildGameView() {
+
         gameFrame.getContentPane().removeAll();
+
+        JPanel gamePanel = new JPanel();
+        JPanel scrollPanel = new JPanel();
+
+        JScrollPane scrollPane = generateScrollPane();
 
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
 
-        gameFrame.setLayout(new BorderLayout());
-        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
-        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
-        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+        gamePanel.setLayout(new BorderLayout());
+        scrollPanel.setLayout(new GridLayout());
+        gamePanel.add(userDisplayPanel, BorderLayout.NORTH);
+        gamePanel.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gamePanel.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
 
         playerDeckDisplayPanel.setVisible(false);
+
+        scrollPanel.add(scrollPane, BorderLayout.CENTER);
+        scrollPanel.setVisible(true);
+        gamePanel.setVisible(true);
+        gameFrame.add(scrollPanel, BorderLayout.WEST);
+        gameFrame.add(gamePanel, BorderLayout.CENTER);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    private JScrollPane generateScrollPane() {
+
+        JPanel scrollContent = new JPanel();
+        JLabel logLabel = new JLabel("Event History");
+        scrollContent.setLayout(new BorderLayout());
+
+        JTextArea textArea = new JTextArea("TeText private JFrame frm = new JFrame();\\n\" +\n" +
+                                           "                                           \"    private JPanel pnl = new" +
+                                           " JPanel();\\n\" +\n" +
+                                           "                                           \"    private JButton btn = " +
+                                           "new JButton(\\\"Get ScreenSize for JComponents\\\")\" +\n" +
+                                           "                                           \";\\n\" +\n" +
+                                           "                                           \"\\n\" +\n" +
+                                           "                                           \"    public FrameSize() " +
+                                           "{\\n\" +\n" +
+
+                                           "         CAN I SEE THIS?");
+
+
+
+        textArea.setSize(new Dimension(300, 300));
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        textArea.setOpaque(true);
+
+        textArea.setBackground(new Color(255, 255,255));
+        textArea.setBorder(null);
+
+
+        scrollContent.add(textArea);
+        JScrollPane scrollPane = new JScrollPane( scrollContent, VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                  HORIZONTAL_SCROLLBAR_NEVER);
+
+
+        return scrollPane;
     }
 
     private JPanel generateUserDisplayPanel() {
