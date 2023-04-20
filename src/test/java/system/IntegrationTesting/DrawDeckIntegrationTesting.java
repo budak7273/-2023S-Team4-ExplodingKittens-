@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DrawDeckIntegrationTesting {
     @Test
-
     public void testGetCardsIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -24,7 +23,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawCardFromEmptyDrawDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -34,7 +32,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawCardFromNonEmptyDrawDeckIntegrationTest() {
         User user = new User();
         ArrayList<Card> cards = new ArrayList<>();
@@ -49,6 +46,7 @@ public class DrawDeckIntegrationTesting {
         assertTrue(!user.getHand().isEmpty());
     }
 
+    @Test
     public void testDrawBottomCardFromEmptyDrawDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -58,7 +56,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawBottomCardFromNonEmptyDrawDeckIntegrationTest() {
         User user = new User();
         ArrayList<Card> cards = new ArrayList<>();
@@ -74,7 +71,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testShuffleOnEmptyDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -84,7 +80,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testShuffleOnDeckOfOneCardIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -99,7 +94,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testShuffleOnDeckOfMultipleCardsIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -117,7 +111,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawFromBottomForUserWithEmptyDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -130,7 +123,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);

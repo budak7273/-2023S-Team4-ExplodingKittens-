@@ -36,16 +36,16 @@ public class GameWindow {
     private Card executingCard;
     private final Object nopeMutex = new Object();
     private GameManager gameManager;
-    private final boolean isRunningAsTest;
+    private final boolean muteAudio;
     private AudioPlayer audioPlayer;
     private JButton modeButton;
 
-    public GameWindow(JFrame frame, boolean inputIsRunningAsTest) {
+    public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
-        this.isRunningAsTest = inputIsRunningAsTest;
+        this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
-        this.audioPlayer = new AudioPlayer(!isRunningAsTest);
+        this.audioPlayer = new AudioPlayer(!muteAudio);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
 
@@ -544,7 +544,7 @@ public class GameWindow {
     }
 
     private void displayInformationalMessage(String message, String title) {
-        if (!isRunningAsTest) {
+        if (!muteAudio) {
             JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
         }
     }
