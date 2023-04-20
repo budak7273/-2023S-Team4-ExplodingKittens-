@@ -111,8 +111,7 @@ public class User {
             return false;
         } else {
             for (Map.Entry<String, Integer> entry : catCardsInHand.entrySet()) {
-                String cname = entry.getKey();
-                if (catCardsInHand.get(cname) > 1) {
+                if (entry.getValue() > 1) {
                     return true;
                 }
             }
