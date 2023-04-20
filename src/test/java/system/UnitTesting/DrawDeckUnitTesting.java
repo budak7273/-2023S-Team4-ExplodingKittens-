@@ -113,6 +113,15 @@ public class DrawDeckUnitTesting {
     }
 
     @Test
+    public void testGetBottomOfDeckWithEmptyDeck() {
+        DrawDeck deck = new DrawDeck(new ArrayList<>());
+
+        Executable executable = deck::drawThreeCardsFromBottom;
+
+        Assertions.assertThrows(RuntimeException.class, executable);
+    }
+
+    @Test
     public void testGetTopOfDeckWithOneCard() {
         Card topCard = EasyMock.createMock(Card.class);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
