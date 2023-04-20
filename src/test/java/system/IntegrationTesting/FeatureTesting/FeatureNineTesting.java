@@ -38,7 +38,9 @@ class FeatureNineTesting {
     void testDisplayingUsersInOrderTheyAreEnteredBigGame() {
         Queue<User> users = new LinkedList<>();
 
-        for (int i = 1; i < 11; i++) {
+        final int numUsersMinusOne = 11;
+
+        for (int i = 1; i < numUsersMinusOne; i++) {
             users.add(new User("User" + i, true, new ArrayList<>()));
         }
 
@@ -47,7 +49,7 @@ class FeatureNineTesting {
         GameWindow gameWindow = gameDesigner.getGameWindow();
         GameManager gameManager = gameWindow.getGameManager();
 
-        for (int j = 1; j < 11; j++) {
+        for (int j = 1; j < numUsersMinusOne; j++) {
             Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
                                     "User" + j);
             gameManager.transitionToNextTurn();
