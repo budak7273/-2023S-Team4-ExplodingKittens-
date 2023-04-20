@@ -36,6 +36,7 @@ public class GameWindow {
     private GameManager gameManager;
     private final boolean isRunningAsTest;
     private AudioPlayer audioPlayer;
+    private JButton modeButton;
 
     public GameWindow(JFrame frame, boolean inputIsRunningAsTest) {
         this.gameFrame = frame;
@@ -180,7 +181,7 @@ public class GameWindow {
         JPanel labelPanel = new JPanel();
         JPanel userSelectionPanel = new JPanel();
 
-        JButton modeButton = createButtonImage(I18n.getMessage("SwitchToCatModeMessage"));
+        modeButton = createButtonImage(I18n.getMessage("SwitchToCatModeMessage"));
         if (catMode) {
             modeButton.setText(I18n.getMessage("SwitchToNormalModeMessage"));
         }
@@ -188,11 +189,11 @@ public class GameWindow {
         JButton hideButton = createButtonImage(I18n.getMessage("SwitchToShowModeMessage"));
 
         this.setEnabledButton(modeButton);
-        this.checkCatModeAccessibility(modeButton);
+        this.checkCatModeAccessibility();
         this.setEnabledButton(confirmButton);
         this.setEnabledButton(hideButton);
 
-        this.setModeButtonListener(modeButton);
+        this.setModeButtonListener();
         this.setConfirmButtonListener(confirmButton, hideButton);
         this.setEndButtonListener(hideButton);
 
@@ -210,7 +211,7 @@ public class GameWindow {
         return p;
     }
 
-    private void checkCatModeAccessibility(JButton modeButton) {
+    private void checkCatModeAccessibility() {
         if (!catMode && !this.gameManager.checkCurrentUsersSpecialEffect()) {
             modeButton.setEnabled(false);
             modeButton.setBackground(Color.GRAY);
@@ -220,7 +221,6 @@ public class GameWindow {
     private void setEnabledButton(JButton button) {
         button.setEnabled(enabled);
         if (!enabled) {
-
             button.setBackground(Color.GRAY);
         }
     }
@@ -233,7 +233,7 @@ public class GameWindow {
         return btnImage;
     }
 
-    private void setModeButtonListener(JButton modeButton) {
+    private void setModeButtonListener() {
         modeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -300,6 +300,7 @@ public class GameWindow {
                 }
 
                 Card card = getSelectedCards().get(0);
+
                 if (card.isCatCard()) {
                     String infoMessage = I18n.getMessage("CatSelectionNormalModeMessage");
                     String titleBar = I18n.getMessage("Warning");
@@ -380,6 +381,12 @@ public class GameWindow {
                         System.out.println(card.getName() + " is deselected!");
                         getSelectedCards().remove(card);
                         cardLayout.setBackground(Color.CYAN);
+                    }
+
+                    if (getSelectedCards().size() >= 2 && gameManager.checkCurrentUsersSpecialEffect()) {
+                        setCatMode(true);
+                    } else {
+                        setCatMode(false);
                     }
                 }
             });
@@ -589,8 +596,20 @@ public class GameWindow {
         gameManager.executeCatStealOn(user, new Random());
     }
 
-    public void toggleCatMode() {
-        this.catMode = false;
+    private void setCatMode(boolean newCatMode) {
+        catMode = newCatMode;
+
+        if (modeButton != null) {
+            if (!catMode) {
+                modeButton.setText(I18n.getMessage("SwitchToCatModeMessage"));
+            } else {
+                modeButton.setText(I18n.getMessage("SwitchToNormalModeMessage"));
+            }
+        }
+    }
+
+    public void disableCatMode() {
+        this.setCatMode(false);
     }
 
     public GameManager getGameManager() {
