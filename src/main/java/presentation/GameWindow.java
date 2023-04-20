@@ -3,6 +3,8 @@ package presentation;
 import datasource.CardType;
 import datasource.I18n;
 import system.*;
+import system.messages.EventMessage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +34,7 @@ public class GameWindow {
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
-    private final Object mutex = new Object();
+    private final Object nopeMutex = new Object();
     private GameManager gameManager;
     private final boolean isRunningAsTest;
     private AudioPlayer audioPlayer;
@@ -86,6 +88,7 @@ public class GameWindow {
                 JButton otherPlayer = createCardImage(user.getName(), user.getHandCount() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private final User innerUser = user;
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         tryNope(innerUser);
@@ -270,7 +273,9 @@ public class GameWindow {
                 Card c2 = getSelectedCards().get(1);
                 User current = gameManager.getUserForCurrentTurn();
                 if (current.checkCatPairMatch(c1, c2)) {
-
+                    gameManager.postMessage(EventMessage.publicMessage(
+                            String.format("%s played a Cat Combo with %s and %s",
+                                          current.getName(), c1.getName(), c2.getName())));
                     gameManager.triggerDisplayOfCatStealPrompt();
                     current.removeCard(c1);
                     current.removeCard(c2);
@@ -327,8 +332,13 @@ public class GameWindow {
                 }
 
                 executingCard = card;
+                gameManager.postMessage(EventMessage.publicMessage(
+                        String.format("%s is trying to play a %s - does anyone want to Nope?",
+                                      gameManager.getUserForCurrentTurn().getName(),
+                                      executingCard.getName())
+                ));
                 nopeMessage(false, gameManager.getUserForCurrentTurn().getName());
-                synchronized (mutex) {
+                synchronized (nopeMutex) {
                     gameManager.setCardExecutionState(1);
                 }
 
@@ -435,11 +445,15 @@ public class GameWindow {
 
         if (victimState) {
             deathMessage = I18n.getMessage("PlayerLostDefuse");
+            gameManager.postMessage(EventMessage.publicMessage(
+                    String.format("%s had to Defuse an exploding kitten!", gameManager.getUserForCurrentTurn())));
             DrawDeck deck = gameManager.getDrawDeck();
             notificationPanel.addExplodingKittenBackIntoDeck(deathMessage, deck);
             audioPlayer.playDefused();
         } else {
             deathMessage = I18n.getMessage("PlayerDied");
+            gameManager.postMessage(EventMessage.publicMessage(
+                    String.format("%s blew up!", gameManager.getUserForCurrentTurn())));
             audioPlayer.playExplosion();
             gameManager.transitionToNextTurn();
             notificationPanel.notifyPlayers(deathMessage, I18n.getMessage("Rip"));
@@ -453,10 +467,14 @@ public class GameWindow {
 
     private void tryTriggerCardExecution() {
         notificationPanel.removeAll();
-        synchronized (mutex) {
+        synchronized (nopeMutex) {
             if (gameManager.getCardExecutionState() == 1) {
                 executingCard.activateEffect(gameManager);
             } else {
+                gameManager.postMessage(EventMessage.publicMessage(
+                        String.format("%s attempted to play a %s, but was Noped", gameManager.getUserForCurrentTurn(),
+                                      executingCard.getName())
+                ));
                 gameManager.removeCardFromCurrentUser(executingCard);
             }
             executingCard = null;
@@ -467,7 +485,7 @@ public class GameWindow {
     }
 
     private void tryNope(User executingUser) {
-        synchronized (mutex) {
+        synchronized (nopeMutex) {
             int execution = gameManager.getCardExecutionState();
             if (execution == 0) {
                 if (executingUser.attemptToNope()) {
@@ -492,10 +510,12 @@ public class GameWindow {
         String status;
         if (currentNope) {
             status = buildNopeMessage(executingUsername);
+            gameManager.postMessage(EventMessage.publicMessage(
+                    String.format("Currently Noped by %s", executingUsername)));
         } else {
             status = I18n.getMessage("NopeStatusMessageNot");
+            gameManager.postMessage(EventMessage.publicMessage("Currently NOT noped"));
         }
-
         notificationPanel.notifyPlayers(status, "");
         notificationPanel.addExitButtonToLayout(I18n.getMessage("counter.nope"),
                                                 e -> tryNope(gameManager.getUserForCurrentTurn()));

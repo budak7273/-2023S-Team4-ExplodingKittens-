@@ -1,4 +1,6 @@
-package system;
+package system.messages;
+
+import system.User;
 
 import java.util.Collections;
 import java.util.Set;

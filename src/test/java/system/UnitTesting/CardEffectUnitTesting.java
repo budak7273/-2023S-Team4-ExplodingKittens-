@@ -102,7 +102,7 @@ class CardEffectUnitTesting {
     void testSeeTheFuture() {
         EffectPattern futureEffect = new SeeTheFutureEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.seeTheFuture(cards);
+        gameManager.executeSeeTheFuture(cards);
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(cards);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
@@ -139,7 +139,7 @@ class CardEffectUnitTesting {
     void testAlterTheFuture() {
         EffectPattern alterEffect = new AlterTheFutureEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.alterTheFuture(cards);
+        gameManager.executeAlterTheFuture(cards);
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(cards);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);

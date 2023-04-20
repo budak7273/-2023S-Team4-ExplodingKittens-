@@ -1,9 +1,10 @@
-package system;
+package system.messages;
 
 import org.easymock.EasyMock;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import system.User;
+import system.messages.EventMessage;
 
 import java.util.HashSet;
 import java.util.Set;

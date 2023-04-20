@@ -330,7 +330,7 @@ public class GameStateUnitTesting {
         gameboard.displayFutureCards(future);
         EasyMock.replay(gameboard, drawDeck);
 
-        gameManager.seeTheFuture(future);
+        gameManager.executeSeeTheFuture(future);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
         EasyMock.verify(gameboard, drawDeck);
@@ -354,7 +354,7 @@ public class GameStateUnitTesting {
         gameboard.editFutureCards(future);
         EasyMock.replay(gameboard, drawDeck);
 
-        gameManager.alterTheFuture(future);
+        gameManager.executeAlterTheFuture(future);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
         EasyMock.verify(gameboard, drawDeck);

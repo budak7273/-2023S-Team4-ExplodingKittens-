@@ -1,6 +1,5 @@
 package system;
 
-
 import datasource.CardType;
 import datasource.I18n;
 
@@ -104,7 +103,7 @@ public class User {
     }
 
     private boolean verifyCatCardEffectCount(int feralCount, int otherCatCount,
-                                            HashMap<String, Integer> catCardsInHand) {
+                                             HashMap<String, Integer> catCardsInHand) {
         if ((feralCount >= 1 && otherCatCount >= 1) || feralCount >= 2) {
             return true;
         } else if (otherCatCount < 2) {
@@ -132,7 +131,7 @@ public class User {
             CardType type1 = first.getType();
             CardType type2 = c.getType();
             if (type1 != type2 && type1 != CardType.FERAL_CAT
-                    && type2 != CardType.FERAL_CAT) {
+                && type2 != CardType.FERAL_CAT) {
                 return false;
             }
         }
