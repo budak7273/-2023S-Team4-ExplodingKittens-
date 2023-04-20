@@ -9,6 +9,6 @@ public class SeeTheEndEffect extends EffectPattern {
     @Override
     public void useEffect() {
         List<Card> bottomCards = getDrawDeck().drawThreeCardsFromBottom();
-        getGameManager().seeTheFuture(bottomCards);
+        getGameManager().executeSeeTheEnd(bottomCards);
     }
 }

@@ -14,17 +14,11 @@
 5. Configure the Java SDK to be Java 1.8
     - Shift+Shift and search `Project Structure`
     - In the SDK field, select any Java 1.8 variant, use Add SDK if needed to download one
-6. Manually install jacoco `0.7.5.<anything is fine here>`
-    - Shift+Shift and search `Project Structure`
-    - Switch to the Libraries tab and press the small plus on the left side
-    - Select "From Maven..."
-    - TODO move this to gradle so it doesn't have to be done locally
-7. Run the Gradle build > build task
+6. Run the Gradle build > build task
     - It should succeed, otherwise try the troubleshooting ideas below
-8. Run the Gradle verification > test task
+7. Run the Gradle verification > test task
     - Click the ok prompts on any dialog boxes that appear
     - It should succeed, otherwise try the troubleshooting ideas below
-    - Note - the shuffle test can randomly fail TODO on trello, fix it
 
 ## Troubleshooting
 

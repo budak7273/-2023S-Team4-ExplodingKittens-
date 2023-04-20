@@ -82,9 +82,7 @@ public class CardCSVParser {
     }
 
     private void verifyCardType(String cardTypeName) {
-        System.out.println(cardTypeName);
         Set<String> allCardTypes = Collections.unmodifiableSet(new HashSet<>(CardType.ENUM_VALUES));
-        System.out.println(allCardTypes);
         if (!allCardTypes.contains(cardTypeName)) {
             throw new IllegalArgumentException(I18n
                     .getMessage("InvalidCardTypeMessage") + cardTypeName
