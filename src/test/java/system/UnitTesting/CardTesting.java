@@ -82,8 +82,7 @@ public class CardTesting {
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
         EasyMock.expectLastCall();
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
-        gameState.addExtraTurn();
-        gameManager.transitionToNextTurn();
+        gameManager.executeAttack();
         EasyMock.expectLastCall();
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.replay(gameManager, gameState, user, drawDeck);

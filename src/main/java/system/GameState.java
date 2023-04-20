@@ -1,5 +1,8 @@
 package system;
 
+import system.messages.EventLog;
+import system.messages.EventMessage;
+
 import java.util.*;
 
 public class GameState {
@@ -7,16 +10,20 @@ public class GameState {
     private final DrawDeck drawDeck;
     private int extraTurnsForCurrentUser = 0;
     private int cardExecutionState = -1;
+    private final EventLog eventLog;
 
     public GameState(Queue<User> pq, DrawDeck deck) {
-        Queue<User> pqCopy = new LinkedList<>();
-        pqCopy.addAll(pq);
-        this.playerQueue = pqCopy;
+        this.playerQueue = new LinkedList<>(pq);
         this.drawDeck = deck;
+        this.eventLog = new EventLog();
     }
 
     public User getUserForCurrentTurn() {
         return playerQueue.peek();
+    }
+
+    public String getEventLogForCurrentTurn() {
+        return eventLog.getTextRepresentationAs(getUserForCurrentTurn());
     }
 
     public int getDeckSizeForCurrentTurn() {
@@ -56,10 +63,12 @@ public class GameState {
     }
 
     public List<User> getTargetsForCardEffects() {
-        List<User> targets = new ArrayList<>();
-        targets.addAll(playerQueue);
+        List<User> targets = new ArrayList<>(playerQueue);
         targets.remove(getUserForCurrentTurn());
         return targets;
+    }
+    public void postMessage(EventMessage message) {
+        eventLog.addMessage(message);
     }
 
 }

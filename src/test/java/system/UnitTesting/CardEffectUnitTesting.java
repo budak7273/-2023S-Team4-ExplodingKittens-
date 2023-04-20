@@ -53,7 +53,11 @@ class CardEffectUnitTesting {
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawFromBottomForUser(user)).andReturn(false);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
+        EasyMock.expect(user.getName()).andReturn("");
+        EasyMock.expect(user.getLastCardInHand()).andReturn(EasyMock.createNiceMock(Card.class));
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
+        gameManager.postMessage(EasyMock.anyObject());
+        EasyMock.expectLastCall();
         EasyMock.replay(gameManager, gameState, user, drawDeck);
 
         drawFromBottomEffect.setCurrentState(gameManager);
@@ -66,7 +70,7 @@ class CardEffectUnitTesting {
     void testSkip() {
         EffectPattern skipEffect = new SkipEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.transitionToNextTurn();
+        gameManager.executeSkip();
         EasyMock.expectLastCall();
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
@@ -102,7 +106,7 @@ class CardEffectUnitTesting {
     void testSeeTheFuture() {
         EffectPattern futureEffect = new SeeTheFutureEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.seeTheFuture(cards);
+        gameManager.executeSeeTheFuture(cards);
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(cards);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
@@ -119,9 +123,7 @@ class CardEffectUnitTesting {
     void testAttack() {
         EffectPattern attackEffect = new AttackEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.transitionToNextTurn();
-        EasyMock.expectLastCall();
-        gameState.addExtraTurn();
+        gameManager.executeAttack();
         EasyMock.expectLastCall();
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
@@ -139,7 +141,7 @@ class CardEffectUnitTesting {
     void testAlterTheFuture() {
         EffectPattern alterEffect = new AlterTheFutureEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.alterTheFuture(cards);
+        gameManager.executeAlterTheFuture(cards);
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(cards);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
