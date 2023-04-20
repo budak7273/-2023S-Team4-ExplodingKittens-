@@ -29,7 +29,6 @@ dependencies {
 
 test {
     // Allows for dynamic exclude through property defined in the build.gradle file
-    // Used to leave out integration tests in CI since they currently call GUI code -> fails on HeadlessException
     // https://blog.jdriven.com/2017/10/run-one-or-exclude-one-test-with-gradle/
     test {
         if (project.hasProperty('excludeTests')) {

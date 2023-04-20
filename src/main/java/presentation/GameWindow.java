@@ -3,6 +3,8 @@ package presentation;
 import datasource.CardType;
 import datasource.I18n;
 import system.*;
+import system.messages.EventMessage;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -33,18 +35,18 @@ public class GameWindow {
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
-    private final Object mutex = new Object();
+    private final Object nopeMutex = new Object();
     private GameManager gameManager;
-    private final boolean isRunningAsTest;
+    private final boolean muteAudio;
     private AudioPlayer audioPlayer;
     private JButton modeButton;
 
-    public GameWindow(JFrame frame, boolean inputIsRunningAsTest) {
+    public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
-        this.isRunningAsTest = inputIsRunningAsTest;
+        this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
-        this.audioPlayer = new AudioPlayer(!isRunningAsTest);
+        this.audioPlayer = new AudioPlayer(!muteAudio);
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
 
@@ -139,6 +141,7 @@ public class GameWindow {
                 JButton otherPlayer = createCardImage(user.getName(), user.getHandCount() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private final User innerUser = user;
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         tryNope(innerUser);
@@ -323,7 +326,9 @@ public class GameWindow {
                 Card c2 = getSelectedCards().get(1);
                 User current = gameManager.getUserForCurrentTurn();
                 if (current.checkCatPairMatch(c1, c2)) {
-
+                    gameManager.postMessage(EventMessage.publicMessage(
+                            String.format(I18n.getMessage("CatComboDetailsPublic"),
+                                          current.getName(), c1.getName(), c2.getName())));
                     gameManager.triggerDisplayOfCatStealPrompt();
                     current.removeCard(c1);
                     current.removeCard(c2);
@@ -380,8 +385,13 @@ public class GameWindow {
                 }
 
                 executingCard = card;
+                gameManager.postMessage(EventMessage.publicMessage(
+                        String.format(I18n.getMessage("AnyoneNopePublic"),
+                                      gameManager.getUserForCurrentTurn().getName(),
+                                      executingCard.getName())
+                ));
                 nopeMessage(false, gameManager.getUserForCurrentTurn().getName());
-                synchronized (mutex) {
+                synchronized (nopeMutex) {
                     gameManager.setCardExecutionState(1);
                 }
 
@@ -488,11 +498,15 @@ public class GameWindow {
 
         if (victimState) {
             deathMessage = I18n.getMessage("PlayerLostDefuse");
+            gameManager.postMessage(EventMessage.publicMessage(
+                    String.format(I18n.getMessage("DefuseUsedPublic"), gameManager.getUserForCurrentTurn().getName())));
             DrawDeck deck = gameManager.getDrawDeck();
             notificationPanel.addExplodingKittenBackIntoDeck(deathMessage, deck);
             audioPlayer.playDefused();
         } else {
             deathMessage = I18n.getMessage("PlayerDied");
+            gameManager.postMessage(EventMessage.publicMessage(
+                    String.format(I18n.getMessage("BlowUpPublic"), gameManager.getUserForCurrentTurn().getName())));
             audioPlayer.playExplosion();
             gameManager.transitionToNextTurn();
             notificationPanel.notifyPlayers(deathMessage, I18n.getMessage("Rip"));
@@ -506,10 +520,15 @@ public class GameWindow {
 
     private void tryTriggerCardExecution() {
         notificationPanel.removeAll();
-        synchronized (mutex) {
+        synchronized (nopeMutex) {
             if (gameManager.getCardExecutionState() == 1) {
                 executingCard.activateEffect(gameManager);
             } else {
+                gameManager.postMessage(EventMessage.publicMessage(
+                        String.format(I18n.getMessage("PlayBlockedByNopePublic"),
+                                      gameManager.getUserForCurrentTurn().getName(),
+                                      executingCard.getName())
+                ));
                 gameManager.removeCardFromCurrentUser(executingCard);
             }
             executingCard = null;
@@ -520,7 +539,7 @@ public class GameWindow {
     }
 
     private void tryNope(User executingUser) {
-        synchronized (mutex) {
+        synchronized (nopeMutex) {
             int execution = gameManager.getCardExecutionState();
             if (execution == 0) {
                 if (executingUser.attemptToNope()) {
@@ -545,10 +564,12 @@ public class GameWindow {
         String status;
         if (currentNope) {
             status = buildNopeMessage(executingUsername);
+            gameManager.postMessage(EventMessage.publicMessage(
+                    String.format(I18n.getMessage("IsNopedPublic"), executingUsername)));
         } else {
             status = I18n.getMessage("NopeStatusMessageNot");
+            gameManager.postMessage(EventMessage.publicMessage(I18n.getMessage("NotNopedPublic")));
         }
-
         notificationPanel.notifyPlayers(status, "");
         notificationPanel.addExitButtonToLayout(I18n.getMessage("counter.nope"),
                                                 e -> tryNope(gameManager.getUserForCurrentTurn()));
@@ -576,7 +597,7 @@ public class GameWindow {
     }
 
     private void displayInformationalMessage(String message, String title) {
-        if (!isRunningAsTest) {
+        if (!muteAudio) {
             JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
         }
     }
