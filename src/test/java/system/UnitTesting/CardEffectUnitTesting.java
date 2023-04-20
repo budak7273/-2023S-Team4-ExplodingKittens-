@@ -20,7 +20,7 @@ class CardEffectUnitTesting {
     private List<Card> cards;
 
     @BeforeEach
-    void testMockCreation() {
+    void setUp() {
         gameState = EasyMock.createMock(GameState.class);
         user = EasyMock.createMock(User.class);
         drawDeck = EasyMock.createMock(DrawDeck.class);
