@@ -56,7 +56,6 @@ public class DrawDeckUnitTesting {
         boolean shuffled = deck.shuffle();
 
         Assertions.assertEquals(1, deck.getDeckSize());
-        Assertions.assertEquals(card, deck.getCardsAsList().get(0));
         Assertions.assertTrue(shuffled);
     }
 

@@ -63,7 +63,7 @@ public class UserIntegrationTesting {
         Assertions.assertEquals(list, user.getHand());
         Assertions.assertEquals(2, user.getHand().size());
         Assertions.assertEquals(card, user.getHand().get(0));
-        Assertions.assertEquals(card, user.getHand().get(1));
+        Assertions.assertEquals(card2, user.getHand().get(1));
     }
 
     @Test
@@ -259,12 +259,22 @@ public class UserIntegrationTesting {
         selected.add(c);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
+    }
+
+    @Test
+    public void
+    testVerifyEffectForSelectedHandWithTwoCardsIntegrationTest() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card c = new Card(CardType.ATTACK);
+        list.add(c);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c);
+        User user = new User("test1", false, list);
         Card c2 = new Card(CardType.ATTACK);
         list.add(c2);
         selected.add(c2);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
-
     @Test
     public void
     testVerifyEffectForSelectSize1HandWMultIndexIntegratTest() {
