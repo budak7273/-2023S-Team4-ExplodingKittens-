@@ -85,7 +85,7 @@ public class Setup {
         List<Card> cardList = parser.generateListOfCardsWithVerification(includePaw, includePawless);
 
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
-            cardList.add(new Card(CardType.DEFUSE));
+            cardList.add(new Card(CardType.DEFUSE, null));
         }
         return cardList;
     }
@@ -104,13 +104,13 @@ public class Setup {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawCard(user);
             }
-            user.addCard(new Card(CardType.DEFUSE));
+            user.addCard(new Card(CardType.DEFUSE, null));
         }
     }
 
     public void shuffleExplodingKittensInDeck(DrawDeck deck) {
         for (int i = 0; i < numOfPlayers - 1; i++) {
-            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN));
+            deck.addCardToTop(new Card(CardType.EXPLODING_KITTEN, null));
         }
         deck.shuffle();
     }
