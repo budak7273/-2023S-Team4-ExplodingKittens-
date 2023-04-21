@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 import static javax.swing.ScrollPaneConstants.*;
 
@@ -565,7 +566,12 @@ public class GameWindow {
     }
 
     public void displayTargetedAttackPrompt(List<User> users) {
+        // TODO replace with promptForTargetSelection
         this.notificationPanel.displayTargetedAttackPrompt(users);
+    }
+
+    public void promptForTargetSelection(List<User> users, CardType cardType, Function<User, Void> then) {
+        this.notificationPanel.displaySingleSelectionPrompt(users, cardType, then);
     }
 
     public void triggerTargetedAttackOn(User user) {

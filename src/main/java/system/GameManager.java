@@ -1,5 +1,6 @@
 package system;
 
+import datasource.CardType;
 import datasource.I18n;
 import presentation.GameWindow;
 import system.messages.EventMessage;
@@ -7,6 +8,7 @@ import system.messages.EventMessage;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+import java.util.function.Function;
 
 import static system.Utils.forUsers;
 
@@ -22,7 +24,7 @@ public class GameManager {
         this.gameWindow = player;
     }
 
-    private void transitionToTurnOfUser(User targetUser) {
+    public void transitionToTurnOfUser(User targetUser) {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         throwIfQueueSizeIsInvalid();
 
@@ -174,15 +176,18 @@ public class GameManager {
     }
 
     public void triggerDisplayOfCatStealPrompt() {
+        // TODO replace with displayTargetSelectionPrompt
         List<User> targets = gameState.getTargetsForCardEffects();
         gameWindow.displayCatStealPrompt(targets);
     }
 
     public void triggerDisplayOfFavorPrompt(List<User> targets) {
+        // TODO replace with displayTargetSelectionPrompt
         gameWindow.displayFavorPrompt(targets);
     }
 
     public void executeTargetedAttackOn(User target) {
+        // TODO replace with CardEffect internals
         User attacker = getUserForCurrentTurn();
         postMessage(new EventMessage(
                 forUsers(target),
@@ -224,7 +229,12 @@ public class GameManager {
     }
 
     public void triggerDisplayOfTargetedAttackPrompt(List<User> targets) {
+        // TODO replace with displayTargetSelectionPrompt
         gameWindow.displayTargetedAttackPrompt(targets);
+    }
+
+    public void displayTargetSelectionPrompt(CardType cardType, Function<User, Void> then) {
+        gameWindow.promptForTargetSelection(gameState.getTargetsForCardEffects(), cardType, then);
     }
 
     public void removeCardFromCurrentUser(Card card) {

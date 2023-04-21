@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
+import system.cardEffects.TargetedAttackEffect;
 
 import java.util.*;
 
@@ -522,8 +523,9 @@ public class GameStateUnitTesting {
         }
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        gpMock.displayTargetedAttackPrompt(
-                validTargetListForCurrentUser(currentUser));
+        TargetedAttackEffect effect = (TargetedAttackEffect) CardType.TARGETED_ATTACK.getEffectPattern();
+        gpMock.promptForTargetSelection(
+                validTargetListForCurrentUser(currentUser), CardType.TARGETED_ATTACK, effect.apply);
         EasyMock.expectLastCall();
 
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);

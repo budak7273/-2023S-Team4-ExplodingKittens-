@@ -3,7 +3,7 @@ package system;
 import datasource.CardType;
 
 public class Card {
-    private CardType cardType;
+    private final CardType cardType;
 
     public Card(CardType type) {
         this.cardType = type;

@@ -1,5 +1,6 @@
-package system.UnitTesting;
+package system.cardEffects;
 
+import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -158,11 +159,10 @@ class CardEffectUnitTesting {
     @SuppressWarnings("unchecked")
         // We know the cards mock is an unsafe type conversion
     void testTargetedAttack() {
-        EffectPattern targetedAtkEffect = new TargetedAttackEffect();
+        TargetedAttackEffect targetedAtkEffect = new TargetedAttackEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.triggerDisplayOfTargetedAttackPrompt(users);
+        gameManager.displayTargetSelectionPrompt(CardType.TARGETED_ATTACK, targetedAtkEffect.apply);
         EasyMock.expectLastCall();
-        EasyMock.expect(gameState.getTargetsForCardEffects()).andReturn(users);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
         EasyMock.replay(gameManager, gameState, user, drawDeck, users);

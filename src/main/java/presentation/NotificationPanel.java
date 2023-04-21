@@ -5,6 +5,8 @@ import datasource.I18n;
 import system.Card;
 import system.DrawDeck;
 import system.User;
+import system.cardEffects.EffectPattern;
+import system.cardEffects.UserTargetingEffect;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class NotificationPanel extends JPanel {
     private static final int BUTTON_WIDTH = 150;
@@ -114,7 +117,7 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayTargetedAttackPrompt(List<User> victims) {
-        displaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK);
+        displaySingleSelectionPrompt(victims, CardType.TARGETED_ATTACK, null);
     }
 
     public void addExplodingKittenBackIntoDeck(String contentMessage,
@@ -200,16 +203,17 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayFavorPrompt(List<User> victims) {
-        displaySingleSelectionPrompt(victims, CardType.FAVOR);
+        // TODO switch to then() framework
+        displaySingleSelectionPrompt(victims, CardType.FAVOR, null);
 
     }
 
     public void displayCatStealPrompt(List<User> victims) {
-        displaySingleSelectionPrompt(victims, CardType.FERAL_CAT);
+        // TODO switch to then() framework
+        displaySingleSelectionPrompt(victims, CardType.FERAL_CAT, null);
     }
 
-    private void displaySingleSelectionPrompt(
-            List<User> victims, CardType type) {
+    public void displaySingleSelectionPrompt(List<User> victims, CardType type, Function<User, Void> then) {
         gameWindow.disableButtons();
         initializePane();
 
@@ -220,12 +224,18 @@ public class NotificationPanel extends JPanel {
                 return;
             }
             removeAll();
+
             if (type == CardType.FAVOR) {
                 gameWindow.triggerFavorOn(selectedVictim[0]);
             } else if (type == CardType.FERAL_CAT) {
                 gameWindow.triggerCatStealOn(selectedVictim[0]);
             } else {
-                gameWindow.triggerTargetedAttackOn(selectedVictim[0]);
+                // TODO cleanup
+                if (then != null) {
+                    then.apply(selectedVictim[0]);
+                } else {
+                    gameWindow.triggerTargetedAttackOn(selectedVictim[0]);
+                }
             }
             gameWindow.enableButtons();
         };
