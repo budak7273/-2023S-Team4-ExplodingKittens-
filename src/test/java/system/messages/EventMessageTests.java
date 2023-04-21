@@ -36,6 +36,7 @@ class EventMessageTests {
     void testPrivateMessageOwnedByOwner() {
         assertTrue(privateMessage.isOwnedBy(owner));
     }
+    @Test
     void testPrivateMessageOwnedByNonOwner() {
         assertFalse(privateMessage.isOwnedBy(nonOwner));
     }
