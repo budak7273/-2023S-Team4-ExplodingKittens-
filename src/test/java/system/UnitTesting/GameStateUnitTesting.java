@@ -608,8 +608,11 @@ public class GameStateUnitTesting {
         Queue<User> pq = new LinkedList<>();
 
         User user = EasyMock.createMock(User.class);
+        GameWindow window = EasyMock.createMock(GameWindow.class);
         EasyMock.expect(user.isAlive()).andReturn(true).times(2);
         EasyMock.expect(user.getName()).andReturn("");
+        window.updateUI();
+
         EasyMock.replay(user);
         pq.add(user);
         pq.add(user);
@@ -617,6 +620,7 @@ public class GameStateUnitTesting {
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
         gpMock.disableCatMode();
         gpMock.updateUI();
+        EasyMock.expectLastCall();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         deckMock.addExplodingKittenAtLocation(0);
         EasyMock.expectLastCall();
@@ -705,6 +709,11 @@ public class GameStateUnitTesting {
         EasyMock.expect(currentUser.getName()).andReturn("").times(expectedMessageDisplayCount);
         currentUser.addCard(cardToGive);
         currentUser.addCard(c);
+        EasyMock.expectLastCall();
+        GameWindow window = EasyMock.createMock(GameWindow.class);
+        window.updateEventHistoryLog("\"Event Log contents for player: \n"
+                                     + " took a Attack from  via a Favor\n"
+                                     + "\"");
         EasyMock.expectLastCall();
         EasyMock.replay(currentUser);
         currentUser.addCard(c);
