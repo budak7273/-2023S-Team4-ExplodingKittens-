@@ -8,9 +8,13 @@ public class Card {
     private CardType cardType;
     private Icon icon;
 
-    public Card(CardType type, Icon icon) {
+    public Card(CardType type, Icon imageIcon) {
         this.cardType = type;
-        this.icon = icon;
+        this.icon = imageIcon;
+    }
+    public Card(CardType type) {
+        this.cardType = type;
+        this.icon = null;
     }
 
     public Icon getIcon() {

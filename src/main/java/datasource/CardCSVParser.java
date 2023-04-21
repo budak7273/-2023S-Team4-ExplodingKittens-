@@ -74,7 +74,8 @@ public class CardCSVParser {
     }
 
     private void verifyPropertyLength(String[] cardProperties) {
-        if (cardProperties.length != 3) {
+        final int fields = 3;
+        if (cardProperties.length != fields) {
             throw new IllegalArgumentException(
                     I18n.getMessage("MissingDataMessage"));
         }

@@ -59,10 +59,10 @@ class FeatureFiveTesting {
         final int startingPoint = 2;
         final int endingPoint = NUM_PLAYERS + 1;
         for (int i = startingPoint; i < endingPoint; i++) {
-            gameManager.addCardToDeck(new Card(CardType.EXPLODING_KITTEN));
+            gameManager.addCardToDeck(new Card(CardType.EXPLODING_KITTEN, null));
             User currentUser = gameManager.getUserForCurrentTurn();
-            gameManager.removeCardFromCurrentUser(new Card(CardType.DEFUSE));
-            gameManager.removeCardFromCurrentUser(new Card(CardType.DEFUSE));
+            gameManager.removeCardFromCurrentUser(new Card(CardType.DEFUSE, null));
+            gameManager.removeCardFromCurrentUser(new Card(CardType.DEFUSE, null));
             gameManager.drawCardForCurrentTurn();
             Assertions.assertFalse(
                     gameManager.getPlayerQueue().contains(currentUser));
