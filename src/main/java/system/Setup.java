@@ -4,6 +4,7 @@ import datasource.CardCSVParser;
 import datasource.CardType;
 import datasource.I18n;
 
+import javax.swing.ImageIcon;
 import java.io.File;
 import java.util.*;
 
@@ -104,7 +105,7 @@ public class Setup {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawCard(user);
             }
-            user.addCard(new Card(CardType.DEFUSE, null));
+            user.addCard(new Card(CardType.DEFUSE, new ImageIcon("src/main/resources/images/defuse.png")));
         }
     }
 
