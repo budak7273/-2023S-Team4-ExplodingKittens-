@@ -6,18 +6,16 @@ import system.GameManager;
 import system.User;
 import system.messages.EventMessage;
 
-import java.util.List;
 import java.util.function.Function;
 
 import static system.Utils.forUsers;
 
 public class TargetedAttackEffect extends UserTargetingEffect {
 
-    public Function<User, Void> apply;
+    private final Function<User, Void> apply;
 
     @Override
     public void useEffect() {
-        System.out.println("HELLO!");
         getGameManager().displayTargetSelectionPrompt(CardType.TARGETED_ATTACK, apply);
     }
 
@@ -32,6 +30,11 @@ public class TargetedAttackEffect extends UserTargetingEffect {
         gm.transitionToTurnOfUser(target);
         getCurrentState().addExtraTurn();
         return null;
+    }
+
+    // Package-private for tests to be able to retrieve this with Checkstyle still appeased with it being private
+    Function<User, Void> getApply() {
+        return apply;
     }
 
     {

@@ -5,8 +5,6 @@ import datasource.I18n;
 import system.Card;
 import system.DrawDeck;
 import system.User;
-import system.cardEffects.EffectPattern;
-import system.cardEffects.UserTargetingEffect;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,12 +55,12 @@ public class NotificationPanel extends JPanel {
         gameWindow.disableButtons();
         initializePane();
         addExitButtonToLayout(I18n.getMessage("Done"),
-                e -> {
-        removeAll();
+                              e -> {
+                                  removeAll();
 
-            cardOrder.clear();
-            gameWindow.enableButtons();
-        });
+                                  cardOrder.clear();
+                                  gameWindow.enableButtons();
+                              });
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
@@ -132,11 +130,11 @@ public class NotificationPanel extends JPanel {
         }
         if (lastCard) {
             addExitButtonToLayout(I18n.getMessage("KittenPlaced"),
-                    e -> {
-                        removeAll();
-                        gameWindow.addExplodingKittenIntoDeck(0);
-                        gameWindow.enableButtons();
-                    });
+                                  e -> {
+                                      removeAll();
+                                      gameWindow.addExplodingKittenIntoDeck(0);
+                                      gameWindow.enableButtons();
+                                  });
         } else {
             String[] options = new String[size];
 
@@ -146,7 +144,7 @@ public class NotificationPanel extends JPanel {
             }
 
             JLabel content = new JLabel("<html><center><br>"
-                    + contentMessage + "<br><br></center></html>");
+                                        + contentMessage + "<br><br></center></html>");
 
             contentPanel.add(content);
             content.setOpaque(true);
@@ -155,22 +153,22 @@ public class NotificationPanel extends JPanel {
             gameWindow.updateDisplay();
 
             addExitButtonToLayout(I18n.getMessage("Location"),
-                    e -> {
-                        String getLocation = (String)
-                                JOptionPane.showInputDialog(
-                                        null,
-                                        I18n.getMessage("PlaceKitten"),
-                                        I18n.getMessage("KittenPlaced"),
-                                        JOptionPane.QUESTION_MESSAGE,
-                                        null,
-                                        options,
-                                        options[0]);
+                                  e -> {
+                                      String getLocation = (String)
+                                              JOptionPane.showInputDialog(
+                                                      null,
+                                                      I18n.getMessage("PlaceKitten"),
+                                                      I18n.getMessage("KittenPlaced"),
+                                                      JOptionPane.QUESTION_MESSAGE,
+                                                      null,
+                                                      options,
+                                                      options[0]);
 
-                        removeAll();
-                        gameWindow.addExplodingKittenIntoDeck(
-                                Integer.parseInt(getLocation));
-                        gameWindow.enableButtons();
-                    });
+                                      removeAll();
+                                      gameWindow.addExplodingKittenIntoDeck(
+                                              Integer.parseInt(getLocation));
+                                      gameWindow.enableButtons();
+                                  });
         }
         gameWindow.updateDisplay();
     }
@@ -182,7 +180,7 @@ public class NotificationPanel extends JPanel {
         }
 
         JLabel content = new JLabel("<html><center><br>"
-                + contentMessage + "<br><br></center></html>");
+                                    + contentMessage + "<br><br></center></html>");
 
         contentPanel.add(content);
         content.setOpaque(true);
@@ -203,13 +201,12 @@ public class NotificationPanel extends JPanel {
     }
 
     public void displayFavorPrompt(List<User> victims) {
-        // TODO switch to then() framework
+        // Future refactor: move these to the then() framework
         displaySingleSelectionPrompt(victims, CardType.FAVOR, null);
-
     }
 
     public void displayCatStealPrompt(List<User> victims) {
-        // TODO switch to then() framework
+        // Future refactor: move these to the then() framework
         displaySingleSelectionPrompt(victims, CardType.FERAL_CAT, null);
     }
 
@@ -225,17 +222,13 @@ public class NotificationPanel extends JPanel {
             }
             removeAll();
 
+            // Future refactor: move these to the then() framework
             if (type == CardType.FAVOR) {
                 gameWindow.triggerFavorOn(selectedVictim[0]);
             } else if (type == CardType.FERAL_CAT) {
                 gameWindow.triggerCatStealOn(selectedVictim[0]);
             } else {
-                // TODO cleanup
-                if (then != null) {
-                    then.apply(selectedVictim[0]);
-                } else {
-                    gameWindow.triggerTargetedAttackOn(selectedVictim[0]);
-                }
+                then.apply(selectedVictim[0]);
             }
             gameWindow.enableButtons();
         };
@@ -262,6 +255,4 @@ public class NotificationPanel extends JPanel {
 
         gameWindow.updateDisplay();
     }
-
-
 }

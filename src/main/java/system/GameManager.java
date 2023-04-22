@@ -104,7 +104,7 @@ public class GameManager {
     public boolean drawCardForCurrentTurn() {
         User current = getUserForCurrentTurn();
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(current);
-        // TODO switch drawCard to return the card instead of wasExplodingKitten
+        // Future refactor: switch drawCard to return the card instead of wasExplodingKitten
         postMessage(new EventMessage(
                 forUsers(current),
                 String.format(I18n.getMessage("DrawCardPublic"), current.getName()),
@@ -170,31 +170,20 @@ public class GameManager {
         transitionToNextTurn();
     }
 
-    // TODO this method is only used by tests
+    // Future refactor: this method is only used by tests
     public void addCardToDeck(Card card) {
         gameState.getDrawDeck().addCardToTop(card);
     }
 
     public void triggerDisplayOfCatStealPrompt() {
-        // TODO replace with displayTargetSelectionPrompt
+        // Future refactor: move these to the then() framework, replace with displayTargetSelectionPrompt
         List<User> targets = gameState.getTargetsForCardEffects();
         gameWindow.displayCatStealPrompt(targets);
     }
 
     public void triggerDisplayOfFavorPrompt(List<User> targets) {
-        // TODO replace with displayTargetSelectionPrompt
+        // Future refactor: move these to the then() framework, replace with displayTargetSelectionPrompt
         gameWindow.displayFavorPrompt(targets);
-    }
-
-    public void executeTargetedAttackOn(User target) {
-        // TODO replace with CardEffect internals
-        User attacker = getUserForCurrentTurn();
-        postMessage(new EventMessage(
-                forUsers(target),
-                String.format(I18n.getMessage("TargetedAttackPublic"), attacker.getName(), target.getName()),
-                String.format(I18n.getMessage("TargetedAttackPrivate"), attacker.getName())));
-        transitionToTurnOfUser(target);
-        gameState.addExtraTurn();
     }
 
     public void executeFavorOn(User target) {
@@ -226,11 +215,6 @@ public class GameManager {
                               attacker.getName(), target.getName()),
                 String.format(I18n.getMessage("CatComboPrivate"),
                               attacker.getName(), stealCard.getName(), target.getName())));
-    }
-
-    public void triggerDisplayOfTargetedAttackPrompt(List<User> targets) {
-        // TODO replace with displayTargetSelectionPrompt
-        gameWindow.displayTargetedAttackPrompt(targets);
     }
 
     public void displayTargetSelectionPrompt(CardType cardType, Function<User, Void> then) {

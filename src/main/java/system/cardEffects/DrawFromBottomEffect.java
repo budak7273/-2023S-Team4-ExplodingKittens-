@@ -13,7 +13,7 @@ public class DrawFromBottomEffect extends EffectPattern {
         GameManager gm = getGameManager();
         boolean drawnExplodingKitten =
                 getDrawDeck().drawFromBottomForUser(getCurrentUser());
-        // TODO switch drawCard to return the card instead of wasExplodingKitten
+        // Future refactor: switch drawCard to return the card instead of wasExplodingKitten
         gm.postMessage(new EventMessage(
                 forUsers(getCurrentUser()),
                 String.format(I18n.getMessage("DrawFromBottomPublic"),
