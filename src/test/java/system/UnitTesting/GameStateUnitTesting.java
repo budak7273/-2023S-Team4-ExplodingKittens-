@@ -40,11 +40,11 @@ public class GameStateUnitTesting {
 
     @Test
     public void testTransitionToNextTurnWithQueueOf2Users() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = new User();
@@ -54,22 +54,22 @@ public class GameStateUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.transitionToNextTurn();
 
         User userForCurrentTurn = gameManager.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
-        EasyMock.verify(boardMock);
+        EasyMock.verify(gw);
     }
 
     @Test
     public void testTransitionToNextTurnWithQueueOf10Users() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = new User();
@@ -82,12 +82,12 @@ public class GameStateUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.transitionToNextTurn();
         User userForCurrentTurn = gameManager.getUserForCurrentTurn();
         Assertions.assertEquals(userNextInQueue, userForCurrentTurn);
 
-        EasyMock.verify(boardMock);
+        EasyMock.verify(gw);
     }
 
     @Test
@@ -110,11 +110,11 @@ public class GameStateUnitTesting {
 
     @Test
     public void testTransitionToNextAliveWithThreeAliveUsers() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
@@ -126,7 +126,7 @@ public class GameStateUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -135,16 +135,16 @@ public class GameStateUnitTesting {
         expected.add(user1);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
-        EasyMock.verify(boardMock);
+        EasyMock.verify(gw);
     }
 
     @Test
     public void testTransitionToNextAliveWithThreeUsersFirstDead() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
@@ -157,7 +157,7 @@ public class GameStateUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
@@ -165,12 +165,12 @@ public class GameStateUnitTesting {
         expected.add(user3);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
-        EasyMock.verify(boardMock);
+        EasyMock.verify(gw);
     }
 
     @Test
     public void testTransitionToNextAliveWithThreeUsersTwoDead() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
 
         Queue<User> pq = new LinkedList<User>();
         User user1 = new User();
@@ -182,31 +182,30 @@ public class GameStateUnitTesting {
         pq.add(user2);
         pq.add(user3);
         DrawDeck deck = new DrawDeck(new ArrayList<>());
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        boardMock.displayWinForUser(user3);
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        gw.displayWinForUser(user3);
+        EasyMock.replay(gw);
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.transitionToNextTurn();
 
         Queue<User> expected = new LinkedList<User>();
         expected.add(user3);
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
-        EasyMock.verify(boardMock);
+        EasyMock.verify(gw);
     }
 
     @Test
     public void testTransitionToNextAliveWithTenUsersAndU1U2U4Dead() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         Queue<User> expected = new LinkedList<User>();
@@ -224,16 +223,16 @@ public class GameStateUnitTesting {
         DrawDeck deck = new DrawDeck(new ArrayList<>());
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.transitionToNextTurn();
 
         Assertions.assertEquals(expected, gameManager.getPlayerQueue());
 
-        EasyMock.verify(boardMock);
+        EasyMock.verify(gw);
     }
 
     @Test
-    public void testDrawCardNoKitten() {
+    public void testDrawCardNoExplodingKitten() {
         Queue<User> userQueue = new LinkedList<>();
         User currentUser = EasyMock.createMock(User.class);
         EasyMock.expect(currentUser.isAlive()).andReturn(true);
@@ -245,26 +244,29 @@ public class GameStateUnitTesting {
         EasyMock.replay(otherUser);
         userQueue.add(new User());
 
-        GameWindow gameboard = EasyMock.createMock(GameWindow.class);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
         GameState gameState = new GameState(userQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameboard);
+        GameManager gameManager = new GameManager(gameState, gw);
 
         EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(false);
-        gameboard.disableCatMode();
-        gameboard.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(gameboard, drawDeck);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + "You drew a null\n");
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " drew a card\n");
+        EasyMock.replay(gw, drawDeck);
 
         gameManager.drawCardForCurrentTurn();
         gameManager.transitionToNextTurn();
 
-        EasyMock.verify(gameboard, drawDeck, currentUser, otherUser);
+        EasyMock.verify(gw, drawDeck, currentUser, otherUser);
     }
 
     @Test
-    public void testDrawCardWithKitten() {
+    public void testDrawCardWithExplodingKitten() {
         Queue<User> userQueue = new LinkedList<User>();
 
         User currentUser = EasyMock.createMock(User.class);
@@ -280,18 +282,20 @@ public class GameStateUnitTesting {
         EasyMock.replay(otherUser);
         userQueue.add(otherUser);
 
-        GameWindow gameboard = EasyMock.createMock(GameWindow.class);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + "You drew a null\n");
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
         EasyMock.expect(drawDeck.drawCard(currentUser)).andReturn(true);
-        gameboard.explosionNotification(currentUser.isAlive());
+        gw.explosionNotification(currentUser.isAlive());
         EasyMock.expectLastCall();
-        EasyMock.replay(gameboard, drawDeck);
+        EasyMock.replay(gw, drawDeck);
 
         GameState gameState = new GameState(userQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameboard);
+        GameManager gameManager = new GameManager(gameState, gw);
 
         gameManager.drawCardForCurrentTurn();
-        EasyMock.verify(gameboard, drawDeck, currentUser, otherUser);
+        EasyMock.verify(gw, drawDeck, currentUser, otherUser);
     }
 
 
@@ -312,7 +316,10 @@ public class GameStateUnitTesting {
 
         drawDeck.shuffle();
         gameWindow.updateUI();
+        gameWindow.updateEventHistoryLog("Event Log contents for player: \n"
+                                         + " shuffled the deck\n");
         EasyMock.replay(gameWindow);
+
         gameManager.shuffleDeck(true);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
         EasyMock.verify(gameWindow, drawDeck);
@@ -325,21 +332,23 @@ public class GameStateUnitTesting {
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        GameWindow gameboard = EasyMock.createMock(GameWindow.class);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
         GameState gameState = new GameState(userQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameboard);
+        GameManager gameManager = new GameManager(gameState, gw);
 
         ArrayList<Card> future = new ArrayList<Card>();
 
-        gameboard.displayFutureCards(future);
-        EasyMock.replay(gameboard, drawDeck);
+        gw.displayFutureCards(future);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " played See the Future\n");
+        EasyMock.replay(gw, drawDeck);
 
         gameManager.executeSeeTheFuture(future);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
-        EasyMock.verify(gameboard, drawDeck);
+        EasyMock.verify(gw, drawDeck);
     }
 
     @Test
@@ -349,21 +358,23 @@ public class GameStateUnitTesting {
         userQueue.add(currentUser);
         userQueue.add(new User());
 
-        GameWindow gameboard = EasyMock.createMock(GameWindow.class);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
         DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
 
         GameState gameState = new GameState(userQueue, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameboard);
+        GameManager gameManager = new GameManager(gameState, gw);
 
         ArrayList<Card> future = new ArrayList<Card>();
 
-        gameboard.editFutureCards(future);
-        EasyMock.replay(gameboard, drawDeck);
+        gw.editFutureCards(future);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " played Alter the Future\n");
+        EasyMock.replay(gw, drawDeck);
 
         gameManager.executeAlterTheFuture(future);
         Assertions.assertEquals(currentUser, gameState.getUserForCurrentTurn());
 
-        EasyMock.verify(gameboard, drawDeck);
+        EasyMock.verify(gw, drawDeck);
     }
 
     @Test
@@ -386,7 +397,6 @@ public class GameStateUnitTesting {
         drawDeck.addCardToTop(first);
         drawDeck.addCardToTop(second);
         drawDeck.addCardToTop(third);
-
 
         GameState gameState = new GameState(userQueue, drawDeck);
         GameManager gameManager = new GameManager(gameState, gameboard);
@@ -422,7 +432,6 @@ public class GameStateUnitTesting {
         GameState gameState = new GameState(queue, deck);
         GameManager gameManager = new GameManager(gameState, gameWindow);
 
-
         boolean gameIsOver = gameManager.tryToEndGame();
         Assertions.assertTrue(gameIsOver);
         EasyMock.verify(user, gameWindow, deck);
@@ -451,11 +460,11 @@ public class GameStateUnitTesting {
 
     @Test
     public void testTransitionToNextTurnWithMinPlayersAndExtraTurn() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = EasyMock.createMock(User.class);
@@ -467,26 +476,26 @@ public class GameStateUnitTesting {
         EasyMock.replay(userStartingAtTopOfQueue, userNextInQueue, deck);
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameState.addExtraTurn();
         gameManager.transitionToNextTurn();
 
         User userForCurrentTurn = gameState.getUserForCurrentTurn();
         Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
         Assertions.assertEquals(0,
-                gameState.getExtraTurnCountForCurrentUser());
+                                gameState.getExtraTurnCountForCurrentUser());
 
-        EasyMock.verify(boardMock, userStartingAtTopOfQueue,
-                userNextInQueue, deck);
+        EasyMock.verify(gw, userStartingAtTopOfQueue,
+                        userNextInQueue, deck);
     }
 
     @Test
     public void testTransitionToNextTurnWithMaxPlayersAndExtraTurn() {
-        GameWindow boardMock = EasyMock.createMock(GameWindow.class);
-        boardMock.disableCatMode();
-        boardMock.updateUI();
-        EasyMock.expectLastCall();
-        EasyMock.replay(boardMock);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.replay(gw);
 
         Queue<User> pq = new LinkedList<User>();
         User userStartingAtTopOfQueue = EasyMock.createMock(User.class);
@@ -499,7 +508,7 @@ public class GameStateUnitTesting {
         EasyMock.replay(userStartingAtTopOfQueue, deck);
 
         GameState gameState = new GameState(pq, deck);
-        GameManager gameManager = new GameManager(gameState, boardMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameState.addExtraTurn();
         gameManager.transitionToNextTurn();
 
@@ -507,7 +516,7 @@ public class GameStateUnitTesting {
         Assertions.assertEquals(userStartingAtTopOfQueue, userForCurrentTurn);
         Assertions.assertEquals(0, gameState.getExtraTurnCountForCurrentUser());
 
-        EasyMock.verify(boardMock, userStartingAtTopOfQueue, deck);
+        EasyMock.verify(gw, userStartingAtTopOfQueue, deck);
     }
 
     @Test
@@ -542,8 +551,8 @@ public class GameStateUnitTesting {
             @Override
             public boolean matches(Object argument) {
                 return argument instanceof List
-                        && ((List) argument).size() == MAX_USER_COUNT - 1
-                        && !((List) argument).contains(user);
+                       && ((List) argument).size() == MAX_USER_COUNT - 1
+                       && !((List) argument).contains(user);
             }
 
             @Override
@@ -565,43 +574,48 @@ public class GameStateUnitTesting {
         User targetUser = EasyMock.createMock(User.class);
         pq.add(targetUser);
 
-        GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        gpMock.updateUI();
-        EasyMock.expectLastCall();
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.updateEventHistoryLog("Event Log contents for player: null\n"
+                                 + " called a Targeted Attack on \n");
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + "You were attacked by null, so you have to play two turns\n");
+        gw.updateUI();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         EasyMock.expect(targetUser.getName()).andReturn("").times(2);
-        EasyMock.replay(targetUser, gpMock, deckMock);
+        EasyMock.replay(targetUser, gw, deckMock);
 
         GameState gameState = new GameState(pq, deckMock);
-        GameManager gameManager = new GameManager(gameState, gpMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.executeTargetedAttackOn(targetUser);
 
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
-        EasyMock.verify(targetUser, gpMock, deckMock);
+        EasyMock.verify(targetUser, gw, deckMock);
     }
 
     @Test
-        public void testAddExplodingKittenIntoDeckTargetedAttack() {
+    public void testAddExplodingKittenIntoDeckTargetedAttack() {
         Queue<User> pq = new LinkedList<>();
         User user = EasyMock.createMock(User.class);
         final int expectedMessageDisplayCount = 4;
         EasyMock.expect(user.getName()).andReturn("").times(expectedMessageDisplayCount);
         pq.add(user);
 
-        GameWindow gpMock = EasyMock.createMock(GameWindow.class);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + "You were attacked by , so you have to play two turns\n");
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-        EasyMock.replay(gpMock, user, deckMock);
+        EasyMock.replay(gw, user, deckMock);
 
         GameState gameState = new GameState(pq, deckMock);
-        GameManager gameManager = new GameManager(gameState, gpMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         try {
             gameManager.executeTargetedAttackOn(user);
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Illegal number of players in queue", e.getMessage());
         }
-        EasyMock.verify(gpMock, user, deckMock);
+        EasyMock.verify(gw, user, deckMock);
     }
 
     @Test
@@ -609,26 +623,30 @@ public class GameStateUnitTesting {
         Queue<User> pq = new LinkedList<>();
 
         User user = EasyMock.createMock(User.class);
+        GameWindow window = EasyMock.createMock(GameWindow.class);
         EasyMock.expect(user.isAlive()).andReturn(true).times(2);
         EasyMock.expect(user.getName()).andReturn("");
+        window.updateUI();
+
         EasyMock.replay(user);
         pq.add(user);
         pq.add(user);
 
-        GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        gpMock.disableCatMode();
-        gpMock.updateUI();
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.disableCatMode();
+        gw.updateUI();
+        gw.updateEventHistoryLog("Event Log contents for player: \n");
+
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         deckMock.addExplodingKittenAtLocation(0);
         EasyMock.expectLastCall();
-        EasyMock.replay(gpMock, deckMock);
+        EasyMock.replay(gw, deckMock);
 
         GameState gameState = new GameState(pq, deckMock);
-        GameManager gameManager = new GameManager(gameState, gpMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.addExplodingKittenBackIntoDeck(0);
-
         Assertions.assertEquals(deckMock, gameState.getDrawDeck());
-        EasyMock.verify(gpMock, deckMock, user);
+        EasyMock.verify(gw, deckMock, user);
     }
 
     @Test
@@ -642,26 +660,30 @@ public class GameStateUnitTesting {
         EasyMock.expect(targetUser.getName()).andReturn("").times(2);
         pq.add(targetUser);
 
-        GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        gpMock.updateUI();
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        gw.updateUI();
         EasyMock.expectLastCall();
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " called a Targeted Attack on \n");
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + "You were attacked by , so you have to play two turns\n");
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-        EasyMock.replay(targetUser, gpMock, user, deckMock);
+        EasyMock.replay(targetUser, gw, user, deckMock);
 
         GameState gameState = new GameState(pq, deckMock);
-        GameManager gameManager = new GameManager(gameState, gpMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.executeTargetedAttackOn(targetUser);
 
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
-        EasyMock.verify(targetUser, gpMock, user, deckMock);
+        EasyMock.verify(targetUser, gw, user, deckMock);
     }
 
-@Test
+    @Test
     public void testRemoveCardFromCurrentUser() {
         Queue<User> pq = new LinkedList<>();
         Card cardMock = EasyMock.createMockBuilder(Card.class)
-                .withConstructor(CardType.ATTACK).createMock();
+                                .withConstructor(CardType.ATTACK).createMock();
         EasyMock.replay(cardMock);
 
         User currentUser = EasyMock.createMock(User.class);
@@ -678,15 +700,15 @@ public class GameStateUnitTesting {
         GameManager gameManager = new GameManager(gameState, gpMock);
         gameManager.removeCardFromCurrentUser(cardMock);
         EasyMock.verify(gpMock, deckMock, cardMock, currentUser);
-}
+    }
 
     private List<User> validFavorListForCurrentUser(User user) {
         EasyMock.reportMatcher(new IArgumentMatcher() {
             @Override
             public boolean matches(Object argument) {
                 return argument instanceof List
-                        && ((List) argument).size() == MAX_USER_COUNT - 1
-                        && !((List) argument).contains(user);
+                       && ((List) argument).size() == MAX_USER_COUNT - 1
+                       && !((List) argument).contains(user);
             }
 
             @Override
@@ -707,6 +729,11 @@ public class GameStateUnitTesting {
         currentUser.addCard(cardToGive);
         currentUser.addCard(c);
         EasyMock.expectLastCall();
+        GameWindow window = EasyMock.createMock(GameWindow.class);
+        window.updateEventHistoryLog("\"Event Log contents for player: \n"
+                                     + " took a Attack from  via a Favor\n"
+                                     + "\"");
+        EasyMock.expectLastCall();
         EasyMock.replay(currentUser);
         currentUser.addCard(c);
         pq.add(currentUser);
@@ -722,22 +749,24 @@ public class GameStateUnitTesting {
         EasyMock.replay(targetUser);
         pq.add(targetUser);
 
-        GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        EasyMock.expect(gpMock.inputForStealCard(targetUser)).andReturn(-1);
-        EasyMock.expect(gpMock.inputForStealCard(targetUser)).andReturn(0);
+        GameWindow gw = EasyMock.createMock(GameWindow.class);
+        EasyMock.expect(gw.inputForStealCard(targetUser)).andReturn(-1);
+        EasyMock.expect(gw.inputForStealCard(targetUser)).andReturn(0);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " took a Attack from  via a Favor\n");
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-        EasyMock.replay(gpMock, deckMock);
+        EasyMock.replay(gw, deckMock);
 
         GameState gameState = new GameState(pq, deckMock);
-        GameManager gameManager = new GameManager(gameState, gpMock);
+        GameManager gameManager = new GameManager(gameState, gw);
         gameManager.executeFavorOn(targetUser);
 
         Assertions.assertNotEquals(targetUser,
-                gameState.getUserForCurrentTurn());
+                                   gameState.getUserForCurrentTurn());
         Assertions.assertEquals(currentUser,
-                gameState.getUserForCurrentTurn());
+                                gameState.getUserForCurrentTurn());
 
-        EasyMock.verify(gpMock, deckMock, targetUser, currentUser);
+        EasyMock.verify(gw, deckMock, targetUser, currentUser);
     }
 
     @Test
@@ -827,5 +856,4 @@ public class GameStateUnitTesting {
         gameManager.triggerDisplayOfCatStealPrompt();
         EasyMock.verify(gpMock, deckMock);
     }
-
 }

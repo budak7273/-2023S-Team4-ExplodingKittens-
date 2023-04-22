@@ -487,8 +487,9 @@ public class UserUnitTesting {
 
         GameWindow gw = EasyMock.createMock(GameWindow.class);
         EasyMock.expect(gw.inputForStealCard(targetUser)).andReturn(0);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " took a Attack from  via a Favor\n");
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-
         EasyMock.replay(gw);
         EasyMock.replay(deckMock);
         GameState gameState = new GameState(pq, deckMock);

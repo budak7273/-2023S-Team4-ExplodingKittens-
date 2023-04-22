@@ -39,11 +39,10 @@ public class GameManager {
     }
 
     private void updateEventLogDisplay() {
-        // TODO integrate with display component instead of printing
-        System.out.println("===================================");
-        System.out.println("Event Log contents for player: " + getUserForCurrentTurn().getName());
-        System.out.println(gameState.getEventLogForCurrentTurn());
-        // (do whatever is needed to redraw this part of the UI, or do we just wait for the next turn?)
+        String message1 = String.format(I18n.getMessage("EventLogHeader"),
+                                        getUserForCurrentTurn().getName(),
+                                        gameState.getEventLogForCurrentTurn());
+        gameWindow.updateEventHistoryLog(message1);
     }
 
     public boolean checkCurrentUsersSpecialEffect() {

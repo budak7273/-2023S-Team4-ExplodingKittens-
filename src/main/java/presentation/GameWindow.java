@@ -30,7 +30,9 @@ public class GameWindow {
      */
     private JComponent playerDeckDisplayPanel;
     private boolean catMode;
+    private JTextArea textArea;
     private boolean enabled;
+
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
@@ -42,6 +44,7 @@ public class GameWindow {
 
     public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
+        textArea = new JTextArea("Event History Log");
         this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
@@ -49,7 +52,7 @@ public class GameWindow {
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
 
-        final int frameWidth = 1300;
+        final int frameWidth = 1800;
         final int frameHeight = 800;
         gameFrame.setSize(frameWidth, frameHeight);
         audioPlayer.playMusicOnStartup();
@@ -59,26 +62,68 @@ public class GameWindow {
         this.gameManager = manager;
     }
 
+    public void updateEventHistoryLog(String message) {
+        textArea.setText(message);
+        buildGameView();
+        updateDisplay();
+    }
     public void updateDisplay() {
         gameFrame.revalidate();
         gameFrame.repaint();
     }
 
     private void buildGameView() {
+
         gameFrame.getContentPane().removeAll();
+
+        JPanel gamePanel = new JPanel();
+        JPanel scrollPanel = new JPanel();
+
+        JScrollPane scrollPane = generateScrollPane();
 
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
 
-        gameFrame.setLayout(new BorderLayout());
-        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
-        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
-        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+        gamePanel.setLayout(new BorderLayout());
+        scrollPanel.setLayout(new GridLayout());
+        gamePanel.add(userDisplayPanel, BorderLayout.NORTH);
+        gamePanel.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gamePanel.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
 
         playerDeckDisplayPanel.setVisible(false);
+
+        scrollPanel.add(scrollPane, BorderLayout.CENTER);
+        scrollPanel.setVisible(true);
+        gamePanel.setVisible(true);
+        gameFrame.add(scrollPanel, BorderLayout.WEST);
+        gameFrame.add(gamePanel, BorderLayout.CENTER);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    private JScrollPane generateScrollPane() {
+
+        JPanel scrollContent = new JPanel();
+        scrollContent.setLayout(new BorderLayout());
+        final int frameWidthAndHeight = 300;
+        textArea.setSize(new Dimension(frameWidthAndHeight, frameWidthAndHeight));
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        textArea.setOpaque(true);
+
+        textArea.setBackground(Color.WHITE);
+        textArea.setBorder(null);
+
+
+        scrollContent.add(textArea);
+        JScrollPane scrollPane = new JScrollPane(scrollContent, VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                  HORIZONTAL_SCROLLBAR_NEVER);
+
+
+        return scrollPane;
     }
 
     private JPanel generateUserDisplayPanel() {
