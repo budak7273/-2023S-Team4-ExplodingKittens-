@@ -21,7 +21,6 @@ class PublicEventMessageTests {
     void testPublicMessageHasNoPrivateContents() {
         assertFalse(publicMessage.hasPrivateContents());
     }
-
     @Test
     void testPublicMessageContentsIdentical() {
         assertEquals(publicMessage.getPublicContents(), publicMessage.getPrivateContents());
