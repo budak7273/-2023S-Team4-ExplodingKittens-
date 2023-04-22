@@ -533,11 +533,7 @@ public class GameStateUnitTesting {
         }
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        TargetedAttackEffect effect = (TargetedAttackEffect) CardType.TARGETED_ATTACK.getEffectPattern();
-        gpMock.promptForTargetSelection(
-                validTargetListForCurrentUser(currentUser), CardType.TARGETED_ATTACK, effect.apply);
-        EasyMock.expectLastCall();
-
+        gpMock.displayTargetedAttackPrompt(userList);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         EasyMock.replay(gpMock, currentUser, deckMock);
 
