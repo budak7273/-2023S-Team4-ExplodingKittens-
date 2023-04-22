@@ -1,5 +1,7 @@
-package datasource;
+package system.datasource;
 
+import datasource.CardCSVParser;
+import datasource.CardType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -82,8 +84,8 @@ public class CardCSVParserTesting {
         String path = "src/test/resources/fullfile.csv";
         CardCSVParser parser = createCardCSVParser(path);
         List<Card> cardList = parser.generateListOfCards(true, false);
-        Assertions.assertTrue(cardList.size() == PARTY_PACK_PAW_ONLY_SIZE);
 
+        Assertions.assertTrue(cardList.size() == PARTY_PACK_PAW_ONLY_SIZE);
         Assertions.assertTrue(cardListContainsAllRegularTypes(cardList));
     }
 
@@ -104,8 +106,8 @@ public class CardCSVParserTesting {
         String path = "src/test/resources/fullfile.csv";
         CardCSVParser parser = createCardCSVParser(path);
         List<Card> cardList = parser.generateListOfCards(true, true);
-        Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
 
+        Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
         Assertions.assertTrue(cardListContainsAllRegularTypes(cardList));
     }
 

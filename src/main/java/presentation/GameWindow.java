@@ -31,7 +31,9 @@ public class GameWindow {
      */
     private JComponent playerDeckDisplayPanel;
     private boolean catMode;
+    private JTextArea textArea;
     private boolean enabled;
+
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
@@ -43,6 +45,7 @@ public class GameWindow {
 
     public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
+        textArea = new JTextArea("Event History Log");
         this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
@@ -50,7 +53,7 @@ public class GameWindow {
         setSelectedCards(new ArrayList<>());
         displayCards = new HashMap<>();
 
-        final int frameWidth = 1300;
+        final int frameWidth = 1800;
         final int frameHeight = 800;
         gameFrame.setSize(frameWidth, frameHeight);
         audioPlayer.playMusicOnStartup();
@@ -60,33 +63,75 @@ public class GameWindow {
         this.gameManager = manager;
     }
 
+    public void updateEventHistoryLog(String message) {
+        textArea.setText(message);
+        buildGameView();
+        updateDisplay();
+    }
     public void updateDisplay() {
         gameFrame.revalidate();
         gameFrame.repaint();
     }
 
     private void buildGameView() {
+
         gameFrame.getContentPane().removeAll();
+
+        JPanel gamePanel = new JPanel();
+        JPanel scrollPanel = new JPanel();
+
+        JScrollPane scrollPane = generateScrollPane();
 
         JPanel userDisplayPanel = generateUserDisplayPanel();
         JPanel tableAreaDisplayPanel = generateTableAreaDisplayPanel();
         playerDeckDisplayPanel = generatePlayerDeckDisplayPanel();
 
-        gameFrame.setLayout(new BorderLayout());
-        gameFrame.add(userDisplayPanel, BorderLayout.NORTH);
-        gameFrame.add(tableAreaDisplayPanel, BorderLayout.CENTER);
-        gameFrame.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
+        gamePanel.setLayout(new BorderLayout());
+        scrollPanel.setLayout(new GridLayout());
+        gamePanel.add(userDisplayPanel, BorderLayout.NORTH);
+        gamePanel.add(tableAreaDisplayPanel, BorderLayout.CENTER);
+        gamePanel.add(playerDeckDisplayPanel, BorderLayout.SOUTH);
 
         playerDeckDisplayPanel.setVisible(false);
+
+        scrollPanel.add(scrollPane, BorderLayout.CENTER);
+        scrollPanel.setVisible(true);
+        gamePanel.setVisible(true);
+        gameFrame.add(scrollPanel, BorderLayout.WEST);
+        gameFrame.add(gamePanel, BorderLayout.CENTER);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    private JScrollPane generateScrollPane() {
+
+        JPanel scrollContent = new JPanel();
+        scrollContent.setLayout(new BorderLayout());
+        final int frameWidthAndHeight = 300;
+        textArea.setSize(new Dimension(frameWidthAndHeight, frameWidthAndHeight));
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        textArea.setOpaque(true);
+
+        textArea.setBackground(Color.WHITE);
+        textArea.setBorder(null);
+
+
+        scrollContent.add(textArea);
+        JScrollPane scrollPane = new JScrollPane(scrollContent, VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                  HORIZONTAL_SCROLLBAR_NEVER);
+
+
+        return scrollPane;
     }
 
     private JPanel generateUserDisplayPanel() {
         JPanel userDisplayPanel = new JPanel();
         for (User user : this.gameManager.getPlayerQueue()) {
             if (user != this.gameManager.getUserForCurrentTurn()) {
-                JButton otherPlayer = createCardImage(user.getName(), user.getHandCount() + "");
+                JButton otherPlayer = createCard(user.getName(), user.getHandCount() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private final User innerUser = user;
 
@@ -103,11 +148,11 @@ public class GameWindow {
     }
 
     private void notifyUserOfCardDrawn() {
-        gameManager.setCardExecutionState(1);
+        gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
     }
 
     public void clearCardDisplay() {
-        gameManager.setCardExecutionState(-1);
+        gameManager.setCardExecutionState(ExecutionState.CLEAR);
         notificationPanel.removeAll();
         enableButtons();
         gameManager.transitionToNextTurn();
@@ -121,7 +166,7 @@ public class GameWindow {
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (gameManager.getCardExecutionState() == -1) {
+                if (gameManager.getCardExecutionState() == ExecutionState.CLEAR) {
                     getSelectedCards().clear();
                     notificationPanel.removeAll();
                     boolean drawnExploding = gameManager.drawCardForCurrentTurn();
@@ -138,7 +183,7 @@ public class GameWindow {
                 }
             }
         });
-        JButton discardPile = createCardImage(
+        JButton discardPile = createCard(
                 I18n.getMessage("TopCard"), "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
@@ -256,7 +301,7 @@ public class GameWindow {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (gameManager.getCardExecutionState() == -1) {
+                if (gameManager.getCardExecutionState() == ExecutionState.CLEAR) {
                     if (catMode) {
                         handleSelectedCardsInCatMode();
                     } else {
@@ -340,7 +385,7 @@ public class GameWindow {
                 ));
                 nopeMessage(false, gameManager.getUserForCurrentTurn().getName());
                 synchronized (nopeMutex) {
-                    gameManager.setCardExecutionState(1);
+                    gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
                 }
 
                 updateUI();
@@ -378,7 +423,7 @@ public class GameWindow {
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameManager.getUserForCurrentTurn().getHand()) {
-            JButton cardLayout = createCardImage(card.getName(), card.getDesc());
+            JButton cardLayout = createCardWithImage(card.getName(), card.getDesc(), card.getIcon());
             cardLayout.getPreferredSize();
             cardLayout.addActionListener(new ActionListener() {
                 @Override
@@ -415,7 +460,22 @@ public class GameWindow {
         return scroll;
     }
 
-    protected JButton createCardImage(String name, String desc) {
+    protected JButton createCardWithImage(String name, String desc, Icon icon) {
+        final int cardWidth = 170;
+        final int cardHeight = 230;
+        JButton cardImage = new JButton(icon);
+        cardImage.setLayout(new BorderLayout());
+        cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
+        cardImage.setBackground(Color.CYAN);
+        JLabel cardDetails = new JLabel();
+        cardDetails.setText("<html><overflow='hidden'>"
+                            + name + "<br>" + desc + "</html>");
+        cardDetails.setForeground(Color.BLACK);
+        cardDetails.setOpaque(false);
+        cardImage.add(cardDetails);
+        return cardImage;
+    }
+    protected JButton createCard(String name, String desc) {
         final int cardWidth = 150;
         final int cardHeight = 160;
         JButton cardImage = new JButton();
@@ -469,7 +529,7 @@ public class GameWindow {
     private void tryTriggerCardExecution() {
         notificationPanel.removeAll();
         synchronized (nopeMutex) {
-            if (gameManager.getCardExecutionState() == 1) {
+            if (gameManager.getCardExecutionState() == ExecutionState.ACTIVATED_EFFECT) {
                 executingCard.activateEffect(gameManager);
             } else {
                 gameManager.postMessage(EventMessage.publicMessage(
@@ -480,7 +540,7 @@ public class GameWindow {
                 gameManager.removeCardFromCurrentUser(executingCard);
             }
             executingCard = null;
-            gameManager.setCardExecutionState(-1);
+            gameManager.setCardExecutionState(ExecutionState.CLEAR);
         }
         updateUI();
         getSelectedCards().clear();
@@ -488,16 +548,16 @@ public class GameWindow {
 
     private void tryNope(User executingUser) {
         synchronized (nopeMutex) {
-            int execution = gameManager.getCardExecutionState();
-            if (execution == 0) {
+            ExecutionState execution = gameManager.getCardExecutionState();
+            if (execution == ExecutionState.NORMAL) {
                 if (executingUser.attemptToNope()) {
                     nopeMessage(false, executingUser.getName());
-                    gameManager.setCardExecutionState(1);
+                    gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
                 }
-            } else if (execution == 1) {
+            } else if (execution == ExecutionState.ACTIVATED_EFFECT) {
                 if (executingUser.attemptToNope()) {
                     nopeMessage(true, executingUser.getName());
-                    gameManager.setCardExecutionState(0);
+                    gameManager.setCardExecutionState(ExecutionState.NORMAL);
                 }
             }
         }

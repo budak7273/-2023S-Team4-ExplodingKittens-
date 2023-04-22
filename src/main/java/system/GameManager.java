@@ -2,6 +2,7 @@ package system;
 
 import datasource.CardType;
 import datasource.I18n;
+import presentation.ExecutionState;
 import presentation.GameWindow;
 import system.messages.EventMessage;
 
@@ -40,11 +41,10 @@ public class GameManager {
     }
 
     private void updateEventLogDisplay() {
-        // TODO integrate with display component instead of printing
-        System.out.println("===================================");
-        System.out.println("Event Log contents for player: " + getUserForCurrentTurn().getName());
-        System.out.println(gameState.getEventLogForCurrentTurn());
-        // (do whatever is needed to redraw this part of the UI, or do we just wait for the next turn?)
+        String message1 = String.format(I18n.getMessage("EventLogHeader"),
+                                        getUserForCurrentTurn().getName(),
+                                        gameState.getEventLogForCurrentTurn());
+        gameWindow.updateEventHistoryLog(message1);
     }
 
     public boolean checkCurrentUsersSpecialEffect() {
@@ -261,11 +261,11 @@ public class GameManager {
         return gameState.getDrawDeck();
     }
 
-    public void setCardExecutionState(int state) {
+    public void setCardExecutionState(ExecutionState state) {
         gameState.setCardExecutionState(state);
     }
 
-    public int getCardExecutionState() {
+    public ExecutionState getCardExecutionState() {
         return gameState.getCardExecutionState();
     }
 

@@ -34,10 +34,13 @@ public class UserUnitTesting {
     }
 
     @Test
-    public void testUserConstructorAliveOrDead() {
+    public void testUserConstructorAlive() {
         User user = new User("test1", true, new ArrayList<Card>());
-        User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertTrue(user.isAlive());
+    }
+    @Test
+    public void testUserConstructorDead() {
+        User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertFalse(user2.isAlive());
     }
 
@@ -484,8 +487,9 @@ public class UserUnitTesting {
 
         GameWindow gw = EasyMock.createMock(GameWindow.class);
         EasyMock.expect(gw.inputForStealCard(targetUser)).andReturn(0);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " took a Attack from  via a Favor\n");
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-
         EasyMock.replay(gw);
         EasyMock.replay(deckMock);
         GameState gameState = new GameState(pq, deckMock);
