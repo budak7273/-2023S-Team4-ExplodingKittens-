@@ -66,7 +66,6 @@ public class GameWindow {
         textArea.setText(message);
         buildGameView();
         updateDisplay();
-
     }
     public void updateDisplay() {
         gameFrame.revalidate();
