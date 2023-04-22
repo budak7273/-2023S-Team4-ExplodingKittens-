@@ -39,7 +39,7 @@ public class DrawDeckIntegrationTesting {
 
         DrawDeck deck = new DrawDeck(cards);
 
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, null));
         deck.drawCard(user);
 
         assertTrue(deck.getCardsAsList().isEmpty());
@@ -63,7 +63,7 @@ public class DrawDeckIntegrationTesting {
 
         DrawDeck deck = new DrawDeck(cards);
 
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, null));
         deck.drawFromBottomForUser(user);
 
         assertTrue(deck.getCardsAsList().isEmpty());
@@ -85,7 +85,7 @@ public class DrawDeckIntegrationTesting {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
 
-        Card card = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, null);
         deck.addCardToTop(card);
         deck.shuffle();
 
@@ -99,8 +99,8 @@ public class DrawDeckIntegrationTesting {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
 
-        Card card1 = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ATTACK);
+        Card card1 = new Card(CardType.ATTACK, null);
+        Card card2 = new Card(CardType.ATTACK, null);
         deck.addCardToTop(card1);
         deck.addCardToTop(card2);
         deck.shuffle();
@@ -126,9 +126,9 @@ public class DrawDeckIntegrationTesting {
     public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE, null);
         deck.addCardToTop(bottomCard);
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, null));
 
 
         User user = new User("TestPlayer");

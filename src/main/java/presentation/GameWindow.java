@@ -85,7 +85,7 @@ public class GameWindow {
         JPanel userDisplayPanel = new JPanel();
         for (User user : this.gameManager.getPlayerQueue()) {
             if (user != this.gameManager.getUserForCurrentTurn()) {
-                JButton otherPlayer = createCardImage(user.getName(), user.getHandCount() + "");
+                JButton otherPlayer = createCard(user.getName(), user.getHandCount() + "");
                 otherPlayer.addActionListener(new ActionListener() {
                     private final User innerUser = user;
 
@@ -137,7 +137,7 @@ public class GameWindow {
                 }
             }
         });
-        JButton discardPile = createCardImage(
+        JButton discardPile = createCard(
                 I18n.getMessage("TopCard"), "");
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
@@ -377,7 +377,7 @@ public class GameWindow {
         handDisplayPanel.setComponentOrientation(
                 ComponentOrientation.LEFT_TO_RIGHT);
         for (Card card : gameManager.getUserForCurrentTurn().getHand()) {
-            JButton cardLayout = createCardImage(card.getName(), card.getDesc());
+            JButton cardLayout = createCardWithImage(card.getName(), card.getDesc(), card.getIcon());
             cardLayout.getPreferredSize();
             cardLayout.addActionListener(new ActionListener() {
                 @Override
@@ -414,7 +414,22 @@ public class GameWindow {
         return scroll;
     }
 
-    protected JButton createCardImage(String name, String desc) {
+    protected JButton createCardWithImage(String name, String desc, Icon icon) {
+        final int cardWidth = 170;
+        final int cardHeight = 230;
+        JButton cardImage = new JButton(icon);
+        cardImage.setLayout(new BorderLayout());
+        cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
+        cardImage.setBackground(Color.CYAN);
+        JLabel cardDetails = new JLabel();
+        cardDetails.setText("<html><overflow='hidden'>"
+                            + name + "<br>" + desc + "</html>");
+        cardDetails.setForeground(Color.BLACK);
+        cardDetails.setOpaque(false);
+        cardImage.add(cardDetails);
+        return cardImage;
+    }
+    protected JButton createCard(String name, String desc) {
         final int cardWidth = 150;
         final int cardHeight = 160;
         JButton cardImage = new JButton();

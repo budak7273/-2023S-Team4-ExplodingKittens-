@@ -2,11 +2,23 @@ package system;
 
 import datasource.CardType;
 
+import javax.swing.Icon;
+
 public class Card {
     private CardType cardType;
+    private Icon icon;
 
+    public Card(CardType type, Icon imageIcon) {
+        this.cardType = type;
+        this.icon = imageIcon;
+    }
     public Card(CardType type) {
         this.cardType = type;
+        this.icon = null;
+    }
+
+    public Icon getIcon() {
+        return this.icon;
     }
 
     public String getName() {
@@ -18,7 +30,7 @@ public class Card {
     }
 
     public void activateEffect(GameManager gameManager) {
-        gameManager.removeCardFromCurrentUser(new Card(cardType));
+        gameManager.removeCardFromCurrentUser(new Card(cardType, null));
         cardType.getEffectPattern().setCurrentState(gameManager);
         cardType.getEffectPattern().useEffect();
     }

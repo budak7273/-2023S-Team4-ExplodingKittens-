@@ -40,7 +40,7 @@ class FeatureFourTesting {
 
     @Test
     void testPlayerUsesAttack() {
-        currentUser.addCard(new Card(CardType.ATTACK));
+        currentUser.addCard(new Card(CardType.ATTACK, null));
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
@@ -56,7 +56,7 @@ class FeatureFourTesting {
 
     @Test
     void testPlayerUsesDrawFromBottom() {
-        Card cardToAdd = new Card(CardType.DRAW_FROM_THE_BOTTOM);
+        Card cardToAdd = new Card(CardType.DRAW_FROM_THE_BOTTOM, null);
         currentUser.addCard(cardToAdd);
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
@@ -75,7 +75,7 @@ class FeatureFourTesting {
     void testPlayerUsesShuffle() {
         ShuffleEffect shuffleEffect = new ShuffleEffect();
         shuffleEffect.setCurrentState(gameManager);
-        currentUser.addCard(new Card(CardType.SHUFFLE));
+        currentUser.addCard(new Card(CardType.SHUFFLE, null));
         int handSize = currentUser.getHand().size();
         Card drawDeckTopCard = gameManager.getDrawDeck().getCardsAsList().get(0);
 
@@ -87,7 +87,7 @@ class FeatureFourTesting {
 
     @Test
     void testPlayerUsesSkip() {
-        currentUser.addCard(new Card(CardType.SKIP));
+        currentUser.addCard(new Card(CardType.SKIP, null));
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
 

@@ -63,7 +63,7 @@ public class NotificationPanel extends JPanel {
 
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
-            JButton futureCard = gameWindow.createCardImage(
+            JButton futureCard = gameWindow.createCard(
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             contentPanel.add(futureCard);
@@ -87,7 +87,7 @@ public class NotificationPanel extends JPanel {
         final Card[] selectedCard = {null};
         for (int i = 0; i < future.size(); i++) {
             Card topCard = future.get(i);
-            JButton futureCard = gameWindow.createCardImage(
+            JButton futureCard = gameWindow.createCard(
                     topCard.getName(), i + "");
             cardOrder.add(topCard);
             futureCard.addActionListener(new ActionListener() {
@@ -232,7 +232,7 @@ public class NotificationPanel extends JPanel {
         addExitButtonToLayout(I18n.getMessage("Confirm"), eventFn);
 
         for (User victim : victims) {
-            JButton victimBtn = gameWindow.createCardImage(
+            JButton victimBtn = gameWindow.createCard(
                     victim.getName(), "");
 
             if (type == CardType.FAVOR && victim.isEmptyHand()) {
