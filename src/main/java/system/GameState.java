@@ -1,5 +1,6 @@
 package system;
 
+import presentation.ExecutionState;
 import system.messages.EventLog;
 import system.messages.EventMessage;
 
@@ -9,7 +10,7 @@ public class GameState {
     private Queue<User> playerQueue;
     private final DrawDeck drawDeck;
     private int extraTurnsForCurrentUser = 0;
-    private int cardExecutionState = -1;
+    private ExecutionState cardExecutionState = ExecutionState.CLEAR;
     private final EventLog eventLog;
 
     public GameState(Queue<User> pq, DrawDeck deck) {
@@ -42,11 +43,11 @@ public class GameState {
         return this.drawDeck;
     }
 
-    public void setCardExecutionState(int state) {
+    public void setCardExecutionState(ExecutionState state) {
         this.cardExecutionState = state;
     }
 
-    public int getCardExecutionState() {
+    public ExecutionState getCardExecutionState() {
         return this.cardExecutionState;
     }
 

@@ -13,12 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class EventMessageTests {
+class PrivateEventMessageTests {
 
     private User owner;
     private User nonOwner;
     private EventMessage privateMessage;
-    private EventMessage publicMessage;
     private static final String PUBLIC_CONTENTS = "PUBLIC_CONTENTS";
     private static final String PRIVATE_CONTENTS = "PRIVATE_CONTENTS";
 
@@ -29,28 +28,20 @@ class EventMessageTests {
         Set<User> owners = new HashSet<>();
         owners.add(owner);
         privateMessage = new EventMessage(owners, PUBLIC_CONTENTS, PRIVATE_CONTENTS);
-        publicMessage = EventMessage.publicMessage(PUBLIC_CONTENTS);
     }
 
     @Test
-    void testPrivateMessageOwnership() {
+    void testPrivateMessageOwnedByOwner() {
         assertTrue(privateMessage.isOwnedBy(owner));
+    }
+    @Test
+    void testPrivateMessageOwnedByNonOwner() {
         assertFalse(privateMessage.isOwnedBy(nonOwner));
     }
 
     @Test
     void testPrivateMessageHasPrivateContents() {
         assertTrue(privateMessage.hasPrivateContents());
-    }
-
-    @Test
-    void testPublicMessageHasNoPrivateContents() {
-        assertFalse(publicMessage.hasPrivateContents());
-    }
-
-    @Test
-    void testPublicMessageContentsIdentical() {
-        assertEquals(publicMessage.getPublicContents(), publicMessage.getPrivateContents());
     }
 
     @Test
