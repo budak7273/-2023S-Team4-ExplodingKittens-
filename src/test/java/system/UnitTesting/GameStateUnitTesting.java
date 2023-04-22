@@ -565,6 +565,8 @@ public class GameStateUnitTesting {
         pq.add(targetUser);
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
+        gpMock.updateEventHistoryLog("Event Log contents for player: \n");
+        EasyMock.expectLastCall();
         gpMock.updateUI();
         EasyMock.expectLastCall();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
@@ -589,6 +591,9 @@ public class GameStateUnitTesting {
         pq.add(user);
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
+        gpMock.updateEventHistoryLog("Event Log contents for player: \n"
+                                     + "You were attacked by , so you have to play two turns \n");
+        EasyMock.expectLastCall();
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         EasyMock.replay(gpMock, user, deckMock);
 
@@ -611,6 +616,7 @@ public class GameStateUnitTesting {
         GameWindow window = EasyMock.createMock(GameWindow.class);
         EasyMock.expect(user.isAlive()).andReturn(true).times(2);
         EasyMock.expect(user.getName()).andReturn("");
+
         window.updateUI();
 
         EasyMock.replay(user);
@@ -620,7 +626,7 @@ public class GameStateUnitTesting {
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
         gpMock.disableCatMode();
         gpMock.updateUI();
-        EasyMock.expectLastCall();
+
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         deckMock.addExplodingKittenAtLocation(0);
         EasyMock.expectLastCall();
@@ -629,7 +635,6 @@ public class GameStateUnitTesting {
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gpMock);
         gameManager.addExplodingKittenBackIntoDeck(0);
-
         Assertions.assertEquals(deckMock, gameState.getDrawDeck());
         EasyMock.verify(gpMock, deckMock, user);
     }
