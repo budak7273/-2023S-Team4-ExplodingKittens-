@@ -39,12 +39,10 @@ public class GameManager {
     }
 
     private void updateEventLogDisplay() {
-
-        String message =
-                "Event Log contents for player: "
-                + getUserForCurrentTurn().getName()
-                + "\n" + gameState.getEventLogForCurrentTurn();
-        gameWindow.updateEventHistoryLog(message);
+        String message1 = String.format(I18n.getMessage("EventLogHeader"),
+                                        getUserForCurrentTurn().getName(),
+                                        gameState.getEventLogForCurrentTurn());
+        gameWindow.updateEventHistoryLog(message1);
     }
 
     public boolean checkCurrentUsersSpecialEffect() {
