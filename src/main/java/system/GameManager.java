@@ -1,6 +1,7 @@
 package system;
 
 import datasource.I18n;
+import presentation.ExecutionState;
 import presentation.GameWindow;
 import system.messages.EventMessage;
 
@@ -252,11 +253,11 @@ public class GameManager {
         return gameState.getDrawDeck();
     }
 
-    public void setCardExecutionState(int state) {
+    public void setCardExecutionState(ExecutionState state) {
         gameState.setCardExecutionState(state);
     }
 
-    public int getCardExecutionState() {
+    public ExecutionState getCardExecutionState() {
         return gameState.getCardExecutionState();
     }
 

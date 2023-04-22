@@ -4,6 +4,7 @@ package system.UnitTesting;
 import datasource.CardType;
 import org.easymock.IArgumentMatcher;
 import org.opentest4j.AssertionFailedError;
+import presentation.ExecutionState;
 import presentation.GameWindow;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
@@ -757,8 +758,8 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gpMock);
-        gameManager.setCardExecutionState(0);
-        Assertions.assertEquals(0, gameManager.getCardExecutionState());
+        gameManager.setCardExecutionState(ExecutionState.NORMAL);
+        Assertions.assertEquals(ExecutionState.NORMAL, gameManager.getCardExecutionState());
         EasyMock.verify(gpMock, deckMock);
     }
 
@@ -771,8 +772,8 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gpMock);
-        gameManager.setCardExecutionState(1);
-        Assertions.assertEquals(1, gameManager.getCardExecutionState());
+        gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
+        Assertions.assertEquals(ExecutionState.ACTIVATED_EFFECT, gameManager.getCardExecutionState());
         EasyMock.verify(gpMock, deckMock);
     }
 
