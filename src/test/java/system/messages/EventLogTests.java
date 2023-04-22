@@ -26,4 +26,5 @@ class EventLogTests {
         assertEquals(0, internalList.size());
         assertEquals("", log.getTextRepresentationAs(EasyMock.createNiceMock(User.class)));
     }
+
 }

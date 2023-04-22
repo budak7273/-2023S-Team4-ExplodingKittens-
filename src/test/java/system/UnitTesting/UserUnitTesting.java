@@ -34,10 +34,13 @@ public class UserUnitTesting {
     }
 
     @Test
-    public void testUserConstructorAliveOrDead() {
+    public void testUserConstructorAlive() {
         User user = new User("test1", true, new ArrayList<Card>());
-        User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertTrue(user.isAlive());
+    }
+    @Test
+    public void testUserConstructorDead() {
+        User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertFalse(user2.isAlive());
     }
 

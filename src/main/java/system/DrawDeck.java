@@ -122,7 +122,7 @@ public class DrawDeck {
         for (int i = 0; i < location; i++) {
             newCards.addLast(cards.pop());
         }
-        newCards.add(new Card(CardType.EXPLODING_KITTEN));
+        newCards.add(new Card(CardType.EXPLODING_KITTEN, null));
         newCards.addAll(cards);
         cards = newCards;
     }
