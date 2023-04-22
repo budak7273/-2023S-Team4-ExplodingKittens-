@@ -66,7 +66,6 @@ public class GameWindow {
         textArea.setText(message);
         buildGameView();
         updateDisplay();
-
     }
     public void updateDisplay() {
         gameFrame.revalidate();
@@ -148,11 +147,11 @@ public class GameWindow {
     }
 
     private void notifyUserOfCardDrawn() {
-        gameManager.setCardExecutionState(1);
+        gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
     }
 
     public void clearCardDisplay() {
-        gameManager.setCardExecutionState(-1);
+        gameManager.setCardExecutionState(ExecutionState.CLEAR);
         notificationPanel.removeAll();
         enableButtons();
         gameManager.transitionToNextTurn();
@@ -166,7 +165,7 @@ public class GameWindow {
         deckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (gameManager.getCardExecutionState() == -1) {
+                if (gameManager.getCardExecutionState() == ExecutionState.CLEAR) {
                     getSelectedCards().clear();
                     notificationPanel.removeAll();
                     boolean drawnExploding = gameManager.drawCardForCurrentTurn();
@@ -301,7 +300,7 @@ public class GameWindow {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (gameManager.getCardExecutionState() == -1) {
+                if (gameManager.getCardExecutionState() == ExecutionState.CLEAR) {
                     if (catMode) {
                         handleSelectedCardsInCatMode();
                     } else {
@@ -385,7 +384,7 @@ public class GameWindow {
                 ));
                 nopeMessage(false, gameManager.getUserForCurrentTurn().getName());
                 synchronized (nopeMutex) {
-                    gameManager.setCardExecutionState(1);
+                    gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
                 }
 
                 updateUI();
@@ -514,7 +513,7 @@ public class GameWindow {
     private void tryTriggerCardExecution() {
         notificationPanel.removeAll();
         synchronized (nopeMutex) {
-            if (gameManager.getCardExecutionState() == 1) {
+            if (gameManager.getCardExecutionState() == ExecutionState.ACTIVATED_EFFECT) {
                 executingCard.activateEffect(gameManager);
             } else {
                 gameManager.postMessage(EventMessage.publicMessage(
@@ -525,7 +524,7 @@ public class GameWindow {
                 gameManager.removeCardFromCurrentUser(executingCard);
             }
             executingCard = null;
-            gameManager.setCardExecutionState(-1);
+            gameManager.setCardExecutionState(ExecutionState.CLEAR);
         }
         updateUI();
         getSelectedCards().clear();
@@ -533,16 +532,16 @@ public class GameWindow {
 
     private void tryNope(User executingUser) {
         synchronized (nopeMutex) {
-            int execution = gameManager.getCardExecutionState();
-            if (execution == 0) {
+            ExecutionState execution = gameManager.getCardExecutionState();
+            if (execution == ExecutionState.NORMAL) {
                 if (executingUser.attemptToNope()) {
                     nopeMessage(false, executingUser.getName());
-                    gameManager.setCardExecutionState(1);
+                    gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
                 }
-            } else if (execution == 1) {
+            } else if (execution == ExecutionState.ACTIVATED_EFFECT) {
                 if (executingUser.attemptToNope()) {
                     nopeMessage(true, executingUser.getName());
-                    gameManager.setCardExecutionState(0);
+                    gameManager.setCardExecutionState(ExecutionState.NORMAL);
                 }
             }
         }
