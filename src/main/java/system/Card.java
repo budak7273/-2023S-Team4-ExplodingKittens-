@@ -5,8 +5,8 @@ import datasource.CardType;
 import javax.swing.Icon;
 
 public class Card {
-    private CardType cardType;
-    private Icon icon;
+    private final CardType cardType;
+    private final Icon icon;
 
     public Card(CardType type, Icon imageIcon) {
         this.cardType = type;

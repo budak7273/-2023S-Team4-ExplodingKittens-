@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.*;
+import system.cardEffects.TargetedAttackEffect;
 
 import java.util.*;
 
@@ -532,16 +533,13 @@ public class GameStateUnitTesting {
         }
 
         GameWindow gpMock = EasyMock.createMock(GameWindow.class);
-        gpMock.displayTargetedAttackPrompt(
-                validTargetListForCurrentUser(currentUser));
-        EasyMock.expectLastCall();
-
+        gpMock.promptForTargetSelection(userList, CardType.TARGETED_ATTACK, null);
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
         EasyMock.replay(gpMock, currentUser, deckMock);
 
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gpMock);
-        gameManager.triggerDisplayOfTargetedAttackPrompt(userList);
+        gameManager.displayTargetSelectionPrompt(CardType.TARGETED_ATTACK, null);
 
         EasyMock.verify(gpMock, currentUser, deckMock);
     }
@@ -586,7 +584,9 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gw);
-        gameManager.executeTargetedAttackOn(targetUser);
+        TargetedAttackEffect demo = new TargetedAttackEffect();
+        demo.setCurrentState(gameManager);
+        demo.applyToUser(targetUser);
 
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());
@@ -609,8 +609,10 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gw);
+        TargetedAttackEffect demo = new TargetedAttackEffect();
+        demo.setCurrentState(gameManager);
         try {
-            gameManager.executeTargetedAttackOn(user);
+            demo.applyToUser(user);
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Illegal number of players in queue", e.getMessage());
@@ -672,7 +674,9 @@ public class GameStateUnitTesting {
 
         GameState gameState = new GameState(pq, deckMock);
         GameManager gameManager = new GameManager(gameState, gw);
-        gameManager.executeTargetedAttackOn(targetUser);
+        TargetedAttackEffect demo = new TargetedAttackEffect();
+        demo.setCurrentState(gameManager);
+        demo.applyToUser(targetUser);
 
         Assertions.assertEquals(targetUser, gameState.getUserForCurrentTurn());
         Assertions.assertEquals(1, gameState.getExtraTurnCountForCurrentUser());

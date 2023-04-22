@@ -1,5 +1,6 @@
 package system;
 
+import datasource.CardType;
 import datasource.I18n;
 import presentation.ExecutionState;
 import presentation.GameWindow;
@@ -8,6 +9,7 @@ import system.messages.EventMessage;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+import java.util.function.Function;
 
 import static system.Utils.forUsers;
 
@@ -23,7 +25,7 @@ public class GameManager {
         this.gameWindow = player;
     }
 
-    private void transitionToTurnOfUser(User targetUser) {
+    public void transitionToTurnOfUser(User targetUser) {
         Queue<User> playerQueue = gameState.getPlayerQueue();
         throwIfQueueSizeIsInvalid();
 
@@ -102,7 +104,7 @@ public class GameManager {
     public boolean drawCardForCurrentTurn() {
         User current = getUserForCurrentTurn();
         boolean drawnExplodingKitten = gameState.getDrawDeck().drawCard(current);
-        // TODO switch drawCard to return the card instead of wasExplodingKitten
+        // Future refactor: switch drawCard to return the card instead of wasExplodingKitten
         postMessage(new EventMessage(
                 forUsers(current),
                 String.format(I18n.getMessage("DrawCardPublic"), current.getName()),
@@ -168,28 +170,20 @@ public class GameManager {
         transitionToNextTurn();
     }
 
-    // TODO this method is only used by tests
+    // Future refactor: this method is only used by tests
     public void addCardToDeck(Card card) {
         gameState.getDrawDeck().addCardToTop(card);
     }
 
     public void triggerDisplayOfCatStealPrompt() {
+        // Future refactor: move these to the then() framework, replace with displayTargetSelectionPrompt
         List<User> targets = gameState.getTargetsForCardEffects();
         gameWindow.displayCatStealPrompt(targets);
     }
 
     public void triggerDisplayOfFavorPrompt(List<User> targets) {
+        // Future refactor: move these to the then() framework, replace with displayTargetSelectionPrompt
         gameWindow.displayFavorPrompt(targets);
-    }
-
-    public void executeTargetedAttackOn(User target) {
-        User attacker = getUserForCurrentTurn();
-        postMessage(new EventMessage(
-                forUsers(target),
-                String.format(I18n.getMessage("TargetedAttackPublic"), attacker.getName(), target.getName()),
-                String.format(I18n.getMessage("TargetedAttackPrivate"), attacker.getName())));
-        transitionToTurnOfUser(target);
-        gameState.addExtraTurn();
     }
 
     public void executeFavorOn(User target) {
@@ -223,8 +217,8 @@ public class GameManager {
                               attacker.getName(), stealCard.getName(), target.getName())));
     }
 
-    public void triggerDisplayOfTargetedAttackPrompt(List<User> targets) {
-        gameWindow.displayTargetedAttackPrompt(targets);
+    public void displayTargetSelectionPrompt(CardType cardType, Function<User, Void> then) {
+        gameWindow.promptForTargetSelection(gameState.getTargetsForCardEffects(), cardType, then);
     }
 
     public void removeCardFromCurrentUser(Card card) {

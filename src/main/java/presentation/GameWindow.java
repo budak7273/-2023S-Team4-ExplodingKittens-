@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 import static javax.swing.ScrollPaneConstants.*;
 
@@ -67,6 +68,7 @@ public class GameWindow {
         buildGameView();
         updateDisplay();
     }
+
     public void updateDisplay() {
         gameFrame.revalidate();
         gameFrame.repaint();
@@ -117,11 +119,9 @@ public class GameWindow {
         textArea.setBackground(Color.WHITE);
         textArea.setBorder(null);
 
-
         scrollContent.add(textArea);
         JScrollPane scrollPane = new JScrollPane(scrollContent, VERTICAL_SCROLLBAR_AS_NEEDED,
-                                                  HORIZONTAL_SCROLLBAR_NEVER);
-
+                                                 HORIZONTAL_SCROLLBAR_NEVER);
 
         return scrollPane;
     }
@@ -474,6 +474,7 @@ public class GameWindow {
         cardImage.add(cardDetails);
         return cardImage;
     }
+
     protected JButton createCard(String name, String desc) {
         final int cardWidth = 150;
         final int cardHeight = 160;
@@ -624,18 +625,13 @@ public class GameWindow {
         this.selectedCards = cards;
     }
 
-    public void displayTargetedAttackPrompt(List<User> users) {
-        this.notificationPanel.displayTargetedAttackPrompt(users);
-    }
-
-    public void triggerTargetedAttackOn(User user) {
-        gameManager.executeTargetedAttackOn(user);
+    public void promptForTargetSelection(List<User> users, CardType cardType, Function<User, Void> then) {
+        this.notificationPanel.displaySingleSelectionPrompt(users, cardType, then);
     }
 
     public void triggerFavorOn(User user) {
         gameManager.executeFavorOn(user);
     }
-
 
     public void displayFavorPrompt(List<User> users) {
         this.notificationPanel.displayFavorPrompt(users);
