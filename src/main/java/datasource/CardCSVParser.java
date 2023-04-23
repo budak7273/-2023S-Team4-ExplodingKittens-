@@ -2,6 +2,8 @@ package datasource;
 
 import system.Card;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,15 +16,15 @@ import java.util.Scanner;
 public class CardCSVParser {
 
     private File csvFile;
-    private static final int MAX_CARD_COUNT = 101;
+    private static final int MAX_CARD_COUNT = 107;
 
     public CardCSVParser(File csv) {
         this.csvFile = csv;
     }
 
-    private Card createCardFromTypeName(String cardTypeName) {
+    private Card createCardFromTypeNameAndIcon(String cardTypeName, Icon icon) {
         CardType cardType = CardType.valueOf(cardTypeName);
-        return new Card(cardType);
+        return new Card(cardType, icon);
     }
 
     public List<Card> generateListOfCards(boolean includePaw, boolean includePawless) {
@@ -44,10 +46,14 @@ public class CardCSVParser {
             String cardTypeName = cardProperties[0];
             Boolean hasAPaw = Boolean.parseBoolean(cardProperties[1]);
 
+            String iconLocation = cardProperties[2];
+
+            Icon icon = new ImageIcon(iconLocation);
+
             verifyCardType(cardTypeName);
             cardCount++;
 
-            Card currentCard = createCardFromTypeName(cardTypeName);
+            Card currentCard = createCardFromTypeNameAndIcon(cardTypeName, icon);
             if (includePaw && hasAPaw) {
                 cardList.add(currentCard);
             } else if (includePawless && !hasAPaw) {
@@ -68,7 +74,8 @@ public class CardCSVParser {
     }
 
     private void verifyPropertyLength(String[] cardProperties) {
-        if (cardProperties.length != 2) {
+        final int fields = 3;
+        if (cardProperties.length != fields) {
             throw new IllegalArgumentException(
                     I18n.getMessage("MissingDataMessage"));
         }
@@ -82,9 +89,7 @@ public class CardCSVParser {
     }
 
     private void verifyCardType(String cardTypeName) {
-        System.out.println(cardTypeName);
         Set<String> allCardTypes = Collections.unmodifiableSet(new HashSet<>(CardType.ENUM_VALUES));
-        System.out.println(allCardTypes);
         if (!allCardTypes.contains(cardTypeName)) {
             throw new IllegalArgumentException(I18n
                     .getMessage("InvalidCardTypeMessage") + cardTypeName

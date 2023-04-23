@@ -1,22 +1,37 @@
-package system.UnitTesting;
+package system.cardEffects;
 
+import datasource.CardType;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import system.cardEffects.*;
 import system.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
 class CardEffectUnitTesting {
+
+    private GameState gameState;
+    private User user;
+    private DrawDeck drawDeck;
+    private GameManager gameManager;
+    private List<User> users;
+    private List<Card> cards;
+
+    @BeforeEach
+    void setUp() {
+        gameState = EasyMock.createMock(GameState.class);
+        user = EasyMock.createMock(User.class);
+        drawDeck = EasyMock.createMock(DrawDeck.class);
+        gameManager = EasyMock.createMock(GameManager.class);
+        users = EasyMock.createMock(LinkedList.class);
+        cards = EasyMock.createMock(LinkedList.class);
+    }
+
     @Test
     void testDefuseBombEffectUse() {
         EffectPattern bombEffectPattern = new DefuseBombEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
         gameManager.transitionToNextTurn();
         EasyMock.expectLastCall();
@@ -33,16 +48,16 @@ class CardEffectUnitTesting {
     @Test
     void testDrawFromBottom() {
         EffectPattern drawFromBottomEffect = new DrawFromBottomEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
         gameManager.transitionToNextTurn();
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawFromBottomForUser(user)).andReturn(false);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
+        EasyMock.expect(user.getName()).andReturn("");
+        EasyMock.expect(user.getLastCardInHand()).andReturn(EasyMock.createNiceMock(Card.class));
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
+        gameManager.postMessage(EasyMock.anyObject());
+        EasyMock.expectLastCall();
         EasyMock.replay(gameManager, gameState, user, drawDeck);
 
         drawFromBottomEffect.setCurrentState(gameManager);
@@ -54,12 +69,8 @@ class CardEffectUnitTesting {
     @Test
     void testSkip() {
         EffectPattern skipEffect = new SkipEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.transitionToNextTurn();
+        gameManager.executeSkip();
         EasyMock.expectLastCall();
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
@@ -74,10 +85,6 @@ class CardEffectUnitTesting {
     @Test
     void testShuffleDeck() {
         EffectPattern shuffleEffect = new ShuffleEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
         gameManager.shuffleDeck(true);
         EasyMock.expectLastCall();
@@ -98,13 +105,8 @@ class CardEffectUnitTesting {
         // We know the cards mock is an unsafe type conversion
     void testSeeTheFuture() {
         EffectPattern futureEffect = new SeeTheFutureEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        List<Card> cards = EasyMock.createMock(LinkedList.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.seeTheFuture(cards);
+        gameManager.executeSeeTheFuture(cards);
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(cards);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
@@ -120,14 +122,8 @@ class CardEffectUnitTesting {
     @Test
     void testAttack() {
         EffectPattern attackEffect = new AttackEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.transitionToNextTurn();
-        EasyMock.expectLastCall();
-        gameState.addExtraTurn();
+        gameManager.executeAttack();
         EasyMock.expectLastCall();
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
@@ -140,17 +136,10 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-        // We know the cards mock is an unsafe type conversion
     void testAlterTheFuture() {
         EffectPattern alterEffect = new AlterTheFutureEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        List<Card> cards = EasyMock.createMock(LinkedList.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.alterTheFuture(cards);
+        gameManager.executeAlterTheFuture(cards);
         EasyMock.expectLastCall();
         EasyMock.expect(drawDeck.drawThreeCardsFromTop()).andReturn(cards);
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
@@ -164,19 +153,10 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-        // We know the cards mock is an unsafe type conversion
     void testTargetedAttack() {
-        EffectPattern targetedAtkEffect = new TargetedAttackEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        List<User> users = EasyMock.createMock(LinkedList.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
+        TargetedAttackEffect targetedAtkEffect = new TargetedAttackEffect();
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
-        gameManager.triggerDisplayOfTargetedAttackPrompt(users);
-        EasyMock.expectLastCall();
-        EasyMock.expect(gameState.getTargetsForCardEffects()).andReturn(users);
+        gameManager.displayTargetSelectionPrompt(CardType.TARGETED_ATTACK, targetedAtkEffect.getApply());
         EasyMock.expect(gameState.getUserForCurrentTurn()).andReturn(user);
         EasyMock.expect(gameManager.getGameState()).andReturn(gameState);
         EasyMock.replay(gameManager, gameState, user, drawDeck, users);
@@ -188,15 +168,8 @@ class CardEffectUnitTesting {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-        // We know the cards mock is an unsafe type conversion
     void testFavor() {
         EffectPattern favorEffect = new FavorEffect();
-        GameState gameState = EasyMock.createMock(GameState.class);
-        User user = EasyMock.createMock(User.class);
-        DrawDeck drawDeck = EasyMock.createMock(DrawDeck.class);
-        List<User> users = EasyMock.createMock(LinkedList.class);
-        GameManager gameManager = EasyMock.createMock(GameManager.class);
         EasyMock.expect(gameState.getDrawDeck()).andReturn(drawDeck);
         gameManager.triggerDisplayOfFavorPrompt(users);
         EasyMock.expectLastCall();

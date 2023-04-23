@@ -6,7 +6,6 @@ import system.GameState;
 import system.User;
 
 public abstract class EffectPattern {
-
     private User currentUser;
     private GameState currentState;
     private DrawDeck drawDeck;

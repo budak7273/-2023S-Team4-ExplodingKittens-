@@ -34,10 +34,13 @@ public class UserUnitTesting {
     }
 
     @Test
-    public void testUserConstructorAliveOrDead() {
+    public void testUserConstructorAlive() {
         User user = new User("test1", true, new ArrayList<Card>());
-        User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertTrue(user.isAlive());
+    }
+    @Test
+    public void testUserConstructorDead() {
+        User user2 = new User("test2", false, new ArrayList<Card>());
         Assertions.assertFalse(user2.isAlive());
     }
 
@@ -77,7 +80,8 @@ public class UserUnitTesting {
         Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
-        user.removeHand(0);
+        Card cardToRemove = user.getCardFromHand(0);
+        user.removeCard(cardToRemove);
         Assertions.assertEquals(new ArrayList<>(), user.getHand());
         Assertions.assertTrue(user.isEmptyHand());
     }
@@ -87,7 +91,7 @@ public class UserUnitTesting {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
         Executable executable =
-                () -> user.removeHand(0);
+                () -> user.removeCard(user.getCardFromHand(0));
         Assertions.assertThrows(IndexOutOfBoundsException.class, executable);
     }
 
@@ -109,7 +113,7 @@ public class UserUnitTesting {
     public void testCheckForSpecialEffectPotentialEmptyHand() {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
 
     }
 
@@ -119,7 +123,7 @@ public class UserUnitTesting {
         Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -130,7 +134,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -141,7 +145,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -152,7 +156,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -163,7 +167,7 @@ public class UserUnitTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -176,7 +180,7 @@ public class UserUnitTesting {
         list.add(card2);
         list.add(card3);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -186,7 +190,7 @@ public class UserUnitTesting {
             list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -202,7 +206,7 @@ public class UserUnitTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -226,7 +230,7 @@ public class UserUnitTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -240,7 +244,7 @@ public class UserUnitTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -483,8 +487,9 @@ public class UserUnitTesting {
 
         GameWindow gw = EasyMock.createMock(GameWindow.class);
         EasyMock.expect(gw.inputForStealCard(targetUser)).andReturn(0);
+        gw.updateEventHistoryLog("Event Log contents for player: \n"
+                                 + " took a Attack from  via a Favor\n");
         DrawDeck deckMock = EasyMock.createMock(DrawDeck.class);
-
         EasyMock.replay(gw);
         EasyMock.replay(deckMock);
         GameState gameState = new GameState(pq, deckMock);

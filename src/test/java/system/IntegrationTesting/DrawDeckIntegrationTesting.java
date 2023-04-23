@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DrawDeckIntegrationTesting {
     @Test
-
     public void testGetCardsIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -24,7 +23,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawCardFromEmptyDrawDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -34,7 +32,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawCardFromNonEmptyDrawDeckIntegrationTest() {
         User user = new User();
         ArrayList<Card> cards = new ArrayList<>();
@@ -42,13 +39,14 @@ public class DrawDeckIntegrationTesting {
 
         DrawDeck deck = new DrawDeck(cards);
 
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, null));
         deck.drawCard(user);
 
         assertTrue(deck.getCardsAsList().isEmpty());
         assertTrue(!user.getHand().isEmpty());
     }
 
+    @Test
     public void testDrawBottomCardFromEmptyDrawDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -58,7 +56,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawBottomCardFromNonEmptyDrawDeckIntegrationTest() {
         User user = new User();
         ArrayList<Card> cards = new ArrayList<>();
@@ -66,7 +63,7 @@ public class DrawDeckIntegrationTesting {
 
         DrawDeck deck = new DrawDeck(cards);
 
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, null));
         deck.drawFromBottomForUser(user);
 
         assertTrue(deck.getCardsAsList().isEmpty());
@@ -74,7 +71,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testShuffleOnEmptyDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -84,13 +80,12 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testShuffleOnDeckOfOneCardIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
 
-        Card card = new Card(CardType.ATTACK);
+        Card card = new Card(CardType.ATTACK, null);
         deck.addCardToTop(card);
         deck.shuffle();
 
@@ -99,14 +94,13 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testShuffleOnDeckOfMultipleCardsIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
 
-        Card card1 = new Card(CardType.ATTACK);
-        Card card2 = new Card(CardType.ATTACK);
+        Card card1 = new Card(CardType.ATTACK, null);
+        Card card2 = new Card(CardType.ATTACK, null);
         deck.addCardToTop(card1);
         deck.addCardToTop(card2);
         deck.shuffle();
@@ -117,7 +111,6 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawFromBottomForUserWithEmptyDeckIntegrationTest() {
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -130,13 +123,12 @@ public class DrawDeckIntegrationTesting {
     }
 
     @Test
-
     public void testDrawFromBottomForUserWithNonEmptyDeckIntegrationTest() {
         ArrayList<Card> cards = new ArrayList<>();
         DrawDeck deck = new DrawDeck(cards);
-        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE);
+        Card bottomCard = new Card(CardType.ALTER_THE_FUTURE, null);
         deck.addCardToTop(bottomCard);
-        deck.addCardToTop(new Card(CardType.ATTACK));
+        deck.addCardToTop(new Card(CardType.ATTACK, null));
 
 
         User user = new User("TestPlayer");

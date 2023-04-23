@@ -1,6 +1,5 @@
 package system;
 
-
 import datasource.CardType;
 import datasource.I18n;
 
@@ -29,8 +28,11 @@ public class User {
         this.hand = playerHand;
     }
 
-    public String getName() {
+    public Card getCardFromHand(int index) {
+        return this.hand.get(index);
+    }
 
+    public String getName() {
         return this.name;
     }
 
@@ -39,22 +41,21 @@ public class User {
         toReturn.addAll(this.hand);
         return toReturn;
     }
+
     public Integer getHandCount() {
         return this.hand.size();
     }
-    public void addCard(Card drawnCard) {
 
+    public void addCard(Card drawnCard) {
         this.hand.add(drawnCard);
     }
-    public Card getLastCardInHand() {
-        return this.getHand().get(this.getHandCount() - 1);
-    }
-    public void removeCard(Card drawnCard) {
-        this.hand.remove(drawnCard);
+
+    public void removeCard(Card cardToRemove) {
+        this.hand.remove(cardToRemove);
     }
 
-    public Card removeHand(int index) {
-        return this.hand.remove(index);
+    public Card getLastCardInHand() {
+        return this.getHand().get(this.getHandCount() - 1);
     }
 
     public boolean isAlive() {
@@ -82,30 +83,34 @@ public class User {
         return false;
     }
 
-    public boolean checkForSpecialEffectPotential() {
+    public boolean checkForCatCardEffects() {
         int feralCount = 0;
-        int otherCount = 0;
-        HashMap<String, Integer> list = new HashMap<>();
+        int otherCatCount = 0;
+        HashMap<String, Integer> catCardsInHand = new HashMap<>();
 
         for (Card card : this.hand) {
             if (card.getType() == CardType.FERAL_CAT) {
                 feralCount++;
             } else if (card.isCatCard()) {
-                otherCount++;
+                otherCatCount++;
                 String cname = card.getType().toString();
-                int count = list.getOrDefault(cname, 0);
-                list.put(cname, count + 1);
+                int count = catCardsInHand.getOrDefault(cname, 0);
+                catCardsInHand.put(cname, count + 1);
             }
         }
 
-        if ((feralCount >= 1 && otherCount >= 1) || feralCount >= 2) {
+        return verifyCatCardEffectCount(feralCount, otherCatCount, catCardsInHand);
+    }
+
+    private boolean verifyCatCardEffectCount(int feralCount, int otherCatCount,
+                                             HashMap<String, Integer> catCardsInHand) {
+        if ((feralCount >= 1 && otherCatCount >= 1) || feralCount >= 2) {
             return true;
-        } else if (otherCount < 2) {
+        } else if (otherCatCount < 2) {
             return false;
         } else {
-            for (Map.Entry<String, Integer> entry : list.entrySet()) {
-                String cname = entry.getKey();
-                if (list.get(cname) > 1) {
+            for (Map.Entry<String, Integer> entry : catCardsInHand.entrySet()) {
+                if (entry.getValue() > 1) {
                     return true;
                 }
             }
@@ -126,7 +131,7 @@ public class User {
             CardType type1 = first.getType();
             CardType type2 = c.getType();
             if (type1 != type2 && type1 != CardType.FERAL_CAT
-                    && type2 != CardType.FERAL_CAT) {
+                && type2 != CardType.FERAL_CAT) {
                 return false;
             }
         }

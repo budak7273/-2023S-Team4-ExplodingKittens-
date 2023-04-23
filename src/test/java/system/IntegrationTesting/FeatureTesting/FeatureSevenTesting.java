@@ -22,11 +22,16 @@ class FeatureSevenTesting {
     private GameManager gameManager;
 
     @BeforeEach
+    void runAsHeadless() {
+        System.setProperty("java.awt.headless", "true");
+    }
+
+    @BeforeEach
     void setUp() {
         Queue<User> users = new LinkedList<>();
         users.add(new User("test1", true, new ArrayList<>()));
         users.add(new User("test2", true, new ArrayList<>()));
-        GameDesigner gameDesigner = new GameDesigner(users, new JFrame());
+        GameDesigner gameDesigner = new GameDesigner(users, TestingUtils.getFakeFrame());
         gameDesigner.initializeGameState(TestingUtils.getTestRandom());
         GameWindow gameWindow = gameDesigner.getGameWindow();
         gameManager = gameWindow.getGameManager();
@@ -38,15 +43,15 @@ class FeatureSevenTesting {
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
-                "test1");
+                                "test1");
         gameManager.drawCardForCurrentTurn();
         gameManager.transitionToNextTurn();
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "test2");
+                                "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
-                currentHandSize + 1);
+                                currentHandSize + 1);
         Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
-                currentDeckSize - 1);
+                                currentDeckSize - 1);
     }
 
     @Test
@@ -55,15 +60,15 @@ class FeatureSevenTesting {
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
-                "test1");
+                                "test1");
         currentUser.getHand().get(currentHandSize - 1)
-                .activateEffect(gameManager);
+                   .activateEffect(gameManager);
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "test2");
+                                "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
-                currentHandSize - 1);
+                                currentHandSize - 1);
         Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
-                currentDeckSize);
+                                currentDeckSize);
     }
 
     @Test
@@ -72,14 +77,14 @@ class FeatureSevenTesting {
         int currentHandSize = currentUser.getHand().size();
         int currentDeckSize = gameManager.getDeckSizeForCurrentTurn();
         Assertions.assertEquals(currentUser.getName(),
-                "test1");
+                                "test1");
         currentUser.getHand().get(currentHandSize - 1)
-                .activateEffect(gameManager);
+                   .activateEffect(gameManager);
         Assertions.assertEquals(gameManager.getUserForCurrentTurn().getName(),
-                "test2");
+                                "test2");
         Assertions.assertEquals(currentUser.getHand().size(),
-                currentHandSize - 1);
+                                currentHandSize - 1);
         Assertions.assertEquals(gameManager.getDeckSizeForCurrentTurn(),
-                currentDeckSize);
+                                currentDeckSize);
     }
 }

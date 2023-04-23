@@ -63,14 +63,14 @@ public class UserIntegrationTesting {
         Assertions.assertEquals(list, user.getHand());
         Assertions.assertEquals(2, user.getHand().size());
         Assertions.assertEquals(card, user.getHand().get(0));
-        Assertions.assertEquals(card, user.getHand().get(1));
+        Assertions.assertEquals(card2, user.getHand().get(1));
     }
 
     @Test
     public void testCheckForSpecialEffectPotentialEmptyHandIntegrationTest() {
         ArrayList<Card> list = new ArrayList<Card>();
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
 
     }
 
@@ -80,7 +80,7 @@ public class UserIntegrationTesting {
         Card card = new Card(CardType.ATTACK);
         list.add(card);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class UserIntegrationTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class UserIntegrationTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class UserIntegrationTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -128,7 +128,7 @@ public class UserIntegrationTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class UserIntegrationTesting {
         list.add(card2);
         list.add(card3);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class UserIntegrationTesting {
         list.add(card);
         list.add(card2);
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class UserIntegrationTesting {
             list.add(new Card(CardType.ATTACK));
         }
         User user = new User("test1", false, list);
-        Assertions.assertFalse(user.checkForSpecialEffectPotential());
+        Assertions.assertFalse(user.checkForCatCardEffects());
     }
 
     @Test
@@ -182,7 +182,7 @@ public class UserIntegrationTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -209,7 +209,7 @@ public class UserIntegrationTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -224,7 +224,7 @@ public class UserIntegrationTesting {
             }
         }
         User user = new User("test1", false, list);
-        Assertions.assertTrue(user.checkForSpecialEffectPotential());
+        Assertions.assertTrue(user.checkForCatCardEffects());
     }
 
     @Test
@@ -259,12 +259,22 @@ public class UserIntegrationTesting {
         selected.add(c);
         User user = new User("test1", false, list);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
+    }
+
+    @Test
+    public void
+    testVerifyEffectForSelectedHandWithTwoCardsIntegrationTest() {
+        ArrayList<Card> list = new ArrayList<Card>();
+        Card c = new Card(CardType.ATTACK);
+        list.add(c);
+        ArrayList<Card> selected = new ArrayList<>();
+        selected.add(c);
+        User user = new User("test1", false, list);
         Card c2 = new Card(CardType.ATTACK);
         list.add(c2);
         selected.add(c2);
         Assertions.assertFalse(user.verifyEffectForCardsSelected(selected));
     }
-
     @Test
     public void
     testVerifyEffectForSelectSize1HandWMultIndexIntegratTest() {
