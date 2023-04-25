@@ -86,7 +86,7 @@ public class Setup {
         List<Card> cardList = parser.generateListOfCardsWithVerification(includePaw, includePawless);
 
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
-            cardList.add(new Card(CardType.DEFUSE, null));
+            cardList.add(new Card(CardType.DEFUSE, new ImageIcon("src/main/resources/images/defuse.png")));
         }
         return cardList;
     }
