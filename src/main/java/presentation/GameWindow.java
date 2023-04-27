@@ -45,7 +45,7 @@ public class GameWindow {
 
     public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
-        textArea = new JTextArea("Event History Log");
+        textArea = new JTextArea(I18n.getMessage("EventLogTitleText"));
         this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
