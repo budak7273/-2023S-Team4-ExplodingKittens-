@@ -6,7 +6,7 @@ import javax.swing.Icon;
 
 public class Card {
     private final CardType cardType;
-    private final Icon icon;
+    private Icon icon;
 
     public Card(CardType type, Icon imageIcon) {
         this.cardType = type;
