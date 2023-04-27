@@ -328,8 +328,6 @@ public class GameWindow {
                     current.removeCard(c2);
 
                     Icon icon = c1.getIcon();
-                    System.out.println("card.get Icon is " + icon);
-
                     discardPile.setIcon(c1.getIcon());
                     updateUI();
 
@@ -393,8 +391,6 @@ public class GameWindow {
                     gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
                 }
                 Icon icon = card.getIcon();
-                System.out.println("card.get Icon is " + icon);
-
                 discardPile.setIcon(icon);
                 updateUI();
 
