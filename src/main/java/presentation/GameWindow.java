@@ -427,14 +427,16 @@ public class GameWindow {
             cardLayout.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-
+                    final int selectedBorder = 5;
                     if (cardLayout.getBackground() == Color.CYAN) {
                         System.out.println(card.getName() + " is selected!");
                         getSelectedCards().add(card);
+                        cardLayout.setBorder(BorderFactory.createLineBorder(Color.black, selectedBorder));
                         cardLayout.setBackground(Color.MAGENTA);
                     } else {
                         System.out.println(card.getName() + " is deselected!");
                         getSelectedCards().remove(card);
+                        cardLayout.setBorder(BorderFactory.createLineBorder(Color.black, 1));
                         cardLayout.setBackground(Color.CYAN);
                     }
 
