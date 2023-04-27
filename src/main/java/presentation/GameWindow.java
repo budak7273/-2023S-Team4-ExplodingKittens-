@@ -33,7 +33,7 @@ public class GameWindow {
     private boolean catMode;
     private JTextArea textArea;
     private boolean enabled;
-
+    private JButton discardPile;
     private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
@@ -45,7 +45,7 @@ public class GameWindow {
 
     public GameWindow(JFrame frame, boolean muteAudioInput) {
         this.gameFrame = frame;
-        textArea = new JTextArea("Event History Log");
+        textArea = new JTextArea(I18n.getMessage("EventLogTitleText"));
         this.muteAudio = muteAudioInput;
         this.enabled = true;
         this.notificationPanel = new NotificationPanel(this);
@@ -56,6 +56,8 @@ public class GameWindow {
         final int frameWidth = 1800;
         final int frameHeight = 800;
         gameFrame.setSize(frameWidth, frameHeight);
+        discardPile = createCard(
+                I18n.getMessage("TopCard"), "", new ImageIcon());
         audioPlayer.playMusicOnStartup();
     }
 
@@ -170,7 +172,7 @@ public class GameWindow {
                     notificationPanel.removeAll();
                     boolean drawnExploding = gameManager.drawCardForCurrentTurn();
                     if (!drawnExploding) {
-                        Card drawnCard =
+                         Card drawnCard =
                                 gameManager.getUserForCurrentTurn().getLastCardInHand();
                         notificationPanel.notifyPlayers(I18n.getMessage("CardDrawn") + drawnCard.getName(), "");
                         notificationPanel.addExitButtonToLayout(I18n.getMessage("Confirm"),
@@ -182,8 +184,8 @@ public class GameWindow {
                 }
             }
         });
-        JButton discardPile = createCard(
-                I18n.getMessage("TopCard"), "");
+
+
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
         tableAreaDisplayPanel.add(deckButton, BorderLayout.EAST);
@@ -325,6 +327,8 @@ public class GameWindow {
                     current.removeCard(c1);
                     current.removeCard(c2);
 
+                    Icon icon = c1.getIcon();
+                    discardPile.setIcon(icon);
                     updateUI();
 
                     getSelectedCards().clear();
@@ -386,7 +390,8 @@ public class GameWindow {
                 synchronized (nopeMutex) {
                     gameManager.setCardExecutionState(ExecutionState.ACTIVATED_EFFECT);
                 }
-
+                Icon icon = card.getIcon();
+                discardPile.setIcon(icon);
                 updateUI();
 
                 gameFrame.validate();
@@ -427,14 +432,16 @@ public class GameWindow {
             cardLayout.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-
+                    final int selectedBorder = 5;
                     if (cardLayout.getBackground() == Color.CYAN) {
                         System.out.println(card.getName() + " is selected!");
                         getSelectedCards().add(card);
+                        cardLayout.setBorder(BorderFactory.createLineBorder(Color.black, selectedBorder));
                         cardLayout.setBackground(Color.MAGENTA);
                     } else {
                         System.out.println(card.getName() + " is deselected!");
                         getSelectedCards().remove(card);
+                        cardLayout.setBorder(BorderFactory.createLineBorder(Color.black, 1));
                         cardLayout.setBackground(Color.CYAN);
                     }
 
@@ -479,6 +486,19 @@ public class GameWindow {
         final int cardWidth = 150;
         final int cardHeight = 160;
         JButton cardImage = new JButton();
+        cardImage.setLayout(new GridLayout(0, 1));
+        cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
+        cardImage.setBackground(Color.CYAN);
+        JLabel cardDetails = new JLabel();
+        cardDetails.setText("<html><overflow='hidden'>"
+                            + name + "<br>" + desc + "</html>");
+        cardImage.add(cardDetails);
+        return cardImage;
+    }
+    protected JButton createCard(String name, String desc, Icon icon) {
+        final int cardWidth = 150;
+        final int cardHeight = 160;
+        JButton cardImage = new JButton(icon);
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.CYAN);

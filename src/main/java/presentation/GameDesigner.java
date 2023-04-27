@@ -115,8 +115,8 @@ public class GameDesigner {
                                + nextPlayerCount + I18n
                                        .getMessage("PlayerUsernameMessage"));
             userNameList.add(collectUsername(scanner, userNameList));
-
-            if (nextPlayerCount > MAX_PLAYER_COUNT) {
+            int upcomingCount = userNameList.size() + 1;
+            if (upcomingCount > MAX_PLAYER_COUNT) {
                 addMorePlayers = false;
             } else if (nextPlayerCount >= MIN_PLAYER_COUNT) {
                 System.out.println(I18n.getMessage("AddAnotherPlayerMessage"));
