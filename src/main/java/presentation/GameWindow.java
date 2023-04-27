@@ -328,7 +328,7 @@ public class GameWindow {
                     current.removeCard(c2);
 
                     Icon icon = c1.getIcon();
-                    discardPile.setIcon(c1.getIcon());
+                    discardPile.setIcon(icon);
                     updateUI();
 
                     getSelectedCards().clear();
