@@ -1,18 +1,28 @@
 package presentation;
 
 import datasource.I18n;
-import system.*;
+import datasource.ResourceHelper;
+import system.DrawDeck;
+import system.GameManager;
+import system.GameState;
+import system.Setup;
+import system.User;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
 
 public class GameDesigner {
+    private static final int MAX_PLAYER_COUNT = 10;
+    private static final int MIN_PLAYER_COUNT = 2;
     private Queue<User> users;
     private GameWindow gameWindow;
     private JFrame gameFrame;
-    private static final int MAX_PLAYER_COUNT = 10;
-    private static final int MIN_PLAYER_COUNT = 2;
 
     public GameDesigner(JFrame frame) {
         this(new ArrayDeque<>(), frame);
@@ -37,6 +47,38 @@ public class GameDesigner {
         initializeGameState(usernames);
     }
 
+    public void initializeGameState(final List<String> usernames) {
+        Setup setup = new Setup(usernames.size(), new Random());
+        users = setup.createUsers(usernames);
+        DrawDeck drawDeck = setup.createDrawDeck(ResourceHelper.getAsStream("/data/cards.csv"));
+        setup.dealHands(users, drawDeck);
+        setup.shuffleExplodingKittensInDeck(drawDeck);
+
+        gameWindow = new GameWindow(gameFrame, false);
+        final GameState gameState = new GameState(users, drawDeck);
+        final GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
+    }
+
+    /**
+     * These methods should only be used for Integration Testing
+     */
+    public void initializeGameState(Random random) {
+        Setup setup = new Setup(users.size(), random);
+        DrawDeck drawDeck = setup.createDrawDeck(ResourceHelper.getAsStream("/data/cards.csv"));
+        setup.dealHands(this.users, drawDeck);
+        gameWindow = new GameWindow(gameFrame, true);
+        GameState gameState = new GameState(this.users, drawDeck);
+        GameManager gameManager = new GameManager(gameState, gameWindow);
+        gameWindow.setGameManager(gameManager);
+        gameWindow.updateUI();
+    }
+
+    public GameWindow getGameWindow() {
+        return this.gameWindow;
+    }
+
     /**
      * readUserInfo takes in no parameters.
      * Asks the User for their information.
@@ -55,40 +97,6 @@ public class GameDesigner {
 
         scanner.close();
         return userNameList;
-    }
-
-    public void initializeGameState(final List<String> usernames) {
-        Setup setup = new Setup(usernames.size(), new Random());
-        users = setup.createUsers(usernames);
-        String path = "src/main/resources/cards.csv";
-        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        setup.dealHands(users, drawDeck);
-        setup.shuffleExplodingKittensInDeck(drawDeck);
-
-        gameWindow = new GameWindow(gameFrame, false);
-        final GameState gameState = new GameState(users, drawDeck);
-        final GameManager gameManager = new GameManager(gameState, gameWindow);
-        gameWindow.setGameManager(gameManager);
-        gameWindow.updateUI();
-    }
-
-    /**
-     * These methods should only be used for Integration Testing
-     */
-    public void initializeGameState(Random random) {
-        Setup setup = new Setup(users.size(), random);
-        String path = "src/main/resources/cards.csv";
-        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
-        setup.dealHands(this.users, drawDeck);
-        gameWindow = new GameWindow(gameFrame, true);
-        GameState gameState = new GameState(this.users, drawDeck);
-        GameManager gameManager = new GameManager(gameState, gameWindow);
-        gameWindow.setGameManager(gameManager);
-        gameWindow.updateUI();
-    }
-
-    public GameWindow getGameWindow() {
-        return this.gameWindow;
     }
 
     private static void setupLanguage(Scanner scanner) {

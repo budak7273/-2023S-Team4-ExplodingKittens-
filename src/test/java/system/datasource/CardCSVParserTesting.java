@@ -7,17 +7,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.Card;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class CardCSVParserTesting {
+class CardCSVParserTesting {
 
     private static final int PARTY_PACK_SIZE = 107;
     private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
 
     CardCSVParser createCardCSVParser(String path) {
-        File csvFile = new File(path);
+        InputStream csvFile;
+        try {
+            csvFile = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return new CardCSVParser(csvFile);
     }
 
@@ -110,5 +117,4 @@ public class CardCSVParserTesting {
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
         Assertions.assertTrue(cardListContainsAllRegularTypes(cardList));
     }
-
 }

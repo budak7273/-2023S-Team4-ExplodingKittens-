@@ -1,6 +1,7 @@
 package presentation;
 
 import datasource.I18n;
+import datasource.ResourceHelper;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -22,7 +23,7 @@ public class AudioPlayer {
         }
         Runnable runnablePlay = () -> {
             try {
-                File explosion = new File(pathname);
+                File explosion = ResourceHelper.getAsFile(pathname);
                 FileInputStream fileInputStream =
                         new FileInputStream(explosion);
                 BufferedInputStream bufferedInputStream =
@@ -38,14 +39,14 @@ public class AudioPlayer {
     }
 
     public void playMusicOnStartup() {
-        playMusic("src/main/resources/start.mp3");
+        playMusic("/audio/start.mp3");
     }
 
     public void playExplosion() {
-        playMusic("src/main/resources/explodingKitten.mp3");
+        playMusic("/audio/explodingKitten.mp3");
     }
 
     public void playDefused() {
-        playMusic("src/main/resources/defused.mp3");
+        playMusic("/audio/defused.mp3");
     }
 }

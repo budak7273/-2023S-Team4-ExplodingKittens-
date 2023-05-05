@@ -3,9 +3,13 @@ package system;
 import datasource.CardCSVParser;
 import datasource.CardType;
 import datasource.I18n;
+import datasource.ResourceHelper;
 
 import javax.swing.ImageIcon;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 public class Setup {
@@ -53,14 +57,22 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(File cardInfoFile) {
-        List<Card> cardList = generateCardList(cardInfoFile);
+    public DrawDeck createDrawDeck(InputStream stream) {
+        List<Card> cardList = generateCardList(stream);
         DrawDeck drawDeck = generateDrawDeck(cardList);
         drawDeck.shuffle();
         return drawDeck;
     }
 
-    private List<Card> generateCardList(File cardInfoFile) {
+    public DrawDeck createDrawDeck(File cardInfoFile) {
+        try {
+            return createDrawDeck(new FileInputStream(cardInfoFile));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Failed to set up input stream for cards file", e);
+        }
+    }
+
+    private List<Card> generateCardList(InputStream cardInputStream) {
         boolean smallGame = numOfPlayers <= MAX_COUNT_WITH_PAW;
         boolean mediumGame = numOfPlayers >= MIN_COUNT_WITHOUT_PAW
                 && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
@@ -82,11 +94,11 @@ public class Setup {
             includePawless = true;
             numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
-        CardCSVParser parser = new CardCSVParser(cardInfoFile);
+        CardCSVParser parser = new CardCSVParser(cardInputStream);
         List<Card> cardList = parser.generateListOfCardsWithVerification(includePaw, includePawless);
 
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
-            cardList.add(new Card(CardType.DEFUSE, new ImageIcon("src/main/resources/images/defuse.png")));
+            cardList.add(new Card(CardType.DEFUSE, ResourceHelper.getAsImageIcon("/images/defuse.png")));
         }
         return cardList;
     }
@@ -105,7 +117,7 @@ public class Setup {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawCard(user);
             }
-            user.addCard(new Card(CardType.DEFUSE, new ImageIcon("src/main/resources/images/defuse.png")));
+            user.addCard(new Card(CardType.DEFUSE, ResourceHelper.getAsImageIcon("/images/defuse.png")));
         }
     }
 
