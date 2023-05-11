@@ -5,24 +5,26 @@ import datasource.CardType;
 import datasource.I18n;
 import datasource.ResourceHelper;
 
-import javax.swing.ImageIcon;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Set;
 
 public class Setup {
-    private final Random random;
-    private int numOfPlayers;
-
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
     private static final int MAX_COUNT_WITH_PAW = 3;
     private static final int MIN_COUNT_WITHOUT_PAW = 4;
     private static final int MAX_COUNT_WITHOUT_PAW = 7;
-
     private static final int INITIAL_HAND_SIZE = 7;
+    private final Random random;
+    private int numOfPlayers;
 
     // For tests that do not care about specific random seeds
     public Setup(int playerCount) {
@@ -40,7 +42,7 @@ public class Setup {
         }
 
         if (names.size() < MIN_PLAYERS
-                || names.size() > MAX_PLAYERS) {
+            || names.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
 
@@ -75,7 +77,7 @@ public class Setup {
     private List<Card> generateCardList(InputStream cardInputStream) {
         boolean smallGame = numOfPlayers <= MAX_COUNT_WITH_PAW;
         boolean mediumGame = numOfPlayers >= MIN_COUNT_WITHOUT_PAW
-                && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
+                             && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
 
         boolean includePaw;
         boolean includePawless;

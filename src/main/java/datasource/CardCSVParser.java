@@ -3,7 +3,6 @@ package datasource;
 import system.Card;
 
 import javax.swing.Icon;
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;

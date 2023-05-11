@@ -6,9 +6,6 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 public class AudioPlayer {
     private final boolean enableSound;
@@ -23,14 +20,11 @@ public class AudioPlayer {
         }
         Runnable runnablePlay = () -> {
             try {
-                File explosion = ResourceHelper.getAsFile(pathname);
-                FileInputStream fileInputStream =
-                        new FileInputStream(explosion);
                 BufferedInputStream bufferedInputStream =
-                        new BufferedInputStream(fileInputStream);
+                        new BufferedInputStream(ResourceHelper.getAsStream(pathname));
                 Player player = new Player(bufferedInputStream);
                 player.play();
-            } catch (JavaLayerException | IOException e) {
+            } catch (JavaLayerException e) {
                 System.err.println(I18n.getMessage("CouldntPlayMusic"));
             }
         };
