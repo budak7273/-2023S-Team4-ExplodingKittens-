@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class GameDesigner {
     private static final int MAX_PLAYER_COUNT = 10;
     private static final int MIN_PLAYER_COUNT = 2;
-    private static final boolean DEBUG_AUTO_PLAYER_ENTRY_MODE = true;
+    private static final boolean DEBUG_AUTO_PLAYER_ENTRY_MODE = false;
     private Queue<User> users;
     private GameWindow gameWindow;
     private JFrame gameFrame;
