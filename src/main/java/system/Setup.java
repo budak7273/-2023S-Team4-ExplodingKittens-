@@ -5,9 +5,6 @@ import datasource.CardType;
 import datasource.I18n;
 import datasource.ResourceHelper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -66,12 +63,8 @@ public class Setup {
         return drawDeck;
     }
 
-    public DrawDeck createDrawDeck(File cardInfoFile) {
-        try {
-            return createDrawDeck(new FileInputStream(cardInfoFile));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Failed to set up input stream for cards file", e);
-        }
+    public DrawDeck createDrawDeck(String cardInfoFile) {
+        return createDrawDeck(ResourceHelper.getAsStream(cardInfoFile));
     }
 
     private List<Card> generateCardList(InputStream cardInputStream) {
