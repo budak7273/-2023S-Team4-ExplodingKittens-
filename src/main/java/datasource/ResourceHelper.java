@@ -17,7 +17,6 @@ public class ResourceHelper {
 
     public static ImageIcon getAsImageIcon(String resourceName) {
         BufferedImage image;
-        System.out.println("Getting as imageIcon " + resourceName);
         try {
             InputStream stream = ResourceHelper.getAsStream(resourceName);
             if (stream == null) {
@@ -27,7 +26,6 @@ public class ResourceHelper {
         } catch (IOException e) {
             throw new RuntimeException("Card image file could not be found: " + resourceName, e);
         }
-        System.out.println("SUCCESS Getting as imageIcon " + resourceName);
         return new ImageIcon(image);
     }
 }
