@@ -9,9 +9,9 @@ import system.Setup;
 import system.User;
 
 import javax.swing.JFrame;
-import java.io.File;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class GameDesigner {
     private static final int MAX_PLAYER_COUNT = 10;
     private static final int MIN_PLAYER_COUNT = 2;
+    private static final boolean DEBUG_AUTO_PLAYER_ENTRY_MODE = true;
     private Queue<User> users;
     private GameWindow gameWindow;
     private JFrame gameFrame;
@@ -91,7 +92,12 @@ public class GameDesigner {
 
         setupLanguage(scanner);
 
-        userNameList = setupPlayerUsernames(scanner);
+        if (DEBUG_AUTO_PLAYER_ENTRY_MODE) {
+            String[] names = {"one", "two"};
+            userNameList = Arrays.asList(names);
+        } else {
+            userNameList = setupPlayerUsernames(scanner);
+        }
 
         displayPlayerList(userNameList);
 
@@ -104,7 +110,7 @@ public class GameDesigner {
         for (I18n language : I18n.values()) {
             System.out.println(language.localeSummaryString());
         }
-        String languageSelection = scanner.nextLine().toLowerCase();
+        String languageSelection = DEBUG_AUTO_PLAYER_ENTRY_MODE ? "e" : scanner.nextLine().toLowerCase();
         String selected = I18n.switchLanguage(languageSelection);
         System.out.println(I18n.getMessage("LanguageSelected") + " " + selected);
     }
