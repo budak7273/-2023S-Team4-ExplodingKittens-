@@ -255,13 +255,12 @@ public class GameWindow {
         }
         JButton confirmButton = createButtonImage(I18n.getMessage("Confirm"));
         JButton hideButton = createButtonImage(I18n.getMessage("SwitchToShowModeMessage"));
-        JButton showLogButton = new JButton("Show Log");
+        JButton showLogButton = new JButton("Toggle Log Visibility");
 
         showLogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showLog = !showLog;
-                System.out.println("Show Log is: " + showLog);
                 buildGameView();
             }
         });
