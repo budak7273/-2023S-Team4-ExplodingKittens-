@@ -3,7 +3,8 @@ name: "pre-release"
 on:
   push:
     branches:
-      - ["release", "auto-release-ci"]
+      - "release"
+      - "auto-release-ci"
 
 jobs:
   pre-release:
