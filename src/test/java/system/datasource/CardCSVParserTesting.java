@@ -2,28 +2,32 @@ package system.datasource;
 
 import datasource.CardCSVParser;
 import datasource.CardType;
+import datasource.ResourceHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import system.Card;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class CardCSVParserTesting {
+class CardCSVParserTesting {
 
     private static final int PARTY_PACK_SIZE = 107;
     private static final int PARTY_PACK_PAW_ONLY_SIZE = 44;
 
     CardCSVParser createCardCSVParser(String path) {
-        File csvFile = new File(path);
+        InputStream csvFile;
+        csvFile = ResourceHelper.getAsStream(path);
+        System.out.println(csvFile);
+
         return new CardCSVParser(csvFile);
     }
 
     @Test
     public void testGenerateListOfCardsWithEmptyInput() {
-        String path = "src/test/resources/empty.csv";
+        String path = "/testingcsvs/empty.csv";
         CardCSVParser parser = createCardCSVParser(path);
         Executable executable = () -> parser.generateListOfCards(true, true);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
@@ -31,7 +35,7 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsWithTooFewCards() {
-        String path = "src/test/resources/fullfile_minusone.csv";
+        String path = "/testingcsvs/fullfile_minusone.csv";
         CardCSVParser parser = createCardCSVParser(path);
         Executable executable = () -> parser.generateListOfCards(true, true);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
@@ -39,7 +43,7 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsWithDataMissing() {
-        String path = "src/test/resources/fullfile_datamissing.csv";
+        String path = "/testingcsvs/fullfile_datamissing.csv";
         CardCSVParser parser = createCardCSVParser(path);
         Executable executable = () -> parser.generateListOfCards(true, true);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
@@ -47,7 +51,7 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsWithDataInvalid() {
-        String path = "src/test/resources/fullfile_invalid.csv";
+        String path = "/testingcsvs/fullfile_invalid.csv";
         CardCSVParser parser = createCardCSVParser(path);
         Executable executable = () -> parser.generateListOfCards(true, true);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
@@ -55,7 +59,7 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsNone() {
-        String path = "src/test/resources/fullfile.csv";
+        String path = "/testingcsvs/fullfile.csv";
         CardCSVParser parser = createCardCSVParser(path);
         List<Card> cardList = parser.generateListOfCards(false, false);
         Assertions.assertTrue(cardList.isEmpty());
@@ -81,7 +85,7 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsWithPawOnly() {
-        String path = "src/test/resources/fullfile.csv";
+        String path = "/testingcsvs/fullfile.csv";
         CardCSVParser parser = createCardCSVParser(path);
         List<Card> cardList = parser.generateListOfCards(true, false);
 
@@ -92,7 +96,7 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsWithNoPawOnly() {
-        String path = "src/test/resources/fullfile.csv";
+        String path = "/testingcsvs/fullfile.csv";
         CardCSVParser parser = createCardCSVParser(path);
         List<Card> cardList = parser.generateListOfCards(false, true);
 
@@ -103,12 +107,11 @@ public class CardCSVParserTesting {
 
     @Test
     public void testGenerateListOfCardsAll() {
-        String path = "src/test/resources/fullfile.csv";
+        String path = "/testingcsvs/fullfile.csv";
         CardCSVParser parser = createCardCSVParser(path);
         List<Card> cardList = parser.generateListOfCards(true, true);
 
         Assertions.assertTrue(cardList.size() == PARTY_PACK_SIZE);
         Assertions.assertTrue(cardListContainsAllRegularTypes(cardList));
     }
-
 }

@@ -2,11 +2,30 @@ package presentation;
 
 import datasource.CardType;
 import datasource.I18n;
-import system.*;
+import system.Card;
+import system.DrawDeck;
+import system.GameManager;
+import system.User;
 import system.messages.EventMessage;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,7 +34,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-import static javax.swing.ScrollPaneConstants.*;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER;
 
 public class GameWindow {
 
@@ -23,9 +44,10 @@ public class GameWindow {
      * This is the frame the game is made on.
      */
     private final JFrame gameFrame;
-
+    private final HashMap<Card, JButton> displayCards;
+    private final Object nopeMutex = new Object();
+    private final boolean muteAudio;
     private NotificationPanel notificationPanel;
-
     /**
      * Local storage of the game's current state.
      */
@@ -34,12 +56,9 @@ public class GameWindow {
     private JTextArea textArea;
     private boolean enabled;
     private JButton discardPile;
-    private final HashMap<Card, JButton> displayCards;
     private ArrayList<Card> selectedCards;
     private Card executingCard;
-    private final Object nopeMutex = new Object();
     private GameManager gameManager;
-    private final boolean muteAudio;
     private AudioPlayer audioPlayer;
     private JButton modeButton;
 
@@ -56,13 +75,9 @@ public class GameWindow {
         final int frameWidth = 1800;
         final int frameHeight = 800;
         gameFrame.setSize(frameWidth, frameHeight);
-        discardPile = createCard(
+        discardPile = createCardWithImage(
                 I18n.getMessage("TopCard"), "", new ImageIcon());
         audioPlayer.playMusicOnStartup();
-    }
-
-    public void setGameManager(final GameManager manager) {
-        this.gameManager = manager;
     }
 
     public void updateEventHistoryLog(String message) {
@@ -172,7 +187,7 @@ public class GameWindow {
                     notificationPanel.removeAll();
                     boolean drawnExploding = gameManager.drawCardForCurrentTurn();
                     if (!drawnExploding) {
-                         Card drawnCard =
+                        Card drawnCard =
                                 gameManager.getUserForCurrentTurn().getLastCardInHand();
                         notificationPanel.notifyPlayers(I18n.getMessage("CardDrawn") + drawnCard.getName(), "");
                         notificationPanel.addExitButtonToLayout(I18n.getMessage("Confirm"),
@@ -184,7 +199,6 @@ public class GameWindow {
                 }
             }
         });
-
 
         this.setEnabledButton(discardPile);
         tableAreaDisplayPanel.add(discardPile, BorderLayout.WEST);
@@ -265,13 +279,6 @@ public class GameWindow {
         if (!catMode && !this.gameManager.checkCurrentUsersSpecialEffect()) {
             modeButton.setEnabled(false);
             modeButton.setBackground(Color.GRAY);
-        }
-    }
-
-    private void setEnabledButton(JButton button) {
-        button.setEnabled(enabled);
-        if (!enabled) {
-            button.setBackground(Color.GRAY);
         }
     }
 
@@ -400,25 +407,6 @@ public class GameWindow {
         });
     }
 
-    private void setEndButtonListener(JButton hideButton) {
-        hideButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if (playerDeckDisplayPanel != null) {
-                    if (playerDeckDisplayPanel.isVisible()) {
-                        playerDeckDisplayPanel.setVisible(false);
-                        hideButton.setText(I18n.getMessage("SwitchToShowModeMessage"));
-                        updateDisplay();
-                    } else {
-                        playerDeckDisplayPanel.setVisible(true);
-                        hideButton.setText(I18n.getMessage("SwitchToHideModeMessage"));
-                        updateDisplay();
-                    }
-                }
-            }
-        });
-    }
-
     private JComponent generatePlayerDeckCardsPanel(String layout) {
         JPanel playerDeckCardsPanel = new JPanel();
         playerDeckCardsPanel.setLayout(new BorderLayout());
@@ -466,10 +454,11 @@ public class GameWindow {
         return scroll;
     }
 
-    protected JButton createCardWithImage(String name, String desc, Icon icon) {
+    private JButton createCardWithImage(String name, String desc, Icon icon) {
         final int cardWidth = 170;
         final int cardHeight = 230;
         JButton cardImage = new JButton(icon);
+        cardImage.setDisabledIcon(icon);
         cardImage.setLayout(new BorderLayout());
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.CYAN);
@@ -486,19 +475,6 @@ public class GameWindow {
         final int cardWidth = 150;
         final int cardHeight = 160;
         JButton cardImage = new JButton();
-        cardImage.setLayout(new GridLayout(0, 1));
-        cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
-        cardImage.setBackground(Color.CYAN);
-        JLabel cardDetails = new JLabel();
-        cardDetails.setText("<html><overflow='hidden'>"
-                            + name + "<br>" + desc + "</html>");
-        cardImage.add(cardDetails);
-        return cardImage;
-    }
-    protected JButton createCard(String name, String desc, Icon icon) {
-        final int cardWidth = 150;
-        final int cardHeight = 160;
-        JButton cardImage = new JButton(icon);
         cardImage.setLayout(new GridLayout(0, 1));
         cardImage.setPreferredSize(new Dimension(cardWidth, cardHeight));
         cardImage.setBackground(Color.CYAN);
@@ -544,7 +520,6 @@ public class GameWindow {
     public void addExplodingKittenIntoDeck(Integer location) {
         gameManager.addExplodingKittenBackIntoDeck(location);
     }
-
 
     private void tryTriggerCardExecution() {
         notificationPanel.removeAll();
@@ -630,21 +605,6 @@ public class GameWindow {
         }
     }
 
-    /**
-     * Panel that displays cards to be viewed, selected and edited.
-     */
-    public NotificationPanel getNotificationPanel() {
-        return notificationPanel;
-    }
-
-    public ArrayList<Card> getSelectedCards() {
-        return selectedCards;
-    }
-
-    public void setSelectedCards(ArrayList<Card> cards) {
-        this.selectedCards = cards;
-    }
-
     public void promptForTargetSelection(List<User> users, CardType cardType, Function<User, Void> then) {
         this.notificationPanel.displaySingleSelectionPrompt(users, cardType, then);
     }
@@ -688,9 +648,61 @@ public class GameWindow {
         return result;
     }
 
-
     public void triggerCatStealOn(User user) {
         gameManager.executeCatStealOn(user, new Random());
+    }
+
+    public void disableCatMode() {
+        this.setCatMode(false);
+    }
+
+    /**
+     * Panel that displays cards to be viewed, selected and edited.
+     */
+    public NotificationPanel getNotificationPanel() {
+        return notificationPanel;
+    }
+
+    public ArrayList<Card> getSelectedCards() {
+        return selectedCards;
+    }
+
+    public void setSelectedCards(ArrayList<Card> cards) {
+        this.selectedCards = cards;
+    }
+
+    public GameManager getGameManager() {
+        return this.gameManager;
+    }
+
+    public void setGameManager(final GameManager manager) {
+        this.gameManager = manager;
+    }
+
+    private void setEnabledButton(JButton button) {
+        button.setEnabled(enabled);
+        if (!enabled) {
+            button.setBackground(Color.GRAY);
+        }
+    }
+
+    private void setEndButtonListener(JButton hideButton) {
+        hideButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (playerDeckDisplayPanel != null) {
+                    if (playerDeckDisplayPanel.isVisible()) {
+                        playerDeckDisplayPanel.setVisible(false);
+                        hideButton.setText(I18n.getMessage("SwitchToShowModeMessage"));
+                        updateDisplay();
+                    } else {
+                        playerDeckDisplayPanel.setVisible(true);
+                        hideButton.setText(I18n.getMessage("SwitchToHideModeMessage"));
+                        updateDisplay();
+                    }
+                }
+            }
+        });
     }
 
     private void setCatMode(boolean newCatMode) {
@@ -703,13 +715,5 @@ public class GameWindow {
                 modeButton.setText(I18n.getMessage("SwitchToNormalModeMessage"));
             }
         }
-    }
-
-    public void disableCatMode() {
-        this.setCatMode(false);
-    }
-
-    public GameManager getGameManager() {
-        return this.gameManager;
     }
 }

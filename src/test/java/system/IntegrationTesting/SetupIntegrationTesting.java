@@ -1,13 +1,17 @@
 package system.IntegrationTesting;
 
-import system.Setup;
-import system.User;
-import system.DrawDeck;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import java.io.File;
-import java.util.*;
+import system.DrawDeck;
+import system.Setup;
+import system.User;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 
 public class SetupIntegrationTesting {
@@ -94,8 +98,7 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromEmptyFileIntegrationTest() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/empty.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/empty.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -103,8 +106,7 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromFileWithOneLineIntegrationTest() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/oneline.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/oneline.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -112,34 +114,31 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd2PlayersIntegrationTest() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
-
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 1;
         Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
-                drawDeck.getDeckSize());
+                                drawDeck.getDeckSize());
         Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
+
     @Test
     public void testCreateDrawDeckFromFullFileAnd3PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_PAW_ONLY_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 0;
         Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
-                drawDeck.getDeckSize());
+                                drawDeck.getDeckSize());
         Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd4PlayersIntegrationTest() {
         Setup setup = new Setup(MIN_NO_PAW_ONLY_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = MAX_NO_PAW_ONLY_COUNT - MIN_NO_PAW_ONLY_COUNT;
@@ -151,8 +150,7 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd7PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_NO_PAW_ONLY_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 0;
@@ -164,8 +162,7 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd8PlayersIntegrationTest() {
         Setup setup = new Setup(MIN_ALL_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 2;
@@ -177,8 +174,7 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd10PlayersIntegrationTest() {
         Setup setup = new Setup(MAX_PLAYER_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 0;
@@ -190,8 +186,7 @@ public class SetupIntegrationTesting {
     @Test
     public void testCreateDrawDeckFromOneLineOfInvalidDataIntegrationTest() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/oneline_invalid.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/oneline_invalid.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -200,8 +195,7 @@ public class SetupIntegrationTesting {
     public void
     testCreateDrawDeckFromFullFileWithOneLineOfInvalidDataIntegrationTest() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/fullfile_invalid.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile_invalid.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -222,11 +216,11 @@ public class SetupIntegrationTesting {
         User player1 = new User("player1");
         User player2 = new User("player2");
         Setup setup = new Setup(2);
-        String path = "src/test/resources/fullfile.csv";
-        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
+        DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
         final int firstDeckSize = 45;
         Assertions.assertEquals(firstDeckSize,
-                drawDeck.getCardsAsList().size());
+                                drawDeck.getCardsAsList().size());
 
         Queue<User> users = new LinkedList<>();
         users.add(player1);
@@ -235,10 +229,9 @@ public class SetupIntegrationTesting {
         setup.dealHands(users, drawDeck);
         final int secondDeckSize = 31;
         Assertions.assertEquals(secondDeckSize,
-                drawDeck.getCardsAsList().size());
-
-
+                                drawDeck.getCardsAsList().size());
     }
+
     @Test
     public void testDistributeCards10UsersIntegrationTest() {
         Queue<User> users = new ArrayDeque<>();
@@ -246,16 +239,15 @@ public class SetupIntegrationTesting {
             users.add(new User());
         }
         Setup setup = new Setup(MAX_PLAYER_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
+        DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
         final int firstDeckSize = 107;
         Assertions.assertEquals(firstDeckSize,
-                drawDeck.getCardsAsList().size());
+                                drawDeck.getCardsAsList().size());
         setup.dealHands(users, drawDeck);
         final int secondDeckSize = 37;
         Assertions.assertEquals(secondDeckSize,
-                drawDeck.getCardsAsList().size());
-
+                                drawDeck.getCardsAsList().size());
     }
 
     @Test
@@ -270,5 +262,4 @@ public class SetupIntegrationTesting {
         Executable executable = () -> setup.dealHands(users, drawDeck);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
-
 }
