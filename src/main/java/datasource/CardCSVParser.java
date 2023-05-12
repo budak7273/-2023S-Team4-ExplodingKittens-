@@ -3,22 +3,20 @@ package datasource;
 import system.Card;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class CardCSVParser {
 
-    private File csvFile;
     private static final int MAX_CARD_COUNT = 107;
+    private final InputStream csvFile;
 
-    public CardCSVParser(File csv) {
+    public CardCSVParser(InputStream csv) {
         this.csvFile = csv;
     }
 
@@ -47,8 +45,7 @@ public class CardCSVParser {
             Boolean hasAPaw = Boolean.parseBoolean(cardProperties[1]);
 
             String iconLocation = cardProperties[2];
-
-            Icon icon = new ImageIcon(iconLocation);
+            Icon icon = ResourceHelper.getAsImageIcon(iconLocation);
 
             verifyCardType(cardTypeName);
             cardCount++;
@@ -65,12 +62,7 @@ public class CardCSVParser {
     }
 
     private Scanner generateScanner() {
-        try {
-            return new Scanner(csvFile, "UTF-8");
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException(
-                    I18n.getMessage("CouldNotGenerateMessage"));
-        }
+        return new Scanner(csvFile, "UTF-8");
     }
 
     private void verifyPropertyLength(String[] cardProperties) {
@@ -84,7 +76,7 @@ public class CardCSVParser {
     private void verifyCardCount(int cardCount) {
         if (cardCount != MAX_CARD_COUNT) {
             throw new IllegalArgumentException(I18n
-                    .getMessage("BadNumberOfCardsMessage"));
+                                                       .getMessage("BadNumberOfCardsMessage"));
         }
     }
 
@@ -92,7 +84,7 @@ public class CardCSVParser {
         Set<String> allCardTypes = Collections.unmodifiableSet(new HashSet<>(CardType.ENUM_VALUES));
         if (!allCardTypes.contains(cardTypeName)) {
             throw new IllegalArgumentException(I18n
-                    .getMessage("InvalidCardTypeMessage") + cardTypeName
+                                                       .getMessage("InvalidCardTypeMessage") + cardTypeName
                                                + I18n.getMessage("FoundInFileMessage"));
         }
     }

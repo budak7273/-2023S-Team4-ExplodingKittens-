@@ -1,13 +1,11 @@
 package presentation;
 
 import datasource.I18n;
+import datasource.ResourceHelper;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 public class AudioPlayer {
     private final boolean enableSound;
@@ -22,14 +20,11 @@ public class AudioPlayer {
         }
         Runnable runnablePlay = () -> {
             try {
-                File explosion = new File(pathname);
-                FileInputStream fileInputStream =
-                        new FileInputStream(explosion);
                 BufferedInputStream bufferedInputStream =
-                        new BufferedInputStream(fileInputStream);
+                        new BufferedInputStream(ResourceHelper.getAsStream(pathname));
                 Player player = new Player(bufferedInputStream);
                 player.play();
-            } catch (JavaLayerException | IOException e) {
+            } catch (JavaLayerException e) {
                 System.err.println(I18n.getMessage("CouldntPlayMusic"));
             }
         };
@@ -38,14 +33,14 @@ public class AudioPlayer {
     }
 
     public void playMusicOnStartup() {
-        playMusic("src/main/resources/start.mp3");
+        playMusic("/audio/start.mp3");
     }
 
     public void playExplosion() {
-        playMusic("src/main/resources/explodingKitten.mp3");
+        playMusic("/audio/explodingKitten.mp3");
     }
 
     public void playDefused() {
-        playMusic("src/main/resources/defused.mp3");
+        playMusic("/audio/defused.mp3");
     }
 }

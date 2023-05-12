@@ -3,22 +3,25 @@ package system;
 import datasource.CardCSVParser;
 import datasource.CardType;
 import datasource.I18n;
+import datasource.ResourceHelper;
 
-import javax.swing.ImageIcon;
-import java.io.File;
-import java.util.*;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Set;
 
 public class Setup {
-    private final Random random;
-    private int numOfPlayers;
-
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 10;
     private static final int MAX_COUNT_WITH_PAW = 3;
     private static final int MIN_COUNT_WITHOUT_PAW = 4;
     private static final int MAX_COUNT_WITHOUT_PAW = 7;
-
     private static final int INITIAL_HAND_SIZE = 7;
+    private final Random random;
+    private int numOfPlayers;
 
     // For tests that do not care about specific random seeds
     public Setup(int playerCount) {
@@ -36,7 +39,7 @@ public class Setup {
         }
 
         if (names.size() < MIN_PLAYERS
-                || names.size() > MAX_PLAYERS) {
+            || names.size() > MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
 
@@ -53,17 +56,21 @@ public class Setup {
         return queue;
     }
 
-    public DrawDeck createDrawDeck(File cardInfoFile) {
-        List<Card> cardList = generateCardList(cardInfoFile);
+    public DrawDeck createDrawDeck(InputStream stream) {
+        List<Card> cardList = generateCardList(stream);
         DrawDeck drawDeck = generateDrawDeck(cardList);
         drawDeck.shuffle();
         return drawDeck;
     }
 
-    private List<Card> generateCardList(File cardInfoFile) {
+    public DrawDeck createDrawDeck(String cardInfoFile) {
+        return createDrawDeck(ResourceHelper.getAsStream(cardInfoFile));
+    }
+
+    private List<Card> generateCardList(InputStream cardInputStream) {
         boolean smallGame = numOfPlayers <= MAX_COUNT_WITH_PAW;
         boolean mediumGame = numOfPlayers >= MIN_COUNT_WITHOUT_PAW
-                && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
+                             && numOfPlayers <= MAX_COUNT_WITHOUT_PAW;
 
         boolean includePaw;
         boolean includePawless;
@@ -82,11 +89,11 @@ public class Setup {
             includePawless = true;
             numOfDefuseCardsToAdd = MAX_PLAYERS - numOfPlayers;
         }
-        CardCSVParser parser = new CardCSVParser(cardInfoFile);
+        CardCSVParser parser = new CardCSVParser(cardInputStream);
         List<Card> cardList = parser.generateListOfCardsWithVerification(includePaw, includePawless);
 
         for (int i = 0; i < numOfDefuseCardsToAdd; i++) {
-            cardList.add(new Card(CardType.DEFUSE, new ImageIcon("src/main/resources/images/defuse.png")));
+            cardList.add(new Card(CardType.DEFUSE, ResourceHelper.getAsImageIcon("/images/defuse.png")));
         }
         return cardList;
     }
@@ -105,7 +112,7 @@ public class Setup {
             for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
                 deck.drawCard(user);
             }
-            user.addCard(new Card(CardType.DEFUSE, new ImageIcon("src/main/resources/images/defuse.png")));
+            user.addCard(new Card(CardType.DEFUSE, ResourceHelper.getAsImageIcon("/images/defuse.png")));
         }
     }
 

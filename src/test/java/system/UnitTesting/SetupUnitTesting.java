@@ -5,13 +5,15 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import java.io.File;
+import system.Card;
+import system.DrawDeck;
+import system.Setup;
+import system.User;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import system.*;
-
 
 import static org.easymock.EasyMock.eq;
 
@@ -99,8 +101,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromEmptyFile() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/empty.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/empty.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -108,8 +109,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromFileWithOneLine() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/oneline.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/oneline.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -117,35 +117,32 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd2Players() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
 
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 1;
         Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
-                drawDeck.getDeckSize());
+                                drawDeck.getDeckSize());
         Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd3Players() {
         Setup setup = new Setup(MAX_PAW_ONLY_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 0;
         Assertions.assertEquals(PAW_ONLY_SIZE + numOfDefusesToAdd,
-                drawDeck.getDeckSize());
+                                drawDeck.getDeckSize());
         Assertions.assertEquals(numOfDefusesToAdd, drawDeck.getDefuseCount());
     }
 
     @Test
     public void testCreateDrawDeckFromFullFileAnd4Players() {
         Setup setup = new Setup(MIN_NO_PAW_ONLY_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = MAX_NO_PAW_ONLY_COUNT - MIN_NO_PAW_ONLY_COUNT;
@@ -157,8 +154,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd7Players() {
         Setup setup = new Setup(MAX_NO_PAW_ONLY_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 0;
@@ -170,8 +166,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd8Players() {
         Setup setup = new Setup(MIN_ALL_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 2;
@@ -183,8 +178,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromFullFileAnd10Players() {
         Setup setup = new Setup(MAX_PLAYER_COUNT);
-        String path = "src/test/resources/fullfile.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile.csv";
         DrawDeck drawDeck = setup.createDrawDeck(cardInfoFile);
 
         int numOfDefusesToAdd = 0;
@@ -196,8 +190,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromOneLineOfInvalidData() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/oneline_invalid.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/oneline_invalid.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -205,8 +198,7 @@ public class SetupUnitTesting {
     @Test
     public void testCreateDrawDeckFromFullFileWithOneLineOfInvalidData() {
         Setup setup = new Setup(2);
-        String path = "src/test/resources/fullfile_invalid.csv";
-        File cardInfoFile = new File(path);
+        String cardInfoFile = "/testingcsvs/fullfile_invalid.csv";
         Executable executable = () -> setup.createDrawDeck(cardInfoFile);
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
@@ -300,11 +292,8 @@ public class SetupUnitTesting {
             Setup setup = new Setup(playerCount);
             DrawDeck deck = EasyMock.createMock(DrawDeck.class);
             Card explodingCard = EasyMock.createMockBuilder(Card.class)
-                    .withConstructor(CardType.EXPLODING_KITTEN).createMock();
+                                         .withConstructor(CardType.EXPLODING_KITTEN).createMock();
             EasyMock.expect(deck.shuffle()).andReturn(true);
-
-
-
 
             deck.addCardToTop(explodingCard);
             EasyMock.expectLastCall().times(playerCount - 1);
@@ -315,5 +304,4 @@ public class SetupUnitTesting {
             EasyMock.verify(deck, explodingCard);
         }
     }
-
 }
