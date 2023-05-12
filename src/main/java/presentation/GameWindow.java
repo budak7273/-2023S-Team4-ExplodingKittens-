@@ -41,6 +41,7 @@ public class GameWindow {
     private GameManager gameManager;
     private final boolean muteAudio;
     private AudioPlayer audioPlayer;
+    private boolean showLog;
     private JButton modeButton;
 
     public GameWindow(JFrame frame, boolean muteAudioInput) {
@@ -48,6 +49,7 @@ public class GameWindow {
         textArea = new JTextArea("Event History Log");
         this.muteAudio = muteAudioInput;
         this.enabled = true;
+        this.showLog = true;
         this.notificationPanel = new NotificationPanel(this);
         this.audioPlayer = new AudioPlayer(!muteAudio);
         setSelectedCards(new ArrayList<>());
@@ -95,8 +97,10 @@ public class GameWindow {
 
         playerDeckDisplayPanel.setVisible(false);
 
-        scrollPanel.add(scrollPane, BorderLayout.CENTER);
-        scrollPanel.setVisible(true);
+        if (showLog) {
+            scrollPanel.add(scrollPane, BorderLayout.CENTER);
+            scrollPanel.setVisible(true);
+        }
         gamePanel.setVisible(true);
         gameFrame.add(scrollPanel, BorderLayout.WEST);
         gameFrame.add(gamePanel, BorderLayout.CENTER);
@@ -235,7 +239,16 @@ public class GameWindow {
         }
         JButton confirmButton = createButtonImage(I18n.getMessage("Confirm"));
         JButton hideButton = createButtonImage(I18n.getMessage("SwitchToShowModeMessage"));
+        JButton showLogButton = new JButton("Show Log");
 
+        showLogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showLog = !showLog;
+                System.out.println("Show Log is: " + showLog);
+                buildGameView();
+            }
+        });
         this.setEnabledButton(modeButton);
         this.checkCatModeAccessibility();
         this.setEnabledButton(confirmButton);
@@ -250,6 +263,8 @@ public class GameWindow {
         playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, fontSize));
         labelPanel.add(playerNameLabel, BorderLayout.WEST);
         p.add(labelPanel);
+
+        userSelectionPanel.add(showLogButton, BorderLayout.WEST);
         userSelectionPanel.add(modeButton, BorderLayout.WEST);
         userSelectionPanel.add(confirmButton, BorderLayout.CENTER);
         userSelectionPanel.add(hideButton, BorderLayout.EAST);
@@ -595,6 +610,7 @@ public class GameWindow {
      * updateUI changes the GUI of the current game when it is called.
      */
     public void updateUI() {
+        this.showLog = false;
         buildGameView();
     }
 
