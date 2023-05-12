@@ -33,4 +33,4 @@ jobs:
           title: "Development Build"
           files: |
             README.md
-            *.jar
+            ./build/libs/2023S-Team4-ExplodingKittens-1.0-SNAPSHOT-all.jar
