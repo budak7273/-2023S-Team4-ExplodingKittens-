@@ -1,18 +1,29 @@
 package presentation;
 
 import datasource.I18n;
-import system.*;
+import datasource.ResourceHelper;
+import system.DrawDeck;
+import system.GameManager;
+import system.GameState;
+import system.Setup;
+import system.User;
 
-import javax.swing.*;
-import java.io.File;
-import java.util.*;
+import javax.swing.JFrame;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
 
 public class GameDesigner {
+    private static final int MAX_PLAYER_COUNT = 10;
+    private static final int MIN_PLAYER_COUNT = 2;
+    private static final boolean DEBUG_AUTO_PLAYER_ENTRY_MODE = false;
     private Queue<User> users;
     private GameWindow gameWindow;
     private JFrame gameFrame;
-    private static final int MAX_PLAYER_COUNT = 10;
-    private static final int MIN_PLAYER_COUNT = 2;
 
     public GameDesigner(JFrame frame) {
         this(new ArrayDeque<>(), frame);
@@ -37,31 +48,10 @@ public class GameDesigner {
         initializeGameState(usernames);
     }
 
-    /**
-     * readUserInfo takes in no parameters.
-     * Asks the User for their information.
-     *
-     * @return a list of Strings that represent the current User's name
-     */
-    public static List<String> readUserInfo() {
-        List<String> userNameList;
-        Scanner scanner = new Scanner(System.in, "UTF-8");
-
-        setupLanguage(scanner);
-
-        userNameList = setupPlayerUsernames(scanner);
-
-        displayPlayerList(userNameList);
-
-        scanner.close();
-        return userNameList;
-    }
-
     public void initializeGameState(final List<String> usernames) {
         Setup setup = new Setup(usernames.size(), new Random());
         users = setup.createUsers(usernames);
-        String path = "src/main/resources/cards.csv";
-        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        DrawDeck drawDeck = setup.createDrawDeck(ResourceHelper.getAsStream("/data/cards.csv"));
         setup.dealHands(users, drawDeck);
         setup.shuffleExplodingKittensInDeck(drawDeck);
 
@@ -77,8 +67,7 @@ public class GameDesigner {
      */
     public void initializeGameState(Random random) {
         Setup setup = new Setup(users.size(), random);
-        String path = "src/main/resources/cards.csv";
-        DrawDeck drawDeck = setup.createDrawDeck(new File(path));
+        DrawDeck drawDeck = setup.createDrawDeck(ResourceHelper.getAsStream("/data/cards.csv"));
         setup.dealHands(this.users, drawDeck);
         gameWindow = new GameWindow(gameFrame, true);
         GameState gameState = new GameState(this.users, drawDeck);
@@ -91,12 +80,37 @@ public class GameDesigner {
         return this.gameWindow;
     }
 
+    /**
+     * readUserInfo takes in no parameters.
+     * Asks the User for their information.
+     *
+     * @return a list of Strings that represent the current User's name
+     */
+    public static List<String> readUserInfo() {
+        List<String> userNameList;
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+
+        setupLanguage(scanner);
+
+        if (DEBUG_AUTO_PLAYER_ENTRY_MODE) {
+            String[] names = {"one", "two"};
+            userNameList = Arrays.asList(names);
+        } else {
+            userNameList = setupPlayerUsernames(scanner);
+        }
+
+        displayPlayerList(userNameList);
+
+        scanner.close();
+        return userNameList;
+    }
+
     private static void setupLanguage(Scanner scanner) {
         System.out.println(I18n.getMessage("ChooseLanguageMessage"));
         for (I18n language : I18n.values()) {
             System.out.println(language.localeSummaryString());
         }
-        String languageSelection = scanner.nextLine().toLowerCase();
+        String languageSelection = DEBUG_AUTO_PLAYER_ENTRY_MODE ? "e" : scanner.nextLine().toLowerCase();
         String selected = I18n.switchLanguage(languageSelection);
         System.out.println(I18n.getMessage("LanguageSelected") + " " + selected);
     }
@@ -115,8 +129,8 @@ public class GameDesigner {
                                + nextPlayerCount + I18n
                                        .getMessage("PlayerUsernameMessage"));
             userNameList.add(collectUsername(scanner, userNameList));
-
-            if (nextPlayerCount > MAX_PLAYER_COUNT) {
+            int upcomingCount = userNameList.size() + 1;
+            if (upcomingCount > MAX_PLAYER_COUNT) {
                 addMorePlayers = false;
             } else if (nextPlayerCount >= MIN_PLAYER_COUNT) {
                 System.out.println(I18n.getMessage("AddAnotherPlayerMessage"));
