@@ -11,6 +11,8 @@ jobs:
     name: "Pre Release"
     runs-on: "ubuntu-latest"
 
+    permissions: write-all
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
