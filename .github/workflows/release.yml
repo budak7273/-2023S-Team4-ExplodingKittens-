@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "release"
-      - "auto-release-ci"
 
 jobs:
   pre-release:
@@ -30,7 +29,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
-          title: "Development Build"
+          title: "Automatic Pre-Release"
           files: |
             README.md
             ./build/libs/2023S-Team4-ExplodingKittens-1.0-SNAPSHOT-all.jar
